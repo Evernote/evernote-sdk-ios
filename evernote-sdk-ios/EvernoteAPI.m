@@ -148,7 +148,7 @@ typedef NSObject *(^ObjBlock)();
     return retVal;   
 }
 
-#pragma mark - NoteStore
+#pragma mark - NoteStore sync methods
 
 - (EDAMSyncState *)getSyncStateWithError:(NSError **)error 
 {
@@ -184,6 +184,8 @@ typedef NSObject *(^ObjBlock)();
         return [self.noteStore getLinkedNotebookSyncState:self.session.authenticationToken:linkedNotebook];
     } withError:error];
 }
+
+#pragma mark - NoteStore notebook methods
 
 - (NSArray *)listNotebooksWithError:(NSError **)error
 {
@@ -223,6 +225,62 @@ typedef NSObject *(^ObjBlock)();
 {
     return (EDAMNotebook *)[self invokeObjBlock:^NSObject *() {
         return [self.noteStore createNotebook:self.session.authenticationToken:notebook];
+    } withError:error];
+}
+
+- (int32_t)updateNotebook:(EDAMNotebook *)notebook
+                    error:(NSError **)error
+{
+    return [self invokeIntBlock:^NSObject *() {
+        return [self.noteStore updateNotebook:self.session.authenticationToken:notebook];
+    } withError:error];
+}
+
+- (int32_t)expungeNotebookWithGuid:(EDAMGuid)guid
+                             error:(NSError **)error
+{
+    return [self invokeIntBlock:^NSObject *() {
+        return [self.noteStore expungeNotebook:self.session.authenticationToken:notebook];
+    } withError:error];
+}
+
+#pragma mark - NoteStore tags methods
+
+- (NSArray *)listTagsWithError:(NSError **)error
+{
+    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore listTags:self.session.authenticationToken];
+    } withError:error];
+}
+
+- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)notebookGuid
+                                  error:(NSError **)error
+{
+    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore listTagsByNotebook:self.session.authenticationToken:notebookGuid];
+    } withError:error]; 
+};
+
+- (EDAMTag *)getTagWithGuid:(EDAMGuid)guid
+                      error:(NSError **)error
+{
+    return (EDAMTag *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getTag:self.session.authenticationToken:guid];
+    } withError:error]; 
+}
+
+- (EDAMTag *)createTag:(EDAMTag *)tag
+                 error:(NSError **)error
+{
+    return (EDAMTag *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore createTag:self.session.authenticationToken:tag];
+    } withError:error]; 
+}
+
+- (int32_t)updateTag:(EDAMTag *) tag
+{
+    return [self invokeIntBlock:^NSObject *() {
+        return [self.noteStore updateTag:self.session.authenticationToken:tag];
     } withError:error];
 }
 
