@@ -103,4 +103,57 @@
                 withResourcesRecognition:(BOOL)withResourcesRecognition 
               withResourcesAlternateData:(BOOL)withResourcesAlternateData;
 
+// NoteStore resource methods
+- (EDAMResource *)getResourceWithGuid:(EDAMGuid)guid 
+                             withData:(BOOL)withData 
+                      withRecognition:(BOOL)withRecognition 
+                       withAttributes:(BOOL)withAttributes 
+                    withAlternateDate:(BOOL)withAlternateData;
+- (EDAMLazyMap *)getResourceApplicationDataWithGuid:(EDAMGuid)guid;
+- (NSString *)getResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                                  key:(NSString *)key;
+- (int32_t)setResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                               key:(NSString *)key 
+                                             value:(NSString *)value;
+- (int32_t)unsetResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                                 key:(NSString *)key;
+- (int32_t)updateResource:(EDAMResource *)resource;
+- (NSData *)getResourceDataWithGuid:(EDAMGuid)guid;
+- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)noteGuid 
+                                contentHash:(NSData *)contentHash 
+                                   withData:(BOOL)withData 
+                            withRecognition:(BOOL)withRecognition 
+                          withAlternateData:(BOOL)withAlternateData;
+- (NSData *)getResourceRecognitionWithGuid:(EDAMGuid)guid;
+- (NSData *)getResourceAlternateDataWithGuid:(EDAMGuid)guid;
+- (EDAMResourceAttributes *)getResourceAttributesWithGuid:(EDAMGuid)guid;
+
+// NoteStore account methods
+- (int64_t)getAccountSize;
+
+// NoteStore ad methods
+- (NSArray *)getAdsWithParameters:(EDAMAdParameters *)adParameters;
+- (EDAMAd *)getRandomAdWithParameters:(EDAMAdParameters *)adParameters;
+
+// NoteStore shared notebook methods
+- (EDAMNotebook *)getPublicNotebookWithUserID:(EDAMUserID)userId 
+                                    publicUri:(NSString *)publicUri;
+- (EDAMSharedNotebook *)createSharedNotebook:(EDAMSharedNotebook *)sharedNotebook;
+- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)notebookGuid 
+                                          messageText:(NSString *)messageText 
+                                           recipients:(NSArray *)recipients;
+- (NSArray *)listSharedNotebooks;
+- (int32_t)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds;
+- (EDAMLinkedNotebook *)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook;
+- (int32_t)updateLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook;
+- (NSArray *)listLinkedNotebooks;
+- (int32_t)expungeLinkedNotebookWithGuid:(EDAMGuid)guid;
+- (EDAMAuthenticationResult *)authenticateToSharedNotebookWithShareKey:(NSString *)shareKey;
+- (EDAMSharedNotebook *)getSharedNotebookByAuth;
+- (void)emailNoteWithParameters:(EDAMNoteEmailParameters *)parameters;
+- (NSString *)shareNoteWithGuid:(EDAMGuid)guid;
+- (void)stopSharingNoteWithGuid:(EDAMGuid)guid;
+- (EDAMAuthenticationResult *)authenticateToSharedNoteWithGuid:(NSString *)guid 
+                                                       noteKey:(NSString *)noteKey;
+
 @end
