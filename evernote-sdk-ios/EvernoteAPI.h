@@ -46,5 +46,27 @@
                     error:(NSError **)error;
 
 // NoteStore tag methods
+- (NSArray *)listTagsWithError:(NSError **)error;
+- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)notebookGuid
+                                  error:(NSError **)error;
+- (EDAMTag *)getTagWithGuid:(EDAMGuid)guid
+                      error:(NSError **)error;
+- (EDAMTag *)createTag:(EDAMTag *)tag
+                 error:(NSError **)error;
+- (int32_t)updateTag:(EDAMTag *)tag
+               error:(NSError **)error;
+- (void)untagAllWithGuid:(EDAMGuid)guid
+                   error:(NSError **)error;
+
+// NoteStore search methods
+- (NSArray *)listSearchesWithError:(NSError **)error;
+- (EDAMSavedSearch *)getSearchWithGuid:(EDAMGuid)guid
+                                 error:(NSError **)error;
+- (EDAMSavedSearch *)createSearch:(EDAMSavedSearch *)search
+                            error:(NSError **)error;
+- (int32_t)updateSearch:(EDAMSavedSearch *)search
+                  error:(NSError **)error;
+- (int32_t)expungeSearchWithGuid:(EDAMGuid)guid
+                           error:(NSError **)error;
 
 @end

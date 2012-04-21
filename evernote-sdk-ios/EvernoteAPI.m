@@ -21,8 +21,6 @@ typedef NSObject *(^ObjBlock)();
 @property (nonatomic, readonly) EDAMNoteStoreClient *userStore;
 
 // fill in (possibly creating) an NSError from a given NSException.
-- (void)populateNSError:(NSError **)error fromEDAMUserException:(EDAMUserException *)exception;
-- (void)populateNSError:(NSError **)error fromEDAMSystemException:(EDAMSystemException *)exception;
 - (void)populateNSError:(NSError **)error fromNSException:(NSException *)exception;
 
 // "safe invoke" various blocks, with try/catch wrapping.
@@ -69,24 +67,15 @@ typedef NSObject *(^ObjBlock)();
     return [self.session userStore];    
 }
 
-- (void)populateNSError:(NSError **)error fromEDAMUserException:(EDAMUserException *)exception
-{
-    if (exception) {
-        *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:exception.errorCode userInfo:exception.userInfo];
-    }
-}
-
-- (void)populateNSError:(NSError **)error fromEDAMSystemException:(EDAMSystemException *)exception
-{
-    if (exception) {
-        *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:exception.errorCode userInfo:exception.userInfo];
-    }
-}
-
 - (void)populateNSError:(NSError **)error fromNSException:(NSException *)exception
 {
     if (exception) {
-        *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:kEvernoteSDKErrorUnknown userInfo:exception.userInfo];
+        int errorCode = kEvernoteSDKErrorNone;
+        if ([exception respondsToSelector:@selector(errorCode)]) {
+            // Evernote Thrift exception classes have an errorCode property
+            errorCode = [(id)exception errorCode];
+        }
+        *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:exception.userInfo];
     }
 }
 
@@ -94,12 +83,6 @@ typedef NSObject *(^ObjBlock)();
 {
     @try {
         block();
-    }
-    @catch (EDAMUserException *exception) {
-        [self populateNSError:error fromEDAMUserException:exception];  
-    }
-    @catch (EDAMSystemException *exception) {
-        [self populateNSError:error fromEDAMSystemException:exception];      
     }
     @catch (NSException *exception) {
         [self populateNSError:error fromNSException:exception];
@@ -114,12 +97,6 @@ typedef NSObject *(^ObjBlock)();
     @try {
         retVal = block();
     }
-    @catch (EDAMUserException *exception) {
-        [self populateNSError:error fromEDAMUserException:exception];  
-    }
-    @catch (EDAMSystemException *exception) {
-        [self populateNSError:error fromEDAMSystemException:exception];      
-    }
     @catch (NSException *exception) {
         [self populateNSError:error fromNSException:exception];
     }
@@ -133,12 +110,6 @@ typedef NSObject *(^ObjBlock)();
     NSObject *retVal = nil;
     @try {
         retVal = block();
-    }
-    @catch (EDAMUserException *exception) {
-        [self populateNSError:error fromEDAMUserException:exception];  
-    }
-    @catch (EDAMSystemException *exception) {
-        [self populateNSError:error fromEDAMSystemException:exception];      
     }
     @catch (NSException *exception) {
         [self populateNSError:error fromNSException:exception];
@@ -277,11 +248,69 @@ typedef NSObject *(^ObjBlock)();
     } withError:error]; 
 }
 
-- (int32_t)updateTag:(EDAMTag *) tag
+- (int32_t)updateTag:(EDAMTag *)tag
+               error:(NSError **)error
 {
-    return [self invokeIntBlock:^NSObject *() {
+    return [self invokeIntBlock:^int32_t() {
         return [self.noteStore updateTag:self.session.authenticationToken:tag];
     } withError:error];
+}
+
+- (void)untagAllWithGuid:(EDAMGuid)guid
+                   error:(NSError **)error
+{
+    [self invokeVoidBlock:^() {
+        [self.noteStore untagAll:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (int32_t)expungeTagWithGuid:(EDAMGuid)guid
+                        error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeTag:self.session.authenticationToken:guid];
+    } withError:error];    
+}
+
+#pragma mark - NoteStore search methods
+
+- (NSArray *)listSearchesWithError:(NSError **)error
+{
+    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore listSearches:self.session.authenticationToken];
+    } withError:error];
+}
+
+- (EDAMSavedSearch *)getSearchWithGuid:(EDAMGuid)guid
+                                 error:(NSError **)error
+{
+    return (EDAMSavedSearch *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getSearch:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (EDAMSavedSearch *)createSearch:(EDAMSavedSearch *)search
+                            error:(NSError **)error
+{
+    return (EDAMSavedSearch *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore createSearch:self.session.authenticationToken:search];
+    } withError:error];    
+}
+
+- (int32_t)updateSearch:(EDAMSavedSearch *)search
+                  error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore updateSearch:self.session.authenticationToken:search];
+    } withError:error]; 
+}
+
+- (int32_t)expungeSearchWithGuid:(EDAMGuid)guid
+                           error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeSearch:self.session.authenticationToken:guid];
+    } withError:error]; 
 }
 
 @end
