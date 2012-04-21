@@ -5,6 +5,7 @@
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
+#import "EvernoteAPI.h"
 #import "EvernoteSession.h"
 #import "GCOAuth.h"
 #import "ViewController.h"
@@ -77,17 +78,13 @@
 }
 
 - (IBAction)listNotes:(id)sender {
-    EvernoteSession *session = [EvernoteSession sharedSession];
-    // Use a try/catch block around any Evernote/Thrift operations,
-    // which might throw a TException, EDAMUserException, or EDAMSystemException.
-    @try {
-        NSArray *notebooks = [[session noteStore] listNotebooks:session.authenticationToken];
+    NSError *error = nil;
+    EvernoteAPI *api = [EvernoteAPI api];
+    NSArray *notebooks = [api listNotebooksWithError:&error];
+    if (error) {
+        NSLog(@"error %@", error);        
+    } else {
         NSLog(@"notebooks: %@", notebooks);
-    }
-    @catch (NSException *exception) {
-        NSLog(@"exception %@", exception);
-    }
-    @finally {
     }
 }
 
