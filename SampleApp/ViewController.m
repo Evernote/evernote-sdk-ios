@@ -5,7 +5,7 @@
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
-#import "EvernoteAPI.h"
+#import "EvernoteNoteStore.h"
 #import "EvernoteSession.h"
 #import "GCOAuth.h"
 #import "ViewController.h"
@@ -78,11 +78,10 @@
 }
 
 - (IBAction)listNotes:(id)sender {
-    NSError *error = nil;
-    EvernoteAPI *api = [EvernoteAPI api];
-    NSArray *notebooks = [api listNotebooksWithError:&error];
-    if (error) {
-        NSLog(@"error %@", error);        
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    NSArray *notebooks = [noteStore listNotebooks];
+    if (noteStore.error) {
+        NSLog(@"error %@", noteStore.error);        
     } else {
         NSLog(@"notebooks: %@", notebooks);
     }

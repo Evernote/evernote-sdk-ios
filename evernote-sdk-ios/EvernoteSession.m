@@ -348,7 +348,7 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId) {
             NSError *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain 
-                                                 code:kEvernoteSDKInvalidServerResponse 
+                                                 code:EDAMErrorCode_INTERNAL_ERROR 
                                              userInfo:nil];
             self.completionHandler(error);
         }

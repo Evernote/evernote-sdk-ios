@@ -33,15 +33,7 @@
 // NSError error domain.
 extern NSString *const kEvernoteSDKErrorDomain;
 
-// NSError error codes.
-typedef enum {
-	// No error.
-	kEvernoteSDKErrorNone = noErr,
-	
-	// Invalid response from the server
-    kEvernoteSDKInvalidServerResponse,
-    
-} EvernoteSDKErrorCode;
+// For Evernote-related error codes, see EDAMErrors.h
 
 // Post-authentication callback type, defined for easy reuse.
 typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
