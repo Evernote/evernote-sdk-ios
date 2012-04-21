@@ -7,6 +7,7 @@
 
 #import "EvernoteNoteStore.h"
 #import "EvernoteSession.h"
+#import "EvernoteUserStore.h"
 #import "GCOAuth.h"
 #import "ViewController.h"
 
@@ -84,6 +85,14 @@
         NSLog(@"error %@", noteStore.error);        
     } else {
         NSLog(@"notebooks: %@", notebooks);
+    }
+    
+    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+    EDAMUser *user = [userStore getUser];
+    if (userStore.error) {
+        NSLog(@"error %@", userStore.error);        
+    } else {
+        NSLog(@"user: %@", user);
     }
 }
 

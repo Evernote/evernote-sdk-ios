@@ -10,33 +10,12 @@
 #import "EvernoteNoteStore.h"
 #import "Thrift.h"
 
-typedef void (^VoidBlock)();
-typedef int32_t (^IntBlock)();
-typedef NSObject *(^ObjBlock)();
 
 @interface EvernoteNoteStore()
-
-@property (nonatomic, retain) EvernoteSession *session;
-@property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
-@property (nonatomic, readonly) EDAMNoteStoreClient *userStore;
-
-// set our error property from a given NSException.
-- (void)populateErrorFromNSException:(NSException *)exception;
-
-// "safe invoke" various blocks, with try/catch wrapping.
-- (void)invokeVoidBlock:(void(^)())block;
-- (int32_t)invokeInt32Block:(int32_t(^)())block;
-- (int64_t)invokeInt64Block:(int64_t(^)())block;
-- (NSObject *)invokeObjBlock:(NSObject *(^)())block;
 
 @end
 
 @implementation EvernoteNoteStore
-
-@synthesize session = _session;
-@synthesize error = _error;
-@dynamic noteStore;
-@dynamic userStore;
 
 + (EvernoteNoteStore *)noteStore
 {
@@ -44,99 +23,12 @@ typedef NSObject *(^ObjBlock)();
     return noteStore;
 }
 
-- (void)dealloc
-{
-    [_session release];
-    [super dealloc];
-}
-
 - (id)initWithSession:(EvernoteSession *)session
 {
-    self = [super init];
+    self = [super initWithSession:session];
     if (self) {
-        self.session = session;
     }
     return self;
-}
-
-- (EDAMNoteStoreClient *)noteStore
-{
-    return [self.session noteStore];
-}
-
-- (EDAMUserStoreClient *)userStore
-{
-    return [self.session userStore];    
-}
-
-- (void)populateErrorFromNSException:(NSException *)exception
-{
-    if (exception) {
-        int errorCode = EDAMErrorCode_UNKNOWN;
-        if ([exception respondsToSelector:@selector(errorCode)]) {
-            // Evernote Thrift exception classes have an errorCode property
-            errorCode = [(id)exception errorCode];
-        }
-        self.error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:exception.userInfo];
-    }
-}
-
-- (void)invokeVoidBlock:(void(^)())block
-{
-    self.error = nil;
-    @try {
-        block();
-    }
-    @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
-    }
-    @finally {
-    }
-}
-
-- (int32_t)invokeInt32Block:(int32_t(^)())block
-{
-    self.error = nil;
-    int32_t retVal = 0;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
-    }
-    @finally {
-    }  
-    return retVal;
-}
-
-- (int64_t)invokeInt64Block:(int64_t(^)())block
-{
-    self.error = nil;
-    int32_t retVal = 0;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
-    }
-    @finally {
-    }  
-    return retVal;
-}
-
-- (NSObject *)invokeObjBlock:(NSObject *(^)())block
-{
-    self.error = nil;
-    NSObject *retVal = nil;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
-    }
-    @finally {
-    }  
-    return retVal;   
 }
 
 #pragma mark - NoteStore sync methods

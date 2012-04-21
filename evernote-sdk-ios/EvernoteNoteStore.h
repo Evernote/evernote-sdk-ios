@@ -7,17 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "EvernoteSession.h"
+#import "ENAPI.h"
 
-@interface EvernoteNoteStore : NSObject
+@interface EvernoteNoteStore : ENAPI
 
-// Error from latest API call, if any.
-@property (nonatomic, retain) NSError *error;
-
-// get an instance, using the shared EvernoteSession.
+// Get an instance, using the shared EvernoteSession.
 + (EvernoteNoteStore *)noteStore;
 
-// construct an instance with the given session.
+// Construct an instance with the given session.
 - (id)initWithSession:(EvernoteSession *)session;
 
 // NoteStore sync methods

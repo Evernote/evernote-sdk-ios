@@ -49,6 +49,18 @@
 		0B98590E154284D6007D7D37 /* EvernoteNoteStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98590C154284D6007D7D37 /* EvernoteNoteStore.h */; };
 		0B98590F154284D6007D7D37 /* EvernoteNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98590D154284D6007D7D37 /* EvernoteNoteStore.m */; };
 		0B98591115428A3A007D7D37 /* EvernoteNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98590D154284D6007D7D37 /* EvernoteNoteStore.m */; };
+		0B98591E15431DF8007D7D37 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98591C15431DF8007D7D37 /* EvernoteUserStore.h */; };
+		0B98591F15431DF8007D7D37 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98591D15431DF8007D7D37 /* EvernoteUserStore.m */; };
+		0B98592015431DF8007D7D37 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98591D15431DF8007D7D37 /* EvernoteUserStore.m */; };
+		0B98592815432592007D7D37 /* ENAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592215432592007D7D37 /* ENAPI.h */; };
+		0B98592915432592007D7D37 /* ENAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592315432592007D7D37 /* ENAPI.m */; };
+		0B98592A15432592007D7D37 /* ENAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592315432592007D7D37 /* ENAPI.m */; };
+		0B98592B15432592007D7D37 /* ENCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592415432592007D7D37 /* ENCredentials.h */; };
+		0B98592C15432592007D7D37 /* ENCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592515432592007D7D37 /* ENCredentials.m */; };
+		0B98592D15432592007D7D37 /* ENCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592515432592007D7D37 /* ENCredentials.m */; };
+		0B98592E15432592007D7D37 /* ENCredentialStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592615432592007D7D37 /* ENCredentialStore.h */; };
+		0B98592F15432592007D7D37 /* ENCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592715432592007D7D37 /* ENCredentialStore.m */; };
+		0B98593015432592007D7D37 /* ENCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592715432592007D7D37 /* ENCredentialStore.m */; };
 		0BB3D1B11524ED96001C4534 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB3D1B01524ED96001C4534 /* Foundation.framework */; };
 		0BB3D23A1524EE62001C4534 /* EDAM.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D22D1524EE62001C4534 /* EDAM.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0BB3D23B1524EE62001C4534 /* EDAMLimits.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D22E1524EE62001C4534 /* EDAMLimits.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -80,14 +92,8 @@
 		0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF0CF7F152E25E1003D6115 /* SSKeychain.h */; };
 		0BF0CF82152E25E1003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
-		0BF0CF88152E2850003D6115 /* ENCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF0CF86152E2850003D6115 /* ENCredentials.h */; };
-		0BF0CF89152E2850003D6115 /* ENCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF87152E2850003D6115 /* ENCredentials.m */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
-		0BF0CF8B152E31BE003D6115 /* ENCredentials.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF87152E2850003D6115 /* ENCredentials.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
-		0BF0CF9A152F41E5003D6115 /* ENCredentialStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF0CF98152F41E5003D6115 /* ENCredentialStore.h */; };
-		0BF0CF9B152F41E5003D6115 /* ENCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF99152F41E5003D6115 /* ENCredentialStore.m */; };
-		0BF0CF9D152F45D6003D6115 /* ENCredentialStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF99152F41E5003D6115 /* ENCredentialStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -121,6 +127,14 @@
 		0B943F4F1525015500DB20A3 /* TTransportException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTransportException.m; sourceTree = "<group>"; };
 		0B98590C154284D6007D7D37 /* EvernoteNoteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteNoteStore.h; sourceTree = "<group>"; };
 		0B98590D154284D6007D7D37 /* EvernoteNoteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteNoteStore.m; sourceTree = "<group>"; };
+		0B98591C15431DF8007D7D37 /* EvernoteUserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteUserStore.h; sourceTree = "<group>"; };
+		0B98591D15431DF8007D7D37 /* EvernoteUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteUserStore.m; sourceTree = "<group>"; };
+		0B98592215432592007D7D37 /* ENAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENAPI.h; sourceTree = "<group>"; };
+		0B98592315432592007D7D37 /* ENAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENAPI.m; sourceTree = "<group>"; };
+		0B98592415432592007D7D37 /* ENCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENCredentials.h; sourceTree = "<group>"; };
+		0B98592515432592007D7D37 /* ENCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENCredentials.m; sourceTree = "<group>"; };
+		0B98592615432592007D7D37 /* ENCredentialStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENCredentialStore.h; sourceTree = "<group>"; };
+		0B98592715432592007D7D37 /* ENCredentialStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENCredentialStore.m; sourceTree = "<group>"; };
 		0BB3D1AD1524ED96001C4534 /* libevernote-sdk-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libevernote-sdk-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB3D1B01524ED96001C4534 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0BB3D1B41524ED96001C4534 /* evernote-sdk-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evernote-sdk-ios-Prefix.pch"; sourceTree = "<group>"; };
@@ -156,11 +170,7 @@
 		0BF0CF7F152E25E1003D6115 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		0BF0CF86152E2850003D6115 /* ENCredentials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENCredentials.h; sourceTree = "<group>"; };
-		0BF0CF87152E2850003D6115 /* ENCredentials.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENCredentials.m; sourceTree = "<group>"; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		0BF0CF98152F41E5003D6115 /* ENCredentialStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENCredentialStore.h; sourceTree = "<group>"; };
-		0BF0CF99152F41E5003D6115 /* ENCredentialStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENCredentialStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +276,19 @@
 			path = transport;
 			sourceTree = "<group>";
 		};
+		0B98592115432592007D7D37 /* internal */ = {
+			isa = PBXGroup;
+			children = (
+				0B98592215432592007D7D37 /* ENAPI.h */,
+				0B98592315432592007D7D37 /* ENAPI.m */,
+				0B98592415432592007D7D37 /* ENCredentials.h */,
+				0B98592515432592007D7D37 /* ENCredentials.m */,
+				0B98592615432592007D7D37 /* ENCredentialStore.h */,
+				0B98592715432592007D7D37 /* ENCredentialStore.m */,
+			);
+			path = internal;
+			sourceTree = "<group>";
+		};
 		0BB3D1A21524ED96001C4534 = {
 			isa = PBXGroup;
 			children = (
@@ -304,10 +327,9 @@
 				0BB3D2391524EE62001C4534 /* EvernoteSession.m */,
 				0B98590C154284D6007D7D37 /* EvernoteNoteStore.h */,
 				0B98590D154284D6007D7D37 /* EvernoteNoteStore.m */,
-				0BF0CF98152F41E5003D6115 /* ENCredentialStore.h */,
-				0BF0CF99152F41E5003D6115 /* ENCredentialStore.m */,
-				0BF0CF86152E2850003D6115 /* ENCredentials.h */,
-				0BF0CF87152E2850003D6115 /* ENCredentials.m */,
+				0B98591C15431DF8007D7D37 /* EvernoteUserStore.h */,
+				0B98591D15431DF8007D7D37 /* EvernoteUserStore.m */,
+				0B98592115432592007D7D37 /* internal */,
 				0BB3D22C1524EE62001C4534 /* EDAM */,
 				0B943F241525015500DB20A3 /* 3rdParty */,
 				0BB3D1B31524ED96001C4534 /* Supporting Files */,
@@ -407,9 +429,11 @@
 				0B943F551525015500DB20A3 /* NSData+Base64.h in Headers */,
 				0B943F591525015500DB20A3 /* NSString+URLEncoding.h in Headers */,
 				0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */,
-				0BF0CF88152E2850003D6115 /* ENCredentials.h in Headers */,
-				0BF0CF9A152F41E5003D6115 /* ENCredentialStore.h in Headers */,
 				0B98590E154284D6007D7D37 /* EvernoteNoteStore.h in Headers */,
+				0B98591E15431DF8007D7D37 /* EvernoteUserStore.h in Headers */,
+				0B98592815432592007D7D37 /* ENAPI.h in Headers */,
+				0B98592B15432592007D7D37 /* ENCredentials.h in Headers */,
+				0B98592E15432592007D7D37 /* ENCredentialStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,9 +536,11 @@
 				0B943F771525015500DB20A3 /* TMemoryBuffer.m in Sources */,
 				0B943F841525015500DB20A3 /* TTransportException.m in Sources */,
 				0BF0CF82152E25E1003D6115 /* SSKeychain.m in Sources */,
-				0BF0CF89152E2850003D6115 /* ENCredentials.m in Sources */,
-				0BF0CF9B152F41E5003D6115 /* ENCredentialStore.m in Sources */,
 				0B98590F154284D6007D7D37 /* EvernoteNoteStore.m in Sources */,
+				0B98591F15431DF8007D7D37 /* EvernoteUserStore.m in Sources */,
+				0B98592915432592007D7D37 /* ENAPI.m in Sources */,
+				0B98592C15432592007D7D37 /* ENCredentials.m in Sources */,
+				0B98592F15432592007D7D37 /* ENCredentialStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,9 +569,11 @@
 				0B943F781525015500DB20A3 /* TMemoryBuffer.m in Sources */,
 				0B943F851525015500DB20A3 /* TTransportException.m in Sources */,
 				0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */,
-				0BF0CF8B152E31BE003D6115 /* ENCredentials.m in Sources */,
-				0BF0CF9D152F45D6003D6115 /* ENCredentialStore.m in Sources */,
 				0B98591115428A3A007D7D37 /* EvernoteNoteStore.m in Sources */,
+				0B98592015431DF8007D7D37 /* EvernoteUserStore.m in Sources */,
+				0B98592A15432592007D7D37 /* ENAPI.m in Sources */,
+				0B98592D15432592007D7D37 /* ENCredentials.m in Sources */,
+				0B98593015432592007D7D37 /* ENCredentialStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
