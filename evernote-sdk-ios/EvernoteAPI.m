@@ -105,7 +105,7 @@ typedef NSObject *(^ObjBlock)();
     return retVal;
 }
 
-- (NSObject *)invokeObjBlock:(NSObject *(^)())block  withError:(NSError **)error
+- (NSObject *)invokeObjBlock:(NSObject *(^)())block withError:(NSError **)error
 {
     NSObject *retVal = nil;
     @try {
@@ -202,7 +202,7 @@ typedef NSObject *(^ObjBlock)();
 - (int32_t)updateNotebook:(EDAMNotebook *)notebook
                     error:(NSError **)error
 {
-    return [self invokeIntBlock:^NSObject *() {
+    return [self invokeIntBlock:^int32_t() {
         return [self.noteStore updateNotebook:self.session.authenticationToken:notebook];
     } withError:error];
 }
@@ -210,8 +210,8 @@ typedef NSObject *(^ObjBlock)();
 - (int32_t)expungeNotebookWithGuid:(EDAMGuid)guid
                              error:(NSError **)error
 {
-    return [self invokeIntBlock:^NSObject *() {
-        return [self.noteStore expungeNotebook:self.session.authenticationToken:notebook];
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeNotebook:self.session.authenticationToken:guid];
     } withError:error];
 }
 
@@ -311,6 +311,207 @@ typedef NSObject *(^ObjBlock)();
     return [self invokeIntBlock:^int32_t() {
         return [self.noteStore expungeSearch:self.session.authenticationToken:guid];
     } withError:error]; 
+}
+
+#pragma mark - notes methods
+
+- (EDAMNoteList *)findNotesWithFilter:(EDAMNoteFilter *)filter 
+                               offset:(int32_t)offset
+                             maxNotes:(int32_t)maxNotes
+                                error:(NSError **)error
+{
+    return (EDAMNoteList *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore findNotes:self.session.authenticationToken:filter:offset:maxNotes];
+    } withError:error];   
+}
+
+- (int32_t)findNoteOffsetWithFilter:(EDAMNoteFilter *)filter 
+                               guid:(EDAMGuid)guid
+                              error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore findNoteOffset:self.session.authenticationToken:filter:guid];
+    } withError:error]; 
+
+}
+
+- (EDAMNotesMetadataList *)findNotesMetadataWithFilter:(EDAMNoteFilter *)filter
+                                                offset:(int32_t)offset 
+                                              maxNotes:(int32_t)maxNotes 
+                                            resultSpec:(EDAMNotesMetadataResultSpec *)resultSpec
+                                                 error:(NSError **)error
+{
+    return (EDAMNotesMetadataList *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore findNotesMetadata:self.session.authenticationToken:filter:offset:maxNotes:resultSpec];
+    } withError:error];   
+}
+
+- (EDAMNoteCollectionCounts *)findNoteCountsWithFilter:(EDAMNoteFilter *)filter 
+                                             withTrash:(BOOL)withTrash
+                                                 error:(NSError **)error
+{
+    return (EDAMNoteCollectionCounts *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore findNoteCounts:self.session.authenticationToken:filter:withTrash];
+    } withError:error];
+}
+
+- (EDAMNote *)getNoteWithGuid:(EDAMGuid)guid 
+                  withContent:(BOOL)withContent 
+             withResourcesData:(BOOL)withResourcesData 
+     withResourcesRecognition:(BOOL)withResourcesRecognition 
+   withResourcesAlternateData:(BOOL)withResourcesAlternateData
+                        error:(NSError **)error
+{
+    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNote:self.session.authenticationToken:guid:withContent:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
+    } withError:error];
+}
+
+- (EDAMLazyMap *)getNoteApplicationDataWithGuid:(EDAMGuid)guid
+                                          error:(NSError **)error
+{
+    return (EDAMLazyMap *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteApplicationData:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (NSString *)getNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                              key:(NSString *)key
+                                            error:(NSError **)error
+{
+    return (NSString *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteApplicationDataEntry:self.session.authenticationToken:guid:key];
+    } withError:error];
+}
+
+- (int32_t)setNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                           key:(NSString *)key 
+                                         value:(NSString *)value
+                                         error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore setNoteApplicationDataEntry:self.session.authenticationToken:guid:key:value];
+    } withError:error]; 
+}
+
+- (int32_t)unsetNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                             key:(NSString *) key
+                                           error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore unsetNoteApplicationDataEntry:self.session.authenticationToken:guid:key];
+    } withError:error]; 
+}
+
+- (NSString *)getNoteContentWithGuid:(EDAMGuid)guid
+                               error:(NSError **)error
+{
+    return (NSString *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteContent:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (NSString *)getNoteSearchTextWithGuid:(EDAMGuid)guid 
+                               noteOnly:(BOOL)noteOnly
+                    tokenizeForIndexing:(BOOL)tokenizeForIndexing
+                                  error:(NSError **)error
+{
+    return (NSString *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteSearchText:self.session.authenticationToken:guid:noteOnly:tokenizeForIndexing];
+    } withError:error];
+}
+
+- (NSString *)getResourceSearchTextWithGuid:(EDAMGuid)guid
+                                      error:(NSError **)error
+{
+    return (NSString *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getResourceSearchText:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (NSArray *)getNoteTagNamesWithGuid:(EDAMGuid)guid
+                               error:(NSError **)error
+{
+    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteTagNames:self.session.authenticationToken:guid];
+    } withError:error];
+}
+
+- (EDAMNote *)createNote:(EDAMNote *)note
+                   error:(NSError **)error
+{
+    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore createNote:self.session.authenticationToken:note];
+    } withError:error];
+}
+
+- (EDAMNote *)updateNote:(EDAMNote *)note
+                   error:(NSError **)error
+{
+    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore updateNote:self.session.authenticationToken:note];
+    } withError:error];
+}
+
+- (int32_t)deleteNoteWithGuid:(EDAMGuid)guid
+                        error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore deleteNote:self.session.authenticationToken:guid];
+    } withError:error]; 
+}
+
+- (int32_t)expungeNoteWithGuid:(EDAMGuid)guid
+                         error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeNote:self.session.authenticationToken:guid];
+    } withError:error]; 
+}
+
+- (int32_t)expungeNotesWithGuids:(NSArray *)noteGuids
+                           error:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeNotes:self.session.authenticationToken:noteGuids];
+    } withError:error]; 
+}
+
+- (int32_t)expungeInactiveNotesWithError:(NSError **)error
+{
+    return [self invokeIntBlock:^int32_t() {
+        return [self.noteStore expungeInactiveNotes:self.session.authenticationToken];
+    } withError:error];     
+}
+
+- (EDAMNote *)copyNote:(EDAMNote *)copyNote
+              noteGuid:(EDAMGuid)noteGuid 
+        toNoteBookGuid:(EDAMGuid)toNotebookGuid
+                 error:(NSError **)error
+{
+    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore copyNote:self.session.authenticationToken:noteGuid:toNotebookGuid];
+    } withError:error];
+}
+
+- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)noteGuid
+                                error:(NSError **)error
+{
+    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore listNoteVersions:self.session.authenticationToken:noteGuid];
+    } withError:error];
+}
+
+- (EDAMNote *)getNoteVersionWithNoteGuid:(EDAMGuid)noteGuid 
+                       updateSequenceNum:(int32_t)updateSequenceNum 
+                        withResourcesData:(BOOL)withResourcesData 
+                withResourcesRecognition:(BOOL)withResourcesRecognition 
+              withResourcesAlternateData:(BOOL)withResourcesAlternateData
+                                   error:(NSError **)error
+{
+    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+        return [self.noteStore getNoteVersion:self.session.authenticationToken:noteGuid:updateSequenceNum:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
+    } withError:error];
 }
 
 @end
