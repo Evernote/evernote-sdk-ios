@@ -34,6 +34,9 @@
 - (void)invokeAsyncInt32Block:(int32_t(^)())block
                         success:(void(^)(int32_t val))success
                         failure:(void(^)(NSError *error))failure;
+- (void)invokeAsyncNotebookBlock:(EDAMNotebook *(^)())block
+                         success:(void(^)(EDAMNotebook *val))success
+                         failure:(void(^)(NSError *error))failure;
 - (void)invokeAsyncNSArrayBlock:(NSArray *(^)())block
                         success:(void(^)(NSArray *val))success
                         failure:(void(^)(NSError *error))failure;

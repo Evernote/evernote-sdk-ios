@@ -173,6 +173,29 @@
     });
 }
 
+- (void)invokeAsyncNotebookBlock:(EDAMNotebook *(^)())block
+                          success:(void(^)(EDAMNotebook *val))success
+                          failure:(void(^)(NSError *error))failure
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        EDAMNotebook *retVal = nil;
+        @try {
+            retVal = block();
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success(retVal);
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    });
+}
+
 - (void)invokeAsyncNSArrayBlock:(NSArray *(^)())block
                         success:(void(^)(NSArray *val))success
                         failure:(void(^)(NSError *error))failure
