@@ -34,17 +34,11 @@
 - (void)invokeAsyncInt32Block:(int32_t(^)())block
                         success:(void(^)(int32_t val))success
                         failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncNotebookBlock:(EDAMNotebook *(^)())block
-                         success:(void(^)(EDAMNotebook *val))success
-                         failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncNSArrayBlock:(NSArray *(^)())block
-                        success:(void(^)(NSArray *val))success
-                        failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncSyncChunkBlock:(EDAMSyncChunk *(^)())block
-                          success:(void(^)(EDAMSyncChunk *val))success
-                          failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncSyncStateBlock:(EDAMSyncState *(^)())block
-                          success:(void(^)(EDAMSyncState *val))success
-                          failure:(void(^)(NSError *error))failure;
+- (void)invokeAsyncIdBlock:(id(^)())block
+                   success:(void(^)(id))success
+                   failure:(void(^)(NSError *error))failure;
+- (void)invokeAsyncVoidBlock:(void(^)())block
+                   success:(void(^)())success
+                   failure:(void(^)(NSError *error))failure;
 
 @end

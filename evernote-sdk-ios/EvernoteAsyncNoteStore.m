@@ -29,7 +29,7 @@
 - (void)getSyncStateWithSuccess:(void(^)(EDAMSyncState *syncState))success 
                         failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncSyncStateBlock:^EDAMSyncState *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSyncState:self.session.authenticationToken];
     } success:success failure:failure];
 }
@@ -40,7 +40,7 @@
                      success:(void(^)(EDAMSyncChunk *syncChunk))success
                      failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncSyncChunkBlock:^EDAMSyncChunk *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:fullSyncOnly];
     } success:success failure:failure];
 }
@@ -51,7 +51,7 @@
                              success:(void(^)(EDAMSyncChunk *syncChunk))success
                              failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncSyncChunkBlock:^EDAMSyncChunk *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getFilteredSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:filter];
     } success:success failure:failure];
 }
@@ -60,7 +60,7 @@
                            success:(void(^)(EDAMSyncState *syncState))success
                            failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncSyncStateBlock:^EDAMSyncState *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getLinkedNotebookSyncState:self.session.authenticationToken:linkedNotebook];
     } success:success failure:failure];
 }
@@ -70,7 +70,7 @@
 - (void)listNotebooksWithSuccess:(void(^)(NSArray *notebooks))success
                          failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncNSArrayBlock:^NSArray *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listNotebooks:self.session.authenticationToken];
     } success:success failure:failure];
 }
@@ -80,7 +80,7 @@
                     failure:(void(^)(NSError *error))failure
 
 {
-    [self invokeAsyncNotebookBlock:^EDAMNotebook *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNotebook:self.session.authenticationToken:guid];
     } success:success failure:failure];
 }
@@ -93,7 +93,7 @@
                            failure:(void(^)(NSError *error))failure
 
 {
-    [self invokeAsyncSyncChunkBlock:^EDAMSyncChunk *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getLinkedNotebookSyncChunk:self.session.authenticationToken:linkedNotebook:afterUSN:maxEntries:fullSyncOnly];
     } success:success failure:failure];
 }
@@ -101,7 +101,7 @@
 - (void)getDefaultNotebookWithSuccess:(void(^)(EDAMNotebook *notebook))success
                               failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncNotebookBlock:^EDAMNotebook *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getDefaultNotebook:self.session.authenticationToken];
     } success:success failure:failure];
 }
@@ -110,7 +110,7 @@
                success:(void(^)(EDAMNotebook *notebook))success
                failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncNotebookBlock:^EDAMNotebook *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createNotebook:self.session.authenticationToken:notebook];
     } success:success failure:failure];
 }
