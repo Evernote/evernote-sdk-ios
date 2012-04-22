@@ -351,10 +351,10 @@
     }]; 
 }
 
-- (int32_t)expungeNotesWithGuids:(NSArray *)noteGuids
+- (int32_t)expungeNotesWithGuids:(NSArray *)guids
 {
     return [self invokeInt32Block:^int32_t() {
-        return [self.noteStore expungeNotes:self.session.authenticationToken:noteGuids];
+        return [self.noteStore expungeNotes:self.session.authenticationToken:guids];
     }]; 
 }
 
@@ -365,32 +365,29 @@
     }];     
 }
 
-- (EDAMNote *)copyNote:(EDAMNote *)copyNote
-              noteGuid:(EDAMGuid)noteGuid 
-        toNoteBookGuid:(EDAMGuid)toNotebookGuid
-                 
+- (EDAMNote *)copyNoteWithGuid:(EDAMGuid)guid 
+                toNoteBookGuid:(EDAMGuid)toNotebookGuid
 {
     return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
-        return [self.noteStore copyNote:self.session.authenticationToken:noteGuid:toNotebookGuid];
+        return [self.noteStore copyNote:self.session.authenticationToken:guid:toNotebookGuid];
     }];
 }
 
-- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)noteGuid
+- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)guid
 {
     return (NSArray *)[self invokeObjBlock:^NSObject *() {
-        return [self.noteStore listNoteVersions:self.session.authenticationToken:noteGuid];
+        return [self.noteStore listNoteVersions:self.session.authenticationToken:guid];
     }];
 }
 
-#warning WithNoteGuid or WithGuid?
-- (EDAMNote *)getNoteVersionWithNoteGuid:(EDAMGuid)noteGuid 
-                       updateSequenceNum:(int32_t)updateSequenceNum 
-                        withResourcesData:(BOOL)withResourcesData 
-                withResourcesRecognition:(BOOL)withResourcesRecognition 
-              withResourcesAlternateData:(BOOL)withResourcesAlternateData
+- (EDAMNote *)getNoteVersionWithGuid:(EDAMGuid)guid 
+                   updateSequenceNum:(int32_t)updateSequenceNum 
+                   withResourcesData:(BOOL)withResourcesData 
+            withResourcesRecognition:(BOOL)withResourcesRecognition 
+          withResourcesAlternateData:(BOOL)withResourcesAlternateData
 {
     return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
-        return [self.noteStore getNoteVersion:self.session.authenticationToken:noteGuid:updateSequenceNum:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
+        return [self.noteStore getNoteVersion:self.session.authenticationToken:guid:updateSequenceNum:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
     }];
 }
 
@@ -453,14 +450,14 @@
     }];
 }
 
-- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)noteGuid 
+- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)guid 
                                 contentHash:(NSData *)contentHash 
                                    withData:(BOOL)withData 
                             withRecognition:(BOOL)withRecognition 
                           withAlternateData:(BOOL)withAlternateData
 {
     return (EDAMResource *)[self invokeObjBlock:^NSObject *() {
-        return [self.noteStore getResourceByHash:self.session.authenticationToken:noteGuid:contentHash:withData:withRecognition:withAlternateData];
+        return [self.noteStore getResourceByHash:self.session.authenticationToken:guid:contentHash:withData:withRecognition:withAlternateData];
     }]; 
 }
 

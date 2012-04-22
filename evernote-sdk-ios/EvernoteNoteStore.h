@@ -88,17 +88,16 @@
 - (EDAMNote *)updateNote:(EDAMNote *)note;
 - (int32_t)deleteNoteWithGuid:(EDAMGuid)guid;
 - (int32_t)expungeNoteWithGuid:(EDAMGuid)guid;
-- (int32_t)expungeNotesWithGuids:(NSArray *)noteGuids;
+- (int32_t)expungeNotesWithGuids:(NSArray *)guids;
 - (int32_t)expungeInactiveNotes;
-- (EDAMNote *)copyNote:(EDAMNote *)copyNote
-              noteGuid:(EDAMGuid)noteGuid 
-        toNoteBookGuid:(EDAMGuid)toNotebookGuid;
-- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)noteGuid;
-- (EDAMNote *)getNoteVersionWithNoteGuid:(EDAMGuid)noteGuid 
-                       updateSequenceNum:(int32_t)updateSequenceNum 
-                       withResourcesData:(BOOL)withResourcesData 
-                withResourcesRecognition:(BOOL)withResourcesRecognition 
-              withResourcesAlternateData:(BOOL)withResourcesAlternateData;
+- (EDAMNote *)copyNoteWithGuid:(EDAMGuid)guid 
+                toNoteBookGuid:(EDAMGuid)toNotebookGuid;
+- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)guid;
+- (EDAMNote *)getNoteVersionWithGuid:(EDAMGuid)guid 
+                   updateSequenceNum:(int32_t)updateSequenceNum 
+                   withResourcesData:(BOOL)withResourcesData 
+            withResourcesRecognition:(BOOL)withResourcesRecognition 
+          withResourcesAlternateData:(BOOL)withResourcesAlternateData;
 
 // NoteStore resource methods
 - (EDAMResource *)getResourceWithGuid:(EDAMGuid)guid 
@@ -116,7 +115,7 @@
                                                  key:(NSString *)key;
 - (int32_t)updateResource:(EDAMResource *)resource;
 - (NSData *)getResourceDataWithGuid:(EDAMGuid)guid;
-- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)noteGuid 
+- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)guid 
                                 contentHash:(NSData *)contentHash 
                                    withData:(BOOL)withData 
                             withRecognition:(BOOL)withRecognition 

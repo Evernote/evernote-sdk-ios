@@ -42,23 +42,6 @@
     }];
 }
 
-- (EDAMAuthenticationResult *)authenticateWithUsername:(NSString *)username 
-                                              password:(NSString *)password 
-                                           consumerKey:(NSString *)consumerKey 
-                                        consumerSecret:(NSString *)consumerSecret
-{
-    return (EDAMAuthenticationResult *)[self invokeObjBlock:^NSObject *() {
-        return [self.userStore authenticate:username :password:consumerKey:consumerSecret];
-    }];
-}
-
-- (EDAMAuthenticationResult *)refreshAuthentication:(NSString *)authenticationToken
-{
-    return (EDAMAuthenticationResult *)[self invokeObjBlock:^NSObject *() {
-        return [self.userStore refreshAuthentication:self.session.authenticationToken];
-    }];
-}
-
 - (EDAMUser *)getUser
 {
     return (EDAMUser *)[self invokeObjBlock:^NSObject *() {
