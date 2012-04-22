@@ -20,7 +20,7 @@
 // UserStore methods
 - (void)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 
-                  edamVersionMinor:(int16_t) edamVersionMinor
+                  edamVersionMinor:(int16_t)edamVersionMinor
                            success:(void(^)(BOOL versionOK))success
                            failure:(void(^)(NSError *error))failure;
 - (void)getBootstrapInfoWithLocale:(NSString *)locale

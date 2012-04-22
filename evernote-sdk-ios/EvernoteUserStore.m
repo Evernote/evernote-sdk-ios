@@ -28,7 +28,7 @@
 
 - (BOOL)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 
-                  edamVersionMinor:(int16_t) edamVersionMinor
+                  edamVersionMinor:(int16_t)edamVersionMinor
 {
     return [self invokeBoolBlock:^BOOL() {
         return [self.userStore checkVersion:clientName:edamVersionMajor:edamVersionMinor];

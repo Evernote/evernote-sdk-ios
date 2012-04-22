@@ -21,7 +21,7 @@
 
 - (BOOL)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 
-                  edamVersionMinor:(int16_t) edamVersionMinor;
+                  edamVersionMinor:(int16_t)edamVersionMinor;
 - (EDAMBootstrapInfo *)getBootstrapInfoWithLocale:(NSString *)locale;
 - (EDAMUser *)getUser;
 - (EDAMPublicUserInfo *)getPublicUserInfoWithUsername:(NSString *)username;
