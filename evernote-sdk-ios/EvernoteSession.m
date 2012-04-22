@@ -30,12 +30,11 @@
 #import <UIKit/UIKit.h>
 #import "ENCredentials.h"
 #import "ENCredentialStore.h"
+#import "EvernoteSDK.h"
 #import "EvernoteSession.h"
 #import "GCOAuth.h"
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
-
-NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
 
 #define SCHEME @"https"
 
@@ -347,7 +346,7 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
         // if any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId) {
-            NSError *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain 
+            NSError *error = [NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                  code:EDAMErrorCode_INTERNAL_ERROR 
                                              userInfo:nil];
             self.completionHandler(error);

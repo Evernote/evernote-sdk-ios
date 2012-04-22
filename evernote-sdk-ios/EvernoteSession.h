@@ -30,9 +30,6 @@
 #import <Foundation/Foundation.h>
 #import "EDAM.h"
 
-// NSError error domain.
-extern NSString *const kEvernoteSDKErrorDomain;
-
 // For Evernote-related error codes, see EDAMErrors.h
 
 // Post-authentication callback type, defined for easy reuse.

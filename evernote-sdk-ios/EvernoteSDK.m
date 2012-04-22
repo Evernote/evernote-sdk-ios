@@ -8,3 +8,5 @@
 
 #import "EvernoteSDK.h"
 
+NSString *const EvernoteSDKErrorDomain = @"com.evernote.sdk";
+

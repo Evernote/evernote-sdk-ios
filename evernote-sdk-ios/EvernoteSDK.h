@@ -15,3 +15,7 @@
 typedef enum {
     EvernoteSDKErrorCode_TRANSPORT_ERROR = -3000,
 } EvernoteSDKErrorCode;
+
+// NSError error domain.
+extern NSString *const EvernoteSDKErrorDomain;
+

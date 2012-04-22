@@ -6,12 +6,9 @@
 //  Copyright (c) 2012 n/a. All rights reserved.
 //
 
-#import "ENAPI.h"
 #import "EDAM.h"
-
-@interface ENAPI()
-
-@end
+#import "ENAPI.h"
+#import "EvernoteSDK.h"
 
 @implementation ENAPI
 
@@ -65,7 +62,7 @@
                 [userInfo setValue:parameter forKey:@"parameter"];
             }
         }
-        return [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:userInfo];
+        return [NSError errorWithDomain:EvernoteSDKErrorDomain code:errorCode userInfo:userInfo];
     }
     return nil;
 }

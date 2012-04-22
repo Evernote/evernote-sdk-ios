@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "EDAM.h"
-#import "EvernoteSDK.h"
 #import "EvernoteSession.h"
 
 // Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
