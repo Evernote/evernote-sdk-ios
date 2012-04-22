@@ -12,10 +12,11 @@
 #import "EvernoteSession.h"
 #import "EvernoteUserStore.h"
 
+// For other application-level error codes, see EDAMErrorCode in EDAMErrors.h.
 typedef enum {
     EvernoteSDKErrorCode_TRANSPORT_ERROR = -3000,
 } EvernoteSDKErrorCode;
 
-// NSError error domain.
+// Evernote SDK NSError error domain.
 extern NSString *const EvernoteSDKErrorDomain;
 
