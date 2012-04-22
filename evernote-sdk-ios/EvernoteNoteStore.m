@@ -11,10 +11,6 @@
 #import "Thrift.h"
 
 
-@interface EvernoteNoteStore()
-
-@end
-
 @implementation EvernoteNoteStore
 
 + (EvernoteNoteStore *)noteStore

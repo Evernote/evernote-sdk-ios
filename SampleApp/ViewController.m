@@ -5,6 +5,7 @@
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
+#import "EvernoteAsyncNoteStore.h"
 #import "EvernoteNoteStore.h"
 #import "EvernoteSession.h"
 #import "EvernoteUserStore.h"
@@ -79,6 +80,7 @@
 }
 
 - (IBAction)listNotes:(id)sender {
+    /* 
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     NSArray *notebooks = [noteStore listNotebooks];
     if (noteStore.error) {
@@ -86,7 +88,9 @@
     } else {
         NSLog(@"notebooks: %@", notebooks);
     }
+     */
     
+    /*
     EvernoteUserStore *userStore = [EvernoteUserStore userStore];
     EDAMUser *user = [userStore getUser];
     if (userStore.error) {
@@ -94,6 +98,14 @@
     } else {
         NSLog(@"user: %@", user);
     }
+     */
+    EvernoteAsyncNoteStore *noteStore = [EvernoteAsyncNoteStore noteStore];
+    [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
+        NSLog(@"notebooks: %@", notebooks);
+    }
+                                failure:^(NSError *error) {
+                                    NSLog(@"error %@", noteStore.error);                                            
+                                }];
 }
 
 - (void)updateButtonsForAuthentication 

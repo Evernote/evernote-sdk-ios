@@ -21,8 +21,8 @@
 
 - (id)initWithSession:(EvernoteSession *)session;
 
-// set our error property from a given NSException.
-- (void)populateErrorFromNSException:(NSException *)exception;
+// Make an NSError from a given NSException.
+- (NSError *)errorFromNSException:(NSException *)exception;
 
 // "safe invoke" various blocks, with try/catch wrapping.
 - (void)invokeVoidBlock:(void(^)())block;
@@ -30,5 +30,9 @@
 - (int32_t)invokeInt32Block:(int32_t(^)())block;
 - (int64_t)invokeInt64Block:(int64_t(^)())block;
 - (NSObject *)invokeObjBlock:(NSObject *(^)())block;
+
+// invoke the given block, calling failure if any exception was raised.
+- (void)invokeAsyncBlock:(void(^)())block
+                 failure:(void(^)(NSError *error))failure;
 
 @end

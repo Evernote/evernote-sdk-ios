@@ -45,7 +45,7 @@
     return [self.session userStore];    
 }
 
-- (void)populateErrorFromNSException:(NSException *)exception
+- (NSError *)errorFromNSException:(NSException *)exception
 {
     if (exception) {
         int errorCode = EDAMErrorCode_UNKNOWN;
@@ -53,8 +53,9 @@
             // Evernote Thrift exception classes have an errorCode property
             errorCode = [(id)exception errorCode];
         }
-        self.error = [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:exception.userInfo];
+        return [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:exception.userInfo];
     }
+    return nil;
 }
 
 - (void)invokeVoidBlock:(void(^)())block
@@ -64,7 +65,7 @@
         block();
     }
     @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
+        self.error = [self errorFromNSException:exception];
     }
     @finally {
     }
@@ -78,7 +79,7 @@
         retVal = block();
     }
     @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
+        self.error = [self errorFromNSException:exception];
     }
     @finally {
     }  
@@ -93,7 +94,7 @@
         retVal = block();
     }
     @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
+        self.error = [self errorFromNSException:exception];
     }
     @finally {
     }  
@@ -108,7 +109,7 @@
         retVal = block();
     }
     @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
+        self.error = [self errorFromNSException:exception];
     }
     @finally {
     }  
@@ -123,11 +124,25 @@
         retVal = block();
     }
     @catch (NSException *exception) {
-        [self populateErrorFromNSException:exception];
+        self.error = [self errorFromNSException:exception];
     }
     @finally {
     }  
     return retVal;   
+}
+
+- (void)invokeAsyncBlock:(void(^)())block
+                 failure:(void(^)(NSError *error))failure
+{
+    @try {
+        block();
+    }
+    @catch (NSException *exception) {
+        NSError *error = [self errorFromNSException:exception];
+        failure(error);
+    }
+    @finally {
+    }  
 }
 
 @end
