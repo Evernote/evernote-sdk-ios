@@ -134,4 +134,71 @@
     } success:success failure:failure];
 }
 
+#pragma mark - NoteStore tags methods
+
+- (void)listTagsWithSuccess:(void(^)(NSArray *tags))success
+                    failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore listTags:self.session.authenticationToken];
+    } success:success failure:failure];
+}
+
+- (void)listTagsByNotebookWithGuid:(EDAMGuid)guid
+                           success:(void(^)(NSArray *tags))success
+                           failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore listTagsByNotebook:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+};
+
+- (void)getTagWithGuid:(EDAMGuid)guid
+               success:(void(^)(EDAMTag *tag))success
+               failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore getTag:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+}
+
+- (void)createTag:(EDAMTag *)tag
+          success:(void(^)(EDAMTag *tag))success
+          failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore createTag:self.session.authenticationToken:tag];
+    } success:success failure:failure];
+}
+
+- (void)updateTag:(EDAMTag *)tag
+          success:(void(^)(int32_t usn))success
+          failure:(void(^)(NSError *error))failure
+
+{
+    [self invokeAsyncInt32Block:^int32_t() {
+        return [self.noteStore updateTag:self.session.authenticationToken:tag];
+    } success:success failure:failure];
+}
+
+- (void)untagAllWithGuid:(EDAMGuid)guid
+                 success:(void(^)())success
+                 failure:(void(^)(NSError *error))failure
+
+{
+    [self invokeAsyncVoidBlock:^() {
+        [self.noteStore untagAll:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+}
+
+- (void)expungeTagWithGuid:(EDAMGuid)guid
+                   success:(void(^)(int32_t usn))success
+                   failure:(void(^)(NSError *error))failure
+
+{
+    [self invokeAsyncInt32Block:^int32_t() {
+        return [self.noteStore expungeTag:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+}
+
 @end

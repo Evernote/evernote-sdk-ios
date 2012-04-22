@@ -58,4 +58,26 @@
                         success:(void(^)(int32_t usn))success
                         failure:(void(^)(NSError *error))failure;
 
+// NoteStore tag methods
+- (void)listTagsWithSuccess:(void(^)(NSArray *tags))success
+                    failure:(void(^)(NSError *error))failure;
+- (void)listTagsByNotebookWithGuid:(EDAMGuid)guid
+                           success:(void(^)(NSArray *tags))success
+                           failure:(void(^)(NSError *error))failure;
+- (void)getTagWithGuid:(EDAMGuid)guid
+               success:(void(^)(EDAMTag *tag))success
+               failure:(void(^)(NSError *error))failure;
+- (void)createTag:(EDAMTag *)tag
+          success:(void(^)(EDAMTag *tag))success
+          failure:(void(^)(NSError *error))failure;
+- (void)updateTag:(EDAMTag *)tag
+          success:(void(^)(int32_t usn))success
+          failure:(void(^)(NSError *error))failure;
+- (void)untagAllWithGuid:(EDAMGuid)guid
+                 success:(void(^)())success
+                 failure:(void(^)(NSError *error))failure;
+- (void)expungeTagWithGuid:(EDAMGuid)guid
+                   success:(void(^)(int32_t usn))success
+                   failure:(void(^)(NSError *error))failure;
+
 @end
