@@ -304,18 +304,4 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                  success:(void(^)(EDAMAuthenticationResult *result))success
                                  failure:(void(^)(NSError *error))failure;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @end

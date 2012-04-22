@@ -120,65 +120,12 @@
     }
 }
 
-/*
- doesn't work generically because of type-checking on the block types
- 
-- (void)invokeAsyncObjBlock:(NSObject *(^)())block
-                    success:(void(^)(NSObject *obj))success
-                    failure:(void(^)(NSError *error))failure
-{
-    // run the block on a background thread
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        NSObject *retVal = nil;
-        @try {
-            retVal = block();
-            // callback on the main thread
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success(retVal);
-                           });
-        }
-        @catch (NSException *exception) {
-            NSError *error = [self errorFromNSException:exception];
-            // callback on the main thread
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               failure(error);
-                           });
-        }
-    });
-}
-*/
-
-- (void)invokeAsyncVoidBlock:(void(^)())block
-                     success:(void(^)())success
+- (void)invokeAsyncBoolBlock:(BOOL(^)())block
+                     success:(void(^)(BOOL val))success
                      failure:(void(^)(NSError *error))failure
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        @try {
-            block();
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success();
-                           });
-        }
-        @catch (NSException *exception) {
-            NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               failure(error);
-                           });
-        }
-    }); 
-}
-
-// use id instead of NSObject* so block type-checking is happy
-- (void)invokeAsyncIdBlock:(id(^)())block
-                    success:(void(^)(id))success
-                    failure:(void(^)(NSError *error))failure
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-        id retVal = nil;
+        BOOL retVal = NO;
         @try {
             retVal = block();
             dispatch_async(dispatch_get_main_queue(),
@@ -219,5 +166,51 @@
     });
 }
 
+
+// use id instead of NSObject* so block type-checking is happy
+- (void)invokeAsyncIdBlock:(id(^)())block
+                   success:(void(^)(id))success
+                   failure:(void(^)(NSError *error))failure
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        id retVal = nil;
+        @try {
+            retVal = block();
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success(retVal);
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    });
+}
+
+- (void)invokeAsyncVoidBlock:(void(^)())block
+                     success:(void(^)())success
+                     failure:(void(^)(NSError *error))failure
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        @try {
+            block();
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success();
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    }); 
+}
 
 @end

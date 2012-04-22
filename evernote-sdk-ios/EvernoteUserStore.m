@@ -24,7 +24,7 @@
     return self;
 }
 
-#pragma mark UserStore methods
+#pragma mark - UserStore methods
 
 - (BOOL)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 

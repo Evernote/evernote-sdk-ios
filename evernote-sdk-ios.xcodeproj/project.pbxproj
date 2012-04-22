@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B2B9D621544944800E5BD44 /* EvernoteAsyncUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteAsyncUserStore.h */; };
+		0B2B9D631544944800E5BD44 /* EvernoteAsyncUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteAsyncUserStore.m */; };
+		0B2B9D641544944800E5BD44 /* EvernoteAsyncUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteAsyncUserStore.m */; };
 		0B345EBE1544633F00A1FDBF /* EvernoteAsyncNoteStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B345EBC1544633F00A1FDBF /* EvernoteAsyncNoteStore.h */; };
 		0B345EBF1544633F00A1FDBF /* EvernoteAsyncNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B345EBD1544633F00A1FDBF /* EvernoteAsyncNoteStore.m */; };
 		0B345EC01544633F00A1FDBF /* EvernoteAsyncNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B345EBD1544633F00A1FDBF /* EvernoteAsyncNoteStore.m */; };
@@ -100,6 +103,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B2B9D601544944800E5BD44 /* EvernoteAsyncUserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteAsyncUserStore.h; sourceTree = "<group>"; };
+		0B2B9D611544944800E5BD44 /* EvernoteAsyncUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteAsyncUserStore.m; sourceTree = "<group>"; };
 		0B345EBC1544633F00A1FDBF /* EvernoteAsyncNoteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteAsyncNoteStore.h; sourceTree = "<group>"; };
 		0B345EBD1544633F00A1FDBF /* EvernoteAsyncNoteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteAsyncNoteStore.m; sourceTree = "<group>"; };
 		0B943F261525015500DB20A3 /* GCOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCOAuth.h; sourceTree = "<group>"; };
@@ -328,12 +333,14 @@
 			isa = PBXGroup;
 			children = (
 				0BBA34A71537B09300DC7DD5 /* LICENSE */,
+				0B345EBC1544633F00A1FDBF /* EvernoteAsyncNoteStore.h */,
+				0B345EBD1544633F00A1FDBF /* EvernoteAsyncNoteStore.m */,
+				0B2B9D601544944800E5BD44 /* EvernoteAsyncUserStore.h */,
+				0B2B9D611544944800E5BD44 /* EvernoteAsyncUserStore.m */,
 				0BB3D2381524EE62001C4534 /* EvernoteSession.h */,
 				0BB3D2391524EE62001C4534 /* EvernoteSession.m */,
 				0B98590C154284D6007D7D37 /* EvernoteNoteStore.h */,
 				0B98590D154284D6007D7D37 /* EvernoteNoteStore.m */,
-				0B345EBC1544633F00A1FDBF /* EvernoteAsyncNoteStore.h */,
-				0B345EBD1544633F00A1FDBF /* EvernoteAsyncNoteStore.m */,
 				0B98591C15431DF8007D7D37 /* EvernoteUserStore.h */,
 				0B98591D15431DF8007D7D37 /* EvernoteUserStore.m */,
 				0B98592115432592007D7D37 /* internal */,
@@ -442,6 +449,7 @@
 				0B98592B15432592007D7D37 /* ENCredentials.h in Headers */,
 				0B98592E15432592007D7D37 /* ENCredentialStore.h in Headers */,
 				0B345EBE1544633F00A1FDBF /* EvernoteAsyncNoteStore.h in Headers */,
+				0B2B9D621544944800E5BD44 /* EvernoteAsyncUserStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +558,7 @@
 				0B98592C15432592007D7D37 /* ENCredentials.m in Sources */,
 				0B98592F15432592007D7D37 /* ENCredentialStore.m in Sources */,
 				0B345EBF1544633F00A1FDBF /* EvernoteAsyncNoteStore.m in Sources */,
+				0B2B9D631544944800E5BD44 /* EvernoteAsyncUserStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +593,7 @@
 				0B98592D15432592007D7D37 /* ENCredentials.m in Sources */,
 				0B98593015432592007D7D37 /* ENCredentialStore.m in Sources */,
 				0B345EC01544633F00A1FDBF /* EvernoteAsyncNoteStore.m in Sources */,
+				0B2B9D641544944800E5BD44 /* EvernoteAsyncUserStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

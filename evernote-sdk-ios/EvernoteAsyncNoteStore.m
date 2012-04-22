@@ -242,7 +242,7 @@
     } success:success failure:failure];
 }
 
-#pragma mark - notes methods
+#pragma mark - NoteStore notes methods
 
 - (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
                      offset:(int32_t)offset

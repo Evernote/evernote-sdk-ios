@@ -31,12 +31,15 @@
 - (NSObject *)invokeObjBlock:(NSObject *(^)())block;
 
 // asynchronously invoke the given block, calling back to success/failure on the main thread.
-- (void)invokeAsyncInt32Block:(int32_t(^)())block
-                        success:(void(^)(int32_t val))success
-                        failure:(void(^)(NSError *error))failure;
+- (void)invokeAsyncBoolBlock:(BOOL(^)())block
+                     success:(void(^)(BOOL val))success
+                     failure:(void(^)(NSError *error))failure;
 - (void)invokeAsyncIdBlock:(id(^)())block
                    success:(void(^)(id))success
                    failure:(void(^)(NSError *error))failure;
+- (void)invokeAsyncInt32Block:(int32_t(^)())block
+                        success:(void(^)(int32_t val))success
+                        failure:(void(^)(NSError *error))failure;
 - (void)invokeAsyncVoidBlock:(void(^)())block
                    success:(void(^)())success
                    failure:(void(^)(NSError *error))failure;
