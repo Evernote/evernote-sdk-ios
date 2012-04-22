@@ -53,8 +53,9 @@
             // Evernote Thrift exception classes have an errorCode property
             errorCode = [(id)exception errorCode];
         } else if ([exception isKindOfClass:[TException class]]) {
-#warning TODO: do we have an error code for Thrift exceptions?
-            errorCode = EDAMErrorCode_INTERNAL_ERROR;
+            // treat any Thrift errors as a transport error
+            // TODO: we could create separate error codes for the various TException subclasses
+            errorCode = EvernoteSDKErrorCode_TRANSPORT_ERROR;
         }
 
         NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:exception.userInfo];
