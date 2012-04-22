@@ -132,10 +132,10 @@
     }];
 }
 
-- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)notebookGuid
+- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)guid
 {
     return (NSArray *)[self invokeObjBlock:^NSObject *() {
-        return [self.noteStore listTagsByNotebook:self.session.authenticationToken:notebookGuid];
+        return [self.noteStore listTagsByNotebook:self.session.authenticationToken:guid];
     }]; 
 };
 
@@ -493,7 +493,6 @@
 
 #pragma mark - NoteStore ad methods
 
-#warning adParameters or parameters?
 - (NSArray *)getAdsWithParameters:(EDAMAdParameters *)adParameters
 {
     return (NSArray *)[self invokeObjBlock:^NSObject *() {
@@ -526,13 +525,12 @@
     }]; 
 }
 
-#warning withGuid or withNotebookGuid?
-- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)notebookGuid 
+- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
                                           messageText:(NSString *)messageText 
                                            recipients:(NSArray *)recipients
 {
     return [self invokeInt32Block:^int32_t() {
-        return [self.noteStore sendMessageToSharedNotebookMembers:self.session.authenticationToken:notebookGuid:messageText:recipients];
+        return [self.noteStore sendMessageToSharedNotebookMembers:self.session.authenticationToken:guid:messageText:recipients];
     }];
 }
 
@@ -543,7 +541,6 @@
     }]; 
 }
 
-#warning are these GUIDs?
 - (int32_t)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds
 {
     return [self invokeInt32Block:^int32_t() {

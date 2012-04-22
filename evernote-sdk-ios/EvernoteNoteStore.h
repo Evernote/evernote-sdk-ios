@@ -40,7 +40,7 @@
 
 // NoteStore tag methods
 - (NSArray *)listTags;
-- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)notebookGuid;
+- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)guid;
 - (EDAMTag *)getTagWithGuid:(EDAMGuid)guid;
 - (EDAMTag *)createTag:(EDAMTag *)tag;
 - (int32_t)updateTag:(EDAMTag *)tag;
@@ -91,7 +91,7 @@
 - (int32_t)expungeNotesWithGuids:(NSArray *)guids;
 - (int32_t)expungeInactiveNotes;
 - (EDAMNote *)copyNoteWithGuid:(EDAMGuid)guid 
-                toNoteBookGuid:(EDAMGuid)toNotebookGuid;
+        toNoteBookGuid:(EDAMGuid)toNotebookGuid;
 - (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)guid;
 - (EDAMNote *)getNoteVersionWithGuid:(EDAMGuid)guid 
                    updateSequenceNum:(int32_t)updateSequenceNum 
@@ -135,7 +135,7 @@
 - (EDAMNotebook *)getPublicNotebookWithUserID:(EDAMUserID)userId 
                                     publicUri:(NSString *)publicUri;
 - (EDAMSharedNotebook *)createSharedNotebook:(EDAMSharedNotebook *)sharedNotebook;
-- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)notebookGuid 
+- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
                                           messageText:(NSString *)messageText 
                                            recipients:(NSArray *)recipients;
 - (NSArray *)listSharedNotebooks;
