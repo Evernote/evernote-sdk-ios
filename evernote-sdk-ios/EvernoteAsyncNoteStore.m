@@ -29,9 +29,9 @@
 - (void)getSyncStateWithSuccess:(void(^)(EDAMSyncState *syncState))success 
                         failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncBlock:^() {
-        success([self.noteStore getSyncState:self.session.authenticationToken]);
-    } failure:failure];
+    [self invokeAsyncSyncStateBlock:^EDAMSyncState *() {
+        return [self.noteStore getSyncState:self.session.authenticationToken];
+    } success:success failure:failure];
 }
 
 - (void)getSyncChunkAfterUSN:(int32_t)afterUSN 
@@ -40,9 +40,29 @@
                      success:(void(^)(EDAMSyncChunk *syncChunk))success
                      failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncBlock:^() {
-        success([self.noteStore getSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:fullSyncOnly]);
-    } failure:failure];
+    [self invokeAsyncSyncChunkBlock:^EDAMSyncChunk *() {
+        return [self.noteStore getSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:fullSyncOnly];
+    } success:success failure:failure];
+}
+
+- (void)getFilteredSyncChunkAfterUSN:(int32_t)afterUSN
+                                     maxEntries:(int32_t)maxEntries
+                                         filter:(EDAMSyncChunkFilter *)filter
+                                        success:(void(^)(EDAMSyncChunk *syncChunk))success
+                                        failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncSyncChunkBlock:^EDAMSyncChunk *() {
+        return [self.noteStore getFilteredSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:filter];
+    } success:success failure:failure];
+}
+
+- (void)getLinkedNotebookSyncState:(EDAMLinkedNotebook *)linkedNotebook
+                                      success:(void(^)(EDAMSyncState *syncState))success
+                                      failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncSyncStateBlock:^EDAMSyncState *() {
+        return [self.noteStore getLinkedNotebookSyncState:self.session.authenticationToken:linkedNotebook];
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore notebook methods
