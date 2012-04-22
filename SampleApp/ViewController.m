@@ -5,11 +5,7 @@
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
-#import "EvernoteAsyncNoteStore.h"
-#import "EvernoteNoteStore.h"
-#import "EvernoteSession.h"
-#import "EvernoteUserStore.h"
-#import "GCOAuth.h"
+#import "EvernoteSDK.h"
 #import "ViewController.h"
 
 
