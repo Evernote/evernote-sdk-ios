@@ -124,9 +124,6 @@
 - (NSData *)getResourceAlternateDataWithGuid:(EDAMGuid)guid;
 - (EDAMResourceAttributes *)getResourceAttributesWithGuid:(EDAMGuid)guid;
 
-// NoteStore account methods
-- (int64_t)getAccountSize;
-
 // NoteStore ad methods
 - (NSArray *)getAdsWithParameters:(EDAMAdParameters *)adParameters;
 - (EDAMAd *)getRandomAdWithParameters:(EDAMAdParameters *)adParameters;

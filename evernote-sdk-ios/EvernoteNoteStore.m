@@ -482,15 +482,6 @@
     }]; 
 }
 
-#pragma mark - NoteStore account methods
-
-- (int64_t)getAccountSize
-{
-    return [self invokeInt64Block:^int64_t() {
-        return [self.noteStore getAccountSize:self.session.authenticationToken];
-    }];
-}
-
 #pragma mark - NoteStore ad methods
 
 - (NSArray *)getAdsWithParameters:(EDAMAdParameters *)adParameters
