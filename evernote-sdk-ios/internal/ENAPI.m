@@ -67,8 +67,6 @@
     @catch (NSException *exception) {
         self.error = [self errorFromNSException:exception];
     }
-    @finally {
-    }
 }
 
 - (BOOL)invokeBoolBlock:(BOOL(^)())block
@@ -81,8 +79,6 @@
     @catch (NSException *exception) {
         self.error = [self errorFromNSException:exception];
     }
-    @finally {
-    }  
     return retVal;
 }
 
@@ -96,23 +92,6 @@
     @catch (NSException *exception) {
         self.error = [self errorFromNSException:exception];
     }
-    @finally {
-    }  
-    return retVal;
-}
-
-- (int64_t)invokeInt64Block:(int64_t(^)())block
-{
-    self.error = nil;
-    int32_t retVal = 0;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        self.error = [self errorFromNSException:exception];
-    }
-    @finally {
-    }  
     return retVal;
 }
 
@@ -126,8 +105,6 @@
     @catch (NSException *exception) {
         self.error = [self errorFromNSException:exception];
     }
-    @finally {
-    }  
     return retVal;   
 }
 
@@ -141,8 +118,82 @@
         NSError *error = [self errorFromNSException:exception];
         failure(error);
     }
-    @finally {
-    }  
 }
+
+/*
+ doesn't work generically because of type-checking
+- (void)invokeAsyncObjBlock:(NSObject *(^)())block
+                    success:(void(^)(NSObject *obj))success
+                    failure:(void(^)(NSError *error))failure
+{
+    // run the block on a background thread
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSObject *retVal = nil;
+        @try {
+            retVal = block();
+            // callback on the main thread
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success(retVal);
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            // callback on the main thread
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    });
+}
+*/
+
+- (void)invokeAsyncNSArrayBlock:(NSArray *(^)())block
+                        success:(void(^)(NSArray *val))success
+                        failure:(void(^)(NSError *error))failure
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSArray *retVal = nil;
+        @try {
+            retVal = block();
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success(retVal);
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    });
+}
+
+- (void)invokeAsyncInt32Block:(int32_t(^)())block
+                      success:(void(^)(int32_t val))success
+                      failure:(void(^)(NSError *error))failure
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        int32_t retVal = -1;
+        @try {
+            retVal = block();
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               success(retVal);
+                           });
+        }
+        @catch (NSException *exception) {
+            NSError *error = [self errorFromNSException:exception];
+            dispatch_async(dispatch_get_main_queue(),
+                           ^{
+                               failure(error);
+                           });
+        }
+    });
+}
+
 
 @end

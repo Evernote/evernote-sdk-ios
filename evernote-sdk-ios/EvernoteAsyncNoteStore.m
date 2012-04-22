@@ -50,9 +50,9 @@
 - (void)listNotebooksWithSuccess:(void(^)(NSArray *notebooks))success
                          failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncBlock:^() {
-        success([self.noteStore listNotebooks:self.session.authenticationToken]);
-    } failure:failure];    
+    [self invokeAsyncNSArrayBlock:^NSArray *() {
+        return [self.noteStore listNotebooks:self.session.authenticationToken];
+    } success:success failure:failure];
 }
 
 @end

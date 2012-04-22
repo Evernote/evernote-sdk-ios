@@ -28,11 +28,18 @@
 - (void)invokeVoidBlock:(void(^)())block;
 - (BOOL)invokeBoolBlock:(BOOL(^)())block;
 - (int32_t)invokeInt32Block:(int32_t(^)())block;
-- (int64_t)invokeInt64Block:(int64_t(^)())block;
 - (NSObject *)invokeObjBlock:(NSObject *(^)())block;
 
 // invoke the given block, calling failure if any exception was raised.
 - (void)invokeAsyncBlock:(void(^)())block
                  failure:(void(^)(NSError *error))failure;
+
+- (void)invokeAsyncInt32Block:(int32_t(^)())block
+                        success:(void(^)(int32_t val))success
+                        failure:(void(^)(NSError *error))failure;
+
+- (void)invokeAsyncNSArrayBlock:(NSArray *(^)())block
+                        success:(void(^)(NSArray *val))success
+                        failure:(void(^)(NSError *error))failure;
 
 @end
