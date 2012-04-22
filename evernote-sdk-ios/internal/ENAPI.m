@@ -52,8 +52,19 @@
         if ([exception respondsToSelector:@selector(errorCode)]) {
             // Evernote Thrift exception classes have an errorCode property
             errorCode = [(id)exception errorCode];
+        } else if ([exception isKindOfClass:[TException class]]) {
+#warning TODO: do we have an error code for Thrift exceptions?
+            errorCode = EDAMErrorCode_INTERNAL_ERROR;
         }
-        return [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:exception.userInfo];
+
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:exception.userInfo];
+        if ([exception respondsToSelector:@selector(parameter)]) {
+            NSString *parameter = [(id)exception parameter];
+            if (parameter) {
+                [userInfo setValue:parameter forKey:@"parameter"];
+            }
+        }
+        return [NSError errorWithDomain:kEvernoteSDKErrorDomain code:errorCode userInfo:userInfo];
     }
     return nil;
 }
