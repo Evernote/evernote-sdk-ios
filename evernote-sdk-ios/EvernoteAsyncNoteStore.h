@@ -80,4 +80,20 @@
                    success:(void(^)(int32_t usn))success
                    failure:(void(^)(NSError *error))failure;
 
+// Notestore search methods
+- (void)listSearchesWithSuccess:(void(^)(NSArray *searches))success
+                        failure:(void(^)(NSError *error))failure;
+- (void)getSearchWithGuid:(EDAMGuid)guid
+                  success:(void(^)(EDAMSavedSearch *search))success
+                  failure:(void(^)(NSError *error))failure;
+- (void)createSearch:(EDAMSavedSearch *)search
+             success:(void(^)(EDAMSavedSearch *search))success
+             failure:(void(^)(NSError *error))failure;
+- (void)updateSearch:(EDAMSavedSearch *)search
+             success:(void(^)(int32_t usn))success
+             failure:(void(^)(NSError *error))failure;
+- (void)expungeSearchWithGuid:(EDAMGuid)guid
+                      success:(void(^)(int32_t usn))success
+                      failure:(void(^)(NSError *error))failure;
+
 @end

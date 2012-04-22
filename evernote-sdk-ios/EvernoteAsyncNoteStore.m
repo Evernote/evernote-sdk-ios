@@ -201,4 +201,52 @@
     } success:success failure:failure];
 }
 
+#pragma mark - NoteStore search methods
+
+- (void)listSearchesWithSuccess:(void(^)(NSArray *searches))success
+                        failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore listSearches:self.session.authenticationToken];
+    } success:success failure:failure];
+}
+
+- (void)getSearchWithGuid:(EDAMGuid)guid
+                  success:(void(^)(EDAMSavedSearch *search))success
+                  failure:(void(^)(NSError *error))failure
+
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore getSearch:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+}
+
+- (void)createSearch:(EDAMSavedSearch *)search
+             success:(void(^)(EDAMSavedSearch *search))success
+             failure:(void(^)(NSError *error))failure
+
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore createSearch:self.session.authenticationToken:search];
+    } success:success failure:failure];
+}
+
+- (void)updateSearch:(EDAMSavedSearch *)search
+             success:(void(^)(int32_t usn))success
+             failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncInt32Block:^int32_t() {
+        return [self.noteStore updateSearch:self.session.authenticationToken:search];
+    } success:success failure:failure];
+}
+
+- (void)expungeSearchWithGuid:(EDAMGuid)guid
+                      success:(void(^)(int32_t usn))success
+                      failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncInt32Block:^int32_t() {
+        return [self.noteStore expungeSearch:self.session.authenticationToken:guid];
+    } success:success failure:failure];
+}
+
 @end
