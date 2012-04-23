@@ -118,3 +118,14 @@ Full information on the Evernote NoteStore and UserStore API is available on the
 
 FAQ
 ---
+
+### Does the Evernote SDK support ARC?
+
+Not yet.
+
+### What if I want to do my own Evernote Thrift coding?
+
+EvernoteNoteStore and EvernoteUserStore are an abstraction layer on top of Thrift, and try to keep some of that nastiness out of your hair.
+You can still get access to the underlying thrift objects, though: check out EvernoteSession's userStore and noteStore properties.
+
+
