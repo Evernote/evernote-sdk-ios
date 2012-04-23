@@ -100,7 +100,7 @@ Somewhere in your code, you'll need to authenticate.  A normal place for this wo
 
 Calling authenticateWithCompletion:Handler will start the OAuth process. Your app will be backgrounded while Safari is opened to an Evernote authorization page. When the user authorizes your app, it will be foregrounded again.
 
-### Use EvernoteNoteStore and EvernoteUserStore for asynchronous calls to Evernote APIs.
+### Use EvernoteNoteStore and EvernoteUserStore for asynchronous calls to the Evernote API.
 
 Both EvernoteNoteStore and EvernoteUserStore have a convenience constructor that uses the shared EvernoteSession.  
 All calls are asynchrnous, occuring on a background GCD queue. You provide the success and failure callback blocks.
