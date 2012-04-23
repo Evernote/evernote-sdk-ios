@@ -26,10 +26,8 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF 
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import "EDAM.h"
-#import "EvernoteNoteStore.h"
-#import "Thrift.h"
 
+#import "EvernoteNoteStore.h"
 
 @implementation EvernoteNoteStore
 
@@ -49,581 +47,714 @@
 
 #pragma mark - NoteStore sync methods
 
-- (EDAMSyncState *)getSyncState 
+- (void)getSyncStateWithSuccess:(void(^)(EDAMSyncState *syncState))success 
+                        failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSyncState *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSyncState:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSyncChunk *)getSyncChunkAfterUSN:(int32_t)afterUSN 
-                             maxEntries:(int32_t)maxEntries
-                           fullSyncOnly:(BOOL)fullSyncOnly
-
+- (void)getSyncChunkAfterUSN:(int32_t)afterUSN 
+                  maxEntries:(int32_t)maxEntries
+                fullSyncOnly:(BOOL)fullSyncOnly
+                     success:(void(^)(EDAMSyncChunk *syncChunk))success
+                     failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSyncChunk *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:fullSyncOnly];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSyncChunk *)getFilteredSyncChunkAfterUSN:(int32_t)afterUSN
-                                     maxEntries:(int32_t)maxEntries
-                                         filter:(EDAMSyncChunkFilter *)filter
-        
+- (void)getFilteredSyncChunkAfterUSN:(int32_t)afterUSN
+                          maxEntries:(int32_t)maxEntries
+                              filter:(EDAMSyncChunkFilter *)filter
+                             success:(void(^)(EDAMSyncChunk *syncChunk))success
+                             failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSyncChunk *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getFilteredSyncChunk:self.session.authenticationToken:afterUSN:maxEntries:filter];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSyncState *)getLinkedNotebookSyncState:(EDAMLinkedNotebook *)linkedNotebook
-      
+- (void)getLinkedNotebookSyncState:(EDAMLinkedNotebook *)linkedNotebook
+                           success:(void(^)(EDAMSyncState *syncState))success
+                           failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSyncState *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getLinkedNotebookSyncState:self.session.authenticationToken:linkedNotebook];
-    }];
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore notebook methods
 
-- (NSArray *)listNotebooks
+- (void)listNotebooksWithSuccess:(void(^)(NSArray *notebooks))success
+                         failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listNotebooks:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNotebook *)getNotebookWithGuid:(EDAMGuid)guid 
+- (void)getNotebookWithGuid:(EDAMGuid)guid 
+                    success:(void(^)(EDAMNotebook *syncState))success
+                    failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNotebook:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSyncChunk *)getLinkedNotebookSyncChunk:(EDAMLinkedNotebook *)linkedNotebook
-                                     afterUSN:(int32_t)afterUSN
-                                   maxEntries:(int32_t) maxEntries
-                                 fullSyncOnly:(BOOL)fullSyncOnly
+- (void)getLinkedNotebookSyncChunk:(EDAMLinkedNotebook *)linkedNotebook
+                          afterUSN:(int32_t)afterUSN
+                        maxEntries:(int32_t) maxEntries
+                      fullSyncOnly:(BOOL)fullSyncOnly
+                           success:(void(^)(EDAMSyncChunk *syncChunk))success
+                           failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSyncChunk *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getLinkedNotebookSyncChunk:self.session.authenticationToken:linkedNotebook:afterUSN:maxEntries:fullSyncOnly];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNotebook *)getDefaultNotebook
+- (void)getDefaultNotebookWithSuccess:(void(^)(EDAMNotebook *notebook))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getDefaultNotebook:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNotebook *)createNotebook:(EDAMNotebook *)notebook
-                           
+- (void)createNotebook:(EDAMNotebook *)notebook
+               success:(void(^)(EDAMNotebook *notebook))success
+               failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createNotebook:self.session.authenticationToken:notebook];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)updateNotebook:(EDAMNotebook *)notebook
+- (void)updateNotebook:(EDAMNotebook *)notebook
+               success:(void(^)(int32_t usn))success
+               failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore updateNotebook:self.session.authenticationToken:notebook];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeNotebookWithGuid:(EDAMGuid)guid
+- (void)expungeNotebookWithGuid:(EDAMGuid)guid
+                        success:(void(^)(int32_t usn))success
+                        failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeNotebook:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore tags methods
 
-- (NSArray *)listTags
+- (void)listTagsWithSuccess:(void(^)(NSArray *tags))success
+                    failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listTags:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSArray *)listTagsByNotebookWithGuid:(EDAMGuid)guid
+- (void)listTagsByNotebookWithGuid:(EDAMGuid)guid
+                           success:(void(^)(NSArray *tags))success
+                           failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listTagsByNotebook:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 };
 
-- (EDAMTag *)getTagWithGuid:(EDAMGuid)guid
+- (void)getTagWithGuid:(EDAMGuid)guid
+               success:(void(^)(EDAMTag *tag))success
+               failure:(void(^)(NSError *error))failure
 {
-    return (EDAMTag *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getTag:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMTag *)createTag:(EDAMTag *)tag
+- (void)createTag:(EDAMTag *)tag
+          success:(void(^)(EDAMTag *tag))success
+          failure:(void(^)(NSError *error))failure
 {
-    return (EDAMTag *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createTag:self.session.authenticationToken:tag];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)updateTag:(EDAMTag *)tag
+- (void)updateTag:(EDAMTag *)tag
+          success:(void(^)(int32_t usn))success
+          failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore updateTag:self.session.authenticationToken:tag];
-    }];
+    } success:success failure:failure];
 }
 
 - (void)untagAllWithGuid:(EDAMGuid)guid
+                 success:(void(^)())success
+                 failure:(void(^)(NSError *error))failure
 {
-    [self invokeVoidBlock:^() {
+    [self invokeAsyncVoidBlock:^() {
         [self.noteStore untagAll:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeTagWithGuid:(EDAMGuid)guid
+- (void)expungeTagWithGuid:(EDAMGuid)guid
+                   success:(void(^)(int32_t usn))success
+                   failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeTag:self.session.authenticationToken:guid];
-    }];    
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore search methods
 
-- (NSArray *)listSearches
+- (void)listSearchesWithSuccess:(void(^)(NSArray *searches))success
+                        failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listSearches:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSavedSearch *)getSearchWithGuid:(EDAMGuid)guid
+- (void)getSearchWithGuid:(EDAMGuid)guid
+                  success:(void(^)(EDAMSavedSearch *search))success
+                  failure:(void(^)(NSError *error))failure
+
 {
-    return (EDAMSavedSearch *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSearch:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMSavedSearch *)createSearch:(EDAMSavedSearch *)search
-                            
+- (void)createSearch:(EDAMSavedSearch *)search
+             success:(void(^)(EDAMSavedSearch *search))success
+             failure:(void(^)(NSError *error))failure
 {
-    return (EDAMSavedSearch *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createSearch:self.session.authenticationToken:search];
-    }];    
+    } success:success failure:failure];
 }
 
-- (int32_t)updateSearch:(EDAMSavedSearch *)search
+- (void)updateSearch:(EDAMSavedSearch *)search
+             success:(void(^)(int32_t usn))success
+             failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore updateSearch:self.session.authenticationToken:search];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeSearchWithGuid:(EDAMGuid)guid
+- (void)expungeSearchWithGuid:(EDAMGuid)guid
+                      success:(void(^)(int32_t usn))success
+                      failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeSearch:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
-#pragma mark - notes methods
+#pragma mark - NoteStore notes methods
 
-- (EDAMNoteList *)findNotesWithFilter:(EDAMNoteFilter *)filter 
-                               offset:(int32_t)offset
-                             maxNotes:(int32_t)maxNotes
+- (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
+                     offset:(int32_t)offset
+                   maxNotes:(int32_t)maxNotes
+                    success:(void(^)(EDAMNoteList *search))success
+                    failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNoteList *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore findNotes:self.session.authenticationToken:filter:offset:maxNotes];
-    }];   
+    } success:success failure:failure];
 }
 
-- (int32_t)findNoteOffsetWithFilter:(EDAMNoteFilter *)filter 
-                               guid:(EDAMGuid)guid
+- (void)findNoteOffsetWithFilter:(EDAMNoteFilter *)filter 
+                            guid:(EDAMGuid)guid
+                         success:(void(^)(int32_t offset))success
+                         failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore findNoteOffset:self.session.authenticationToken:filter:guid];
-    }]; 
-
+    } success:success failure:failure];
 }
 
-- (EDAMNotesMetadataList *)findNotesMetadataWithFilter:(EDAMNoteFilter *)filter
-                                                offset:(int32_t)offset 
-                                              maxNotes:(int32_t)maxNotes 
-                                            resultSpec:(EDAMNotesMetadataResultSpec *)resultSpec
+- (void)findNotesMetadataWithFilter:(EDAMNoteFilter *)filter
+                             offset:(int32_t)offset 
+                           maxNotes:(int32_t)maxNotes 
+                         resultSpec:(EDAMNotesMetadataResultSpec *)resultSpec
+                            success:(void(^)(EDAMNotesMetadataList *metadata))success
+                            failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNotesMetadataList *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore findNotesMetadata:self.session.authenticationToken:filter:offset:maxNotes:resultSpec];
-    }];   
+    } success:success failure:failure];
 }
 
-- (EDAMNoteCollectionCounts *)findNoteCountsWithFilter:(EDAMNoteFilter *)filter 
-                                             withTrash:(BOOL)withTrash
+- (void)findNoteCountsWithFilter:(EDAMNoteFilter *)filter 
+                       withTrash:(BOOL)withTrash
+                         success:(void(^)(EDAMNoteCollectionCounts *counts))success
+                         failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNoteCollectionCounts *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore findNoteCounts:self.session.authenticationToken:filter:withTrash];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNote *)getNoteWithGuid:(EDAMGuid)guid 
-                  withContent:(BOOL)withContent 
-             withResourcesData:(BOOL)withResourcesData 
-     withResourcesRecognition:(BOOL)withResourcesRecognition 
-   withResourcesAlternateData:(BOOL)withResourcesAlternateData
+- (void)getNoteWithGuid:(EDAMGuid)guid 
+            withContent:(BOOL)withContent 
+      withResourcesData:(BOOL)withResourcesData 
+withResourcesRecognition:(BOOL)withResourcesRecognition 
+withResourcesAlternateData:(BOOL)withResourcesAlternateData
+                success:(void(^)(EDAMNote *note))success
+                failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNote:self.session.authenticationToken:guid:withContent:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMLazyMap *)getNoteApplicationDataWithGuid:(EDAMGuid)guid
+- (void)getNoteApplicationDataWithGuid:(EDAMGuid)guid
+                               success:(void(^)(EDAMLazyMap *map))success
+                               failure:(void(^)(NSError *error))failure
 {
-    return (EDAMLazyMap *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteApplicationData:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSString *)getNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                              key:(NSString *)key
+- (void)getNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                        key:(NSString *)key
+                                    success:(void(^)(NSString *entry))success
+                                    failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteApplicationDataEntry:self.session.authenticationToken:guid:key];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)setNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                           key:(NSString *)key 
-                                         value:(NSString *)value
+- (void)setNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                        key:(NSString *)key 
+                                      value:(NSString *)value
+                                    success:(void(^)(int32_t usn))success
+                                    failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore setNoteApplicationDataEntry:self.session.authenticationToken:guid:key:value];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)unsetNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                             key:(NSString *) key
+- (void)unsetNoteApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                          key:(NSString *) key
+                                      success:(void(^)(int32_t usn))success
+                                      failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore unsetNoteApplicationDataEntry:self.session.authenticationToken:guid:key];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (NSString *)getNoteContentWithGuid:(EDAMGuid)guid
+- (void)getNoteContentWithGuid:(EDAMGuid)guid
+                       success:(void(^)(NSString *content))success
+                       failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteContent:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSString *)getNoteSearchTextWithGuid:(EDAMGuid)guid 
-                               noteOnly:(BOOL)noteOnly
-                    tokenizeForIndexing:(BOOL)tokenizeForIndexing
+- (void)getNoteSearchTextWithGuid:(EDAMGuid)guid 
+                         noteOnly:(BOOL)noteOnly
+              tokenizeForIndexing:(BOOL)tokenizeForIndexing
+                          success:(void(^)(NSString *text))success
+                          failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteSearchText:self.session.authenticationToken:guid:noteOnly:tokenizeForIndexing];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSString *)getResourceSearchTextWithGuid:(EDAMGuid)guid
+- (void)getResourceSearchTextWithGuid:(EDAMGuid)guid
+                              success:(void(^)(NSString *text))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceSearchText:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSArray *)getNoteTagNamesWithGuid:(EDAMGuid)guid
+- (void)getNoteTagNamesWithGuid:(EDAMGuid)guid
+                        success:(void(^)(NSArray *names))success
+                        failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteTagNames:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNote *)createNote:(EDAMNote *)note
+- (void)createNote:(EDAMNote *)note
+           success:(void(^)(NSString *note))success
+           failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createNote:self.session.authenticationToken:note];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNote *)updateNote:(EDAMNote *)note
+- (void)updateNote:(EDAMNote *)note
+           success:(void(^)(NSString *note))success
+           failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore updateNote:self.session.authenticationToken:note];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)deleteNoteWithGuid:(EDAMGuid)guid
+- (void)deleteNoteWithGuid:(EDAMGuid)guid
+                   success:(void(^)(int32_t usn))success
+                   failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore deleteNote:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeNoteWithGuid:(EDAMGuid)guid
+- (void)expungeNoteWithGuid:(EDAMGuid)guid
+                    success:(void(^)(int32_t usn))success
+                    failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeNote:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeNotesWithGuids:(NSArray *)guids
+- (void)expungeNotesWithGuids:(NSArray *)guids
+                      success:(void(^)(int32_t usn))success
+                      failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeNotes:self.session.authenticationToken:guids];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeInactiveNotes
+- (void)expungeInactiveNoteWithSuccess:(void(^)(int32_t usn))success
+                               failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeInactiveNotes:self.session.authenticationToken];
-    }];     
+    } success:success failure:failure];
 }
 
-- (EDAMNote *)copyNoteWithGuid:(EDAMGuid)guid 
-                toNoteBookGuid:(EDAMGuid)toNotebookGuid
+- (void)copyNoteWithGuid:(EDAMGuid)guid 
+          toNoteBookGuid:(EDAMGuid)toNotebookGuid
+                 success:(void(^)(EDAMNote *note))success
+                 failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore copyNote:self.session.authenticationToken:guid:toNotebookGuid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSArray *)listNoteVersionsWithGuid:(EDAMGuid)guid
+- (void)listNoteVersionsWithGuid:(EDAMGuid)guid
+                         success:(void(^)(NSArray *versions))success
+                         failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listNoteVersions:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMNote *)getNoteVersionWithGuid:(EDAMGuid)guid 
-                   updateSequenceNum:(int32_t)updateSequenceNum 
-                   withResourcesData:(BOOL)withResourcesData 
-            withResourcesRecognition:(BOOL)withResourcesRecognition 
-          withResourcesAlternateData:(BOOL)withResourcesAlternateData
+- (void)getNoteVersionWithGuid:(EDAMGuid)guid 
+             updateSequenceNum:(int32_t)updateSequenceNum 
+             withResourcesData:(BOOL)withResourcesData 
+      withResourcesRecognition:(BOOL)withResourcesRecognition 
+    withResourcesAlternateData:(BOOL)withResourcesAlternateData
+                       success:(void(^)(EDAMNote *note))success
+                       failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNote *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getNoteVersion:self.session.authenticationToken:guid:updateSequenceNum:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
-    }];
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore resource methods
 
-- (EDAMResource *)getResourceWithGuid:(EDAMGuid)guid 
-                             withData:(BOOL)withData 
-                      withRecognition:(BOOL)withRecognition 
-                       withAttributes:(BOOL)withAttributes 
-                    withAlternateDate:(BOOL)withAlternateData
+- (void)getResourceWithGuid:(EDAMGuid)guid 
+                   withData:(BOOL)withData 
+            withRecognition:(BOOL)withRecognition 
+             withAttributes:(BOOL)withAttributes 
+          withAlternateDate:(BOOL)withAlternateData
+                    success:(void(^)(EDAMResource *resource))success
+                    failure:(void(^)(NSError *error))failure
 {
-    return (EDAMResource *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResource:self.session.authenticationToken:guid:withData:withRecognition:withAttributes:withAlternateData];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMLazyMap *)getResourceApplicationDataWithGuid:(EDAMGuid)guid
+- (void)getResourceApplicationDataWithGuid:(EDAMGuid)guid
+                                   success:(void(^)(EDAMLazyMap *map))success
+                                   failure:(void(^)(NSError *error))failure
 {
-    return (EDAMLazyMap *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceApplicationData:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSString *)getResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                                  key:(NSString *)key
+- (void)getResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                            key:(NSString *)key
+                                        success:(void(^)(NSString *entry))success
+                                        failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceApplicationDataEntry:self.session.authenticationToken:guid:key];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)setResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                               key:(NSString *)key 
-                                             value:(NSString *)value
+- (void)setResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                            key:(NSString *)key 
+                                          value:(NSString *)value
+                                        success:(void(^)(int32_t usn))success
+                                        failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore setResourceApplicationDataEntry:self.session.authenticationToken:guid:key:value];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)unsetResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
-                                                 key:(NSString *)key
+- (void)unsetResourceApplicationDataEntryWithGuid:(EDAMGuid)guid 
+                                              key:(NSString *)key
+                                          success:(void(^)(int32_t usn))success
+                                          failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore unsetResourceApplicationDataEntry:self.session.authenticationToken:guid:key];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)updateResource:(EDAMResource *)resource
+- (void)updateResource:(EDAMResource *)resource
+               success:(void(^)(int32_t usn))success
+               failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore updateResource:self.session.authenticationToken:resource];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSData *)getResourceDataWithGuid:(EDAMGuid)guid
+- (void)getResourceDataWithGuid:(EDAMGuid)guid
+                        success:(void(^)(NSData *data))success
+                        failure:(void(^)(NSError *error))failure
 {
-    return (NSData *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceData:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMResource *)getResourceByHashWithGuid:(EDAMGuid)guid 
-                                contentHash:(NSData *)contentHash 
-                                   withData:(BOOL)withData 
-                            withRecognition:(BOOL)withRecognition 
-                          withAlternateData:(BOOL)withAlternateData
+- (void)getResourceByHashWithGuid:(EDAMGuid)guid 
+                      contentHash:(NSData *)contentHash 
+                         withData:(BOOL)withData 
+                  withRecognition:(BOOL)withRecognition 
+                withAlternateData:(BOOL)withAlternateData
+                          success:(void(^)(EDAMResource *resource))success
+                          failure:(void(^)(NSError *error))failure
 {
-    return (EDAMResource *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceByHash:self.session.authenticationToken:guid:contentHash:withData:withRecognition:withAlternateData];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (NSData *)getResourceRecognitionWithGuid:(EDAMGuid)guid
+- (void)getResourceRecognitionWithGuid:(EDAMGuid)guid
+                               success:(void(^)(NSData *data))success
+                               failure:(void(^)(NSError *error))failure
 {
-    return (NSData *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceRecognition:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSData *)getResourceAlternateDataWithGuid:(EDAMGuid)guid
+- (void)getResourceAlternateDataWithGuid:(EDAMGuid)guid
+                                 success:(void(^)(NSData *data))success
+                                 failure:(void(^)(NSError *error))failure
 {
-    return (NSData *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceAlternateData:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMResourceAttributes *)getResourceAttributesWithGuid:(EDAMGuid)guid
+- (void)getResourceAttributesWithGuid:(EDAMGuid)guid
+                              success:(void(^)(EDAMResourceAttributes *attributes))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return (EDAMResourceAttributes *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getResourceAttributes:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore ad methods
 
-- (NSArray *)getAdsWithParameters:(EDAMAdParameters *)adParameters
+- (void)getAdsWithParameters:(EDAMAdParameters *)adParameters
+                     success:(void(^)(NSArray *ads))success
+                     failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getAds:self.session.authenticationToken:adParameters];
-    }]; 
-
+    } success:success failure:failure];
 }
 
-- (EDAMAd *)getRandomAdWithParameters:(EDAMAdParameters *)adParameters
+- (void)getRandomAdWithParameters:(EDAMAdParameters *)adParameters
+                          success:(void(^)(EDAMAd *ad))success
+                          failure:(void(^)(NSError *error))failure
 {
-    return (EDAMAd *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getRandomAd:self.session.authenticationToken:adParameters];
-    }]; 
+    } success:success failure:failure];
 }
 
 #pragma mark - NoteStore shared notebook methods
 
-- (EDAMNotebook *)getPublicNotebookWithUserID:(EDAMUserID)userId 
-                                    publicUri:(NSString *)publicUri
+- (void)getPublicNotebookWithUserID:(EDAMUserID)userId 
+                          publicUri:(NSString *)publicUri
+                            success:(void(^)(EDAMNotebook *notebook))success
+                            failure:(void(^)(NSError *error))failure
 {
-    return (EDAMNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getPublicNotebook:userId:publicUri];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMSharedNotebook *)createSharedNotebook:(EDAMSharedNotebook *)sharedNotebook
+- (void)createSharedNotebook:(EDAMSharedNotebook *)sharedNotebook
+                     success:(void(^)(EDAMSharedNotebook *sharedNotebook))success
+                     failure:(void(^)(NSError *error))failure
+
 {
-    return (EDAMSharedNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createSharedNotebook:self.session.authenticationToken:sharedNotebook];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
-                                          messageText:(NSString *)messageText 
-                                           recipients:(NSArray *)recipients
+- (void)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
+                                       messageText:(NSString *)messageText 
+                                        recipients:(NSArray *)recipients
+                                           success:(void(^)(int32_t numMessagesSent))success
+                                           failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore sendMessageToSharedNotebookMembers:self.session.authenticationToken:guid:messageText:recipients];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSArray *)listSharedNotebooks
+- (void)listSharedNotebooksWithSuccess:(void(^)(NSArray *sharedNotebooks))success
+                               failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listSharedNotebooks:self.session.authenticationToken];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds
+- (void)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds
+                              success:(void(^)(int32_t usn))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeSharedNotebooks:self.session.authenticationToken:sharedNotebookIds];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMLinkedNotebook *)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
+- (void)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
+                     success:(void(^)(EDAMLinkedNotebook *linkedNotebooks))success
+                     failure:(void(^)(NSError *error))failure
 {
-    return (EDAMLinkedNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore createLinkedNotebook:self.session.authenticationToken:linkedNotebook];
-    }];
+    } success:success failure:failure];
 }
 
-- (int32_t)updateLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
+- (void)updateLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
+                     success:(void(^)(int32_t usn))success
+                     failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore updateLinkedNotebook:self.session.authenticationToken:linkedNotebook];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (NSArray *)listLinkedNotebooks
+- (void)listLinkedNotebooksWithSuccess:(void(^)(NSArray *linkedNotebooks))success
+                               failure:(void(^)(NSError *error))failure
 {
-    return (NSArray *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore listLinkedNotebooks:self.session.authenticationToken];
-    }];  
+    } success:success failure:failure];
 }
 
-- (int32_t)expungeLinkedNotebookWithGuid:(EDAMGuid)guid
+- (void)expungeLinkedNotebookWithGuid:(EDAMGuid)guid
+                              success:(void(^)(int32_t usn))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return [self invokeInt32Block:^int32_t() {
+    [self invokeAsyncInt32Block:^int32_t() {
         return [self.noteStore expungeLinkedNotebook:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMAuthenticationResult *)authenticateToSharedNotebookWithShareKey:(NSString *)shareKey 
+- (void)authenticateToSharedNotebookWithShareKey:(NSString *)shareKey 
+                                         success:(void(^)(EDAMAuthenticationResult *result))success
+                                         failure:(void(^)(NSError *error))failure
 {
-    return (EDAMAuthenticationResult *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore authenticateToSharedNotebook:self.session.authenticationToken:shareKey];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMSharedNotebook *)getSharedNotebookByAuth
+- (void)getSharedNotebookByAuthWithSuccess:(void(^)(EDAMSharedNotebook *sharedNotebook))success
+                                   failure:(void(^)(NSError *error))failure
+
 {
-    return (EDAMSharedNotebook *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore getSharedNotebookByAuth:self.session.authenticationToken];
-    }]; 
+    } success:success failure:failure];
 }
 
 - (void)emailNoteWithParameters:(EDAMNoteEmailParameters *)parameters
+                        success:(void(^)())success
+                        failure:(void(^)(NSError *error))failure
 {
     [self invokeVoidBlock:^() {
         [self.noteStore emailNote:self.session.authenticationToken:parameters];
     }];
 }
 
-- (NSString *)shareNoteWithGuid:(EDAMGuid)guid
+- (void)shareNoteWithGuid:(EDAMGuid)guid
+                  success:(void(^)(NSString *noteKey))success
+                  failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore shareNote:self.session.authenticationToken:guid];
-    }]; 
+    } success:success failure:failure];
 }
 
 - (void)stopSharingNoteWithGuid:(EDAMGuid)guid
+                        success:(void(^)())success
+                        failure:(void(^)(NSError *error))failure
 {
     [self invokeVoidBlock:^() {
         [self.noteStore stopSharingNote:self.session.authenticationToken:guid];
     }];
 }
 
-- (EDAMAuthenticationResult *)authenticateToSharedNoteWithGuid:(NSString *)guid 
-                                                       noteKey:(NSString *)noteKey
+- (void)authenticateToSharedNoteWithGuid:(NSString *)guid 
+                                 noteKey:(NSString *)noteKey
+                                 success:(void(^)(EDAMAuthenticationResult *result))success
+                                 failure:(void(^)(NSError *error))failure
 {
-    return (EDAMAuthenticationResult *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.noteStore authenticateToSharedNote:self.session.authenticationToken:noteKey];
-    }]; 
+    } success:success failure:failure];
 }
 
 @end

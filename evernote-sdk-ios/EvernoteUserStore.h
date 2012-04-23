@@ -39,14 +39,22 @@
 - (id)initWithSession:(EvernoteSession *)session;
 
 // UserStore methods
-
-- (BOOL)checkVersionWithClientName:(NSString *)clientName 
+- (void)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 
-                  edamVersionMinor:(int16_t)edamVersionMinor;
-- (EDAMBootstrapInfo *)getBootstrapInfoWithLocale:(NSString *)locale;
-- (EDAMUser *)getUser;
-- (EDAMPublicUserInfo *)getPublicUserInfoWithUsername:(NSString *)username;
-- (EDAMPremiumInfo *)getPremiumInfo;
-- (NSString *)getNoteStoreUrl;
+                  edamVersionMinor:(int16_t)edamVersionMinor
+                           success:(void(^)(BOOL versionOK))success
+                           failure:(void(^)(NSError *error))failure;
+- (void)getBootstrapInfoWithLocale:(NSString *)locale
+                           success:(void(^)(EDAMBootstrapInfo *info))success
+                           failure:(void(^)(NSError *error))failure;
+- (void)getUserWithSuccess:(void(^)(EDAMUser *user))success
+                   failure:(void(^)(NSError *error))failure;
+- (void)getPublicUserInfoWithUsername:(NSString *)username
+                              success:(void(^)(EDAMPublicUserInfo *info))success
+                              failure:(void(^)(NSError *error))failure;
+- (void)getPremiumInfoWithSuccess:(void(^)(EDAMPremiumInfo *info))success
+                          failure:(void(^)(NSError *error))failure;
+- (void)getNoteStoreUrlWithSuccess:(void(^)(NSString *noteStoreUrl))success
+                           failure:(void(^)(NSError *error))failure;
 
 @end

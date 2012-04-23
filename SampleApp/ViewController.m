@@ -95,12 +95,12 @@
         NSLog(@"user: %@", user);
     }
      */
-    EvernoteAsyncNoteStore *noteStore = [EvernoteAsyncNoteStore noteStore];
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
         NSLog(@"notebooks: %@", notebooks);
     }
                                 failure:^(NSError *error) {
-                                    NSLog(@"error %@", noteStore.error);                                            
+                                    NSLog(@"error %@", error);                                            
                                 }];
 }
 

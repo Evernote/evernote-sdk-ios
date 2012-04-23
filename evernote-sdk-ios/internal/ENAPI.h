@@ -33,8 +33,6 @@
 // Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
 @interface ENAPI : NSObject
 
-// Error from latest API call, if any.
-@property (nonatomic, retain) NSError *error;
 @property (nonatomic, retain) EvernoteSession *session;
 @property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
 @property (nonatomic, readonly) EDAMUserStoreClient *userStore;
@@ -44,13 +42,8 @@
 // Make an NSError from a given NSException.
 - (NSError *)errorFromNSException:(NSException *)exception;
 
-// "safe invoke" various blocks, with try/catch wrapping.
-- (void)invokeVoidBlock:(void(^)())block;
-- (BOOL)invokeBoolBlock:(BOOL(^)())block;
-- (int32_t)invokeInt32Block:(int32_t(^)())block;
-- (NSObject *)invokeObjBlock:(NSObject *(^)())block;
-
-// asynchronously invoke the given block, calling back to success/failure on the main thread.
+// asynchronously invoke the given blocks, 
+// calling back to success/failure on the main threa.
 - (void)invokeAsyncBoolBlock:(BOOL(^)())block
                      success:(void(^)(BOOL val))success
                      failure:(void(^)(NSError *error))failure;

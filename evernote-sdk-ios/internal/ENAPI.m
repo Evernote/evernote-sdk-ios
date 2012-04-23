@@ -33,7 +33,6 @@
 @implementation ENAPI
 
 @synthesize session = _session;
-@synthesize error = _error;
 @dynamic noteStore;
 @dynamic userStore;
 
@@ -87,68 +86,6 @@
     return nil;
 }
 
-- (void)invokeVoidBlock:(void(^)())block
-{
-    self.error = nil;
-    @try {
-        block();
-    }
-    @catch (NSException *exception) {
-        self.error = [self errorFromNSException:exception];
-    }
-}
-
-- (BOOL)invokeBoolBlock:(BOOL(^)())block
-{
-    self.error = nil;
-    BOOL retVal = NO;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        self.error = [self errorFromNSException:exception];
-    }
-    return retVal;
-}
-
-- (int32_t)invokeInt32Block:(int32_t(^)())block
-{
-    self.error = nil;
-    int32_t retVal = 0;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        self.error = [self errorFromNSException:exception];
-    }
-    return retVal;
-}
-
-- (NSObject *)invokeObjBlock:(NSObject *(^)())block
-{
-    self.error = nil;
-    NSObject *retVal = nil;
-    @try {
-        retVal = block();
-    }
-    @catch (NSException *exception) {
-        self.error = [self errorFromNSException:exception];
-    }
-    return retVal;   
-}
-
-- (void)invokeAsyncBlock:(void(^)())block
-                 failure:(void(^)(NSError *error))failure
-{
-    @try {
-        block();
-    }
-    @catch (NSException *exception) {
-        NSError *error = [self errorFromNSException:exception];
-        failure(error);
-    }
-}
-
 - (void)invokeAsyncBoolBlock:(BOOL(^)())block
                      success:(void(^)(BOOL val))success
                      failure:(void(^)(NSError *error))failure
@@ -194,7 +131,6 @@
         }
     });
 }
-
 
 // use id instead of NSObject* so block type-checking is happy
 - (void)invokeAsyncIdBlock:(id(^)())block

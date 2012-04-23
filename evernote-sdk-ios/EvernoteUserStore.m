@@ -1,5 +1,5 @@
 /*
- * EvernoteUserStore.m
+ * EvernoteUserStore.h
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -47,48 +47,58 @@
 
 #pragma mark - UserStore methods
 
-- (BOOL)checkVersionWithClientName:(NSString *)clientName 
+- (void)checkVersionWithClientName:(NSString *)clientName 
                   edamVersionMajor:(int16_t)edamVersionMajor 
                   edamVersionMinor:(int16_t)edamVersionMinor
+                           success:(void(^)(BOOL versionOK))success
+                           failure:(void(^)(NSError *error))failure
+
 {
-    return [self invokeBoolBlock:^BOOL() {
+    [self invokeAsyncBoolBlock:^BOOL() {
         return [self.userStore checkVersion:clientName:edamVersionMajor:edamVersionMinor];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMBootstrapInfo *)getBootstrapInfoWithLocale:(NSString *)locale
+- (void)getBootstrapInfoWithLocale:(NSString *)locale
+                           success:(void(^)(EDAMBootstrapInfo *info))success
+                           failure:(void(^)(NSError *error))failure
 {
-    return (EDAMBootstrapInfo *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.userStore getBootstrapInfo:locale];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMUser *)getUser
+- (void)getUserWithSuccess:(void(^)(EDAMUser *user))success
+                   failure:(void(^)(NSError *error))failure
 {
-    return (EDAMUser *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.userStore getUser:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (EDAMPublicUserInfo *)getPublicUserInfoWithUsername:(NSString *)username
+- (void)getPublicUserInfoWithUsername:(NSString *)username
+                              success:(void(^)(EDAMPublicUserInfo *info))success
+                              failure:(void(^)(NSError *error))failure
 {
-    return (EDAMPublicUserInfo *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.userStore getPublicUserInfo:self.session.authenticationToken];
-    }]; 
+    } success:success failure:failure];
 }
 
-- (EDAMPremiumInfo *)getPremiumInfo
+- (void)getPremiumInfoWithSuccess:(void(^)(EDAMPremiumInfo *info))success
+                          failure:(void(^)(NSError *error))failure
 {
-    return (EDAMPremiumInfo *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.userStore getPremiumInfo:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
-- (NSString *)getNoteStoreUrl
+- (void)getNoteStoreUrlWithSuccess:(void(^)(NSString *noteStoreUrl))success
+                           failure:(void(^)(NSError *error))failure
 {
-    return (NSString *)[self invokeObjBlock:^NSObject *() {
+    [self invokeAsyncIdBlock:^id() {
         return [self.userStore getNoteStoreUrl:self.session.authenticationToken];
-    }];
+    } success:success failure:failure];
 }
 
 @end

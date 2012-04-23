@@ -27,8 +27,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "EvernoteAsyncUserStore.h"
-#import "EvernoteAsyncNoteStore.h"
 #import "EvernoteNoteStore.h"
 #import "EvernoteSession.h"
 #import "EvernoteUserStore.h"
