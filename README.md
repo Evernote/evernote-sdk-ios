@@ -103,7 +103,7 @@ Calling authenticateWithCompletion:Handler will start the OAuth process. Your ap
 ### Use EvernoteNoteStore and EvernoteUserStore for asynchronous calls to the Evernote API.
 
 Both EvernoteNoteStore and EvernoteUserStore have a convenience constructor that uses the shared EvernoteSession.  
-All calls are asynchronous, occuring on a background GCD queue. You provide the success and failure callback blocks.
+All API calls are asynchronous, occurring on a background GCD queue. You provide the success and failure callback blocks.
 E.g.,
 
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
