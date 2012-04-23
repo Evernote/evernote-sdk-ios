@@ -61,40 +61,16 @@
 
 - (void)showUserInfo
 {
-    EvernoteSession *session = [EvernoteSession sharedSession];
-    // Use a try/catch block around any Evernote/Thrift operations,
-    // which might throw a TException, EDAMUserException, or EDAMSystemException.
-    @try {
-        EDAMUser *user = [session.userStore getUser:session.authenticationToken];
+    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+    [userStore getUserWithSuccess:^(EDAMUser *user) {
         self.userLabel.text = user.username;
     }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
-    @finally {
-    }
+                          failure:^(NSError *error) {
+                              NSLog(@"error %@", error);                                            
+                          }];
 }
 
 - (IBAction)listNotes:(id)sender {
-    /* 
-    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
-    NSArray *notebooks = [noteStore listNotebooks];
-    if (noteStore.error) {
-        NSLog(@"error %@", noteStore.error);        
-    } else {
-        NSLog(@"notebooks: %@", notebooks);
-    }
-     */
-    
-    /*
-    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
-    EDAMUser *user = [userStore getUser];
-    if (userStore.error) {
-        NSLog(@"error %@", userStore.error);        
-    } else {
-        NSLog(@"user: %@", user);
-    }
-     */
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
         NSLog(@"notebooks: %@", notebooks);
