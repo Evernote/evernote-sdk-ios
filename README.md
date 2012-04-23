@@ -108,9 +108,11 @@ E.g.,
 
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
+                                    // success... so do something with the returned objects
                                     NSLog(@"notebooks: %@", notebooks);
                                 }
                                 failure:^(NSError *error) {
+                                    // failure... show error notification, etc
                                     NSLog(@"error %@", error);                                            
                                 }];
                                 
