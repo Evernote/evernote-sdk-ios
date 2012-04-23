@@ -30,18 +30,7 @@
 #import <Foundation/Foundation.h>
 #import "EDAM.h"
 
-// NSError error domain.
-extern NSString *const kEvernoteSDKErrorDomain;
-
-// NSError error codes.
-typedef enum {
-	// No error.
-	kEvernoteSDKErrorNone = noErr,
-	
-	// Invalid response from the server
-    kEvernoteSDKInvalidServerResponse,
-    
-} EvernoteSDKErrorCode;
+// For Evernote-related error codes, see EDAMErrors.h
 
 // Post-authentication callback type, defined for easy reuse.
 typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
@@ -57,6 +46,9 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // Evernote auth token, to be passed to any NoteStore methods.
 // Will only be non-nil once we've authenticated.
 @property (nonatomic, readonly) NSString *authenticationToken;
+
+// Shared dispatch queue for API operations.
+@property (nonatomic, readonly) dispatch_queue_t queue;
 
 // Set up the shared session.
 // @"sandbox.evernote.com" should be used for testing; 
