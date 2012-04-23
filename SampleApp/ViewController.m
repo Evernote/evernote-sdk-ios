@@ -5,8 +5,7 @@
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
-#import "EvernoteSession.h"
-#import "GCOAuth.h"
+#import "EvernoteSDK.h"
 #import "ViewController.h"
 
 
@@ -77,18 +76,32 @@
 }
 
 - (IBAction)listNotes:(id)sender {
-    EvernoteSession *session = [EvernoteSession sharedSession];
-    // Use a try/catch block around any Evernote/Thrift operations,
-    // which might throw a TException, EDAMUserException, or EDAMSystemException.
-    @try {
-        NSArray *notebooks = [[session noteStore] listNotebooks:session.authenticationToken];
+    /* 
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    NSArray *notebooks = [noteStore listNotebooks];
+    if (noteStore.error) {
+        NSLog(@"error %@", noteStore.error);        
+    } else {
         NSLog(@"notebooks: %@", notebooks);
     }
-    @catch (NSException *exception) {
-        NSLog(@"exception %@", exception);
+     */
+    
+    /*
+    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+    EDAMUser *user = [userStore getUser];
+    if (userStore.error) {
+        NSLog(@"error %@", userStore.error);        
+    } else {
+        NSLog(@"user: %@", user);
     }
-    @finally {
+     */
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
+        NSLog(@"notebooks: %@", notebooks);
     }
+                                failure:^(NSError *error) {
+                                    NSLog(@"error %@", error);                                            
+                                }];
 }
 
 - (void)updateButtonsForAuthentication 

@@ -30,12 +30,11 @@
 #import <UIKit/UIKit.h>
 #import "ENCredentials.h"
 #import "ENCredentialStore.h"
+#import "EvernoteSDK.h"
 #import "EvernoteSession.h"
 #import "GCOAuth.h"
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
-
-NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
 
 #define SCHEME @"https"
 
@@ -70,6 +69,7 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
 @synthesize tokenSecret = _tokenSecret;
 
 @synthesize completionHandler = _completionHandler;
+@synthesize queue = _queue;
 
 @dynamic authenticationToken;
 @dynamic isAuthenticated;
@@ -81,6 +81,7 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
     [_tokenSecret release];
     [_host release];
     [_credentialStore release];
+    dispatch_release(_queue);
     [super dealloc];
 }
 
@@ -114,6 +115,7 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
         self.credentialStore = [[[ENCredentialStore alloc] init] autorelease];
         [self.credentialStore save];
     } 
+    _queue = dispatch_queue_create("com.evernote.sdk.EvernoteSession", NULL);
 }
 
 + (void)setSharedSessionHost:(NSString *)host consumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret 
@@ -347,8 +349,8 @@ NSString *const kEvernoteSDKErrorDomain = @"com.evernote.sdk";
         // if any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId) {
-            NSError *error = [NSError errorWithDomain:kEvernoteSDKErrorDomain 
-                                                 code:kEvernoteSDKInvalidServerResponse 
+            NSError *error = [NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                 code:EDAMErrorCode_INTERNAL_ERROR 
                                              userInfo:nil];
             self.completionHandler(error);
         }

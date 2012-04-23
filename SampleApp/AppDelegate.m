@@ -12,7 +12,7 @@
 //
 
 #import "AppDelegate.h"
-#import "EvernoteSession.h"
+#import "EvernoteSDK.h"
 
 @implementation AppDelegate
 
