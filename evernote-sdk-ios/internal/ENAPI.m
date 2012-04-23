@@ -30,15 +30,21 @@
 #import "ENAPI.h"
 #import "EvernoteSDK.h"
 
+@interface ENAPI() 
+@property (nonatomic) dispatch_queue_t queue;
+@end
+
 @implementation ENAPI
 
 @synthesize session = _session;
+@synthesize queue = _queue;
 @dynamic noteStore;
 @dynamic userStore;
 
 - (void)dealloc
 {
     [_session release];
+    dispatch_release(_queue);
     [super dealloc];
 }
 
@@ -47,6 +53,7 @@
     self = [super init];
     if (self) {
         self.session = session;
+        _queue = dispatch_queue_create("com.evernote.sdk.ENAPI", NULL);
     }
     return self;
 }
@@ -59,6 +66,11 @@
 - (EDAMUserStoreClient *)userStore
 {
     return [self.session userStore];    
+}
+
+- (dispatch_queue_t)queue
+{
+    return _queue;
 }
 
 - (NSError *)errorFromNSException:(NSException *)exception
@@ -90,7 +102,7 @@
                      success:(void(^)(BOOL val))success
                      failure:(void(^)(NSError *error))failure
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+    dispatch_async(self.queue, ^(void) {
         BOOL retVal = NO;
         @try {
             retVal = block();
@@ -113,7 +125,7 @@
                       success:(void(^)(int32_t val))success
                       failure:(void(^)(NSError *error))failure
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+    dispatch_async(self.queue, ^(void) {
         int32_t retVal = -1;
         @try {
             retVal = block();
@@ -137,7 +149,7 @@
                    success:(void(^)(id))success
                    failure:(void(^)(NSError *error))failure
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+    dispatch_async(self.queue, ^(void) {
         id retVal = nil;
         @try {
             retVal = block();
@@ -160,7 +172,7 @@
                      success:(void(^)())success
                      failure:(void(^)(NSError *error))failure
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+    dispatch_async(self.queue, ^(void) {
         @try {
             block();
             dispatch_async(dispatch_get_main_queue(),

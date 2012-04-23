@@ -724,9 +724,9 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         success:(void(^)())success
                         failure:(void(^)(NSError *error))failure
 {
-    [self invokeVoidBlock:^() {
+    [self invokeAsyncVoidBlock:^() {
         [self.noteStore emailNote:self.session.authenticationToken:parameters];
-    }];
+    } success:success failure:failure];
 }
 
 - (void)shareNoteWithGuid:(EDAMGuid)guid
@@ -742,9 +742,9 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         success:(void(^)())success
                         failure:(void(^)(NSError *error))failure
 {
-    [self invokeVoidBlock:^() {
+    [self invokeAsyncVoidBlock:^() {
         [self.noteStore stopSharingNote:self.session.authenticationToken:guid];
-    }];
+    } success:success failure:failure];
 }
 
 - (void)authenticateToSharedNoteWithGuid:(NSString *)guid 
