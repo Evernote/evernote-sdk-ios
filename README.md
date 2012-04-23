@@ -100,22 +100,21 @@ Somewhere in your code, you'll need to authenticate.  A normal place for this wo
 
 Calling authenticateWithCompletion:Handler will start the OAuth process. Your app will be backgrounded while Safari is opened to an Evernote authorization page. When the user authorizes your app, it will be foregrounded again.
 
-### Use the session's NoteStore (or UserStore) and auth token to do Evernote operations
+### Use EvernoteNoteStore and EvernoteUserStore for asynchronous calls to Evernote APIs.
 
-After you've authenticated, the EvernoteSession will have a valid authentication token.  Use the session to get a NoteStore or UserStore client object, and pass the session's authentication token when calling NoteStore/UserStore methods.
+Both EvernoteNoteStore and EvernoteUserStore have a convenience constructor that uses the shared EvernoteSession.  
+All calls are asynchrnous, occuring on a background GCD queue. You provide the success and failure callback blocks.
+E.g.,
 
-
-    EvernoteSession *session = [EvernoteSession sharedSession];
-    // Use a try/catch block around any Evernote API operations,
-    // which might throw a TException, EDAMUserException, or EDAMSystemException.
-    @try {
-        NSArray *notebooks = [[session noteStore] listNotebooks:session.authenticationToken];
-        NSLog(@"notebooks: %@", notebooks);
-    }
-    @catch (NSException *exception) {
-        NSLog(@"exception %@", exception);
-    }
-
-### Use the rest of the NoteStore and UserStore API
-
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
+                                    NSLog(@"notebooks: %@", notebooks);
+                                }
+                                failure:^(NSError *error) {
+                                    NSLog(@"error %@", error);                                            
+                                }];
+                                
 Full information on the Evernote NoteStore and UserStore API is available on the [Evernote Developers portal page](http://dev.evernote.com/documentation/cloud/).
+
+FAQ
+---
