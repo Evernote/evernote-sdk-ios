@@ -47,6 +47,9 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // Will only be non-nil once we've authenticated.
 @property (nonatomic, readonly) NSString *authenticationToken;
 
+// Shared dispatch queue for API operations.
+@property (nonatomic, readonly) dispatch_queue_t queue;
+
 // Set up the shared session.
 // @"sandbox.evernote.com" should be used for testing; 
 // @"www.evernote.com" for production apps.

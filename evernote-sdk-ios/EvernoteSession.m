@@ -69,6 +69,7 @@
 @synthesize tokenSecret = _tokenSecret;
 
 @synthesize completionHandler = _completionHandler;
+@synthesize queue = _queue;
 
 @dynamic authenticationToken;
 @dynamic isAuthenticated;
@@ -80,6 +81,7 @@
     [_tokenSecret release];
     [_host release];
     [_credentialStore release];
+    dispatch_release(_queue);
     [super dealloc];
 }
 
@@ -113,6 +115,7 @@
         self.credentialStore = [[[ENCredentialStore alloc] init] autorelease];
         [self.credentialStore save];
     } 
+    _queue = dispatch_queue_create("com.evernote.sdk.EvernoteSession", NULL);
 }
 
 + (void)setSharedSessionHost:(NSString *)host consumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret 
