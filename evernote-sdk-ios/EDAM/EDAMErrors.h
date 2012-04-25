@@ -28,7 +28,8 @@ enum EDAMErrorCode {
   EDAMErrorCode_LEN_TOO_SHORT = 13,
   EDAMErrorCode_LEN_TOO_LONG = 14,
   EDAMErrorCode_TOO_FEW = 15,
-  EDAMErrorCode_TOO_MANY = 16
+  EDAMErrorCode_TOO_MANY = 16,
+  EDAMErrorCode_UNSUPPORTED_OPERATION = 17
 };
 
 @interface EDAMUserException : NSException <NSCoding> {
