@@ -43,8 +43,10 @@
 
 - (void)dealloc
 {
+    [_host release];
     [_edamUserId release];
     [_noteStoreUrl release];
+    [_authenticationToken release];
     [super dealloc];
 }
 
