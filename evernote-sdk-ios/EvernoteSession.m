@@ -40,10 +40,14 @@
 
 @interface EvernoteSession()
 
+@property (nonatomic, retain) NSURLResponse *response;
+@property (nonatomic, retain) NSMutableData *receivedData;
+
 @property (nonatomic, retain) ENCredentialStore *credentialStore;
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *consumerKey;
 @property (nonatomic, retain) NSString *consumerSecret;
+
 @property (nonatomic, copy) EvernoteAuthCompletionHandler completionHandler;
 @property (nonatomic, retain) NSString *tokenSecret;
 
@@ -58,9 +62,15 @@
 - (ENCredentials *)credentials;
 - (NSString *)userStoreUrl;
 
+// Abstracted into a method to support unit testing.
+- (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request;
+
 @end
 
 @implementation EvernoteSession
+
+@synthesize response = _response;
+@synthesize receivedData = _receivedData;
 
 @synthesize credentialStore = _credentialStore;
 @synthesize host = _host;
@@ -78,9 +88,11 @@
 {
     [_consumerKey release];
     [_consumerSecret release];
-    [_tokenSecret release];
-    [_host release];
     [_credentialStore release];
+    [_host release];
+    [_receivedData release];
+    [_response release];
+    [_tokenSecret release];
     dispatch_release(_queue);
     [super dealloc];
 }
@@ -184,6 +196,11 @@
     return [NSString stringWithFormat:@"%@://%@/edam/user", scheme, self.host];
 }
 
+- (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request
+{
+    return [NSURLConnection connectionWithRequest:request delegate:self];
+}
+
 #pragma mark - Authentication methods
 
 - (void)logout
@@ -268,7 +285,15 @@
                                                  consumerSecret:self.consumerSecret
                                                     accessToken:nil
                                                     tokenSecret:nil];    
-    [NSURLConnection connectionWithRequest:tempTokenRequest delegate:self];
+    NSURLConnection *connection = [self connectionWithRequest:tempTokenRequest];
+    if (connection) {
+        self.receivedData = [NSMutableData data];
+    } else {
+        // can't make connection, so immediately fail.
+        self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                   code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                               userInfo:nil]);
+    }
 }
 
 - (NSString *)callbackScheme
@@ -318,16 +343,62 @@
                                                  consumerSecret:self.consumerSecret
                                                     accessToken:oauthToken
                                                     tokenSecret:self.tokenSecret];    
-    [NSURLConnection connectionWithRequest:authTokenRequest delegate:self];
+    NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
+    if (connection) {
+        self.receivedData = [NSMutableData data];
+    } else {
+        // can't make connection, so immediately fail.
+        self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                   code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                               userInfo:nil]);
+    }
     
     return YES;
 }
 
 #pragma mark - NSURLConnectionDataDelegate
 
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    self.receivedData = nil;
+    self.response = nil;
+    self.completionHandler(error);
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    self.response = response;
+    [self.receivedData setLength:0];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
-    NSString *string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
+    [self.receivedData appendData:data];
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSString *string = [[[NSString alloc] initWithData:self.receivedData 
+                                              encoding:NSUTF8StringEncoding] autorelease];
+
+    // Trap bad HTTP response status codes.
+    // This might be from an invalid consumer key, a key not set up for OAuth, etc.
+    // Usually this shows up as a 401 response with an error page, so
+    // log it and callback an error.
+    if ([self.response isKindOfClass:[NSHTTPURLResponse class]]) {        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)self.response;
+        if (httpResponse.statusCode != 200) {
+            NSLog(@"Received error HTTP response code: %d", httpResponse.statusCode);
+            NSLog(@"%@", string);
+            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                                    userInfo:nil]);
+            self.receivedData = nil;
+            self.response = nil;
+            return;
+        }
+    }
+    
     NSDictionary *parameters = [EvernoteSession parametersFromQueryString:string];
     
     if ([parameters objectForKey:@"oauth_callback_confirmed"]) {
@@ -345,26 +416,28 @@
         NSString *edamUserId = [parameters objectForKey:@"edam_userId"];
         // Evernote doesn't use the token secret, so we can ignore it.
         // NSString *oauthTokenSecret = [parameters objectForKey:@"oauth_token_secret"];
-
-        // if any of the fields are nil, we can't continue.
+        
+        // If any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId) {
-            NSError *error = [NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                 code:EDAMErrorCode_INTERNAL_ERROR 
-                                             userInfo:nil];
-            self.completionHandler(error);
+            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                       code:EDAMErrorCode_INTERNAL_ERROR 
+                                                   userInfo:nil]);
+        } else {        
+            // add auth info to our credential store, saving to user defaults and keychain
+            ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
+                                                          edamUserId:edamUserId 
+                                                        noteStoreUrl:noteStoreUrl 
+                                                 authenticationToken:authenticationToken] autorelease];
+            [self.credentialStore addCredentials:ec];
+            
+            // call our callback, without error.
+            self.completionHandler(nil);
         }
-
-        // add auth info to our credential store, saving to user defaults and keychain
-        ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
-                                                      edamUserId:edamUserId 
-                                                    noteStoreUrl:noteStoreUrl 
-                                             authenticationToken:authenticationToken] autorelease];
-        [self.credentialStore addCredentials:ec];
-
-        // call our callback
-        self.completionHandler(nil);
     }
+
+    self.receivedData = nil;
+    self.response = nil;
 }
 
 #pragma mark - querystring parsing
