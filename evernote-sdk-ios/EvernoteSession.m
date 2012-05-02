@@ -44,9 +44,6 @@
 @property (nonatomic, retain) NSMutableData *receivedData;
 
 @property (nonatomic, retain) ENCredentialStore *credentialStore;
-@property (nonatomic, retain) NSString *host;
-@property (nonatomic, retain) NSString *consumerKey;
-@property (nonatomic, retain) NSString *consumerSecret;
 
 @property (nonatomic, copy) EvernoteAuthCompletionHandler completionHandler;
 @property (nonatomic, retain) NSString *tokenSecret;
@@ -61,9 +58,6 @@
 - (NSString *)oauthCallback;
 - (ENCredentials *)credentials;
 - (NSString *)userStoreUrl;
-
-// Abstracted into a method to support unit testing.
-- (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request;
 
 @end
 
@@ -385,10 +379,10 @@
     // This might be from an invalid consumer key, a key not set up for OAuth, etc.
     // Usually this shows up as a 401 response with an error page, so
     // log it and callback an error.
-    if ([self.response isKindOfClass:[NSHTTPURLResponse class]]) {        
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)self.response;
-        if (httpResponse.statusCode != 200) {
-            NSLog(@"Received error HTTP response code: %d", httpResponse.statusCode);
+    if ([self.response respondsToSelector:@selector(statusCode)]) {
+        int statusCode = [(id)self.response statusCode];
+        if (statusCode != 200) {
+            NSLog(@"Received error HTTP response code: %d", statusCode);
             NSLog(@"%@", string);
             self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                        code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
@@ -408,7 +402,7 @@
         // Now open Safari to the proper Evernote web page, so the user can authorize us.        
         NSString *userAuthURLString = [self userAuthorizationURLStringWithParameters:parameters];
         NSURL *userAuthURL = [NSURL URLWithString:userAuthURLString];
-        [[UIApplication sharedApplication] openURL:userAuthURL];
+        [self openBrowserWithURL:userAuthURL];
     } else {
         // OAuth step 4: final callback, with our real token
         NSString *authenticationToken = [parameters objectForKey:@"oauth_token"];
@@ -425,11 +419,9 @@
                                                    userInfo:nil]);
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
-            ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
-                                                          edamUserId:edamUserId 
-                                                        noteStoreUrl:noteStoreUrl 
-                                                 authenticationToken:authenticationToken] autorelease];
-            [self.credentialStore addCredentials:ec];
+            [self saveCredentialsWithEdamUserId:edamUserId 
+                                   noteStoreUrl:noteStoreUrl 
+                            authenticationToken:authenticationToken];
             
             // call our callback, without error.
             self.completionHandler(nil);
@@ -438,6 +430,22 @@
 
     self.receivedData = nil;
     self.response = nil;
+}
+
+- (void)openBrowserWithURL:(NSURL *)url
+{
+    [[UIApplication sharedApplication] openURL:url];    
+}
+
+- (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
+                         noteStoreUrl:(NSString *)noteStoreUrl
+                  authenticationToken:(NSString *)authenticationToken
+{
+    ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
+                                                  edamUserId:edamUserId 
+                                                noteStoreUrl:noteStoreUrl 
+                                         authenticationToken:authenticationToken] autorelease];
+    [self.credentialStore addCredentials:ec];    
 }
 
 #pragma mark - querystring parsing
@@ -458,9 +466,13 @@
     NSArray *nameValues = [queryString componentsSeparatedByString:@"&"];
     for (NSString *nameValue in nameValues) {
         NSArray *components = [nameValue componentsSeparatedByString:@"="];
-        NSString *name = [[components objectAtIndex:0] URLDecodedString];
-        NSString *value = [[components objectAtIndex:1] URLDecodedString];
-        [dict setObject:value forKey:name];
+        if ([components count] == 2) {
+            NSString *name = [[components objectAtIndex:0] URLDecodedString];
+            NSString *value = [[components objectAtIndex:1] URLDecodedString];
+            if (name && value) {
+                [dict setObject:value forKey:name];
+            }
+        }
     }
     return dict;
 }
