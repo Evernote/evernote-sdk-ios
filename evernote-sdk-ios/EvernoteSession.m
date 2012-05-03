@@ -280,9 +280,7 @@
                                                     accessToken:nil
                                                     tokenSecret:nil];    
     NSURLConnection *connection = [self connectionWithRequest:tempTokenRequest];
-    if (connection) {
-        self.receivedData = [NSMutableData data];
-    } else {
+    if (!connection) {
         // can't make connection, so immediately fail.
         self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                    code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
@@ -338,9 +336,7 @@
                                                     accessToken:oauthToken
                                                     tokenSecret:self.tokenSecret];    
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
-    if (connection) {
-        self.receivedData = [NSMutableData data];
-    } else {
+    if (!connection) {
         // can't make connection, so immediately fail.
         self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                    code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
@@ -362,7 +358,7 @@
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     self.response = response;
-    [self.receivedData setLength:0];
+    self.receivedData = [NSMutableData data];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
