@@ -40,6 +40,10 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
  */
 @interface EvernoteSession : NSObject
 
+@property (nonatomic, retain) NSString *host;
+@property (nonatomic, retain) NSString *consumerKey;
+@property (nonatomic, retain) NSString *consumerSecret;
+
 // Are we authenticated?
 @property (nonatomic, readonly) BOOL isAuthenticated;
 
@@ -78,5 +82,22 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // May throw NSException.
 // This object is NOT threadsafe.
 - (EDAMNoteStoreClient *)noteStore;
+
+// Abstracted into a method to support unit testing.
+- (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request;
+
+// Exposed for unit testing.
+- (void)verifyConsumerKeyAndSecret;
+
+// Exposed for unit testing.
+- (void)verifyCFBundleURLSchemes;
+
+// Abstracted into a method to support unit testing.
+- (void)openBrowserWithURL:(NSURL *)url;
+
+// Abstracted into a method to support unit testing.
+- (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
+                         noteStoreUrl:(NSString *)noteStoreUrl
+                  authenticationToken:(NSString *)authenticationToken;
 
 @end
