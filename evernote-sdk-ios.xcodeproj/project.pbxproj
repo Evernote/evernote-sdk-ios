@@ -92,6 +92,15 @@
 		0BB3D2911524F01E001C4534 /* EDAMTypes.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3D2331524EE62001C4534 /* EDAMTypes.m */; };
 		0BB3D2921524F01E001C4534 /* EDAMUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3D2351524EE62001C4534 /* EDAMUserStore.m */; };
 		0BB3D2931524F01E001C4534 /* EDAMErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3D2371524EE62001C4534 /* EDAMErrors.m */; };
+		0BDBBC451550A11A003E6681 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDBBC441550A11A003E6681 /* SenTestingKit.framework */; };
+		0BDBBC461550A11A003E6681 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB3D24D1524EEF3001C4534 /* UIKit.framework */; };
+		0BDBBC471550A11A003E6681 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB3D1B01524ED96001C4534 /* Foundation.framework */; };
+		0BDBBC4D1550A11A003E6681 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBBC4B1550A11A003E6681 /* InfoPlist.strings */; };
+		0BDBBC581550A160003E6681 /* EvernoteSessionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDBBC571550A160003E6681 /* EvernoteSessionTests.m */; };
+		0BDBBC591550A1C1003E6681 /* libevernote-sdk-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB3D1AD1524ED96001C4534 /* libevernote-sdk-ios.a */; };
+		0BDBBC5A1550A1E7003E6681 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		0BDBBC671550A3A4003E6681 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDBBC5E1550A3A4003E6681 /* libOCMock.a */; };
+		0BDBBC681550A3A4003E6681 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBBC5F1550A3A4003E6681 /* LICENSE */; };
 		0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF0CF7F152E25E1003D6115 /* SSKeychain.h */; };
 		0BF0CF82152E25E1003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
@@ -171,6 +180,21 @@
 		0BBA34A51537AF7D00DC7DD5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0BBA34A61537AFED00DC7DD5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0BBA34A71537B09300DC7DD5 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		0BDBBC431550A11A003E6681 /* UnitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BDBBC441550A11A003E6681 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		0BDBBC4A1550A11A003E6681 /* UnitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UnitTests-Info.plist"; sourceTree = "<group>"; };
+		0BDBBC4C1550A11A003E6681 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0BDBBC511550A11A003E6681 /* UnitTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Prefix.pch"; sourceTree = "<group>"; };
+		0BDBBC561550A160003E6681 /* EvernoteSessionTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteSessionTests.h; sourceTree = "<group>"; };
+		0BDBBC571550A160003E6681 /* EvernoteSessionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteSessionTests.m; sourceTree = "<group>"; };
+		0BDBBC5E1550A3A4003E6681 /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		0BDBBC5F1550A3A4003E6681 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		0BDBBC611550A3A4003E6681 /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		0BDBBC621550A3A4003E6681 /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		0BDBBC631550A3A4003E6681 /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		0BDBBC641550A3A4003E6681 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		0BDBBC651550A3A4003E6681 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		0BDBBC661550A3A4003E6681 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		0BF0CF7E152E25E1003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		0BF0CF7F152E25E1003D6115 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
@@ -196,6 +220,19 @@
 				0BB3D2701524EF37001C4534 /* UIKit.framework in Frameworks */,
 				0BB3D2711524EF37001C4534 /* Foundation.framework in Frameworks */,
 				0BB3D2721524EF37001C4534 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0BDBBC3F1550A11A003E6681 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BDBBC5A1550A1E7003E6681 /* Security.framework in Frameworks */,
+				0BDBBC591550A1C1003E6681 /* libevernote-sdk-ios.a in Frameworks */,
+				0BDBBC451550A11A003E6681 /* SenTestingKit.framework in Frameworks */,
+				0BDBBC461550A11A003E6681 /* UIKit.framework in Frameworks */,
+				0BDBBC471550A11A003E6681 /* Foundation.framework in Frameworks */,
+				0BDBBC671550A3A4003E6681 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +336,7 @@
 			children = (
 				0BB3D1B21524ED96001C4534 /* evernote-sdk-ios */,
 				0BB3D2731524EF37001C4534 /* SampleApp */,
+				0BDBBC481550A11A003E6681 /* UnitTests */,
 				0BB3D1AF1524ED96001C4534 /* Frameworks */,
 				0BB3D1AE1524ED96001C4534 /* Products */,
 			);
@@ -309,6 +347,7 @@
 			children = (
 				0BB3D1AD1524ED96001C4534 /* libevernote-sdk-ios.a */,
 				0BB3D26E1524EF37001C4534 /* SampleApp.app */,
+				0BDBBC431550A11A003E6681 /* UnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -320,6 +359,7 @@
 				0BB3D1B01524ED96001C4534 /* Foundation.framework */,
 				0BB3D24D1524EEF3001C4534 /* UIKit.framework */,
 				0BB3D2501524EEF3001C4534 /* CoreGraphics.framework */,
+				0BDBBC441550A11A003E6681 /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -392,6 +432,58 @@
 				0BB3D27B1524EF37001C4534 /* SampleApp-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0BDBBC481550A11A003E6681 /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				0BDBBC561550A160003E6681 /* EvernoteSessionTests.h */,
+				0BDBBC571550A160003E6681 /* EvernoteSessionTests.m */,
+				0BDBBC491550A11A003E6681 /* Supporting Files */,
+				0BDBBC5C1550A3A4003E6681 /* 3rdParty */,
+			);
+			path = UnitTests;
+			sourceTree = "<group>";
+		};
+		0BDBBC491550A11A003E6681 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0BDBBC4A1550A11A003E6681 /* UnitTests-Info.plist */,
+				0BDBBC4B1550A11A003E6681 /* InfoPlist.strings */,
+				0BDBBC511550A11A003E6681 /* UnitTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0BDBBC5C1550A3A4003E6681 /* 3rdParty */ = {
+			isa = PBXGroup;
+			children = (
+				0BDBBC5D1550A3A4003E6681 /* OCMock */,
+			);
+			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		0BDBBC5D1550A3A4003E6681 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0BDBBC5E1550A3A4003E6681 /* libOCMock.a */,
+				0BDBBC5F1550A3A4003E6681 /* LICENSE */,
+				0BDBBC601550A3A4003E6681 /* OCMock */,
+			);
+			path = OCMock;
+			sourceTree = "<group>";
+		};
+		0BDBBC601550A3A4003E6681 /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				0BDBBC611550A3A4003E6681 /* NSNotificationCenter+OCMAdditions.h */,
+				0BDBBC621550A3A4003E6681 /* OCMArg.h */,
+				0BDBBC631550A3A4003E6681 /* OCMConstraint.h */,
+				0BDBBC641550A3A4003E6681 /* OCMock.h */,
+				0BDBBC651550A3A4003E6681 /* OCMockObject.h */,
+				0BDBBC661550A3A4003E6681 /* OCMockRecorder.h */,
+			);
+			path = OCMock;
 			sourceTree = "<group>";
 		};
 		0BF0CF7D152E25E1003D6115 /* SSKeychain */ = {
@@ -482,6 +574,24 @@
 			productReference = 0BB3D26E1524EF37001C4534 /* SampleApp.app */;
 			productType = "com.apple.product-type.application";
 		};
+		0BDBBC421550A11A003E6681 /* UnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0BDBBC541550A11A003E6681 /* Build configuration list for PBXNativeTarget "UnitTests" */;
+			buildPhases = (
+				0BDBBC3E1550A11A003E6681 /* Sources */,
+				0BDBBC3F1550A11A003E6681 /* Frameworks */,
+				0BDBBC401550A11A003E6681 /* Resources */,
+				0BDBBC411550A11A003E6681 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTests;
+			productName = UnitTests;
+			productReference = 0BDBBC431550A11A003E6681 /* UnitTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -505,6 +615,7 @@
 			targets = (
 				0BB3D1AC1524ED96001C4534 /* evernote-sdk-ios */,
 				0BB3D26D1524EF37001C4534 /* SampleApp */,
+				0BDBBC421550A11A003E6681 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -519,7 +630,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0BDBBC401550A11A003E6681 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BDBBC4D1550A11A003E6681 /* InfoPlist.strings in Resources */,
+				0BDBBC681550A3A4003E6681 /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0BDBBC411550A11A003E6681 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0BB3D1A91524ED96001C4534 /* Sources */ = {
@@ -587,6 +723,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0BDBBC3E1550A11A003E6681 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BDBBC581550A160003E6681 /* EvernoteSessionTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -604,6 +748,14 @@
 				0BB3D2801524EF37001C4534 /* en */,
 			);
 			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+		0BDBBC4B1550A11A003E6681 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0BDBBC4C1550A11A003E6681 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -704,6 +856,56 @@
 			};
 			name = Release;
 		};
+		0BDBBC521550A11A003E6681 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/UnitTests/3rdParty/OCMock\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/UnitTests/3rdParty/OCMock/**";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		0BDBBC531550A11A003E6681 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UnitTests/UnitTests-Prefix.pch";
+				INFOPLIST_FILE = "UnitTests/UnitTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/UnitTests/3rdParty/OCMock\"",
+				);
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/UnitTests/3rdParty/OCMock/**";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -733,6 +935,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		0BDBBC541550A11A003E6681 /* Build configuration list for PBXNativeTarget "UnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BDBBC521550A11A003E6681 /* Debug */,
+				0BDBBC531550A11A003E6681 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
