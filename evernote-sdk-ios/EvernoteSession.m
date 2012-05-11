@@ -210,7 +210,7 @@
 {
     // authenticate is idempotent; check if we're already authenticated
     if (self.isAuthenticated) {
-        self.completionHandler(nil);
+        completionHandler(nil);
         return;
     }
     
@@ -282,9 +282,11 @@
     NSURLConnection *connection = [self connectionWithRequest:tempTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
-        self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                   code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                               userInfo:nil]);
+        if (self.completionHandler) {
+            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                                   userInfo:nil]);
+        }
     }
 }
 
@@ -338,9 +340,11 @@
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
-        self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                   code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                               userInfo:nil]);
+        if (self.completionHandler) {
+            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                                   userInfo:nil]);
+        }
     }
     
     return YES;
@@ -352,7 +356,9 @@
 {
     self.receivedData = nil;
     self.response = nil;
-    self.completionHandler(error);
+    if (self.completionHandler) {
+        self.completionHandler(error);
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -380,9 +386,11 @@
         if (statusCode != 200) {
             NSLog(@"Received error HTTP response code: %d", statusCode);
             NSLog(@"%@", string);
-            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                    userInfo:nil]);
+            if (self.completionHandler) {
+                self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                           code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                                       userInfo:nil]);
+            }
             self.receivedData = nil;
             self.response = nil;
             return;
@@ -410,9 +418,11 @@
         // If any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId) {
-            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                       code:EDAMErrorCode_INTERNAL_ERROR 
-                                                   userInfo:nil]);
+            if (self.completionHandler) {
+                self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                           code:EDAMErrorCode_INTERNAL_ERROR 
+                                                       userInfo:nil]);
+            }
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
             [self saveCredentialsWithEdamUserId:edamUserId 
@@ -420,7 +430,9 @@
                             authenticationToken:authenticationToken];
             
             // call our callback, without error.
-            self.completionHandler(nil);
+            if (self.completionHandler) {
+                self.completionHandler(nil);
+            }
         }
     }
 
