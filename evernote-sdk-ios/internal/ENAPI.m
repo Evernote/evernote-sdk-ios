@@ -91,19 +91,25 @@
                      failure:(void(^)(NSError *error))failure
 {
     dispatch_async(self.session.queue, ^(void) {
-        BOOL retVal = NO;
+        __block BOOL retVal = NO;
         @try {
-            retVal = block();
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success(retVal);
-                           });
+            if (block) {
+                retVal = block();
+                dispatch_async(dispatch_get_main_queue(),
+                               ^{
+                                   if (success) {
+                                       success(retVal);
+                                   }
+                               });
+            }
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
             dispatch_async(dispatch_get_main_queue(),
                            ^{
-                               failure(error);
+                               if (failure) {
+                                   failure(error);
+                               }
                            });
         }
     });
@@ -114,19 +120,25 @@
                       failure:(void(^)(NSError *error))failure
 {
     dispatch_async(self.session.queue, ^(void) {
-        int32_t retVal = -1;
+        __block int32_t retVal = -1;
         @try {
-            retVal = block();
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success(retVal);
-                           });
+            if (block) {
+                retVal = block();
+                dispatch_async(dispatch_get_main_queue(),
+                               ^{
+                                   if (success) {
+                                       success(retVal);
+                                   }
+                               });
+            }
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
             dispatch_async(dispatch_get_main_queue(),
                            ^{
-                               failure(error);
+                               if (failure) {
+                                   failure(error);
+                               }
                            });
         }
     });
@@ -140,17 +152,23 @@
     dispatch_async(self.session.queue, ^(void) {
         id retVal = nil;
         @try {
-            retVal = block();
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success(retVal);
-                           });
+            if (block) {
+                retVal = block();
+                dispatch_async(dispatch_get_main_queue(),
+                               ^{
+                                   if (success) {
+                                       success(retVal);
+                                   }
+                               });
+            }
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
             dispatch_async(dispatch_get_main_queue(),
                            ^{
-                               failure(error);
+                               if (failure) {
+                                   failure(error);
+                               }
                            });
         }
     });
@@ -162,17 +180,23 @@
 {
     dispatch_async(self.session.queue, ^(void) {
         @try {
-            block();
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               success();
-                           });
+            if (block) {
+                block();
+                dispatch_async(dispatch_get_main_queue(),
+                               ^{
+                                   if (success) {
+                                       success();
+                                   }
+                               });
+            }
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
             dispatch_async(dispatch_get_main_queue(),
                            ^{
-                               failure(error);
+                               if (failure) {
+                                   failure(error);
+                               }
                            });
         }
     }); 
