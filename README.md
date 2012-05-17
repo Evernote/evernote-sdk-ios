@@ -45,12 +45,10 @@ First you set up the shared EvernoteSession, configuring it with your consumer k
         NSString *CONSUMER_SECRET = @"your secret";
     
         // set up Evernote session singleton
-        EvernoteSession *session = [[[EvernoteSession alloc] initWithHost:EVERNOTE_HOST 
-                                                              consumerKey:CONSUMER_KEY 
-                                                           consumerSecret:CONSUMER_SECRET] 
-                              autorelease];
-        [EvernoteSession setSharedSession:session];
-    }
+        [EvernoteSession setSharedSessionHHost:EVERNOTE_HOST 
+                                   consumerKey:CONSUMER_KEY 
+                                consumerSecret:CONSUMER_SECRET] ;    
+        }
     
 Then, let the EvernoteSession handle incoming URLs, which is part of the OAuth authentication process.  Modify your AppDelegate's application:handleOpenURL: method like so:
 
