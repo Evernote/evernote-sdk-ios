@@ -97,7 +97,7 @@
 }
 
 - (void)getNotebookWithGuid:(EDAMGuid)guid 
-                    success:(void(^)(EDAMNotebook *syncState))success
+                    success:(void(^)(EDAMNotebook *notebook))success
                     failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id() {
@@ -268,7 +268,7 @@
 - (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
                      offset:(int32_t)offset
                    maxNotes:(int32_t)maxNotes
-                    success:(void(^)(EDAMNoteList *search))success
+                    success:(void(^)(EDAMNoteList *list))success
                     failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id() {
@@ -400,7 +400,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 }
 
 - (void)createNote:(EDAMNote *)note
-           success:(void(^)(NSString *note))success
+           success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id() {
@@ -409,7 +409,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 }
 
 - (void)updateNote:(EDAMNote *)note
-           success:(void(^)(NSString *note))success
+           success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id() {
@@ -668,7 +668,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 }
 
 - (void)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
-                     success:(void(^)(EDAMLinkedNotebook *linkedNotebooks))success
+                     success:(void(^)(EDAMLinkedNotebook *linkedNotebook))success
                      failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id() {
