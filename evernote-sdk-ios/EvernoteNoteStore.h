@@ -54,19 +54,19 @@
 - (void)getLinkedNotebookSyncState:(EDAMLinkedNotebook *)linkedNotebook
                            success:(void(^)(EDAMSyncState *syncState))success
                            failure:(void(^)(NSError *error))failure;
+- (void)getLinkedNotebookSyncChunk:(EDAMLinkedNotebook *)linkedNotebook
+                          afterUSN:(int32_t)afterUSN
+                        maxEntries:(int32_t)maxEntries
+                      fullSyncOnly:(BOOL)fullSyncOnly
+                           success:(void(^)(EDAMSyncChunk *syncChunk))success
+                           failure:(void(^)(NSError *error))failure;
 
 // NoteStore notebook methods
 - (void)listNotebooksWithSuccess:(void(^)(NSArray *notebooks))success
                          failure:(void(^)(NSError *error))failure;
 - (void)getNotebookWithGuid:(EDAMGuid)guid 
-                    success:(void(^)(EDAMNotebook *syncState))success
+                    success:(void(^)(EDAMNotebook *notebook))success
                     failure:(void(^)(NSError *error))failure;
-- (void)getLinkedNotebookSyncChunk:(EDAMLinkedNotebook *)linkedNotebook
-                          afterUSN:(int32_t)afterUSN
-                        maxEntries:(int32_t) maxEntries
-                      fullSyncOnly:(BOOL)fullSyncOnly
-                           success:(void(^)(EDAMSyncChunk *syncChunk))success
-                           failure:(void(^)(NSError *error))failure;
 - (void)getDefaultNotebookWithSuccess:(void(^)(EDAMNotebook *notebook))success
                               failure:(void(^)(NSError *error))failure;
 - (void)createNotebook:(EDAMNotebook *)notebook
@@ -137,7 +137,7 @@
 - (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
                      offset:(int32_t)offset
                    maxNotes:(int32_t)maxNotes
-                    success:(void(^)(EDAMNoteList *search))success
+                    success:(void(^)(EDAMNoteList *list))success
                     failure:(void(^)(NSError *error))failure;
 - (void)findNoteOffsetWithFilter:(EDAMNoteFilter *)filter 
                             guid:(EDAMGuid)guid
@@ -191,10 +191,10 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         success:(void(^)(NSArray *names))success
                         failure:(void(^)(NSError *error))failure;
 - (void)createNote:(EDAMNote *)note
-           success:(void(^)(NSString *note))success
+           success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure;
 - (void)updateNote:(EDAMNote *)note
-           success:(void(^)(NSString *note))success
+           success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure;
 - (void)deleteNoteWithGuid:(EDAMGuid)guid
                    success:(void(^)(int32_t usn))success
@@ -277,7 +277,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                           success:(void(^)(EDAMAd *ad))success
                           failure:(void(^)(NSError *error))failure;
 
-//NoteStore shared notebook methods
+// NoteStore shared notebook methods
 - (void)getPublicNotebookWithUserID:(EDAMUserID)userId 
                           publicUri:(NSString *)publicUri
                             success:(void(^)(EDAMNotebook *notebook))success
@@ -296,7 +296,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                               success:(void(^)(int32_t usn))success
                               failure:(void(^)(NSError *error))failure;
 - (void)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
-                     success:(void(^)(EDAMLinkedNotebook *linkedNotebooks))success
+                     success:(void(^)(EDAMLinkedNotebook *linkedNotebook))success
                      failure:(void(^)(NSError *error))failure;
 - (void)updateLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook
                      success:(void(^)(int32_t usn))success
