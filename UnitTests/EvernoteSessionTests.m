@@ -227,8 +227,7 @@
     STAssertNil(authenticationError, nil);
 
     // connection:didReceiveData:
-    // https%3A%2F%2Fsandbox.evernote.com%2Fedam%2Fnote%2Fshard%2Fs4
-    NSString *accessTokenResponseString = @"oauth_token=sometokenvalue&oauth_token_secret=&edam_noteStoreUrl=https%3A%2F%2Fsandbox.evernote.com%2Fedam%2Fnote%2Fshard%2Fs4&edam_userId=161";
+    NSString *accessTokenResponseString = @"oauth_token=sometokenvalue&oauth_token_secret=&edam_noteStoreUrl=https%3A%2F%2Fsandbox.evernote.com%2Fedam%2Fnote%2Fshard%2Fs4&edam_userId=161&edam_webApiUrlPrefix=https%3A%2F%2Fsandbox.evernote.com%2Fshard%2Fs1%2F";
     NSData *accessTokenResponseData = [accessTokenResponseString dataUsingEncoding:NSASCIIStringEncoding];
     [self.mockSession connection:self.dummyURLConnection didReceiveData:accessTokenResponseData];
     STAssertFalse(authenticationCompleted, nil);
@@ -237,7 +236,9 @@
     // connection:DidFinishLoading:
     // make sure EvernoteSession tried to save credentials
     [[self.mockSession expect] saveCredentialsWithEdamUserId:@"161" 
-                                                noteStoreUrl:@"https://sandbox.evernote.com/edam/note/shard/s4" authenticationToken:@"sometokenvalue"];
+                                                noteStoreUrl:@"https://sandbox.evernote.com/edam/note/shard/s4" 
+                                             webApiUrlPrefix:@"https://sandbox.evernote.com/shard/s1/"
+                                         authenticationToken:@"sometokenvalue"];
     [self.mockSession connectionDidFinishLoading:self.dummyURLConnection];    
     [self.mockSession verify];
     // and make sure our callback happened, without error.

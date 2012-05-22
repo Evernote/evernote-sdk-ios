@@ -39,6 +39,7 @@
 @synthesize host = _host;
 @synthesize edamUserId = _edamUserId;
 @synthesize noteStoreUrl = _noteStoreUrl;
+@synthesize webApiUrlPrefix = _webApiUrlPrefix;
 @synthesize authenticationToken = _authenticationToken;
 
 - (void)dealloc
@@ -46,6 +47,7 @@
     [_host release];
     [_edamUserId release];
     [_noteStoreUrl release];
+    [_webApiUrlPrefix release];
     [_authenticationToken release];
     [super dealloc];
 }
@@ -53,6 +55,7 @@
 - (id)initWithHost:(NSString *)host
         edamUserId:(NSString *)edamUserId
       noteStoreUrl:(NSString *)noteStoreUrl
+   webApiUrlPrefix:(NSString *)webApiUrlPrefix
 authenticationToken:(NSString *)authenticationToken
 {
     self = [super init];
@@ -60,6 +63,7 @@ authenticationToken:(NSString *)authenticationToken
         self.host = host;
         self.edamUserId = edamUserId;
         self.noteStoreUrl = noteStoreUrl;
+        self.webApiUrlPrefix = webApiUrlPrefix;
         self.authenticationToken = authenticationToken;
     }
     return self;
@@ -101,6 +105,7 @@ authenticationToken:(NSString *)authenticationToken
     [encoder encodeObject:self.host forKey:@"host"];
     [encoder encodeObject:self.edamUserId forKey:@"edamUserId"];
     [encoder encodeObject:self.noteStoreUrl forKey:@"noteStoreUrl"];
+    [encoder encodeObject:self.webApiUrlPrefix forKey:@"webApiUrlPrefix"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -108,6 +113,7 @@ authenticationToken:(NSString *)authenticationToken
         self.host = [decoder decodeObjectForKey:@"host"];
         self.edamUserId = [decoder decodeObjectForKey:@"edamUserId"];
         self.noteStoreUrl = [decoder decodeObjectForKey:@"noteStoreUrl"];
+        self.webApiUrlPrefix = [decoder decodeObjectForKey:@"webApiUrlPrefix"];
     }
     return self;
 }

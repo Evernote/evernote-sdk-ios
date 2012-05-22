@@ -57,7 +57,6 @@
 - (NSString *)callbackScheme;
 - (NSString *)oauthCallback;
 - (ENCredentials *)credentials;
-- (NSString *)userStoreUrl;
 
 @end
 
@@ -77,6 +76,9 @@
 
 @dynamic authenticationToken;
 @dynamic isAuthenticated;
+@dynamic userStoreUrl;
+@dynamic noteStoreUrl;
+@dynamic webApiUrlPrefix;
 
 - (void)dealloc
 {
@@ -142,36 +144,19 @@
     return sharedSession;
 }
 
-- (NSString *)authenticationToken
-{
-    ENCredentials *ec = [self.credentialStore credentialsForHost:self.host];
-    return ec.authenticationToken;
-}
-
-- (BOOL)isAuthenticated
-{
-    return (self.authenticationToken != nil);
-}
-
 - (ENCredentials *)credentials
 {
     return [self.credentialStore credentialsForHost:self.host];
 }
 
-- (EDAMNoteStoreClient *)noteStore
+- (NSString *)authenticationToken
 {
-    NSURL *url = [NSURL URLWithString:[self credentials].noteStoreUrl];
-    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-    return [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    return [[self credentials] authenticationToken];
 }
 
-- (EDAMUserStoreClient *)userStore
+- (BOOL)isAuthenticated
 {
-    NSURL *url = [NSURL URLWithString:[self userStoreUrl]];
-    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-    return [[[EDAMUserStoreClient alloc] initWithProtocol:protocol] autorelease];
+    return (self.authenticationToken != nil);
 }
 
 - (NSString *)userStoreUrl
@@ -188,6 +173,32 @@
     BOOL hasPort = (numberOfMatches > 0);
     NSString *scheme = (hasPort) ? @"http" : @"https";    
     return [NSString stringWithFormat:@"%@://%@/edam/user", scheme, self.host];
+}
+
+- (NSString *)noteStoreUrl
+{
+    return [[self credentials] noteStoreUrl];
+}
+
+- (NSString *)webApiUrlPrefix
+{
+    return [[self credentials] webApiUrlPrefix];
+}
+
+- (EDAMNoteStoreClient *)noteStore
+{
+    NSURL *url = [NSURL URLWithString:[self credentials].noteStoreUrl];
+    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
+    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
+    return [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+}
+
+- (EDAMUserStoreClient *)userStore
+{
+    NSURL *url = [NSURL URLWithString:[self userStoreUrl]];
+    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
+    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
+    return [[[EDAMUserStoreClient alloc] initWithProtocol:protocol] autorelease];
 }
 
 - (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request
@@ -412,12 +423,13 @@
         NSString *authenticationToken = [parameters objectForKey:@"oauth_token"];
         NSString *noteStoreUrl = [parameters objectForKey:@"edam_noteStoreUrl"];
         NSString *edamUserId = [parameters objectForKey:@"edam_userId"];
+        NSString *webApiUrlPrefix = [parameters objectForKey:@"edam_webApiUrlPrefix"];
         // Evernote doesn't use the token secret, so we can ignore it.
         // NSString *oauthTokenSecret = [parameters objectForKey:@"oauth_token_secret"];
         
         // If any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
-        if (!authenticationToken || !noteStoreUrl || !edamUserId) {
+        if (!authenticationToken || !noteStoreUrl || !edamUserId || !webApiUrlPrefix) {
             if (self.completionHandler) {
                 self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                            code:EDAMErrorCode_INTERNAL_ERROR 
@@ -426,7 +438,8 @@
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
             [self saveCredentialsWithEdamUserId:edamUserId 
-                                   noteStoreUrl:noteStoreUrl 
+                                   noteStoreUrl:noteStoreUrl
+                                webApiUrlPrefix:webApiUrlPrefix
                             authenticationToken:authenticationToken];
             
             // call our callback, without error.
@@ -447,11 +460,13 @@
 
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
                          noteStoreUrl:(NSString *)noteStoreUrl
+                      webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken
 {
     ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
                                                   edamUserId:edamUserId 
                                                 noteStoreUrl:noteStoreUrl 
+                                             webApiUrlPrefix:webApiUrlPrefix
                                          authenticationToken:authenticationToken] autorelease];
     [self.credentialStore addCredentials:ec];    
 }
