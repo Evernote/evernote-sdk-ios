@@ -51,6 +51,17 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // Will only be non-nil once we've authenticated.
 @property (nonatomic, readonly) NSString *authenticationToken;
 
+// URL for the Evernote UserStore.
+@property (nonatomic, readonly) NSString *userStoreUrl;
+
+// URL for the Evernote NoteStore for the authenticated user.
+// Will only be non-nil once we've authenticated.
+@property (nonatomic, readonly) NSString *noteStoreUrl;
+
+// URL prefix for the web API.
+// Will only be non-nil once we've authenticated.
+@property (nonatomic, readonly) NSString *webApiUrlPrefix;
+
 // Shared dispatch queue for API operations.
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
@@ -98,6 +109,7 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // Abstracted into a method to support unit testing.
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
                          noteStoreUrl:(NSString *)noteStoreUrl
+                      webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken;
 
 @end

@@ -34,11 +34,13 @@
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *edamUserId;
 @property (nonatomic, retain) NSString *noteStoreUrl;
+@property (nonatomic, retain) NSString *webApiUrlPrefix;
 @property (nonatomic, retain) NSString *authenticationToken;
 
 - (id)initWithHost:(NSString *)host
         edamUserId:(NSString *)edamUserId
-      noteStoreUrl:(NSString *)noteStoreUrl
+      noteStoreUrl:(NSString *)noteStoreUrl   
+   webApiUrlPrefix:(NSString *)webApiUrlPrefix
 authenticationToken:(NSString *)authenticationToken;
 
 - (BOOL)saveToKeychain;
