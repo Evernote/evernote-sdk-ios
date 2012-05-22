@@ -50,6 +50,7 @@
                                                    otherButtonTitles:nil] autorelease];
             [alert show];
         } else {
+            NSLog(@"authenticated! noteStoreUrl:%@ webApiUrlPrefix:%@", session.noteStoreUrl, session.webApiUrlPrefix);
             [self updateButtonsForAuthentication];
         } 
     }];
