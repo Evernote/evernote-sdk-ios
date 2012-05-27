@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */; };
+		0B0DE6A71571978C00D7347A /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */; };
+		0B0DE6A81571978C00D7347A /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */; };
 		0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; };
 		0B2B9D631544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
 		0B2B9D641544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
@@ -109,6 +112,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENOAuthViewController.h; sourceTree = "<group>"; };
+		0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
 		0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteUserStore.h; sourceTree = "<group>"; };
 		0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteUserStore.m; sourceTree = "<group>"; };
 		0B2B9D6615449AEE00E5BD44 /* EvernoteSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteSDK.h; sourceTree = "<group>"; };
@@ -327,6 +332,8 @@
 				0B98592515432592007D7D37 /* ENCredentials.m */,
 				0B98592615432592007D7D37 /* ENCredentialStore.h */,
 				0B98592715432592007D7D37 /* ENCredentialStore.m */,
+				0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */,
+				0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */,
 			);
 			path = internal;
 			sourceTree = "<group>";
@@ -534,6 +541,7 @@
 				0B345EBE1544633F00A1FDBF /* EvernoteNoteStore.h in Headers */,
 				0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */,
 				0B2B9D6815449AEE00E5BD44 /* EvernoteSDK.h in Headers */,
+				0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,6 +694,7 @@
 				0B345EBF1544633F00A1FDBF /* EvernoteNoteStore.m in Sources */,
 				0B2B9D631544944800E5BD44 /* EvernoteUserStore.m in Sources */,
 				0B2B9D6915449AEE00E5BD44 /* EvernoteSDK.m in Sources */,
+				0B0DE6A71571978C00D7347A /* ENOAuthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +729,7 @@
 				0B345EC01544633F00A1FDBF /* EvernoteNoteStore.m in Sources */,
 				0B2B9D641544944800E5BD44 /* EvernoteUserStore.m in Sources */,
 				0B2B9D6A15449AEE00E5BD44 /* EvernoteSDK.m in Sources */,
+				0B0DE6A81571978C00D7347A /* ENOAuthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -943,6 +953,7 @@
 				0BDBBC531550A11A003E6681 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

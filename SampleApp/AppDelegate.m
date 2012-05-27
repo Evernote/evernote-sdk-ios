@@ -34,9 +34,10 @@
     
     // Fill in the consumer key and secret with the values that you received from Evernote
     // To get an API key, visit http://dev.evernote.com/documentation/cloud/
-    NSString *CONSUMER_KEY = @"your key";
-    NSString *CONSUMER_SECRET = @"your secret";
-    
+//    NSString *CONSUMER_KEY = @"your key";
+//    NSString *CONSUMER_SECRET = @"your secret";
+    NSString *CONSUMER_KEY = @"mattmcglincy-7461";
+    NSString *CONSUMER_SECRET = @"9f023ce5ff2d76a4";
     // set up Evernote session singleton
     [EvernoteSession setSharedSessionHost:EVERNOTE_HOST 
                               consumerKey:CONSUMER_KEY 
@@ -70,14 +71,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    // delegate to the Evernote session singleton
-    if ([[EvernoteSession sharedSession] handleOpenURL:url]) {
-        return YES;
-    } 
-    return NO;
 }
 
 @end
