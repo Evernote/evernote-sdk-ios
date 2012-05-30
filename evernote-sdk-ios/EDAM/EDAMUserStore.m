@@ -329,7 +329,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
 
 @implementation EDAMPremiumInfo
 
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole
+- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole businessName: (NSString *) businessName businessAdmin: (BOOL) businessAdmin
 {
   self = [super init];
   __currentTime = currentTime;
@@ -352,6 +352,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   __sponsoredGroupName_isset = YES;
   __sponsoredGroupRole = sponsoredGroupRole;
   __sponsoredGroupRole_isset = YES;
+  __businessName = [businessName retain];
+  __businessName_isset = YES;
+  __businessAdmin = businessAdmin;
+  __businessAdmin_isset = YES;
   return self;
 }
 
@@ -408,6 +412,16 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
     __sponsoredGroupRole = [decoder decodeIntForKey: @"sponsoredGroupRole"];
     __sponsoredGroupRole_isset = YES;
   }
+  if ([decoder containsValueForKey: @"businessName"])
+  {
+    __businessName = [[decoder decodeObjectForKey: @"businessName"] retain];
+    __businessName_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"businessAdmin"])
+  {
+    __businessAdmin = [decoder decodeBoolForKey: @"businessAdmin"];
+    __businessAdmin_isset = YES;
+  }
   return self;
 }
 
@@ -453,11 +467,20 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   {
     [encoder encodeInt: __sponsoredGroupRole forKey: @"sponsoredGroupRole"];
   }
+  if (__businessName_isset)
+  {
+    [encoder encodeObject: __businessName forKey: @"businessName"];
+  }
+  if (__businessAdmin_isset)
+  {
+    [encoder encodeBool: __businessAdmin forKey: @"businessAdmin"];
+  }
 }
 
 - (void) dealloc
 {
   [__sponsoredGroupName release];
+  [__businessName release];
   [super dealloc];
 }
 
@@ -635,6 +658,44 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   __sponsoredGroupRole_isset = NO;
 }
 
+- (NSString *) businessName {
+  return [[__businessName retain] autorelease];
+}
+
+- (void) setBusinessName: (NSString *) businessName {
+  [businessName retain];
+  [__businessName release];
+  __businessName = businessName;
+  __businessName_isset = YES;
+}
+
+- (BOOL) businessNameIsSet {
+  return __businessName_isset;
+}
+
+- (void) unsetBusinessName {
+  [__businessName release];
+  __businessName = nil;
+  __businessName_isset = NO;
+}
+
+- (BOOL) businessAdmin {
+  return __businessAdmin;
+}
+
+- (void) setBusinessAdmin: (BOOL) businessAdmin {
+  __businessAdmin = businessAdmin;
+  __businessAdmin_isset = YES;
+}
+
+- (BOOL) businessAdminIsSet {
+  return __businessAdmin_isset;
+}
+
+- (void) unsetBusinessAdmin {
+  __businessAdmin_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -730,6 +791,22 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 11:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setBusinessName: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 12:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setBusinessAdmin: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -793,6 +870,18 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
     [outProtocol writeI32: __sponsoredGroupRole];
     [outProtocol writeFieldEnd];
   }
+  if (__businessName_isset) {
+    if (__businessName != nil) {
+      [outProtocol writeFieldBeginWithName: @"businessName" type: TType_STRING fieldID: 11];
+      [outProtocol writeString: __businessName];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__businessAdmin_isset) {
+    [outProtocol writeFieldBeginWithName: @"businessAdmin" type: TType_BOOL fieldID: 12];
+    [outProtocol writeBool: __businessAdmin];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -819,6 +908,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   [ms appendFormat: @"\"%@\"", __sponsoredGroupName];
   [ms appendString: @",sponsoredGroupRole:"];
   [ms appendFormat: @"%i", __sponsoredGroupRole];
+  [ms appendString: @",businessName:"];
+  [ms appendFormat: @"\"%@\"", __businessName];
+  [ms appendString: @",businessAdmin:"];
+  [ms appendFormat: @"%i", __businessAdmin];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }

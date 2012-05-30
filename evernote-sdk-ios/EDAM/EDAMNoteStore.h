@@ -861,8 +861,32 @@
 - (BOOL) titleIsSet;
 @end
 
+@interface EDAMClientUsageMetrics : NSObject <NSCoding> {
+  int32_t __sessions;
+
+  BOOL __sessions_isset;
+}
+
+- (id) initWithSessions: (int32_t) sessions;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=sessions, setter=setSessions:) int32_t sessions;
+#else
+
+- (int32_t) sessions;
+- (void) setSessions: (int32_t) sessions;
+
+#endif
+
+- (BOOL) sessionsIsSet;
+@end
+
 @protocol EDAMNoteStore <NSObject>
 - (EDAMSyncState *) getSyncState: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMSyncState *) getSyncStateWithMetrics: (NSString *) authenticationToken : (EDAMClientUsageMetrics *) clientMetrics;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMSyncChunk *) getSyncChunk: (NSString *) authenticationToken : (int32_t) afterUSN : (int32_t) maxEntries : (BOOL) fullSyncOnly;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMSyncChunk *) getFilteredSyncChunk: (NSString *) authenticationToken : (int32_t) afterUSN : (int32_t) maxEntries : (EDAMSyncChunkFilter *) filter;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMSyncState *) getLinkedNotebookSyncState: (NSString *) authenticationToken : (EDAMLinkedNotebook *) linkedNotebook;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException

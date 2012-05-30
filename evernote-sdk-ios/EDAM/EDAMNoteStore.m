@@ -5491,6 +5491,110 @@
 
 @end
 
+@implementation EDAMClientUsageMetrics
+
+- (id) initWithSessions: (int32_t) sessions
+{
+  self = [super init];
+  __sessions = sessions;
+  __sessions_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"sessions"])
+  {
+    __sessions = [decoder decodeInt32ForKey: @"sessions"];
+    __sessions_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__sessions_isset)
+  {
+    [encoder encodeInt32: __sessions forKey: @"sessions"];
+  }
+}
+
+- (void) dealloc
+{
+  [super dealloc];
+}
+
+- (int32_t) sessions {
+  return __sessions;
+}
+
+- (void) setSessions: (int32_t) sessions {
+  __sessions = sessions;
+  __sessions_isset = YES;
+}
+
+- (BOOL) sessionsIsSet {
+  return __sessions_isset;
+}
+
+- (void) unsetSessions {
+  __sessions_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_I32) {
+          int32_t fieldValue = [inProtocol readI32];
+          [self setSessions: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"ClientUsageMetrics"];
+  if (__sessions_isset) {
+    [outProtocol writeFieldBeginWithName: @"sessions" type: TType_I32 fieldID: 1];
+    [outProtocol writeI32: __sessions];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"ClientUsageMetrics("];
+  [ms appendString: @"sessions:"];
+  [ms appendFormat: @"%i", __sessions];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @interface EDAMgetSyncState_args : NSObject <NSCoding> {
   NSString * __authenticationToken;
 
@@ -5866,6 +5970,452 @@
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"GetSyncState_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMgetSyncStateWithMetrics_args : NSObject <NSCoding> {
+  NSString * __authenticationToken;
+  EDAMClientUsageMetrics * __clientMetrics;
+
+  BOOL __authenticationToken_isset;
+  BOOL __clientMetrics_isset;
+}
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken clientMetrics: (EDAMClientUsageMetrics *) clientMetrics;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, retain, getter=clientMetrics, setter=setClientMetrics:) EDAMClientUsageMetrics * clientMetrics;
+#else
+
+- (NSString *) authenticationToken;
+- (void) setAuthenticationToken: (NSString *) authenticationToken;
+
+- (EDAMClientUsageMetrics *) clientMetrics;
+- (void) setClientMetrics: (EDAMClientUsageMetrics *) clientMetrics;
+
+#endif
+
+- (BOOL) authenticationTokenIsSet;
+- (BOOL) clientMetricsIsSet;
+@end
+
+@implementation EDAMgetSyncStateWithMetrics_args
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken clientMetrics: (EDAMClientUsageMetrics *) clientMetrics
+{
+  self = [super init];
+  __authenticationToken = [authenticationToken retain];
+  __authenticationToken_isset = YES;
+  __clientMetrics = [clientMetrics retain];
+  __clientMetrics_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"authenticationToken"])
+  {
+    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
+    __authenticationToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"clientMetrics"])
+  {
+    __clientMetrics = [[decoder decodeObjectForKey: @"clientMetrics"] retain];
+    __clientMetrics_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__authenticationToken_isset)
+  {
+    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
+  }
+  if (__clientMetrics_isset)
+  {
+    [encoder encodeObject: __clientMetrics forKey: @"clientMetrics"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authenticationToken release];
+  [__clientMetrics release];
+  [super dealloc];
+}
+
+- (NSString *) authenticationToken {
+  return [[__authenticationToken retain] autorelease];
+}
+
+- (void) setAuthenticationToken: (NSString *) authenticationToken {
+  [authenticationToken retain];
+  [__authenticationToken release];
+  __authenticationToken = authenticationToken;
+  __authenticationToken_isset = YES;
+}
+
+- (BOOL) authenticationTokenIsSet {
+  return __authenticationToken_isset;
+}
+
+- (void) unsetAuthenticationToken {
+  [__authenticationToken release];
+  __authenticationToken = nil;
+  __authenticationToken_isset = NO;
+}
+
+- (EDAMClientUsageMetrics *) clientMetrics {
+  return [[__clientMetrics retain] autorelease];
+}
+
+- (void) setClientMetrics: (EDAMClientUsageMetrics *) clientMetrics {
+  [clientMetrics retain];
+  [__clientMetrics release];
+  __clientMetrics = clientMetrics;
+  __clientMetrics_isset = YES;
+}
+
+- (BOOL) clientMetricsIsSet {
+  return __clientMetrics_isset;
+}
+
+- (void) unsetClientMetrics {
+  [__clientMetrics release];
+  __clientMetrics = nil;
+  __clientMetrics_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthenticationToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMClientUsageMetrics *fieldValue = [[EDAMClientUsageMetrics alloc] init];
+          [fieldValue read: inProtocol];
+          [self setClientMetrics: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"getSyncStateWithMetrics_args"];
+  if (__authenticationToken_isset) {
+    if (__authenticationToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __authenticationToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__clientMetrics_isset) {
+    if (__clientMetrics != nil) {
+      [outProtocol writeFieldBeginWithName: @"clientMetrics" type: TType_STRUCT fieldID: 2];
+      [__clientMetrics write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"getSyncStateWithMetrics_args("];
+  [ms appendString: @"authenticationToken:"];
+  [ms appendFormat: @"\"%@\"", __authenticationToken];
+  [ms appendString: @",clientMetrics:"];
+  [ms appendFormat: @"%@", __clientMetrics];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMGetSyncStateWithMetrics_result : NSObject <NSCoding> {
+  EDAMSyncState * __success;
+  EDAMUserException * __userException;
+  EDAMSystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+- (id) initWithSuccess: (EDAMSyncState *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMSyncState * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+#else
+
+- (EDAMSyncState *) success;
+- (void) setSuccess: (EDAMSyncState *) success;
+
+- (EDAMUserException *) userException;
+- (void) setUserException: (EDAMUserException *) userException;
+
+- (EDAMSystemException *) systemException;
+- (void) setSystemException: (EDAMSystemException *) systemException;
+
+#endif
+
+- (BOOL) successIsSet;
+- (BOOL) userExceptionIsSet;
+- (BOOL) systemExceptionIsSet;
+@end
+
+@implementation EDAMGetSyncStateWithMetrics_result
+
+- (id) initWithSuccess: (EDAMSyncState *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (EDAMSyncState *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EDAMSyncState *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (EDAMUserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (EDAMUserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (EDAMSystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (EDAMSystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EDAMSyncState *fieldValue = [[EDAMSyncState alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"GetSyncStateWithMetrics_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"GetSyncStateWithMetrics_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @",userException:"];
@@ -43437,6 +43987,57 @@
   return [self recv_getSyncState];
 }
 
+- (void) send_getSyncStateWithMetrics: (NSString *) authenticationToken : (EDAMClientUsageMetrics *) clientMetrics
+{
+  [outProtocol writeMessageBeginWithName: @"getSyncStateWithMetrics" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"getSyncStateWithMetrics_args"];
+  if (authenticationToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: authenticationToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (clientMetrics != nil)  {
+    [outProtocol writeFieldBeginWithName: @"clientMetrics" type: TType_STRUCT fieldID: 2];
+    [clientMetrics write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EDAMSyncState *) recv_getSyncStateWithMetrics
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EDAMGetSyncStateWithMetrics_result * result = [[[EDAMGetSyncStateWithMetrics_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"getSyncStateWithMetrics failed: unknown result"];
+}
+
+- (EDAMSyncState *) getSyncStateWithMetrics: (NSString *) authenticationToken : (EDAMClientUsageMetrics *) clientMetrics
+{
+  [self send_getSyncStateWithMetrics: authenticationToken : clientMetrics];
+  return [self recv_getSyncStateWithMetrics];
+}
+
 - (void) send_getSyncChunk: (NSString *) authenticationToken : (int32_t) afterUSN : (int32_t) maxEntries : (BOOL) fullSyncOnly
 {
   [outProtocol writeMessageBeginWithName: @"getSyncChunk" type: TMessageType_CALL sequenceID: 0];
@@ -47481,6 +48082,14 @@
     [mMethodMap setValue: invocation forKey: @"getSyncState"];
   }
   {
+    SEL s = @selector(process_getSyncStateWithMetrics_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"getSyncStateWithMetrics"];
+  }
+  {
     SEL s = @selector(process_getSyncChunk_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -48113,6 +48722,23 @@
   EDAMGetSyncState_result * result = [[EDAMGetSyncState_result alloc] init];
   [result setSuccess: [mService getSyncState: [args authenticationToken]]];
   [outProtocol writeMessageBeginWithName: @"getSyncState"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_getSyncStateWithMetrics_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  EDAMgetSyncStateWithMetrics_args * args = [[EDAMgetSyncStateWithMetrics_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EDAMGetSyncStateWithMetrics_result * result = [[EDAMGetSyncStateWithMetrics_result alloc] init];
+  [result setSuccess: [mService getSyncStateWithMetrics: [args authenticationToken]: [args clientMetrics]]];
+  [outProtocol writeMessageBeginWithName: @"getSyncStateWithMetrics"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

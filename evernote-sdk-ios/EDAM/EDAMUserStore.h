@@ -82,6 +82,8 @@ enum EDAMSponsoredGroupRole {
   BOOL __canPurchaseUploadAllowance;
   NSString * __sponsoredGroupName;
   int __sponsoredGroupRole;
+  NSString * __businessName;
+  BOOL __businessAdmin;
 
   BOOL __currentTime_isset;
   BOOL __premium_isset;
@@ -93,9 +95,11 @@ enum EDAMSponsoredGroupRole {
   BOOL __canPurchaseUploadAllowance_isset;
   BOOL __sponsoredGroupName_isset;
   BOOL __sponsoredGroupRole_isset;
+  BOOL __businessName_isset;
+  BOOL __businessAdmin_isset;
 }
 
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole;
+- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole businessName: (NSString *) businessName businessAdmin: (BOOL) businessAdmin;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -111,6 +115,8 @@ enum EDAMSponsoredGroupRole {
 @property (nonatomic, getter=canPurchaseUploadAllowance, setter=setCanPurchaseUploadAllowance:) BOOL canPurchaseUploadAllowance;
 @property (nonatomic, retain, getter=sponsoredGroupName, setter=setSponsoredGroupName:) NSString * sponsoredGroupName;
 @property (nonatomic, getter=sponsoredGroupRole, setter=setSponsoredGroupRole:) int sponsoredGroupRole;
+@property (nonatomic, retain, getter=businessName, setter=setBusinessName:) NSString * businessName;
+@property (nonatomic, getter=businessAdmin, setter=setBusinessAdmin:) BOOL businessAdmin;
 #else
 
 - (EDAMTimestamp) currentTime;
@@ -143,6 +149,12 @@ enum EDAMSponsoredGroupRole {
 - (int) sponsoredGroupRole;
 - (void) setSponsoredGroupRole: (int) sponsoredGroupRole;
 
+- (NSString *) businessName;
+- (void) setBusinessName: (NSString *) businessName;
+
+- (BOOL) businessAdmin;
+- (void) setBusinessAdmin: (BOOL) businessAdmin;
+
 #endif
 
 - (BOOL) currentTimeIsSet;
@@ -155,6 +167,8 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) canPurchaseUploadAllowanceIsSet;
 - (BOOL) sponsoredGroupNameIsSet;
 - (BOOL) sponsoredGroupRoleIsSet;
+- (BOOL) businessNameIsSet;
+- (BOOL) businessAdminIsSet;
 @end
 
 @interface EDAMAuthenticationResult : NSObject <NSCoding> {
