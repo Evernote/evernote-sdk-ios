@@ -41,7 +41,7 @@
 - (IBAction)authenticate:(id)sender 
 {
     EvernoteSession *session = [EvernoteSession sharedSession];
-    [session authenticateWithCompletionHandler:^(NSError *error) {
+    [session authenticateWithViewController:self completionHandler:^(NSError *error) {
         if (error || !session.isAuthenticated) {
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
                                                              message:@"Could not authenticate" 

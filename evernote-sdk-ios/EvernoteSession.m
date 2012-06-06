@@ -40,6 +40,8 @@
 
 @interface EvernoteSession()
 
+@property (nonatomic, retain) UIViewController *viewController;
+
 @property (nonatomic, retain) NSURLResponse *response;
 @property (nonatomic, retain) NSMutableData *receivedData;
 
@@ -62,6 +64,7 @@
 
 @implementation EvernoteSession
 
+@synthesize viewController = _viewController;
 @synthesize response = _response;
 @synthesize receivedData = _receivedData;
 
@@ -82,6 +85,7 @@
 
 - (void)dealloc
 {
+    [_viewController release];
     [_consumerKey release];
     [_consumerSecret release];
     [_credentialStore release];
@@ -217,7 +221,8 @@
     [self.credentialStore delete];
 }
 
-- (void)authenticateWithCompletionHandler:(EvernoteAuthCompletionHandler)completionHandler
+- (void)authenticateWithViewController:(UIViewController *)viewController
+                     completionHandler:(EvernoteAuthCompletionHandler)completionHandler
 {
     // authenticate is idempotent; check if we're already authenticated
     if (self.isAuthenticated) {
@@ -226,14 +231,14 @@
     }
     
     // Do app setup sanity checks before beginning OAuth process.
-    // These verifications raise NSExceptions if problems are found.
+    // This verification raises an NSException if problems are found.
     [self verifyConsumerKeyAndSecret];
-    [self verifyCFBundleURLSchemes];
 
+    self.viewController = viewController;
     self.completionHandler = completionHandler;
-
+    
     // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
-    [self startOauthAuthentication];
+    [self startOauthAuthentication];    
 }
 
 - (void)verifyConsumerKeyAndSecret
@@ -247,35 +252,6 @@
         [self.consumerSecret isEqualToString:@"your secret"]) {
         [NSException raise:@"Invalid EvernoteSession" format:@"Please use a valid consumerKey and consumerSecret."];
     }
-}
-
-- (void)verifyCFBundleURLSchemes
-{
-    // Make sure our Info.plist has the needed CFBundleURLTypes/CGBundleURLSchemes entries.
-    // E.g.,
-    // <key>CFBundleURLTypes</key>
-    // <array>
-    //   <dict>
-    //     <key>CFBundleURLSchemes</key>
-    //     <array>
-    //       <string>en-YOUR_CONSUMER_KEY</string>
-    //     </array>
-    //   </dict>
-    // </array>
-
-    NSArray *urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
-    for (NSDictionary *dict in urlTypes) {
-        NSArray *urlSchemes = [dict objectForKey:@"CFBundleURLSchemes"];
-        for (NSString *urlScheme in urlSchemes) {
-            if ([[self callbackScheme] isEqualToString:urlScheme]) {
-                // we found it
-                return;
-            }
-        }
-    }
-    // we didn't find it; sadness
-    [NSException raise:@"Invalid EvernoteSession setup"
-                format:@"Please add valid CFBundleURLTypes and CFBundleURLSchemes to your app's Info.plist."];
 }
 
 - (void)startOauthAuthentication
@@ -330,6 +306,8 @@
 
 - (BOOL)handleOpenURL:(NSURL *)url
 {
+    [self.viewController dismissModalViewControllerAnimated:YES];
+
     // only handle our specific oauth_callback URLs
     if (![[url absoluteString] hasPrefix:[self oauthCallback]]) {
         return NO;
@@ -414,10 +392,13 @@
         // OAuth step 2: got our temp token, now get authorization from the user.
         // Save the token secret, for later use in OAuth step 3.
         self.tokenSecret = [parameters objectForKey:@"oauth_token_secret"];
-        // Now open Safari to the proper Evernote web page, so the user can authorize us.        
+        
+        // Open a modal ENOAuthViewController on top of our given view controller,
+        // and point it at the proper Evernote web page so the user can authorize us.
         NSString *userAuthURLString = [self userAuthorizationURLStringWithParameters:parameters];
         NSURL *userAuthURL = [NSURL URLWithString:userAuthURLString];
-        [self openBrowserWithURL:userAuthURL];
+        [self openOAuthViewControllerWithURL:userAuthURL];
+        
     } else {
         // OAuth step 4: final callback, with our real token
         NSString *authenticationToken = [parameters objectForKey:@"oauth_token"];
@@ -453,9 +434,20 @@
     self.response = nil;
 }
 
-- (void)openBrowserWithURL:(NSURL *)url
+- (void)openOAuthViewControllerWithURL:(NSURL *)authorizationURL
 {
-    [[UIApplication sharedApplication] openURL:url];    
+    ENOAuthViewController *oauthViewController = [[[ENOAuthViewController alloc] initWithAuthorizationURL:authorizationURL
+                                                   oauthCallbackPrefix:[self oauthCallback]
+                                                                                                 delegate:self] autorelease];
+    UINavigationController *oauthNavController = [[[UINavigationController alloc] initWithRootViewController:oauthViewController] autorelease];
+
+    // use a formsheet on iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        oauthViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+        oauthNavController.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    
+    [self.viewController presentModalViewController:oauthNavController animated:YES];
 }
 
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
@@ -498,6 +490,49 @@
         }
     }
     return dict;
+}
+
+#pragma mark - ENOAuthViewControllerDelegate
+
+- (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
+{
+    [self.viewController dismissModalViewControllerAnimated:YES];    
+}
+
+- (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
+{
+    [self.viewController dismissModalViewControllerAnimated:YES];    
+    if (self.completionHandler) {
+        self.completionHandler(error);
+    }
+}
+
+- (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url
+{
+    [self.viewController dismissModalViewControllerAnimated:YES];
+    
+    // OAuth step 3: got authorization from the user, now get a real token.
+    NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
+    NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
+    NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
+    NSURLRequest *authTokenRequest = [GCOAuth URLRequestForPath:@"/oauth"
+                                                  GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                 oauthVerifier, @"oauth_verifier", nil]
+                                                         scheme:SCHEME
+                                                           host:self.host
+                                                    consumerKey:self.consumerKey
+                                                 consumerSecret:self.consumerSecret
+                                                    accessToken:oauthToken
+                                                    tokenSecret:self.tokenSecret];    
+    NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
+    if (!connection) {
+        // can't make connection, so immediately fail.
+        if (self.completionHandler) {
+            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
+                                                   userInfo:nil]);
+        }
+    }
 }
 
 @end
