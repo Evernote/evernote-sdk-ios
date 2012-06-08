@@ -496,7 +496,10 @@
 
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];    
+    [self.viewController dismissModalViewControllerAnimated:YES];
+    if (self.completionHandler) {
+        self.completionHandler(nil);
+    }
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
