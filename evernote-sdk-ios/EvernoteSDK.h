@@ -34,6 +34,7 @@
 // For other application-level error codes, see EDAMErrorCode in EDAMErrors.h.
 typedef enum {
     EvernoteSDKErrorCode_TRANSPORT_ERROR = -3000,
+    EvernoteSDKErrorCode_NO_VIEWCONTROLLER = -3001,
 } EvernoteSDKErrorCode;
 
 // Evernote SDK NSError error domain.
