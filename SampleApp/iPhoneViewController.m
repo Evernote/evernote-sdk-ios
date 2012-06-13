@@ -1,15 +1,15 @@
 //
-//  ViewController.m
+//  iPhoneViewController.m
 //  OAuthTest
 //
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
 #import "EvernoteSDK.h"
-#import "ViewController.h"
+#import "iPhoneViewController.h"
 
 
-@implementation ViewController
+@implementation iPhoneViewController
 
 @synthesize userLabel;
 @synthesize listNotebooksButton;
@@ -41,7 +41,7 @@
 - (IBAction)authenticate:(id)sender 
 {
     EvernoteSession *session = [EvernoteSession sharedSession];
-    [session authenticateWithCompletionHandler:^(NSError *error) {
+    [session authenticateWithViewController:self completionHandler:^(NSError *error) {
         if (error || !session.isAuthenticated) {
             UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
                                                              message:@"Could not authenticate" 

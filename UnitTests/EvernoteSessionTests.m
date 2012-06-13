@@ -49,7 +49,6 @@
 
     // mock out our verification methods, since we don't care
     [[self.mockSession stub] verifyConsumerKeyAndSecret];
-    [[self.mockSession stub] verifyCFBundleURLSchemes];
     
     // mock out our connection-making method to return a dummy
     self.dummyURLConnection = [[[NSURLConnection alloc] 
@@ -69,7 +68,7 @@
 
     // make sure not setting consumer key, secret throws an exception
     @try {
-        [session authenticateWithCompletionHandler:^(NSError *error) {}];
+        [session authenticateWithViewController:nil completionHandler:^(NSError *error) {}];
         STFail(@"Should have thrown NSException");
     }
     @catch (NSException *expected) {
@@ -80,14 +79,7 @@
     session.host = @"foo";
     session.consumerKey = @"dummyaccount-1234";
     session.consumerSecret = @"123456789";
-    @try {
-        [session authenticateWithCompletionHandler:^(NSError *error) {}];
-        STFail(@"Should have thrown NSException");
-    }
-    @catch (NSException *expected) {
-        STAssertEqualObjects(expected.description, 
-                             @"Please add valid CFBundleURLTypes and CFBundleURLSchemes to your app's Info.plist.", nil);
-    }
+    [session authenticateWithViewController:nil completionHandler:^(NSError *error) {}];
 }
 
 // Make sure a nil NSURLConnection causes a proper error calback.
@@ -95,7 +87,7 @@
 {
     [[[self.mockSession stub] andReturn:nil] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithCompletionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -111,7 +103,7 @@
 {    
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithCompletionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -127,7 +119,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithCompletionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -157,7 +149,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithCompletionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -187,7 +179,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
     
-    [self.mockSession authenticateWithCompletionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -207,8 +199,8 @@
     STAssertFalse(authenticationCompleted, nil);
     STAssertNil(authenticationError, nil);
 
-    // make sure EvernoteSession tried to open the browser, for the Evernote authorization
-    [[self.mockSession expect] openBrowserWithURL:[OCMArg any]];
+    // make sure EvernoteSession tried to open the embedded viewController/browser for the Evernote authorization
+    [[self.mockSession expect] openOAuthViewControllerWithURL:[OCMArg any]];
 
     [self.mockSession connectionDidFinishLoading:self.dummyURLConnection];
     STAssertFalse(authenticationCompleted, nil);
@@ -216,8 +208,7 @@
     [self.mockSession verify];
     
     NSString *urlString = @"en-dummyaccount-1234://response?action=oauthCallback&oauth_token=en_oauth_test.12BF88D95B9.687474703A2F2F6C6F63616C686F73742F7E736574682F4544414D576562546573742F696E6465782E7068703F616374696F6E3D63616C6C6261636B.AEDE24F1FAFD67D267E78D27D14F01D3&oauth_verifier=0D6A636CD623302F8D69DBB8DF76D86E";
-    BOOL canOpen = [self.mockSession handleOpenURL:[NSURL URLWithString:urlString]];
-    STAssertTrue(canOpen, nil);
+    [self.mockSession oauthViewController:nil receivedOAuthCallbackURL:[NSURL URLWithString:urlString]];
     
     // now we can poke the NSURLConnectionDelegate methods again, for the 4th step of OAuth.
 
