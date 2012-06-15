@@ -504,6 +504,7 @@
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
 {
     [self.viewController dismissModalViewControllerAnimated:YES];    
+	[self completeAuthenticationWithError:nil];
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
