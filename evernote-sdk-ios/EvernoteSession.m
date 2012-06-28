@@ -60,6 +60,8 @@
 - (NSString *)oauthCallback;
 - (ENCredentials *)credentials;
 
+- (void)completeAuthenticationWithError:(NSError *)error;
+
 @end
 
 @implementation EvernoteSession
@@ -224,9 +226,12 @@
 - (void)authenticateWithViewController:(UIViewController *)viewController
                      completionHandler:(EvernoteAuthCompletionHandler)completionHandler
 {
+    self.viewController = viewController;
+    self.completionHandler = completionHandler;
+
     // authenticate is idempotent; check if we're already authenticated
     if (self.isAuthenticated) {
-        completionHandler(nil);
+        [self completeAuthenticationWithError:nil];
         return;
     }
     
@@ -234,9 +239,14 @@
     // This verification raises an NSException if problems are found.
     [self verifyConsumerKeyAndSecret];
 
-    self.viewController = viewController;
-    self.completionHandler = completionHandler;
-    
+    if (!viewController) {
+        // no point continuing without a valid view controller,
+        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
+                                                                  code:EvernoteSDKErrorCode_NO_VIEWCONTROLLER 
+                                                              userInfo:nil]];
+        return;
+    }
+        
     // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
     [self startOauthAuthentication];    
 }
@@ -269,11 +279,9 @@
     NSURLConnection *connection = [self connectionWithRequest:tempTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
-        if (self.completionHandler) {
-            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                        code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                   userInfo:nil]);
-        }
+                                                   userInfo:nil]];
     }
 }
 
@@ -329,11 +337,9 @@
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
-        if (self.completionHandler) {
-            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                        code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                   userInfo:nil]);
-        }
+                                                   userInfo:nil]];
     }
     
     return YES;
@@ -345,9 +351,7 @@
 {
     self.receivedData = nil;
     self.response = nil;
-    if (self.completionHandler) {
-        self.completionHandler(error);
-    }
+    [self completeAuthenticationWithError:error];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
@@ -375,11 +379,9 @@
         if (statusCode != 200) {
             NSLog(@"Received error HTTP response code: %d", statusCode);
             NSLog(@"%@", string);
-            if (self.completionHandler) {
-                self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                            code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                       userInfo:nil]);
-            }
+                                                       userInfo:nil]];
             self.receivedData = nil;
             self.response = nil;
             return;
@@ -411,11 +413,9 @@
         // If any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId || !webApiUrlPrefix) {
-            if (self.completionHandler) {
-                self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                            code:EDAMErrorCode_INTERNAL_ERROR 
-                                                       userInfo:nil]);
-            }
+                                                       userInfo:nil]];
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
             [self saveCredentialsWithEdamUserId:edamUserId 
@@ -424,9 +424,7 @@
                             authenticationToken:authenticationToken];
             
             // call our callback, without error.
-            if (self.completionHandler) {
-                self.completionHandler(nil);
-            }
+            [self completeAuthenticationWithError:nil];
         }
     }
 
@@ -463,6 +461,15 @@
     [self.credentialStore addCredentials:ec];    
 }
 
+- (void)completeAuthenticationWithError:(NSError *)error
+{
+    if (self.completionHandler) {
+        self.completionHandler(error);
+    }
+    self.completionHandler = nil;
+    self.viewController = nil;
+}
+
 #pragma mark - querystring parsing
 
 + (NSString *)queryStringFromParameters:(NSDictionary *)parameters 
@@ -496,18 +503,14 @@
 
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];
-    if (self.completionHandler) {
-        self.completionHandler(nil);
-    }
+    [self.viewController dismissModalViewControllerAnimated:YES];    
+	[self completeAuthenticationWithError:nil];
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];    
-    if (self.completionHandler) {
-        self.completionHandler(error);
-    }
+    [self.viewController dismissModalViewControllerAnimated:YES];
+    [self completeAuthenticationWithError:error];
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url
@@ -530,11 +533,9 @@
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
-        if (self.completionHandler) {
-            self.completionHandler([NSError errorWithDomain:EvernoteSDKErrorDomain 
+        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
                                                        code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                   userInfo:nil]);
-        }
+                                                   userInfo:nil]];
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  iPhoneViewController.h
 //  OAuthTest
 //
 //  Created by Matthew McGlincy on 3/17/12.
@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface iPhoneViewController : UIViewController
 - (IBAction)authenticate:(id)sender;
 - (IBAction)listNotes:(id)sender;
 - (IBAction)logout:(id)sender;

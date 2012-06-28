@@ -1,15 +1,15 @@
 //
-//  ViewController.m
+//  iPhoneViewController.m
 //  OAuthTest
 //
 //  Created by Matthew McGlincy on 3/17/12.
 //
 
 #import "EvernoteSDK.h"
-#import "ViewController.h"
+#import "iPhoneViewController.h"
 
 
-@implementation ViewController
+@implementation iPhoneViewController
 
 @synthesize userLabel;
 @synthesize listNotebooksButton;
