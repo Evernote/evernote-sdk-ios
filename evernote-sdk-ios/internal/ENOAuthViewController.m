@@ -26,6 +26,7 @@
 - (void)dealloc
 {
     self.delegate = nil;
+    [self.webView stopLoading];
     [_authorizationURL release];
     [_oauthCallbackPrefix release];
     [_webView release];
@@ -70,17 +71,7 @@
     if (self.delegate) {
         [self.delegate oauthViewControllerDidCancel:self];
     }
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-
-    // Release any retained subviews of the main view.
-
-    self.webView.delegate = nil;
-    [self.webView stopLoading];    
-    [_webView release];
+    self.delegate = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -97,6 +88,13 @@
         return;
     }
     
+    if (error.code == -999) {
+        // ignore rapid repeated clicking
+        return;
+    }
+    
+    [self.webView stopLoading];
+
     if (self.delegate) {
         [self.delegate oauthViewController:self didFailWithError:error];
     }
