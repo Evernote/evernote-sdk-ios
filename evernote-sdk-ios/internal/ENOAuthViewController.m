@@ -88,7 +88,7 @@
         return;
     }
     
-    if (error.code == -999) {
+    if (error.code == NSURLErrorCancelled) {
         // ignore rapid repeated clicking
         return;
     }
