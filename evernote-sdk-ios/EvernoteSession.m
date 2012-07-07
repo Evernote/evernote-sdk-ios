@@ -221,6 +221,15 @@
     
     // remove the store from user defaults
     [self.credentialStore delete];
+    
+    // remove all cookies from the Evernote service
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [cookieJar cookies]) {
+        if ([[cookie domain] isEqualToString: self.host]) {
+            [cookieJar deleteCookie: cookie];
+        }
+    }
 }
 
 - (void)authenticateWithViewController:(UIViewController *)viewController
