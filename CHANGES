@@ -1,3 +1,13 @@
+= 0.1.3 / 2012-07-07
+
+* Delete cookies from the Evernote service host when logging out.
+
+
+= 0.1.2 / 2012-06-13
+
+* Update EvernoteSession to use an embedded UIViewController and UIWebView for OAuth authorization.
+
+
 = 0.1.1 / 2012-05-03
 
 * Improve NSURLConnection handling and error detection to EvernoteSession. 
