@@ -17,6 +17,7 @@
 }
 
 @property (nonatomic, retain) id mockSession;
+@property (nonatomic, retain) id mockViewController;
 @property (nonatomic, retain) NSURLConnection *dummyURLConnection;
 
 @end
@@ -24,11 +25,13 @@
 @implementation EvernoteSessionTests
 
 @synthesize mockSession = _mockSession;
+@synthesize mockViewController = _mockViewController;
 @synthesize dummyURLConnection = _dummyURLConnection;
 
 - (void)dealloc
 {
     [_mockSession release];
+    [_mockViewController release];
     [_dummyURLConnection release];
     [super dealloc];
 }
@@ -49,6 +52,8 @@
 
     // mock out our verification methods, since we don't care
     [[self.mockSession stub] verifyConsumerKeyAndSecret];
+    
+    self.mockViewController = [OCMockObject mockForClass:[UIViewController class]];
     
     // mock out our connection-making method to return a dummy
     self.dummyURLConnection = [[[NSURLConnection alloc] 
@@ -82,16 +87,30 @@
     [session authenticateWithViewController:nil completionHandler:^(NSError *error) {}];
 }
 
-// Make sure a nil NSURLConnection causes a proper error calback.
-- (void)testNilConnection
+// Make sure a nil UIViewController causes a proper error callback.
+- (void)testNilViewController
 {
-    [[[self.mockSession stub] andReturn:nil] connectionWithRequest:[OCMArg any]];
-
     [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
 
+    STAssertTrue(authenticationCompleted, nil);
+    STAssertNotNil(authenticationError, nil);
+    STAssertEqualObjects(authenticationError.domain, EvernoteSDKErrorDomain, nil);
+    STAssertEquals(authenticationError.code, EvernoteSDKErrorCode_NO_VIEWCONTROLLER, nil);
+}
+
+// Make sure a nil NSURLConnection causes a proper error callback.
+- (void)testNilConnection
+{
+    [[[self.mockSession stub] andReturn:nil] connectionWithRequest:[OCMArg any]];
+    
+    [self.mockSession authenticateWithViewController:self.mockViewController completionHandler:^(NSError *error) {
+        authenticationCompleted = YES;
+        authenticationError = error;
+    }];
+    
     STAssertTrue(authenticationCompleted, nil);
     STAssertNotNil(authenticationError, nil);
     STAssertEqualObjects(authenticationError.domain, EvernoteSDKErrorDomain, nil);
@@ -103,7 +122,7 @@
 {    
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:self.mockViewController completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -119,7 +138,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:self.mockViewController completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -149,7 +168,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
 
-    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:self.mockViewController completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -179,7 +198,7 @@
 {
     [[[self.mockSession stub] andReturn:self.dummyURLConnection] connectionWithRequest:[OCMArg any]];
     
-    [self.mockSession authenticateWithViewController:nil completionHandler:^(NSError *error) {
+    [self.mockSession authenticateWithViewController:self.mockViewController completionHandler:^(NSError *error) {
         authenticationCompleted = YES;
         authenticationError = error;
     }];
@@ -206,12 +225,17 @@
     STAssertFalse(authenticationCompleted, nil);
     STAssertNil(authenticationError, nil);    
     [self.mockSession verify];
+
+    // successful authentication will dismiss the modal popup
+    [[self.mockViewController expect] dismissModalViewControllerAnimated:YES];
     
     NSString *urlString = @"en-dummyaccount-1234://response?action=oauthCallback&oauth_token=en_oauth_test.12BF88D95B9.687474703A2F2F6C6F63616C686F73742F7E736574682F4544414D576562546573742F696E6465782E7068703F616374696F6E3D63616C6C6261636B.AEDE24F1FAFD67D267E78D27D14F01D3&oauth_verifier=0D6A636CD623302F8D69DBB8DF76D86E";
     [self.mockSession oauthViewController:nil receivedOAuthCallbackURL:[NSURL URLWithString:urlString]];
     
-    // now we can poke the NSURLConnectionDelegate methods again, for the 4th step of OAuth.
+    [self.mockViewController verify];
 
+    // now we can poke the NSURLConnectionDelegate methods again, for the 4th step of OAuth.
+    
     // connection:didReceiveResponse:
     [self.mockSession connection:self.dummyURLConnection didReceiveResponse:responseMock];
     STAssertFalse(authenticationCompleted, nil);
@@ -232,6 +256,7 @@
                                          authenticationToken:@"sometokenvalue"];
     [self.mockSession connectionDidFinishLoading:self.dummyURLConnection];    
     [self.mockSession verify];
+    
     // and make sure our callback happened, without error.
     STAssertTrue(authenticationCompleted, nil);
     STAssertNil(authenticationError, nil);    
