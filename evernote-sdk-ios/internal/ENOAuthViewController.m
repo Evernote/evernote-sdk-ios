@@ -50,15 +50,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                target:self action:@selector(cancel:)];
+    UIBarButtonItem *cancelItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+                                                                                target:self action:@selector(cancel:)] autorelease];
     self.navigationItem.rightBarButtonItem = cancelItem;
     
     // TODO: Using self.view.frame leaves a 20px black space above the webview... from status bar spacing?
     //self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)] autorelease];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
