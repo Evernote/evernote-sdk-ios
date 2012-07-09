@@ -1,7 +1,9 @@
 = 0.1.3 / 2012-07-07
 
 * Delete cookies from the Evernote service host when logging out.
-
+* Set webView.delegate to nil upon dealloc.
+* Make unit tests pass.
+* Fix 2 leaks: autorelease UIBarButtonItem and UIWebView.
 
 = 0.1.2 / 2012-06-13
 
