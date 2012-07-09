@@ -26,10 +26,11 @@
 - (void)dealloc
 {
     self.delegate = nil;
+    self.webView.delegate = nil;
     [self.webView stopLoading];
+    [_webView release];
     [_authorizationURL release];
     [_oauthCallbackPrefix release];
-    [_webView release];
     [super dealloc];
 }
 
@@ -49,15 +50,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                target:self action:@selector(cancel:)];
+    UIBarButtonItem *cancelItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
+                                                                                target:self action:@selector(cancel:)] autorelease];
     self.navigationItem.rightBarButtonItem = cancelItem;
     
-    // Using self.view.frame leaves a 20px black space above the webview... from status bar spacing?
+    // TODO: Using self.view.frame leaves a 20px black space above the webview... from status bar spacing?
     //self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.webView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)] autorelease];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
@@ -89,7 +89,7 @@
     }
     
     if (error.code == NSURLErrorCancelled) {
-        // ignore rapid repeated clicking
+        // ignore rapid repeated clicking (error code -999)
         return;
     }
     
