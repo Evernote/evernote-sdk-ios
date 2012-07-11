@@ -1,3 +1,7 @@
+= 0.1.4 / 2012-07-11
+
+* Remove unused Thrift transport files that caused compilation warnings.
+
 = 0.1.3 / 2012-07-07
 
 * Delete cookies from the Evernote service host when logging out.
