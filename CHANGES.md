@@ -1,3 +1,7 @@
+= 0.1.5 / 2012-07-16
+
+* Remove unused server-side Thrift code.
+
 = 0.1.4 / 2012-07-11
 
 * Remove unused Thrift transport files that caused compilation warnings.
