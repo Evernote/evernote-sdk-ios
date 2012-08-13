@@ -22,12 +22,14 @@
 @synthesize authorizationURL = _authorizationURL;
 @synthesize oauthCallbackPrefix = _oauthCallbackPrefix;
 @synthesize webView = _webView;
+@synthesize activityIndicatorView = _activityIndicatorView;
 
 - (void)dealloc
 {
     self.delegate = nil;
     self.webView.delegate = nil;
     [self.webView stopLoading];
+    self.activityIndicatorView = nil;
     [_webView release];
     [_authorizationURL release];
     [_oauthCallbackPrefix release];
@@ -63,6 +65,13 @@
     self.webView.delegate = self;
     [self.view addSubview:self.webView];
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.authorizationURL]];
+    
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityIndicatorView.frame = CGRectMake((self.view.frame.size.width-32.0)/2.0, (self.view.frame.size.height-32.0)/2.0, 32.0, 32.0);
+    self.activityIndicatorView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    
+    [self.view addSubview:self.activityIndicatorView];
+    [self.activityIndicatorView startAnimating];    
 }
 
 - (void)cancel:(id)sender
@@ -71,6 +80,7 @@
     if (self.delegate) {
         [self.delegate oauthViewControllerDidCancel:self];
     }
+    [self.activityIndicatorView stopAnimating];
     self.delegate = nil;
 }
 
@@ -83,6 +93,8 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [self.activityIndicatorView stopAnimating];
+
     if ([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102) {
         // ignore "Frame load interrupted" errors, which we get as part of the final oauth callback :P
         return;
@@ -110,6 +122,10 @@
         return NO;
     }
     return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self.activityIndicatorView stopAnimating];
 }
 
 @end
