@@ -1,3 +1,7 @@
+= 0.2 / 2012-08-24
+
+* Update to Evernote API version 1.22, which adds NoteStore.findRelated()
+
 = 0.1.6 / 2012-07-30
 
 * Drop XCode project deployment target to iOS 4.0
