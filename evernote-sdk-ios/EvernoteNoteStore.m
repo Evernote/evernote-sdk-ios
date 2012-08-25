@@ -264,6 +264,15 @@
 }
 
 #pragma mark - NoteStore notes methods
+- (void)findRealtedWithQuery:(EDAMRelatedQuery *)query
+                  resultSpec:(EDAMRelatedResultSpec *)resultSpec
+                     success:(void(^)(EDAMRelatedResult *result))success
+                     failure:(void(^)(NSError *error))failure
+{
+    [self invokeAsyncIdBlock:^id() {
+        return [self.noteStore findRelated:self.session.authenticationToken:query:resultSpec];
+    } success:success failure:failure];
+}
 
 - (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
                      offset:(int32_t)offset

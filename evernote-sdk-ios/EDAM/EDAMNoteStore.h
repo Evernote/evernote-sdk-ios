@@ -884,6 +884,110 @@
 - (BOOL) sessionsIsSet;
 @end
 
+@interface EDAMRelatedQuery : NSObject <NSCoding> {
+  NSString * __noteGuid;
+  NSString * __plainText;
+
+  BOOL __noteGuid_isset;
+  BOOL __plainText_isset;
+}
+
+- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=noteGuid, setter=setNoteGuid:) NSString * noteGuid;
+@property (nonatomic, retain, getter=plainText, setter=setPlainText:) NSString * plainText;
+#else
+
+- (NSString *) noteGuid;
+- (void) setNoteGuid: (NSString *) noteGuid;
+
+- (NSString *) plainText;
+- (void) setPlainText: (NSString *) plainText;
+
+#endif
+
+- (BOOL) noteGuidIsSet;
+- (BOOL) plainTextIsSet;
+@end
+
+@interface EDAMRelatedResult : NSObject <NSCoding> {
+  NSArray * __notes;
+  NSArray * __notebooks;
+  NSArray * __tags;
+
+  BOOL __notes_isset;
+  BOOL __notebooks_isset;
+  BOOL __tags_isset;
+}
+
+- (id) initWithNotes: (NSArray *) notes notebooks: (NSArray *) notebooks tags: (NSArray *) tags;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=notes, setter=setNotes:) NSArray * notes;
+@property (nonatomic, retain, getter=notebooks, setter=setNotebooks:) NSArray * notebooks;
+@property (nonatomic, retain, getter=tags, setter=setTags:) NSArray * tags;
+#else
+
+- (NSArray *) notes;
+- (void) setNotes: (NSArray *) notes;
+
+- (NSArray *) notebooks;
+- (void) setNotebooks: (NSArray *) notebooks;
+
+- (NSArray *) tags;
+- (void) setTags: (NSArray *) tags;
+
+#endif
+
+- (BOOL) notesIsSet;
+- (BOOL) notebooksIsSet;
+- (BOOL) tagsIsSet;
+@end
+
+@interface EDAMRelatedResultSpec : NSObject <NSCoding> {
+  int32_t __maxNotes;
+  int32_t __maxNotebooks;
+  int32_t __maxTags;
+
+  BOOL __maxNotes_isset;
+  BOOL __maxNotebooks_isset;
+  BOOL __maxTags_isset;
+}
+
+- (id) initWithMaxNotes: (int32_t) maxNotes maxNotebooks: (int32_t) maxNotebooks maxTags: (int32_t) maxTags;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=maxNotes, setter=setMaxNotes:) int32_t maxNotes;
+@property (nonatomic, getter=maxNotebooks, setter=setMaxNotebooks:) int32_t maxNotebooks;
+@property (nonatomic, getter=maxTags, setter=setMaxTags:) int32_t maxTags;
+#else
+
+- (int32_t) maxNotes;
+- (void) setMaxNotes: (int32_t) maxNotes;
+
+- (int32_t) maxNotebooks;
+- (void) setMaxNotebooks: (int32_t) maxNotebooks;
+
+- (int32_t) maxTags;
+- (void) setMaxTags: (int32_t) maxTags;
+
+#endif
+
+- (BOOL) maxNotesIsSet;
+- (BOOL) maxNotebooksIsSet;
+- (BOOL) maxTagsIsSet;
+@end
+
 @protocol EDAMNoteStore <NSObject>
 - (EDAMSyncState *) getSyncState: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMSyncState *) getSyncStateWithMetrics: (NSString *) authenticationToken : (EDAMClientUsageMetrics *) clientMetrics;  // throws EDAMUserException *, EDAMSystemException *, TException
@@ -960,6 +1064,7 @@
 - (NSString *) shareNote: (NSString *) authenticationToken : (EDAMGuid) guid;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (void) stopSharingNote: (NSString *) authenticationToken : (EDAMGuid) guid;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (EDAMAuthenticationResult *) authenticateToSharedNote: (NSString *) guid : (NSString *) noteKey;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
+- (EDAMRelatedResult *) findRelated: (NSString *) authenticationToken : (EDAMRelatedQuery *) query : (EDAMRelatedResultSpec *) resultSpec;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException
 @end
 
 @interface EDAMNoteStoreClient : NSObject <EDAMNoteStore> {

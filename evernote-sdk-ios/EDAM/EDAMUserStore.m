@@ -17,7 +17,7 @@
 #import "EDAMUserStore.h"
 
 static int16_t EDAMEDAM_VERSION_MAJOR = 1;
-static int16_t EDAMEDAM_VERSION_MINOR = 21;
+static int16_t EDAMEDAM_VERSION_MINOR = 22;
 
 @implementation EDAMUserStoreConstants
 + (void) initialize {
@@ -1321,7 +1321,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
 
 @implementation EDAMBootstrapSettings
 
-- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing
+- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing
 {
   self = [super init];
   __serviceHost = [serviceHost retain];
@@ -1346,6 +1346,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   __enableSponsoredAccounts_isset = YES;
   __enableTwitterSharing = enableTwitterSharing;
   __enableTwitterSharing_isset = YES;
+  __enableLinkedInSharing = enableLinkedInSharing;
+  __enableLinkedInSharing_isset = YES;
   return self;
 }
 
@@ -1407,6 +1409,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
     __enableTwitterSharing = [decoder decodeBoolForKey: @"enableTwitterSharing"];
     __enableTwitterSharing_isset = YES;
   }
+  if ([decoder containsValueForKey: @"enableLinkedInSharing"])
+  {
+    __enableLinkedInSharing = [decoder decodeBoolForKey: @"enableLinkedInSharing"];
+    __enableLinkedInSharing_isset = YES;
+  }
   return self;
 }
 
@@ -1455,6 +1462,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   if (__enableTwitterSharing_isset)
   {
     [encoder encodeBool: __enableTwitterSharing forKey: @"enableTwitterSharing"];
+  }
+  if (__enableLinkedInSharing_isset)
+  {
+    [encoder encodeBool: __enableLinkedInSharing forKey: @"enableLinkedInSharing"];
   }
 }
 
@@ -1670,6 +1681,23 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   __enableTwitterSharing_isset = NO;
 }
 
+- (BOOL) enableLinkedInSharing {
+  return __enableLinkedInSharing;
+}
+
+- (void) setEnableLinkedInSharing: (BOOL) enableLinkedInSharing {
+  __enableLinkedInSharing = enableLinkedInSharing;
+  __enableLinkedInSharing_isset = YES;
+}
+
+- (BOOL) enableLinkedInSharingIsSet {
+  return __enableLinkedInSharing_isset;
+}
+
+- (void) unsetEnableLinkedInSharing {
+  __enableLinkedInSharing_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -1773,6 +1801,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 12:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setEnableLinkedInSharing: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -1847,6 +1883,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
     [outProtocol writeBool: __enableTwitterSharing];
     [outProtocol writeFieldEnd];
   }
+  if (__enableLinkedInSharing_isset) {
+    [outProtocol writeFieldBeginWithName: @"enableLinkedInSharing" type: TType_BOOL fieldID: 12];
+    [outProtocol writeBool: __enableLinkedInSharing];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -1875,6 +1916,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 21;
   [ms appendFormat: @"%i", __enableSponsoredAccounts];
   [ms appendString: @",enableTwitterSharing:"];
   [ms appendFormat: @"%i", __enableTwitterSharing];
+  [ms appendString: @",enableLinkedInSharing:"];
+  [ms appendFormat: @"%i", __enableLinkedInSharing];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }

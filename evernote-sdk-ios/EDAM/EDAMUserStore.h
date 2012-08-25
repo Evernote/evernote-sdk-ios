@@ -248,6 +248,7 @@ enum EDAMSponsoredGroupRole {
   BOOL __enableSingleNoteSharing;
   BOOL __enableSponsoredAccounts;
   BOOL __enableTwitterSharing;
+  BOOL __enableLinkedInSharing;
 
   BOOL __serviceHost_isset;
   BOOL __marketingUrl_isset;
@@ -260,9 +261,10 @@ enum EDAMSponsoredGroupRole {
   BOOL __enableSingleNoteSharing_isset;
   BOOL __enableSponsoredAccounts_isset;
   BOOL __enableTwitterSharing_isset;
+  BOOL __enableLinkedInSharing_isset;
 }
 
-- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing;
+- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -279,6 +281,7 @@ enum EDAMSponsoredGroupRole {
 @property (nonatomic, getter=enableSingleNoteSharing, setter=setEnableSingleNoteSharing:) BOOL enableSingleNoteSharing;
 @property (nonatomic, getter=enableSponsoredAccounts, setter=setEnableSponsoredAccounts:) BOOL enableSponsoredAccounts;
 @property (nonatomic, getter=enableTwitterSharing, setter=setEnableTwitterSharing:) BOOL enableTwitterSharing;
+@property (nonatomic, getter=enableLinkedInSharing, setter=setEnableLinkedInSharing:) BOOL enableLinkedInSharing;
 #else
 
 - (NSString *) serviceHost;
@@ -314,6 +317,9 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) enableTwitterSharing;
 - (void) setEnableTwitterSharing: (BOOL) enableTwitterSharing;
 
+- (BOOL) enableLinkedInSharing;
+- (void) setEnableLinkedInSharing: (BOOL) enableLinkedInSharing;
+
 #endif
 
 - (BOOL) serviceHostIsSet;
@@ -327,6 +333,7 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) enableSingleNoteSharingIsSet;
 - (BOOL) enableSponsoredAccountsIsSet;
 - (BOOL) enableTwitterSharingIsSet;
+- (BOOL) enableLinkedInSharingIsSet;
 @end
 
 @interface EDAMBootstrapProfile : NSObject <NSCoding> {

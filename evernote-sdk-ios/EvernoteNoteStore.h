@@ -101,23 +101,7 @@
                    success:(void(^)(int32_t usn))success
                    failure:(void(^)(NSError *error))failure;
 
-// NoteStore search methods
-- (void)listSearchesWithSuccess:(void(^)(NSArray *searches))success
-                        failure:(void(^)(NSError *error))failure;
-- (void)getSearchWithGuid:(EDAMGuid)guid
-                  success:(void(^)(EDAMSavedSearch *search))success
-                  failure:(void(^)(NSError *error))failure;
-- (void)createSearch:(EDAMSavedSearch *)search
-             success:(void(^)(EDAMSavedSearch *search))success
-             failure:(void(^)(NSError *error))failure;
-- (void)updateSearch:(EDAMSavedSearch *)search
-             success:(void(^)(int32_t usn))success
-             failure:(void(^)(NSError *error))failure;
-- (void)expungeSearchWithGuid:(EDAMGuid)guid
-                      success:(void(^)(int32_t usn))success
-                      failure:(void(^)(NSError *error))failure;
-
-// NoteStore search methods
+// NoteStore SavedSearch methods
 - (void)listSearchesWithSuccess:(void(^)(NSArray *searches))success
                         failure:(void(^)(NSError *error))failure;
 - (void)getSearchWithGuid:(EDAMGuid)guid
@@ -134,7 +118,11 @@
                       failure:(void(^)(NSError *error))failure;
 
 // NoteStore notes methods
-- (void)findNotesWithFilter:(EDAMNoteFilter *)filter 
+- (void)findRealtedWithQuery:(EDAMRelatedQuery *)query
+                  resultSpec:(EDAMRelatedResultSpec *)resultSpec
+                     success:(void(^)(EDAMRelatedResult *result))success
+                     failure:(void(^)(NSError *error))failure;
+- (void)findNotesWithFilter:(EDAMNoteFilter *)filter
                      offset:(int32_t)offset
                    maxNotes:(int32_t)maxNotes
                     success:(void(^)(EDAMNoteList *list))success
