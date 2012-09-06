@@ -1,3 +1,8 @@
+= 0.2.1 / 2012-09-05
+
+* Remove authentication cookies from the embedded UIWebView prior to authenticating
+  to allow users to log in as a different user after declining to authorize access.
+
 = 0.2 / 2012-08-24
 
 * Update to Evernote API version 1.22, which adds NoteStore.findRelated()
