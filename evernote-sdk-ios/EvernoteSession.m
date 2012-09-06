@@ -223,6 +223,11 @@
     [self.credentialStore delete];
     
     // remove all cookies from the Evernote service
+    [self emptyCookieJar];
+}
+
+- (void)emptyCookieJar
+{
     NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *cookie in [cookieJar cookies]) {
         if ([[cookie domain] hasSuffix: self.host]) {
@@ -254,7 +259,11 @@
                                                               userInfo:nil]];
         return;
     }
-        
+
+    // remove all cookies from the Evernote service so that the user can log in with
+    // different credentials after declining to authorize access
+    [self emptyCookieJar];
+
     // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
     [self startOauthAuthentication];    
 }
