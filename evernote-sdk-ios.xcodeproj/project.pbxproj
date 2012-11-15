@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */; };
-		0B0DE6A71571978C00D7347A /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */; };
-		0B0DE6A81571978C00D7347A /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */; };
 		0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; };
 		0B2B9D631544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
 		0B2B9D641544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
@@ -111,11 +109,17 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		A96E28E1165594480031EC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A96E28DF1655941F0031EC63 /* Localizable.strings */; };
+		A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
+		A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
+		A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; };
+		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
+		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
+		A9FDF71C165C614300DC7E4B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3D27D1524EF37001C4534 /* AppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENOAuthViewController.h; sourceTree = "<group>"; };
-		0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
 		0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteUserStore.h; sourceTree = "<group>"; };
 		0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteUserStore.m; sourceTree = "<group>"; };
 		0B2B9D6615449AEE00E5BD44 /* EvernoteSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteSDK.h; sourceTree = "<group>"; };
@@ -210,6 +214,10 @@
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A96E28E01655941F0031EC63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		A96E28EC165597C90031EC63 /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
+		A9FDF716165C5C7100DC7E4B /* ENConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENConstants.h; sourceTree = "<group>"; };
+		A9FDF717165C5C7100DC7E4B /* ENConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,6 +339,7 @@
 		0B98592115432592007D7D37 /* internal */ = {
 			isa = PBXGroup;
 			children = (
+				A96E28DD165593F00031EC63 /* Resources */,
 				0B98592215432592007D7D37 /* ENAPI.h */,
 				0B98592315432592007D7D37 /* ENAPI.m */,
 				0B98592415432592007D7D37 /* ENCredentials.h */,
@@ -338,7 +347,9 @@
 				0B98592615432592007D7D37 /* ENCredentialStore.h */,
 				0B98592715432592007D7D37 /* ENCredentialStore.m */,
 				0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */,
-				0B0DE6A51571978C00D7347A /* ENOAuthViewController.m */,
+				A96E28EC165597C90031EC63 /* ENOAuthViewController.m */,
+				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
+				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
 			);
 			path = internal;
 			sourceTree = "<group>";
@@ -511,6 +522,22 @@
 			path = SSKeychain;
 			sourceTree = "<group>";
 		};
+		A96E28DD165593F00031EC63 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A96E28DE165594000031EC63 /* en.lproj */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A96E28DE165594000031EC63 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				A96E28DF1655941F0031EC63 /* Localizable.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -550,6 +577,7 @@
 				0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */,
 				0B2B9D6815449AEE00E5BD44 /* EvernoteSDK.h in Headers */,
 				0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */,
+				A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +651,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-cn",
 			);
 			mainGroup = 0BB3D1A21524ED96001C4534;
 			productRefGroup = 0BB3D1AE1524ED96001C4534 /* Products */;
@@ -644,6 +673,7 @@
 				0BB3D2781524EF37001C4534 /* InfoPlist.strings in Resources */,
 				0BB3D2811524EF37001C4534 /* iPhone.storyboard in Resources */,
 				0B94997E1585ADCF001A706A /* iPad.storyboard in Resources */,
+				A96E28E1165594480031EC63 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,7 +733,9 @@
 				0B345EBF1544633F00A1FDBF /* EvernoteNoteStore.m in Sources */,
 				0B2B9D631544944800E5BD44 /* EvernoteUserStore.m in Sources */,
 				0B2B9D6915449AEE00E5BD44 /* EvernoteSDK.m in Sources */,
-				0B0DE6A71571978C00D7347A /* ENOAuthViewController.m in Sources */,
+				A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */,
+				A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */,
+				A9FDF71C165C614300DC7E4B /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -738,8 +770,9 @@
 				0B345EC01544633F00A1FDBF /* EvernoteNoteStore.m in Sources */,
 				0B2B9D641544944800E5BD44 /* EvernoteUserStore.m in Sources */,
 				0B2B9D6A15449AEE00E5BD44 /* EvernoteSDK.m in Sources */,
-				0B0DE6A81571978C00D7347A /* ENOAuthViewController.m in Sources */,
 				0BA8C63D15878823004C9D6A /* iPadViewController.m in Sources */,
+				A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */,
+				A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,6 +817,14 @@
 				0BDBBC4C1550A11A003E6681 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		A96E28DF1655941F0031EC63 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A96E28E01655941F0031EC63 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

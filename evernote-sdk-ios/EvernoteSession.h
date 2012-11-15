@@ -36,6 +36,13 @@
 // Post-authentication callback type, defined for easy reuse.
 typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 
+typedef enum {
+    EVERNOTE_SERVICE_NONE = 0,
+    EVERNOTE_SERVICE_INTERNATIONAL = 1,
+    EVERNOTE_SERVICE_YINXIANG = 2,
+    EVERNOTE_SERVICE_BOTH = 3
+} EvernoteService;
+
 /*
  * Evernote Session, using OAuth to authenticate.
  */
@@ -44,6 +51,7 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *consumerKey;
 @property (nonatomic, retain) NSString *consumerSecret;
+@property (nonatomic, assign) EvernoteService serviceType;
 
 // Are we authenticated?
 @property (nonatomic, readonly) BOOL isAuthenticated;
@@ -66,12 +74,23 @@ typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 // Shared dispatch queue for API operations.
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
+// Bootstrap profiles
+@property (nonatomic, retain) NSArray* profiles;
+
 // Set up the shared session.
 // @"sandbox.evernote.com" should be used for testing; 
 // @"www.evernote.com" for production apps.
 + (void)setSharedSessionHost:(NSString *)host 
                  consumerKey:(NSString *)consumerKey 
-              consumerSecret:(NSString *)consumerSecret;
+              consumerSecret:(NSString *)consumerSecret
+          supportedService:(EvernoteService)service;
+
+
+// will be deprecated soon, use function above instead
++ (void)setSharedSessionHost:(NSString *)host
+                 consumerKey:(NSString *)consumerKey
+              consumerSecret:(NSString *)consumerSecret DEPRECATED_ATTRIBUTE;
+
 
 // Get the singleton shared session.
 + (EvernoteSession *)sharedSession;

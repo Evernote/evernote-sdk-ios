@@ -35,6 +35,7 @@
 #import "GCOAuth.h"
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
+#import "ENConstants.h"
 
 #define SCHEME @"https"
 
@@ -49,6 +50,12 @@
 
 @property (nonatomic, copy) EvernoteAuthCompletionHandler completionHandler;
 @property (nonatomic, retain) NSString *tokenSecret;
+
+@property (nonatomic, copy) NSString* currentProfile;
+
+@property (nonatomic, assign) BOOL isSwitchingInProgress;
+
+@property (nonatomic, retain) ENOAuthViewController *oauthViewController;
 
 // generate a dictionary of name=>value from the given queryString
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString;
@@ -95,6 +102,9 @@
     [_receivedData release];
     [_response release];
     [_tokenSecret release];
+    [_profiles release];
+    [_currentProfile release];
+    [_oauthViewController release];
     dispatch_release(_queue);
     [super dealloc];
 }
@@ -124,7 +134,7 @@
 
 - (void)commonInit
 {
-    self.credentialStore = [ENCredentialStore load];
+    self.credentialStore = [ENCredentialStore loadCredentials];
     if (!self.credentialStore) {
         self.credentialStore = [[[ENCredentialStore alloc] init] autorelease];
         [self.credentialStore save];
@@ -132,12 +142,45 @@
     _queue = dispatch_queue_create("com.evernote.sdk.EvernoteSession", NULL);
 }
 
-+ (void)setSharedSessionHost:(NSString *)host consumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret 
+- (NSString *)host {
+    NSString *serviceHost = nil;
+    if(self.profiles.count>0 && self.currentProfile) {
+        for (EDAMBootstrapProfile* profile in self.profiles) {
+            if([profile.name isEqualToString:self.currentProfile]) {
+                EDAMBootstrapSettings *settings = profile.settings;
+                serviceHost = settings.serviceHost;
+            }
+        }
+    }
+    else {
+        // Use EVERNOTE_HOST
+        serviceHost = _host;
+    }
+    return serviceHost;
+}
+
++ (void)setSharedSessionHost:(NSString *)host consumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret supportedService:(EvernoteService)service
 {
     EvernoteSession *session = [self sharedSession];
-    session.host = host;
+
+    if([ENCredentialStore getCurrentProfile] == EVERNOTE_SERVICE_YINXIANG) {
+        session.host = BootstrapServerBaseURLStringCN;
+    }
+    else if([ENCredentialStore getCurrentProfile] == EVERNOTE_SERVICE_INTERNATIONAL) {
+        session.host = BootstrapServerBaseURLStringUS;
+    }
+    else {
+        session.host = host;
+    }
     session.consumerKey = consumerKey;
     session.consumerSecret = consumerSecret;
+    session.serviceType = service;
+}
+
++ (void)setSharedSessionHost:(NSString *)host
+                 consumerKey:(NSString *)consumerKey
+              consumerSecret:(NSString *)consumerSecret {
+    [self setSharedSessionHost:host consumerKey:consumerKey consumerSecret:consumerSecret supportedService:EVERNOTE_SERVICE_INTERNATIONAL];
 }
 
 + (EvernoteSession *)sharedSession
@@ -224,6 +267,11 @@
     
     // remove all cookies from the Evernote service
     [self emptyCookieJar];
+    
+    // Clear profiles
+    self.profiles = nil;
+    self.currentProfile = nil;
+    self.isSwitchingInProgress = NO;
 }
 
 - (void)emptyCookieJar
@@ -263,9 +311,26 @@
     // remove all cookies from the Evernote service so that the user can log in with
     // different credentials after declining to authorize access
     [self emptyCookieJar];
-
-    // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
-    [self startOauthAuthentication];    
+    // Only do bootstrapping for clients which want to support both
+    if(self.serviceType == EVERNOTE_SERVICE_BOTH) {
+        NSString* locale = [[NSLocale currentLocale] localeIdentifier];
+        EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+        [userStore getBootstrapInfoWithLocale:locale success:^(EDAMBootstrapInfo *info) {
+            // Using first profile as the preferred profile.
+            EDAMBootstrapProfile *profile = info.profiles[0];
+            self.profiles = info.profiles;
+            self.currentProfile = profile.name;
+            // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
+            [self startOauthAuthentication];
+        } failure:^(NSError *error) {
+            // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
+            [self startOauthAuthentication];
+        }];
+    }
+    else {
+        // only one profile supported.
+        [self startOauthAuthentication];
+    }
 }
 
 - (void)verifyConsumerKeyAndSecret
@@ -396,7 +461,7 @@
         if (statusCode != 200) {
             NSLog(@"Received error HTTP response code: %d", statusCode);
             NSLog(@"%@", string);
-            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
                                                            code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
                                                        userInfo:nil]];
             self.receivedData = nil;
@@ -439,7 +504,6 @@
                                    noteStoreUrl:noteStoreUrl
                                 webApiUrlPrefix:webApiUrlPrefix
                             authenticationToken:authenticationToken];
-            
             // call our callback, without error.
             [self completeAuthenticationWithError:nil];
         }
@@ -451,18 +515,33 @@
 
 - (void)openOAuthViewControllerWithURL:(NSURL *)authorizationURL
 {
-    ENOAuthViewController *oauthViewController = [[[ENOAuthViewController alloc] initWithAuthorizationURL:authorizationURL
-                                                   oauthCallbackPrefix:[self oauthCallback]
-                                                                                                 delegate:self] autorelease];
-    UINavigationController *oauthNavController = [[[UINavigationController alloc] initWithRootViewController:oauthViewController] autorelease];
-
-    // use a formsheet on iPad
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        oauthViewController.modalPresentationStyle = UIModalPresentationFormSheet;
-        oauthNavController.modalPresentationStyle = UIModalPresentationFormSheet;
+    BOOL isSwitchAllowed = NO;
+    if([self.profiles count]>1) {
+        isSwitchAllowed = YES;
     }
-    
-    [self.viewController presentModalViewController:oauthNavController animated:YES];
+    else {
+        isSwitchAllowed = NO;
+    }
+    if(!self.isSwitchingInProgress ) {
+        self.oauthViewController = [[[ENOAuthViewController alloc] initWithAuthorizationURL:authorizationURL
+                                                                                          oauthCallbackPrefix:[self oauthCallback]
+                                                                                                  profileName:self.currentProfile
+                                                                                               allowSwitching:isSwitchAllowed
+                                                                                                     delegate:self] autorelease];
+        UINavigationController *oauthNavController = [[[UINavigationController alloc] initWithRootViewController:self.oauthViewController] autorelease];
+        
+        // use a formsheet on iPad
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            self.oauthViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+            oauthNavController.modalPresentationStyle = UIModalPresentationFormSheet;
+        }
+        [self.viewController presentModalViewController:oauthNavController animated:YES];
+    }
+    else {
+        [self.oauthViewController updateUIForNewProfile:self.currentProfile withAuthorizationURL:authorizationURL];
+        self.isSwitchingInProgress = NO;
+        
+    }
 }
 
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 
@@ -475,7 +554,13 @@
                                                 noteStoreUrl:noteStoreUrl 
                                              webApiUrlPrefix:webApiUrlPrefix
                                          authenticationToken:authenticationToken] autorelease];
-    [self.credentialStore addCredentials:ec];    
+    [self.credentialStore addCredentials:ec];
+    if([self.currentProfile isEqualToString:ENBootstrapProfileNameChina]) {
+        [ENCredentialStore saveCurrentProfile:EVERNOTE_SERVICE_YINXIANG];
+    }
+    else if([self.currentProfile isEqualToString:ENBootstrapProfileNameInternational]) {
+        [ENCredentialStore saveCurrentProfile:EVERNOTE_SERVICE_INTERNATIONAL];
+    }
 }
 
 - (void)completeAuthenticationWithError:(NSError *)error
@@ -485,6 +570,21 @@
     }
     self.completionHandler = nil;
     self.viewController = nil;
+}
+
+- (void) switchProfile {
+    int profileIndex = 0;
+    for (profileIndex = 0; profileIndex<self.profiles.count; profileIndex++) {
+        EDAMBootstrapProfile *profile = [self.profiles objectAtIndex:profileIndex];
+        if([self.currentProfile isEqualToString:profile.name]) {
+            break;
+        }
+    }
+    
+    EDAMBootstrapProfile* nextProfile = [self.profiles objectAtIndex:(profileIndex+1)%self.profiles.count];
+    self.currentProfile = nextProfile.name;
+    // Restart oAuth dance
+    [self startOauthAuthentication];
 }
 
 #pragma mark - querystring parsing
@@ -522,6 +622,11 @@
 {
     [self.viewController dismissModalViewControllerAnimated:YES];    
 	[self completeAuthenticationWithError:nil];
+}
+
+- (void)oauthViewControllerDidSwitchProfile:(ENOAuthViewController *)sender {
+    self.isSwitchingInProgress = YES;
+    [self switchProfile];
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error

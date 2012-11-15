@@ -1,3 +1,8 @@
+= 0.2.2 / 2012-11-20
+
+* Added bootstrapping to the SDK. The SDK now supports the Yinxiang Biji service.
+* Added activity indicator when the web view is loading.
+
 = 0.2.1 / 2012-09-05
 
 * Remove authentication cookies from the embedded UIWebView prior to authenticating
