@@ -19,6 +19,7 @@
 @interface ENOAuthViewController : UIViewController
 
 @property (nonatomic, assign) id<ENOAuthViewControllerDelegate> delegate;
+@property (nonatomic, assign) UIActivityIndicatorView* activityIndicatorView;
 
 - (id)initWithAuthorizationURL:(NSURL *)authorizationURL 
            oauthCallbackPrefix:(NSString *)oauthCallbackPrefix
