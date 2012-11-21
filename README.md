@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 0.2.1
+Evernote SDK for iOS version 0.2.2
 =========================================
 
 What this is
@@ -32,22 +32,31 @@ evernote-sdk-ios depends on Security.framework, so you'll need to add that to an
 ### Modify your AppDelegate
 
 First you set up the shared EvernoteSession, configuring it with your consumer key and secret. Do something like this in your AppDelegate's application:didFinishLaunchingWithOptions: method.
+The SDK now supports the Yinxiang Biji service. To support both, set the service to EVERNOTE_SERVICE_BOTH.  
+To support Yinxiang Biji only, change 'service' to EVERNOTE_SERVICE_YINXIANG and 'EVERNOTE_HOST' to 'app.yinxiang.com'. 
+To support international only, change 'service' to EVERNOTE_SERVICE_INTERNATIONAL and 'EVERNOTE_HOST' to 'www.evernote.com'. 
 
     - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     {
         // Initial development is done on the sandbox service
         // Change this to @"www.evernote.com" to use the production Evernote service
+        // Change this to @"app.yinxiang.com" to use the Yinxiang Biji production service
+        // sandbox.evernote.com does not support the  Yinxiang Biji service
         NSString *EVERNOTE_HOST = @"sandbox.evernote.com";
     
         // Fill in the consumer key and secret with the values that you received from Evernote
         // To get an API key, visit http://dev.evernote.com/documentation/cloud/
         NSString *CONSUMER_KEY = @"your key";
         NSString *CONSUMER_SECRET = @"your secret";
+	
+        // This setting controls if your app supports Evernote International and/or Yinxiang Biji
+        EvernoteService service = EVERNOTE_SERVICE_INTERNATIONAL;
     
         // set up Evernote session singleton
         [EvernoteSession setSharedSessionHost:EVERNOTE_HOST 
-                                  consumerKey:CONSUMER_KEY 
-                               consumerSecret:CONSUMER_SECRET];    
+                                  consumerKey:CONSUMER_KEY  
+                           consumerSecret:CONSUMER_SECRET
+                       supportedService:service];    
     }
 
 Now you're good to go.

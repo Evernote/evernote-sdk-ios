@@ -29,13 +29,14 @@
 
 #import <UIKit/UIKit.h>
 #import "ENCredentials.h"
+#import "EvernoteSession.h"
 
 // Permanent store of Evernote credentials.
 // Credentials are unique per (host,consumer key) tuple.
 @interface ENCredentialStore : NSObject
 
 // Load the credential store from user defaults.
-+ (ENCredentialStore *)load;
++ (ENCredentialStore *)loadCredentials;
 
 // Save the credential store to user defaults.
 - (void)save;
@@ -58,5 +59,9 @@
 // Remove all credentials from the store.
 // Also deletes the credentials' auth tokens from the keychain.
 - (void)clearAllCredentials;
+
++ (void)saveCurrentProfile:(EvernoteService)code;
+
++ (NSInteger)getCurrentProfile;
 
 @end

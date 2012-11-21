@@ -31,6 +31,8 @@
 
 #define DEFAULTS_CREDENTIAL_STORE_KEY @"EvernoteCredentials"
 
+#define DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY @"EvernoteCurrentProfile"
+
 @interface ENCredentialStore() <NSCoding>
 
 @property (nonatomic, retain) NSMutableDictionary *store;
@@ -56,7 +58,7 @@
     return self;
 }
 
-+ (ENCredentialStore *)load
++ (ENCredentialStore *)loadCredentials
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *data = [defaults objectForKey:DEFAULTS_CREDENTIAL_STORE_KEY];
@@ -89,7 +91,21 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:DEFAULTS_CREDENTIAL_STORE_KEY];
+    [defaults removeObjectForKey:DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY];
     [defaults synchronize];        
+}
+
++ (void)saveCurrentProfile:(EvernoteService)code
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:code forKey:DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY];
+    [defaults synchronize];
+}
+
++ (NSInteger)getCurrentProfile
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [[defaults objectForKey:DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY] integerValue];
 }
 
 - (void)addCredentials:(ENCredentials *)credentials

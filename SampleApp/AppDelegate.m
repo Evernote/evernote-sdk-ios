@@ -30,17 +30,23 @@
 
     // Initial development is done on the sandbox service
     // Change this to @"www.evernote.com" to use the production Evernote service
+    // Change this to @"app.yinxiang.com" to use the Yinxiang Biji production service
+    // sandbox.evernote.com does not support the  Yinxiang Biji service
     NSString *EVERNOTE_HOST = @"sandbox.evernote.com";
     
     // Fill in the consumer key and secret with the values that you received from Evernote
     // To get an API key, visit http://dev.evernote.com/documentation/cloud/
     NSString *CONSUMER_KEY = @"your key";
     NSString *CONSUMER_SECRET = @"your secret";
-
+    
+    // This setting controls if your app supports Evernote International and/or Yinxiang Biji
+    EvernoteService service = EVERNOTE_SERVICE_INTERNATIONAL;
+    
     // set up Evernote session singleton
     [EvernoteSession setSharedSessionHost:EVERNOTE_HOST 
                               consumerKey:CONSUMER_KEY 
-                           consumerSecret:CONSUMER_SECRET];
+                           consumerSecret:CONSUMER_SECRET
+                       supportedService:service];
     
     return YES;
 }
