@@ -149,27 +149,31 @@
                    success:(void(^)(id))success
                    failure:(void(^)(NSError *error))failure
 {
+    __block ENAPI *bself = self;
     dispatch_async(self.session.queue, ^(void) {
-        id retVal = nil;
-        @try {
-            if (block) {
-                retVal = block();
+        @autoreleasepool {
+            
+            id retVal = nil;
+            @try {
+                if (block) {
+                    retVal = block();
+                    dispatch_async(dispatch_get_main_queue(),
+                                   ^{
+                                       if (success) {
+                                           success(retVal);
+                                       }
+                                   });
+                }
+            }
+            @catch (NSException *exception) {
+                NSError *error = [bself errorFromNSException:exception];
                 dispatch_async(dispatch_get_main_queue(),
                                ^{
-                                   if (success) {
-                                       success(retVal);
+                                   if (failure) {
+                                       failure(error);
                                    }
                                });
             }
-        }
-        @catch (NSException *exception) {
-            NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               if (failure) {
-                                   failure(error);
-                               }
-                           });
         }
     });
 }

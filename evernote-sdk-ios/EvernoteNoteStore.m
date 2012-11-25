@@ -157,8 +157,9 @@
 - (void)listTagsWithSuccess:(void(^)(NSArray *tags))success
                     failure:(void(^)(NSError *error))failure
 {
+    __block EvernoteNoteStore *bself = self;
     [self invokeAsyncIdBlock:^id() {
-        return [self.noteStore listTags:self.session.authenticationToken];
+        return [bself.noteStore listTags:bself.session.authenticationToken];
     } success:success failure:failure];
 }
 
@@ -412,8 +413,9 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
            success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure
 {
+    __block EvernoteNoteStore *bself = self;
     [self invokeAsyncIdBlock:^id() {
-        return [self.noteStore createNote:self.session.authenticationToken:note];
+        return [bself.noteStore createNote:bself.session.authenticationToken:note];
     } success:success failure:failure];
 }
 
