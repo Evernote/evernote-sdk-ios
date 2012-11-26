@@ -317,7 +317,7 @@
         EvernoteUserStore *userStore = [EvernoteUserStore userStore];
         [userStore getBootstrapInfoWithLocale:locale success:^(EDAMBootstrapInfo *info) {
             // Using first profile as the preferred profile.
-            EDAMBootstrapProfile *profile = info.profiles[0];
+            EDAMBootstrapProfile *profile = [info.profiles objectAtIndex:0];
             self.profiles = info.profiles;
             self.currentProfile = profile.name;
             // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
