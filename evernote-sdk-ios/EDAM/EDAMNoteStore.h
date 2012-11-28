@@ -289,6 +289,7 @@
   NSArray * __tagGuids;
   NSString * __timeZone;
   BOOL __inactive;
+  NSString * __emphasized;
 
   BOOL __order_isset;
   BOOL __ascending_isset;
@@ -297,9 +298,10 @@
   BOOL __tagGuids_isset;
   BOOL __timeZone_isset;
   BOOL __inactive_isset;
+  BOOL __emphasized_isset;
 }
 
-- (id) initWithOrder: (int32_t) order ascending: (BOOL) ascending words: (NSString *) words notebookGuid: (EDAMGuid) notebookGuid tagGuids: (NSArray *) tagGuids timeZone: (NSString *) timeZone inactive: (BOOL) inactive;
+- (id) initWithOrder: (int32_t) order ascending: (BOOL) ascending words: (NSString *) words notebookGuid: (EDAMGuid) notebookGuid tagGuids: (NSArray *) tagGuids timeZone: (NSString *) timeZone inactive: (BOOL) inactive emphasized: (NSString *) emphasized;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -312,6 +314,7 @@
 @property (nonatomic, retain, getter=tagGuids, setter=setTagGuids:) NSArray * tagGuids;
 @property (nonatomic, retain, getter=timeZone, setter=setTimeZone:) NSString * timeZone;
 @property (nonatomic, getter=inactive, setter=setInactive:) BOOL inactive;
+@property (nonatomic, retain, getter=emphasized, setter=setEmphasized:) NSString * emphasized;
 #else
 
 - (int32_t) order;
@@ -335,6 +338,9 @@
 - (BOOL) inactive;
 - (void) setInactive: (BOOL) inactive;
 
+- (NSString *) emphasized;
+- (void) setEmphasized: (NSString *) emphasized;
+
 #endif
 
 - (BOOL) orderIsSet;
@@ -344,6 +350,7 @@
 - (BOOL) tagGuidsIsSet;
 - (BOOL) timeZoneIsSet;
 - (BOOL) inactiveIsSet;
+- (BOOL) emphasizedIsSet;
 @end
 
 @interface EDAMNoteList : NSObject <NSCoding> {
@@ -678,87 +685,6 @@
 - (BOOL) trashCountIsSet;
 @end
 
-@interface EDAMAdImpressions : NSObject <NSCoding> {
-  int32_t __adId;
-  int32_t __impressionCount;
-  int32_t __impressionTime;
-
-  BOOL __adId_isset;
-  BOOL __impressionCount_isset;
-  BOOL __impressionTime_isset;
-}
-
-- (id) initWithAdId: (int32_t) adId impressionCount: (int32_t) impressionCount impressionTime: (int32_t) impressionTime;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=adId, setter=setAdId:) int32_t adId;
-@property (nonatomic, getter=impressionCount, setter=setImpressionCount:) int32_t impressionCount;
-@property (nonatomic, getter=impressionTime, setter=setImpressionTime:) int32_t impressionTime;
-#else
-
-- (int32_t) adId;
-- (void) setAdId: (int32_t) adId;
-
-- (int32_t) impressionCount;
-- (void) setImpressionCount: (int32_t) impressionCount;
-
-- (int32_t) impressionTime;
-- (void) setImpressionTime: (int32_t) impressionTime;
-
-#endif
-
-- (BOOL) adIdIsSet;
-- (BOOL) impressionCountIsSet;
-- (BOOL) impressionTimeIsSet;
-@end
-
-@interface EDAMAdParameters : NSObject <NSCoding> {
-  NSString * __clientLanguage;
-  NSArray * __impressions;
-  BOOL __supportHtml;
-  NSDictionary * __clientProperties;
-
-  BOOL __clientLanguage_isset;
-  BOOL __impressions_isset;
-  BOOL __supportHtml_isset;
-  BOOL __clientProperties_isset;
-}
-
-- (id) initWithClientLanguage: (NSString *) clientLanguage impressions: (NSArray *) impressions supportHtml: (BOOL) supportHtml clientProperties: (NSDictionary *) clientProperties;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=clientLanguage, setter=setClientLanguage:) NSString * clientLanguage;
-@property (nonatomic, retain, getter=impressions, setter=setImpressions:) NSArray * impressions;
-@property (nonatomic, getter=supportHtml, setter=setSupportHtml:) BOOL supportHtml;
-@property (nonatomic, retain, getter=clientProperties, setter=setClientProperties:) NSDictionary * clientProperties;
-#else
-
-- (NSString *) clientLanguage;
-- (void) setClientLanguage: (NSString *) clientLanguage;
-
-- (NSArray *) impressions;
-- (void) setImpressions: (NSArray *) impressions;
-
-- (BOOL) supportHtml;
-- (void) setSupportHtml: (BOOL) supportHtml;
-
-- (NSDictionary *) clientProperties;
-- (void) setClientProperties: (NSDictionary *) clientProperties;
-
-#endif
-
-- (BOOL) clientLanguageIsSet;
-- (BOOL) impressionsIsSet;
-- (BOOL) supportHtmlIsSet;
-- (BOOL) clientPropertiesIsSet;
-@end
-
 @interface EDAMNoteEmailParameters : NSObject <NSCoding> {
   NSString * __guid;
   EDAMNote * __note;
@@ -887,12 +813,14 @@
 @interface EDAMRelatedQuery : NSObject <NSCoding> {
   NSString * __noteGuid;
   NSString * __plainText;
+  EDAMNoteFilter * __filter;
 
   BOOL __noteGuid_isset;
   BOOL __plainText_isset;
+  BOOL __filter_isset;
 }
 
-- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText;
+- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText filter: (EDAMNoteFilter *) filter;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -900,6 +828,7 @@
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=noteGuid, setter=setNoteGuid:) NSString * noteGuid;
 @property (nonatomic, retain, getter=plainText, setter=setPlainText:) NSString * plainText;
+@property (nonatomic, retain, getter=filter, setter=setFilter:) EDAMNoteFilter * filter;
 #else
 
 - (NSString *) noteGuid;
@@ -908,23 +837,31 @@
 - (NSString *) plainText;
 - (void) setPlainText: (NSString *) plainText;
 
+- (EDAMNoteFilter *) filter;
+- (void) setFilter: (EDAMNoteFilter *) filter;
+
 #endif
 
 - (BOOL) noteGuidIsSet;
 - (BOOL) plainTextIsSet;
+- (BOOL) filterIsSet;
 @end
 
 @interface EDAMRelatedResult : NSObject <NSCoding> {
   NSArray * __notes;
   NSArray * __notebooks;
   NSArray * __tags;
+  NSArray * __containingNotebooks;
+  NSString * __debugInfo;
 
   BOOL __notes_isset;
   BOOL __notebooks_isset;
   BOOL __tags_isset;
+  BOOL __containingNotebooks_isset;
+  BOOL __debugInfo_isset;
 }
 
-- (id) initWithNotes: (NSArray *) notes notebooks: (NSArray *) notebooks tags: (NSArray *) tags;
+- (id) initWithNotes: (NSArray *) notes notebooks: (NSArray *) notebooks tags: (NSArray *) tags containingNotebooks: (NSArray *) containingNotebooks debugInfo: (NSString *) debugInfo;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -933,6 +870,8 @@
 @property (nonatomic, retain, getter=notes, setter=setNotes:) NSArray * notes;
 @property (nonatomic, retain, getter=notebooks, setter=setNotebooks:) NSArray * notebooks;
 @property (nonatomic, retain, getter=tags, setter=setTags:) NSArray * tags;
+@property (nonatomic, retain, getter=containingNotebooks, setter=setContainingNotebooks:) NSArray * containingNotebooks;
+@property (nonatomic, retain, getter=debugInfo, setter=setDebugInfo:) NSString * debugInfo;
 #else
 
 - (NSArray *) notes;
@@ -944,24 +883,38 @@
 - (NSArray *) tags;
 - (void) setTags: (NSArray *) tags;
 
+- (NSArray *) containingNotebooks;
+- (void) setContainingNotebooks: (NSArray *) containingNotebooks;
+
+- (NSString *) debugInfo;
+- (void) setDebugInfo: (NSString *) debugInfo;
+
 #endif
 
 - (BOOL) notesIsSet;
 - (BOOL) notebooksIsSet;
 - (BOOL) tagsIsSet;
+- (BOOL) containingNotebooksIsSet;
+- (BOOL) debugInfoIsSet;
 @end
 
 @interface EDAMRelatedResultSpec : NSObject <NSCoding> {
   int32_t __maxNotes;
   int32_t __maxNotebooks;
   int32_t __maxTags;
+  BOOL __writableNotebooksOnly;
+  BOOL __includeContainingNotebooks;
+  BOOL __includeDebugInfo;
 
   BOOL __maxNotes_isset;
   BOOL __maxNotebooks_isset;
   BOOL __maxTags_isset;
+  BOOL __writableNotebooksOnly_isset;
+  BOOL __includeContainingNotebooks_isset;
+  BOOL __includeDebugInfo_isset;
 }
 
-- (id) initWithMaxNotes: (int32_t) maxNotes maxNotebooks: (int32_t) maxNotebooks maxTags: (int32_t) maxTags;
+- (id) initWithMaxNotes: (int32_t) maxNotes maxNotebooks: (int32_t) maxNotebooks maxTags: (int32_t) maxTags writableNotebooksOnly: (BOOL) writableNotebooksOnly includeContainingNotebooks: (BOOL) includeContainingNotebooks includeDebugInfo: (BOOL) includeDebugInfo;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -970,6 +923,9 @@
 @property (nonatomic, getter=maxNotes, setter=setMaxNotes:) int32_t maxNotes;
 @property (nonatomic, getter=maxNotebooks, setter=setMaxNotebooks:) int32_t maxNotebooks;
 @property (nonatomic, getter=maxTags, setter=setMaxTags:) int32_t maxTags;
+@property (nonatomic, getter=writableNotebooksOnly, setter=setWritableNotebooksOnly:) BOOL writableNotebooksOnly;
+@property (nonatomic, getter=includeContainingNotebooks, setter=setIncludeContainingNotebooks:) BOOL includeContainingNotebooks;
+@property (nonatomic, getter=includeDebugInfo, setter=setIncludeDebugInfo:) BOOL includeDebugInfo;
 #else
 
 - (int32_t) maxNotes;
@@ -981,11 +937,23 @@
 - (int32_t) maxTags;
 - (void) setMaxTags: (int32_t) maxTags;
 
+- (BOOL) writableNotebooksOnly;
+- (void) setWritableNotebooksOnly: (BOOL) writableNotebooksOnly;
+
+- (BOOL) includeContainingNotebooks;
+- (void) setIncludeContainingNotebooks: (BOOL) includeContainingNotebooks;
+
+- (BOOL) includeDebugInfo;
+- (void) setIncludeDebugInfo: (BOOL) includeDebugInfo;
+
 #endif
 
 - (BOOL) maxNotesIsSet;
 - (BOOL) maxNotebooksIsSet;
 - (BOOL) maxTagsIsSet;
+- (BOOL) writableNotebooksOnlyIsSet;
+- (BOOL) includeContainingNotebooksIsSet;
+- (BOOL) includeDebugInfoIsSet;
 @end
 
 @protocol EDAMNoteStore <NSObject>
@@ -1046,11 +1014,9 @@
 - (NSData *) getResourceRecognition: (NSString *) authenticationToken : (EDAMGuid) guid;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException
 - (NSData *) getResourceAlternateData: (NSString *) authenticationToken : (EDAMGuid) guid;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException
 - (EDAMResourceAttributes *) getResourceAttributes: (NSString *) authenticationToken : (EDAMGuid) guid;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException
-- (int64_t) getAccountSize: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
-- (NSArray *) getAds: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters;  // throws EDAMUserException *, EDAMSystemException *, TException
-- (EDAMAd *) getRandomAd: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMNotebook *) getPublicNotebook: (EDAMUserID) userId : (NSString *) publicUri;  // throws EDAMSystemException *, EDAMNotFoundException *, TException
 - (EDAMSharedNotebook *) createSharedNotebook: (NSString *) authenticationToken : (EDAMSharedNotebook *) sharedNotebook;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
+- (int32_t) updateSharedNotebook: (NSString *) authenticationToken : (EDAMSharedNotebook *) sharedNotebook;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (int32_t) sendMessageToSharedNotebookMembers: (NSString *) authenticationToken : (EDAMGuid) notebookGuid : (NSString *) messageText : (NSArray *) recipients;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (NSArray *) listSharedNotebooks: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (int32_t) expungeSharedNotebooks: (NSString *) authenticationToken : (NSArray *) sharedNotebookIds;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException

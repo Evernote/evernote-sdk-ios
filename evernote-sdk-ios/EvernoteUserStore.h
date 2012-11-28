@@ -56,5 +56,7 @@
                           failure:(void(^)(NSError *error))failure;
 - (void)getNoteStoreUrlWithSuccess:(void(^)(NSString *noteStoreUrl))success
                            failure:(void(^)(NSError *error))failure;
+- (void)authenticateToBusinessWithSuccess:(void(^)(EDAMAuthenticationResult *authenticationResult))success
+                           failure:(void(^)(NSError *error))failure;
 
 @end

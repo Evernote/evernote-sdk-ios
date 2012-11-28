@@ -12,10 +12,16 @@
 
 - (IBAction)authenticate:(id)sender;
 - (IBAction)listNotebooks:(id)sender;
+- (IBAction)listSharedNotes:(id)sender;
+- (IBAction)listBusinessNotebooks:(id)sender;
+- (IBAction)createPhotoNote:(id)sender;
 - (IBAction)logout:(id)sender;
 
 @property (retain, nonatomic) IBOutlet UIButton *authenticateButton;
 @property (retain, nonatomic) IBOutlet UIButton *listNotebooksButton;
+@property (retain, nonatomic) IBOutlet UIButton *listBusinessButton;
+@property (retain, nonatomic) IBOutlet UIButton *photoNoteButton;
+@property (retain, nonatomic) IBOutlet UIButton *sharedNotesButton;
 @property (retain, nonatomic) IBOutlet UITableView *tableView;
 @property (retain, nonatomic) IBOutlet UIButton *logoutButton;
 

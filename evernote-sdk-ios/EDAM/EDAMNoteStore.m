@@ -1836,7 +1836,7 @@
 
 @implementation EDAMNoteFilter
 
-- (id) initWithOrder: (int32_t) order ascending: (BOOL) ascending words: (NSString *) words notebookGuid: (EDAMGuid) notebookGuid tagGuids: (NSArray *) tagGuids timeZone: (NSString *) timeZone inactive: (BOOL) inactive
+- (id) initWithOrder: (int32_t) order ascending: (BOOL) ascending words: (NSString *) words notebookGuid: (EDAMGuid) notebookGuid tagGuids: (NSArray *) tagGuids timeZone: (NSString *) timeZone inactive: (BOOL) inactive emphasized: (NSString *) emphasized
 {
   self = [super init];
   __order = order;
@@ -1853,6 +1853,8 @@
   __timeZone_isset = YES;
   __inactive = inactive;
   __inactive_isset = YES;
+  __emphasized = [emphasized retain];
+  __emphasized_isset = YES;
   return self;
 }
 
@@ -1894,6 +1896,11 @@
     __inactive = [decoder decodeBoolForKey: @"inactive"];
     __inactive_isset = YES;
   }
+  if ([decoder containsValueForKey: @"emphasized"])
+  {
+    __emphasized = [[decoder decodeObjectForKey: @"emphasized"] retain];
+    __emphasized_isset = YES;
+  }
   return self;
 }
 
@@ -1927,6 +1934,10 @@
   {
     [encoder encodeBool: __inactive forKey: @"inactive"];
   }
+  if (__emphasized_isset)
+  {
+    [encoder encodeObject: __emphasized forKey: @"emphasized"];
+  }
 }
 
 - (void) dealloc
@@ -1935,6 +1946,7 @@
   [__notebookGuid release];
   [__tagGuids release];
   [__timeZone release];
+  [__emphasized release];
   [super dealloc];
 }
 
@@ -2073,6 +2085,27 @@
   __inactive_isset = NO;
 }
 
+- (NSString *) emphasized {
+  return [[__emphasized retain] autorelease];
+}
+
+- (void) setEmphasized: (NSString *) emphasized {
+  [emphasized retain];
+  [__emphasized release];
+  __emphasized = emphasized;
+  __emphasized_isset = YES;
+}
+
+- (BOOL) emphasizedIsSet {
+  return __emphasized_isset;
+}
+
+- (void) unsetEmphasized {
+  [__emphasized release];
+  __emphasized = nil;
+  __emphasized_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -2154,6 +2187,14 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 8:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setEmphasized: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -2216,6 +2257,13 @@
     [outProtocol writeBool: __inactive];
     [outProtocol writeFieldEnd];
   }
+  if (__emphasized_isset) {
+    if (__emphasized != nil) {
+      [outProtocol writeFieldBeginWithName: @"emphasized" type: TType_STRING fieldID: 8];
+      [outProtocol writeString: __emphasized];
+      [outProtocol writeFieldEnd];
+    }
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -2236,6 +2284,8 @@
   [ms appendFormat: @"\"%@\"", __timeZone];
   [ms appendString: @",inactive:"];
   [ms appendFormat: @"%i", __inactive];
+  [ms appendString: @",emphasized:"];
+  [ms appendFormat: @"\"%@\"", __emphasized];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -4367,491 +4417,6 @@
 
 @end
 
-@implementation EDAMAdImpressions
-
-- (id) initWithAdId: (int32_t) adId impressionCount: (int32_t) impressionCount impressionTime: (int32_t) impressionTime
-{
-  self = [super init];
-  __adId = adId;
-  __adId_isset = YES;
-  __impressionCount = impressionCount;
-  __impressionCount_isset = YES;
-  __impressionTime = impressionTime;
-  __impressionTime_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"adId"])
-  {
-    __adId = [decoder decodeInt32ForKey: @"adId"];
-    __adId_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"impressionCount"])
-  {
-    __impressionCount = [decoder decodeInt32ForKey: @"impressionCount"];
-    __impressionCount_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"impressionTime"])
-  {
-    __impressionTime = [decoder decodeInt32ForKey: @"impressionTime"];
-    __impressionTime_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__adId_isset)
-  {
-    [encoder encodeInt32: __adId forKey: @"adId"];
-  }
-  if (__impressionCount_isset)
-  {
-    [encoder encodeInt32: __impressionCount forKey: @"impressionCount"];
-  }
-  if (__impressionTime_isset)
-  {
-    [encoder encodeInt32: __impressionTime forKey: @"impressionTime"];
-  }
-}
-
-- (void) dealloc
-{
-  [super dealloc];
-}
-
-- (int32_t) adId {
-  return __adId;
-}
-
-- (void) setAdId: (int32_t) adId {
-  __adId = adId;
-  __adId_isset = YES;
-}
-
-- (BOOL) adIdIsSet {
-  return __adId_isset;
-}
-
-- (void) unsetAdId {
-  __adId_isset = NO;
-}
-
-- (int32_t) impressionCount {
-  return __impressionCount;
-}
-
-- (void) setImpressionCount: (int32_t) impressionCount {
-  __impressionCount = impressionCount;
-  __impressionCount_isset = YES;
-}
-
-- (BOOL) impressionCountIsSet {
-  return __impressionCount_isset;
-}
-
-- (void) unsetImpressionCount {
-  __impressionCount_isset = NO;
-}
-
-- (int32_t) impressionTime {
-  return __impressionTime;
-}
-
-- (void) setImpressionTime: (int32_t) impressionTime {
-  __impressionTime = impressionTime;
-  __impressionTime_isset = YES;
-}
-
-- (BOOL) impressionTimeIsSet {
-  return __impressionTime_isset;
-}
-
-- (void) unsetImpressionTime {
-  __impressionTime_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I32) {
-          int32_t fieldValue = [inProtocol readI32];
-          [self setAdId: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_I32) {
-          int32_t fieldValue = [inProtocol readI32];
-          [self setImpressionCount: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_I32) {
-          int32_t fieldValue = [inProtocol readI32];
-          [self setImpressionTime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"AdImpressions"];
-  if (__adId_isset) {
-    [outProtocol writeFieldBeginWithName: @"adId" type: TType_I32 fieldID: 1];
-    [outProtocol writeI32: __adId];
-    [outProtocol writeFieldEnd];
-  }
-  if (__impressionCount_isset) {
-    [outProtocol writeFieldBeginWithName: @"impressionCount" type: TType_I32 fieldID: 2];
-    [outProtocol writeI32: __impressionCount];
-    [outProtocol writeFieldEnd];
-  }
-  if (__impressionTime_isset) {
-    [outProtocol writeFieldBeginWithName: @"impressionTime" type: TType_I32 fieldID: 3];
-    [outProtocol writeI32: __impressionTime];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"AdImpressions("];
-  [ms appendString: @"adId:"];
-  [ms appendFormat: @"%i", __adId];
-  [ms appendString: @",impressionCount:"];
-  [ms appendFormat: @"%i", __impressionCount];
-  [ms appendString: @",impressionTime:"];
-  [ms appendFormat: @"%i", __impressionTime];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation EDAMAdParameters
-
-- (id) initWithClientLanguage: (NSString *) clientLanguage impressions: (NSArray *) impressions supportHtml: (BOOL) supportHtml clientProperties: (NSDictionary *) clientProperties
-{
-  self = [super init];
-  __clientLanguage = [clientLanguage retain];
-  __clientLanguage_isset = YES;
-  __impressions = [impressions retain];
-  __impressions_isset = YES;
-  __supportHtml = supportHtml;
-  __supportHtml_isset = YES;
-  __clientProperties = [clientProperties retain];
-  __clientProperties_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"clientLanguage"])
-  {
-    __clientLanguage = [[decoder decodeObjectForKey: @"clientLanguage"] retain];
-    __clientLanguage_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"impressions"])
-  {
-    __impressions = [[decoder decodeObjectForKey: @"impressions"] retain];
-    __impressions_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"supportHtml"])
-  {
-    __supportHtml = [decoder decodeBoolForKey: @"supportHtml"];
-    __supportHtml_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"clientProperties"])
-  {
-    __clientProperties = [[decoder decodeObjectForKey: @"clientProperties"] retain];
-    __clientProperties_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__clientLanguage_isset)
-  {
-    [encoder encodeObject: __clientLanguage forKey: @"clientLanguage"];
-  }
-  if (__impressions_isset)
-  {
-    [encoder encodeObject: __impressions forKey: @"impressions"];
-  }
-  if (__supportHtml_isset)
-  {
-    [encoder encodeBool: __supportHtml forKey: @"supportHtml"];
-  }
-  if (__clientProperties_isset)
-  {
-    [encoder encodeObject: __clientProperties forKey: @"clientProperties"];
-  }
-}
-
-- (void) dealloc
-{
-  [__clientLanguage release];
-  [__impressions release];
-  [__clientProperties release];
-  [super dealloc];
-}
-
-- (NSString *) clientLanguage {
-  return [[__clientLanguage retain] autorelease];
-}
-
-- (void) setClientLanguage: (NSString *) clientLanguage {
-  [clientLanguage retain];
-  [__clientLanguage release];
-  __clientLanguage = clientLanguage;
-  __clientLanguage_isset = YES;
-}
-
-- (BOOL) clientLanguageIsSet {
-  return __clientLanguage_isset;
-}
-
-- (void) unsetClientLanguage {
-  [__clientLanguage release];
-  __clientLanguage = nil;
-  __clientLanguage_isset = NO;
-}
-
-- (NSArray *) impressions {
-  return [[__impressions retain] autorelease];
-}
-
-- (void) setImpressions: (NSArray *) impressions {
-  [impressions retain];
-  [__impressions release];
-  __impressions = impressions;
-  __impressions_isset = YES;
-}
-
-- (BOOL) impressionsIsSet {
-  return __impressions_isset;
-}
-
-- (void) unsetImpressions {
-  [__impressions release];
-  __impressions = nil;
-  __impressions_isset = NO;
-}
-
-- (BOOL) supportHtml {
-  return __supportHtml;
-}
-
-- (void) setSupportHtml: (BOOL) supportHtml {
-  __supportHtml = supportHtml;
-  __supportHtml_isset = YES;
-}
-
-- (BOOL) supportHtmlIsSet {
-  return __supportHtml_isset;
-}
-
-- (void) unsetSupportHtml {
-  __supportHtml_isset = NO;
-}
-
-- (NSDictionary *) clientProperties {
-  return [[__clientProperties retain] autorelease];
-}
-
-- (void) setClientProperties: (NSDictionary *) clientProperties {
-  [clientProperties retain];
-  [__clientProperties release];
-  __clientProperties = clientProperties;
-  __clientProperties_isset = YES;
-}
-
-- (BOOL) clientPropertiesIsSet {
-  return __clientProperties_isset;
-}
-
-- (void) unsetClientProperties {
-  [__clientProperties release];
-  __clientProperties = nil;
-  __clientProperties_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 2:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setClientLanguage: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_LIST) {
-          int _size107;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size107];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size107];
-          int _i108;
-          for (_i108 = 0; _i108 < _size107; ++_i108)
-          {
-            EDAMAdImpressions *_elem109 = [[EDAMAdImpressions alloc] init];
-            [_elem109 read: inProtocol];
-            [fieldValue addObject: _elem109];
-            [_elem109 release];
-          }
-          [inProtocol readListEnd];
-          [self setImpressions: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setSupportHtml: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 6:
-        if (fieldType == TType_MAP) {
-          int _size110;
-          [inProtocol readMapBeginReturningKeyType: NULL valueType: NULL size: &_size110];
-          NSMutableDictionary * fieldValue = [[NSMutableDictionary alloc] initWithCapacity: _size110];
-          int _i111;
-          for (_i111 = 0; _i111 < _size110; ++_i111)
-          {
-            NSString * _key112 = [inProtocol readString];
-            NSString * _val113 = [inProtocol readString];
-            [fieldValue setObject: _val113 forKey: _key112];
-          }
-          [inProtocol readMapEnd];
-          [self setClientProperties: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"AdParameters"];
-  if (__clientLanguage_isset) {
-    if (__clientLanguage != nil) {
-      [outProtocol writeFieldBeginWithName: @"clientLanguage" type: TType_STRING fieldID: 2];
-      [outProtocol writeString: __clientLanguage];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__impressions_isset) {
-    if (__impressions != nil) {
-      [outProtocol writeFieldBeginWithName: @"impressions" type: TType_LIST fieldID: 4];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__impressions count]];
-        int i115;
-        for (i115 = 0; i115 < [__impressions count]; i115++)
-        {
-          [[__impressions objectAtIndex: i115] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__supportHtml_isset) {
-    [outProtocol writeFieldBeginWithName: @"supportHtml" type: TType_BOOL fieldID: 5];
-    [outProtocol writeBool: __supportHtml];
-    [outProtocol writeFieldEnd];
-  }
-  if (__clientProperties_isset) {
-    if (__clientProperties != nil) {
-      [outProtocol writeFieldBeginWithName: @"clientProperties" type: TType_MAP fieldID: 6];
-      {
-        [outProtocol writeMapBeginWithKeyType: TType_STRING valueType: TType_STRING size: [__clientProperties count]];
-        NSEnumerator * _iter116 = [__clientProperties keyEnumerator];
-        id key117;
-        while ((key117 = [_iter116 nextObject]))
-        {
-          [outProtocol writeString: key117];
-          [outProtocol writeString: [__clientProperties objectForKey: key117]];
-        }
-        [outProtocol writeMapEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"AdParameters("];
-  [ms appendString: @"clientLanguage:"];
-  [ms appendFormat: @"\"%@\"", __clientLanguage];
-  [ms appendString: @",impressions:"];
-  [ms appendFormat: @"%@", __impressions];
-  [ms appendString: @",supportHtml:"];
-  [ms appendFormat: @"%i", __supportHtml];
-  [ms appendString: @",clientProperties:"];
-  [ms appendFormat: @"%@", __clientProperties];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
 @implementation EDAMNoteEmailParameters
 
 - (id) initWithGuid: (NSString *) guid note: (EDAMNote *) note toAddresses: (NSArray *) toAddresses ccAddresses: (NSArray *) ccAddresses subject: (NSString *) subject message: (NSString *) message
@@ -5108,14 +4673,14 @@
         break;
       case 3:
         if (fieldType == TType_LIST) {
-          int _size118;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size118];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size118];
-          int _i119;
-          for (_i119 = 0; _i119 < _size118; ++_i119)
+          int _size107;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size107];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size107];
+          int _i108;
+          for (_i108 = 0; _i108 < _size107; ++_i108)
           {
-            NSString * _elem120 = [inProtocol readString];
-            [fieldValue addObject: _elem120];
+            NSString * _elem109 = [inProtocol readString];
+            [fieldValue addObject: _elem109];
           }
           [inProtocol readListEnd];
           [self setToAddresses: fieldValue];
@@ -5126,14 +4691,14 @@
         break;
       case 4:
         if (fieldType == TType_LIST) {
-          int _size121;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size121];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size121];
-          int _i122;
-          for (_i122 = 0; _i122 < _size121; ++_i122)
+          int _size110;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size110];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size110];
+          int _i111;
+          for (_i111 = 0; _i111 < _size110; ++_i111)
           {
-            NSString * _elem123 = [inProtocol readString];
-            [fieldValue addObject: _elem123];
+            NSString * _elem112 = [inProtocol readString];
+            [fieldValue addObject: _elem112];
           }
           [inProtocol readListEnd];
           [self setCcAddresses: fieldValue];
@@ -5188,10 +4753,10 @@
       [outProtocol writeFieldBeginWithName: @"toAddresses" type: TType_LIST fieldID: 3];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: [__toAddresses count]];
-        int i125;
-        for (i125 = 0; i125 < [__toAddresses count]; i125++)
+        int i114;
+        for (i114 = 0; i114 < [__toAddresses count]; i114++)
         {
-          [outProtocol writeString: [__toAddresses objectAtIndex: i125]];
+          [outProtocol writeString: [__toAddresses objectAtIndex: i114]];
         }
         [outProtocol writeListEnd];
       }
@@ -5203,10 +4768,10 @@
       [outProtocol writeFieldBeginWithName: @"ccAddresses" type: TType_LIST fieldID: 4];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: [__ccAddresses count]];
-        int i127;
-        for (i127 = 0; i127 < [__ccAddresses count]; i127++)
+        int i116;
+        for (i116 = 0; i116 < [__ccAddresses count]; i116++)
         {
-          [outProtocol writeString: [__ccAddresses objectAtIndex: i127]];
+          [outProtocol writeString: [__ccAddresses objectAtIndex: i116]];
         }
         [outProtocol writeListEnd];
       }
@@ -5597,13 +5162,15 @@
 
 @implementation EDAMRelatedQuery
 
-- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText
+- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText filter: (EDAMNoteFilter *) filter
 {
   self = [super init];
   __noteGuid = [noteGuid retain];
   __noteGuid_isset = YES;
   __plainText = [plainText retain];
   __plainText_isset = YES;
+  __filter = [filter retain];
+  __filter_isset = YES;
   return self;
 }
 
@@ -5620,6 +5187,11 @@
     __plainText = [[decoder decodeObjectForKey: @"plainText"] retain];
     __plainText_isset = YES;
   }
+  if ([decoder containsValueForKey: @"filter"])
+  {
+    __filter = [[decoder decodeObjectForKey: @"filter"] retain];
+    __filter_isset = YES;
+  }
   return self;
 }
 
@@ -5633,12 +5205,17 @@
   {
     [encoder encodeObject: __plainText forKey: @"plainText"];
   }
+  if (__filter_isset)
+  {
+    [encoder encodeObject: __filter forKey: @"filter"];
+  }
 }
 
 - (void) dealloc
 {
   [__noteGuid release];
   [__plainText release];
+  [__filter release];
   [super dealloc];
 }
 
@@ -5684,6 +5261,27 @@
   __plainText_isset = NO;
 }
 
+- (EDAMNoteFilter *) filter {
+  return [[__filter retain] autorelease];
+}
+
+- (void) setFilter: (EDAMNoteFilter *) filter {
+  [filter retain];
+  [__filter release];
+  __filter = filter;
+  __filter_isset = YES;
+}
+
+- (BOOL) filterIsSet {
+  return __filter_isset;
+}
+
+- (void) unsetFilter {
+  [__filter release];
+  __filter = nil;
+  __filter_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -5715,6 +5313,16 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 3:
+        if (fieldType == TType_STRUCT) {
+          EDAMNoteFilter *fieldValue = [[EDAMNoteFilter alloc] init];
+          [fieldValue read: inProtocol];
+          [self setFilter: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -5740,6 +5348,13 @@
       [outProtocol writeFieldEnd];
     }
   }
+  if (__filter_isset) {
+    if (__filter != nil) {
+      [outProtocol writeFieldBeginWithName: @"filter" type: TType_STRUCT fieldID: 3];
+      [__filter write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -5750,6 +5365,8 @@
   [ms appendFormat: @"\"%@\"", __noteGuid];
   [ms appendString: @",plainText:"];
   [ms appendFormat: @"\"%@\"", __plainText];
+  [ms appendString: @",filter:"];
+  [ms appendFormat: @"%@", __filter];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -5758,7 +5375,7 @@
 
 @implementation EDAMRelatedResult
 
-- (id) initWithNotes: (NSArray *) notes notebooks: (NSArray *) notebooks tags: (NSArray *) tags
+- (id) initWithNotes: (NSArray *) notes notebooks: (NSArray *) notebooks tags: (NSArray *) tags containingNotebooks: (NSArray *) containingNotebooks debugInfo: (NSString *) debugInfo
 {
   self = [super init];
   __notes = [notes retain];
@@ -5767,6 +5384,10 @@
   __notebooks_isset = YES;
   __tags = [tags retain];
   __tags_isset = YES;
+  __containingNotebooks = [containingNotebooks retain];
+  __containingNotebooks_isset = YES;
+  __debugInfo = [debugInfo retain];
+  __debugInfo_isset = YES;
   return self;
 }
 
@@ -5788,6 +5409,16 @@
     __tags = [[decoder decodeObjectForKey: @"tags"] retain];
     __tags_isset = YES;
   }
+  if ([decoder containsValueForKey: @"containingNotebooks"])
+  {
+    __containingNotebooks = [[decoder decodeObjectForKey: @"containingNotebooks"] retain];
+    __containingNotebooks_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"debugInfo"])
+  {
+    __debugInfo = [[decoder decodeObjectForKey: @"debugInfo"] retain];
+    __debugInfo_isset = YES;
+  }
   return self;
 }
 
@@ -5805,6 +5436,14 @@
   {
     [encoder encodeObject: __tags forKey: @"tags"];
   }
+  if (__containingNotebooks_isset)
+  {
+    [encoder encodeObject: __containingNotebooks forKey: @"containingNotebooks"];
+  }
+  if (__debugInfo_isset)
+  {
+    [encoder encodeObject: __debugInfo forKey: @"debugInfo"];
+  }
 }
 
 - (void) dealloc
@@ -5812,6 +5451,8 @@
   [__notes release];
   [__notebooks release];
   [__tags release];
+  [__containingNotebooks release];
+  [__debugInfo release];
   [super dealloc];
 }
 
@@ -5878,6 +5519,48 @@
   __tags_isset = NO;
 }
 
+- (NSArray *) containingNotebooks {
+  return [[__containingNotebooks retain] autorelease];
+}
+
+- (void) setContainingNotebooks: (NSArray *) containingNotebooks {
+  [containingNotebooks retain];
+  [__containingNotebooks release];
+  __containingNotebooks = containingNotebooks;
+  __containingNotebooks_isset = YES;
+}
+
+- (BOOL) containingNotebooksIsSet {
+  return __containingNotebooks_isset;
+}
+
+- (void) unsetContainingNotebooks {
+  [__containingNotebooks release];
+  __containingNotebooks = nil;
+  __containingNotebooks_isset = NO;
+}
+
+- (NSString *) debugInfo {
+  return [[__debugInfo retain] autorelease];
+}
+
+- (void) setDebugInfo: (NSString *) debugInfo {
+  [debugInfo retain];
+  [__debugInfo release];
+  __debugInfo = debugInfo;
+  __debugInfo_isset = YES;
+}
+
+- (BOOL) debugInfoIsSet {
+  return __debugInfo_isset;
+}
+
+- (void) unsetDebugInfo {
+  [__debugInfo release];
+  __debugInfo = nil;
+  __debugInfo_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -5895,16 +5578,16 @@
     {
       case 1:
         if (fieldType == TType_LIST) {
-          int _size128;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size128];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size128];
-          int _i129;
-          for (_i129 = 0; _i129 < _size128; ++_i129)
+          int _size117;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size117];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size117];
+          int _i118;
+          for (_i118 = 0; _i118 < _size117; ++_i118)
           {
-            EDAMNote *_elem130 = [[EDAMNote alloc] init];
-            [_elem130 read: inProtocol];
-            [fieldValue addObject: _elem130];
-            [_elem130 release];
+            EDAMNote *_elem119 = [[EDAMNote alloc] init];
+            [_elem119 read: inProtocol];
+            [fieldValue addObject: _elem119];
+            [_elem119 release];
           }
           [inProtocol readListEnd];
           [self setNotes: fieldValue];
@@ -5915,16 +5598,16 @@
         break;
       case 2:
         if (fieldType == TType_LIST) {
-          int _size131;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size131];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size131];
-          int _i132;
-          for (_i132 = 0; _i132 < _size131; ++_i132)
+          int _size120;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size120];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size120];
+          int _i121;
+          for (_i121 = 0; _i121 < _size120; ++_i121)
           {
-            EDAMNotebook *_elem133 = [[EDAMNotebook alloc] init];
-            [_elem133 read: inProtocol];
-            [fieldValue addObject: _elem133];
-            [_elem133 release];
+            EDAMNotebook *_elem122 = [[EDAMNotebook alloc] init];
+            [_elem122 read: inProtocol];
+            [fieldValue addObject: _elem122];
+            [_elem122 release];
           }
           [inProtocol readListEnd];
           [self setNotebooks: fieldValue];
@@ -5935,20 +5618,48 @@
         break;
       case 3:
         if (fieldType == TType_LIST) {
-          int _size134;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size134];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size134];
-          int _i135;
-          for (_i135 = 0; _i135 < _size134; ++_i135)
+          int _size123;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size123];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size123];
+          int _i124;
+          for (_i124 = 0; _i124 < _size123; ++_i124)
           {
-            EDAMTag *_elem136 = [[EDAMTag alloc] init];
-            [_elem136 read: inProtocol];
-            [fieldValue addObject: _elem136];
-            [_elem136 release];
+            EDAMTag *_elem125 = [[EDAMTag alloc] init];
+            [_elem125 read: inProtocol];
+            [fieldValue addObject: _elem125];
+            [_elem125 release];
           }
           [inProtocol readListEnd];
           [self setTags: fieldValue];
           [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_LIST) {
+          int _size126;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size126];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size126];
+          int _i127;
+          for (_i127 = 0; _i127 < _size126; ++_i127)
+          {
+            EDAMNotebookDescriptor *_elem128 = [[EDAMNotebookDescriptor alloc] init];
+            [_elem128 read: inProtocol];
+            [fieldValue addObject: _elem128];
+            [_elem128 release];
+          }
+          [inProtocol readListEnd];
+          [self setContainingNotebooks: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setDebugInfo: fieldValue];
         } else { 
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
@@ -5969,10 +5680,10 @@
       [outProtocol writeFieldBeginWithName: @"notes" type: TType_LIST fieldID: 1];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__notes count]];
-        int i138;
-        for (i138 = 0; i138 < [__notes count]; i138++)
+        int i130;
+        for (i130 = 0; i130 < [__notes count]; i130++)
         {
-          [[__notes objectAtIndex: i138] write: outProtocol];
+          [[__notes objectAtIndex: i130] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -5984,10 +5695,10 @@
       [outProtocol writeFieldBeginWithName: @"notebooks" type: TType_LIST fieldID: 2];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__notebooks count]];
-        int i140;
-        for (i140 = 0; i140 < [__notebooks count]; i140++)
+        int i132;
+        for (i132 = 0; i132 < [__notebooks count]; i132++)
         {
-          [[__notebooks objectAtIndex: i140] write: outProtocol];
+          [[__notebooks objectAtIndex: i132] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -5999,13 +5710,35 @@
       [outProtocol writeFieldBeginWithName: @"tags" type: TType_LIST fieldID: 3];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__tags count]];
-        int i142;
-        for (i142 = 0; i142 < [__tags count]; i142++)
+        int i134;
+        for (i134 = 0; i134 < [__tags count]; i134++)
         {
-          [[__tags objectAtIndex: i142] write: outProtocol];
+          [[__tags objectAtIndex: i134] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__containingNotebooks_isset) {
+    if (__containingNotebooks != nil) {
+      [outProtocol writeFieldBeginWithName: @"containingNotebooks" type: TType_LIST fieldID: 4];
+      {
+        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__containingNotebooks count]];
+        int i136;
+        for (i136 = 0; i136 < [__containingNotebooks count]; i136++)
+        {
+          [[__containingNotebooks objectAtIndex: i136] write: outProtocol];
+        }
+        [outProtocol writeListEnd];
+      }
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__debugInfo_isset) {
+    if (__debugInfo != nil) {
+      [outProtocol writeFieldBeginWithName: @"debugInfo" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __debugInfo];
       [outProtocol writeFieldEnd];
     }
   }
@@ -6021,6 +5754,10 @@
   [ms appendFormat: @"%@", __notebooks];
   [ms appendString: @",tags:"];
   [ms appendFormat: @"%@", __tags];
+  [ms appendString: @",containingNotebooks:"];
+  [ms appendFormat: @"%@", __containingNotebooks];
+  [ms appendString: @",debugInfo:"];
+  [ms appendFormat: @"\"%@\"", __debugInfo];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -6029,7 +5766,7 @@
 
 @implementation EDAMRelatedResultSpec
 
-- (id) initWithMaxNotes: (int32_t) maxNotes maxNotebooks: (int32_t) maxNotebooks maxTags: (int32_t) maxTags
+- (id) initWithMaxNotes: (int32_t) maxNotes maxNotebooks: (int32_t) maxNotebooks maxTags: (int32_t) maxTags writableNotebooksOnly: (BOOL) writableNotebooksOnly includeContainingNotebooks: (BOOL) includeContainingNotebooks includeDebugInfo: (BOOL) includeDebugInfo
 {
   self = [super init];
   __maxNotes = maxNotes;
@@ -6038,6 +5775,12 @@
   __maxNotebooks_isset = YES;
   __maxTags = maxTags;
   __maxTags_isset = YES;
+  __writableNotebooksOnly = writableNotebooksOnly;
+  __writableNotebooksOnly_isset = YES;
+  __includeContainingNotebooks = includeContainingNotebooks;
+  __includeContainingNotebooks_isset = YES;
+  __includeDebugInfo = includeDebugInfo;
+  __includeDebugInfo_isset = YES;
   return self;
 }
 
@@ -6059,6 +5802,21 @@
     __maxTags = [decoder decodeInt32ForKey: @"maxTags"];
     __maxTags_isset = YES;
   }
+  if ([decoder containsValueForKey: @"writableNotebooksOnly"])
+  {
+    __writableNotebooksOnly = [decoder decodeBoolForKey: @"writableNotebooksOnly"];
+    __writableNotebooksOnly_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"includeContainingNotebooks"])
+  {
+    __includeContainingNotebooks = [decoder decodeBoolForKey: @"includeContainingNotebooks"];
+    __includeContainingNotebooks_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"includeDebugInfo"])
+  {
+    __includeDebugInfo = [decoder decodeBoolForKey: @"includeDebugInfo"];
+    __includeDebugInfo_isset = YES;
+  }
   return self;
 }
 
@@ -6075,6 +5833,18 @@
   if (__maxTags_isset)
   {
     [encoder encodeInt32: __maxTags forKey: @"maxTags"];
+  }
+  if (__writableNotebooksOnly_isset)
+  {
+    [encoder encodeBool: __writableNotebooksOnly forKey: @"writableNotebooksOnly"];
+  }
+  if (__includeContainingNotebooks_isset)
+  {
+    [encoder encodeBool: __includeContainingNotebooks forKey: @"includeContainingNotebooks"];
+  }
+  if (__includeDebugInfo_isset)
+  {
+    [encoder encodeBool: __includeDebugInfo forKey: @"includeDebugInfo"];
   }
 }
 
@@ -6134,6 +5904,57 @@
   __maxTags_isset = NO;
 }
 
+- (BOOL) writableNotebooksOnly {
+  return __writableNotebooksOnly;
+}
+
+- (void) setWritableNotebooksOnly: (BOOL) writableNotebooksOnly {
+  __writableNotebooksOnly = writableNotebooksOnly;
+  __writableNotebooksOnly_isset = YES;
+}
+
+- (BOOL) writableNotebooksOnlyIsSet {
+  return __writableNotebooksOnly_isset;
+}
+
+- (void) unsetWritableNotebooksOnly {
+  __writableNotebooksOnly_isset = NO;
+}
+
+- (BOOL) includeContainingNotebooks {
+  return __includeContainingNotebooks;
+}
+
+- (void) setIncludeContainingNotebooks: (BOOL) includeContainingNotebooks {
+  __includeContainingNotebooks = includeContainingNotebooks;
+  __includeContainingNotebooks_isset = YES;
+}
+
+- (BOOL) includeContainingNotebooksIsSet {
+  return __includeContainingNotebooks_isset;
+}
+
+- (void) unsetIncludeContainingNotebooks {
+  __includeContainingNotebooks_isset = NO;
+}
+
+- (BOOL) includeDebugInfo {
+  return __includeDebugInfo;
+}
+
+- (void) setIncludeDebugInfo: (BOOL) includeDebugInfo {
+  __includeDebugInfo = includeDebugInfo;
+  __includeDebugInfo_isset = YES;
+}
+
+- (BOOL) includeDebugInfoIsSet {
+  return __includeDebugInfo_isset;
+}
+
+- (void) unsetIncludeDebugInfo {
+  __includeDebugInfo_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -6173,6 +5994,30 @@
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 4:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setWritableNotebooksOnly: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setIncludeContainingNotebooks: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setIncludeDebugInfo: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -6199,6 +6044,21 @@
     [outProtocol writeI32: __maxTags];
     [outProtocol writeFieldEnd];
   }
+  if (__writableNotebooksOnly_isset) {
+    [outProtocol writeFieldBeginWithName: @"writableNotebooksOnly" type: TType_BOOL fieldID: 4];
+    [outProtocol writeBool: __writableNotebooksOnly];
+    [outProtocol writeFieldEnd];
+  }
+  if (__includeContainingNotebooks_isset) {
+    [outProtocol writeFieldBeginWithName: @"includeContainingNotebooks" type: TType_BOOL fieldID: 5];
+    [outProtocol writeBool: __includeContainingNotebooks];
+    [outProtocol writeFieldEnd];
+  }
+  if (__includeDebugInfo_isset) {
+    [outProtocol writeFieldBeginWithName: @"includeDebugInfo" type: TType_BOOL fieldID: 6];
+    [outProtocol writeBool: __includeDebugInfo];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -6211,6 +6071,12 @@
   [ms appendFormat: @"%i", __maxNotebooks];
   [ms appendString: @",maxTags:"];
   [ms appendFormat: @"%i", __maxTags];
+  [ms appendString: @",writableNotebooksOnly:"];
+  [ms appendFormat: @"%i", __writableNotebooksOnly];
+  [ms appendString: @",includeContainingNotebooks:"];
+  [ms appendFormat: @"%i", __includeContainingNotebooks];
+  [ms appendString: @",includeDebugInfo:"];
+  [ms appendFormat: @"%i", __includeDebugInfo];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -9601,16 +9467,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size143;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size143];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size143];
-          int _i144;
-          for (_i144 = 0; _i144 < _size143; ++_i144)
+          int _size137;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size137];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size137];
+          int _i138;
+          for (_i138 = 0; _i138 < _size137; ++_i138)
           {
-            EDAMNotebook *_elem145 = [[EDAMNotebook alloc] init];
-            [_elem145 read: inProtocol];
-            [fieldValue addObject: _elem145];
-            [_elem145 release];
+            EDAMNotebook *_elem139 = [[EDAMNotebook alloc] init];
+            [_elem139 read: inProtocol];
+            [fieldValue addObject: _elem139];
+            [_elem139 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -9656,10 +9522,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i147;
-        for (i147 = 0; i147 < [__success count]; i147++)
+        int i141;
+        for (i141 = 0; i141 < [__success count]; i141++)
         {
-          [[__success objectAtIndex: i147] write: outProtocol];
+          [[__success objectAtIndex: i141] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -12329,16 +12195,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size148;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size148];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size148];
-          int _i149;
-          for (_i149 = 0; _i149 < _size148; ++_i149)
+          int _size142;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size142];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size142];
+          int _i143;
+          for (_i143 = 0; _i143 < _size142; ++_i143)
           {
-            EDAMTag *_elem150 = [[EDAMTag alloc] init];
-            [_elem150 read: inProtocol];
-            [fieldValue addObject: _elem150];
-            [_elem150 release];
+            EDAMTag *_elem144 = [[EDAMTag alloc] init];
+            [_elem144 read: inProtocol];
+            [fieldValue addObject: _elem144];
+            [_elem144 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -12384,10 +12250,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i152;
-        for (i152 = 0; i152 < [__success count]; i152++)
+        int i146;
+        for (i146 = 0; i146 < [__success count]; i146++)
         {
-          [[__success objectAtIndex: i152] write: outProtocol];
+          [[__success objectAtIndex: i146] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -12831,16 +12697,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size153;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size153];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size153];
-          int _i154;
-          for (_i154 = 0; _i154 < _size153; ++_i154)
+          int _size147;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size147];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size147];
+          int _i148;
+          for (_i148 = 0; _i148 < _size147; ++_i148)
           {
-            EDAMTag *_elem155 = [[EDAMTag alloc] init];
-            [_elem155 read: inProtocol];
-            [fieldValue addObject: _elem155];
-            [_elem155 release];
+            EDAMTag *_elem149 = [[EDAMTag alloc] init];
+            [_elem149 read: inProtocol];
+            [fieldValue addObject: _elem149];
+            [_elem149 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -12896,10 +12762,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i157;
-        for (i157 = 0; i157 < [__success count]; i157++)
+        int i151;
+        for (i151 = 0; i151 < [__success count]; i151++)
         {
-          [[__success objectAtIndex: i157] write: outProtocol];
+          [[__success objectAtIndex: i151] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -15692,16 +15558,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size158;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size158];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size158];
-          int _i159;
-          for (_i159 = 0; _i159 < _size158; ++_i159)
+          int _size152;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size152];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size152];
+          int _i153;
+          for (_i153 = 0; _i153 < _size152; ++_i153)
           {
-            EDAMSavedSearch *_elem160 = [[EDAMSavedSearch alloc] init];
-            [_elem160 read: inProtocol];
-            [fieldValue addObject: _elem160];
-            [_elem160 release];
+            EDAMSavedSearch *_elem154 = [[EDAMSavedSearch alloc] init];
+            [_elem154 read: inProtocol];
+            [fieldValue addObject: _elem154];
+            [_elem154 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -15747,10 +15613,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i162;
-        for (i162 = 0; i162 < [__success count]; i162++)
+        int i156;
+        for (i156 = 0; i156 < [__success count]; i156++)
         {
-          [[__success objectAtIndex: i162] write: outProtocol];
+          [[__success objectAtIndex: i156] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -25021,14 +24887,14 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size163;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size163];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size163];
-          int _i164;
-          for (_i164 = 0; _i164 < _size163; ++_i164)
+          int _size157;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size157];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size157];
+          int _i158;
+          for (_i158 = 0; _i158 < _size157; ++_i158)
           {
-            NSString * _elem165 = [inProtocol readString];
-            [fieldValue addObject: _elem165];
+            NSString * _elem159 = [inProtocol readString];
+            [fieldValue addObject: _elem159];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -25084,10 +24950,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: [__success count]];
-        int i167;
-        for (i167 = 0; i167 < [__success count]; i167++)
+        int i161;
+        for (i161 = 0; i161 < [__success count]; i161++)
         {
-          [outProtocol writeString: [__success objectAtIndex: i167]];
+          [outProtocol writeString: [__success objectAtIndex: i161]];
         }
         [outProtocol writeListEnd];
       }
@@ -27270,14 +27136,14 @@
         break;
       case 2:
         if (fieldType == TType_LIST) {
-          int _size168;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size168];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size168];
-          int _i169;
-          for (_i169 = 0; _i169 < _size168; ++_i169)
+          int _size162;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size162];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size162];
+          int _i163;
+          for (_i163 = 0; _i163 < _size162; ++_i163)
           {
-            NSString * _elem170 = [inProtocol readString];
-            [fieldValue addObject: _elem170];
+            NSString * _elem164 = [inProtocol readString];
+            [fieldValue addObject: _elem164];
           }
           [inProtocol readListEnd];
           [self setNoteGuids: fieldValue];
@@ -27309,10 +27175,10 @@
       [outProtocol writeFieldBeginWithName: @"noteGuids" type: TType_LIST fieldID: 2];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: [__noteGuids count]];
-        int i172;
-        for (i172 = 0; i172 < [__noteGuids count]; i172++)
+        int i166;
+        for (i166 = 0; i166 < [__noteGuids count]; i166++)
         {
-          [outProtocol writeString: [__noteGuids objectAtIndex: i172]];
+          [outProtocol writeString: [__noteGuids objectAtIndex: i166]];
         }
         [outProtocol writeListEnd];
       }
@@ -28981,16 +28847,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size173;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size173];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size173];
-          int _i174;
-          for (_i174 = 0; _i174 < _size173; ++_i174)
+          int _size167;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size167];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size167];
+          int _i168;
+          for (_i168 = 0; _i168 < _size167; ++_i168)
           {
-            EDAMNoteVersionId *_elem175 = [[EDAMNoteVersionId alloc] init];
-            [_elem175 read: inProtocol];
-            [fieldValue addObject: _elem175];
-            [_elem175 release];
+            EDAMNoteVersionId *_elem169 = [[EDAMNoteVersionId alloc] init];
+            [_elem169 read: inProtocol];
+            [fieldValue addObject: _elem169];
+            [_elem169 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -29046,10 +28912,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i177;
-        for (i177 = 0; i177 < [__success count]; i177++)
+        int i171;
+        for (i171 = 0; i171 < [__success count]; i171++)
         {
-          [[__success objectAtIndex: i177] write: outProtocol];
+          [[__success objectAtIndex: i171] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -35920,1294 +35786,6 @@
 
 @end
 
-@interface EDAMgetAccountSize_args : NSObject <NSCoding> {
-  NSString * __authenticationToken;
-
-  BOOL __authenticationToken_isset;
-}
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
-#else
-
-- (NSString *) authenticationToken;
-- (void) setAuthenticationToken: (NSString *) authenticationToken;
-
-#endif
-
-- (BOOL) authenticationTokenIsSet;
-@end
-
-@implementation EDAMgetAccountSize_args
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken
-{
-  self = [super init];
-  __authenticationToken = [authenticationToken retain];
-  __authenticationToken_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"authenticationToken"])
-  {
-    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
-    __authenticationToken_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__authenticationToken_isset)
-  {
-    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
-  }
-}
-
-- (void) dealloc
-{
-  [__authenticationToken release];
-  [super dealloc];
-}
-
-- (NSString *) authenticationToken {
-  return [[__authenticationToken retain] autorelease];
-}
-
-- (void) setAuthenticationToken: (NSString *) authenticationToken {
-  [authenticationToken retain];
-  [__authenticationToken release];
-  __authenticationToken = authenticationToken;
-  __authenticationToken_isset = YES;
-}
-
-- (BOOL) authenticationTokenIsSet {
-  return __authenticationToken_isset;
-}
-
-- (void) unsetAuthenticationToken {
-  [__authenticationToken release];
-  __authenticationToken = nil;
-  __authenticationToken_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAuthenticationToken: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"getAccountSize_args"];
-  if (__authenticationToken_isset) {
-    if (__authenticationToken != nil) {
-      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __authenticationToken];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"getAccountSize_args("];
-  [ms appendString: @"authenticationToken:"];
-  [ms appendFormat: @"\"%@\"", __authenticationToken];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@interface EDAMGetAccountSize_result : NSObject <NSCoding> {
-  int64_t __success;
-  EDAMUserException * __userException;
-  EDAMSystemException * __systemException;
-
-  BOOL __success_isset;
-  BOOL __userException_isset;
-  BOOL __systemException_isset;
-}
-
-- (id) initWithSuccess: (int64_t) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=success, setter=setSuccess:) int64_t success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
-#else
-
-- (int64_t) success;
-- (void) setSuccess: (int64_t) success;
-
-- (EDAMUserException *) userException;
-- (void) setUserException: (EDAMUserException *) userException;
-
-- (EDAMSystemException *) systemException;
-- (void) setSystemException: (EDAMSystemException *) systemException;
-
-#endif
-
-- (BOOL) successIsSet;
-- (BOOL) userExceptionIsSet;
-- (BOOL) systemExceptionIsSet;
-@end
-
-@implementation EDAMGetAccountSize_result
-
-- (id) initWithSuccess: (int64_t) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
-{
-  self = [super init];
-  __success = success;
-  __success_isset = YES;
-  __userException = [userException retain];
-  __userException_isset = YES;
-  __systemException = [systemException retain];
-  __systemException_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"success"])
-  {
-    __success = [decoder decodeInt64ForKey: @"success"];
-    __success_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"userException"])
-  {
-    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
-    __userException_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"systemException"])
-  {
-    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
-    __systemException_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__success_isset)
-  {
-    [encoder encodeInt64: __success forKey: @"success"];
-  }
-  if (__userException_isset)
-  {
-    [encoder encodeObject: __userException forKey: @"userException"];
-  }
-  if (__systemException_isset)
-  {
-    [encoder encodeObject: __systemException forKey: @"systemException"];
-  }
-}
-
-- (void) dealloc
-{
-  [__userException release];
-  [__systemException release];
-  [super dealloc];
-}
-
-- (int64_t) success {
-  return __success;
-}
-
-- (void) setSuccess: (int64_t) success {
-  __success = success;
-  __success_isset = YES;
-}
-
-- (BOOL) successIsSet {
-  return __success_isset;
-}
-
-- (void) unsetSuccess {
-  __success_isset = NO;
-}
-
-- (EDAMUserException *) userException {
-  return [[__userException retain] autorelease];
-}
-
-- (void) setUserException: (EDAMUserException *) userException {
-  [userException retain];
-  [__userException release];
-  __userException = userException;
-  __userException_isset = YES;
-}
-
-- (BOOL) userExceptionIsSet {
-  return __userException_isset;
-}
-
-- (void) unsetUserException {
-  [__userException release];
-  __userException = nil;
-  __userException_isset = NO;
-}
-
-- (EDAMSystemException *) systemException {
-  return [[__systemException retain] autorelease];
-}
-
-- (void) setSystemException: (EDAMSystemException *) systemException {
-  [systemException retain];
-  [__systemException release];
-  __systemException = systemException;
-  __systemException_isset = YES;
-}
-
-- (BOOL) systemExceptionIsSet {
-  return __systemException_isset;
-}
-
-- (void) unsetSystemException {
-  [__systemException release];
-  __systemException = nil;
-  __systemException_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 0:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setSuccess: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setUserException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setSystemException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"GetAccountSize_result"];
-
-  if (__success_isset) {
-    [outProtocol writeFieldBeginWithName: @"success" type: TType_I64 fieldID: 0];
-    [outProtocol writeI64: __success];
-    [outProtocol writeFieldEnd];
-  } else if (__userException_isset) {
-    if (__userException != nil) {
-      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
-      [__userException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  } else if (__systemException_isset) {
-    if (__systemException != nil) {
-      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
-      [__systemException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"GetAccountSize_result("];
-  [ms appendString: @"success:"];
-  [ms appendFormat: @"%qi", __success];
-  [ms appendString: @",userException:"];
-  [ms appendFormat: @"%@", __userException];
-  [ms appendString: @",systemException:"];
-  [ms appendFormat: @"%@", __systemException];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@interface EDAMgetAds_args : NSObject <NSCoding> {
-  NSString * __authenticationToken;
-  EDAMAdParameters * __adParameters;
-
-  BOOL __authenticationToken_isset;
-  BOOL __adParameters_isset;
-}
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken adParameters: (EDAMAdParameters *) adParameters;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
-@property (nonatomic, retain, getter=adParameters, setter=setAdParameters:) EDAMAdParameters * adParameters;
-#else
-
-- (NSString *) authenticationToken;
-- (void) setAuthenticationToken: (NSString *) authenticationToken;
-
-- (EDAMAdParameters *) adParameters;
-- (void) setAdParameters: (EDAMAdParameters *) adParameters;
-
-#endif
-
-- (BOOL) authenticationTokenIsSet;
-- (BOOL) adParametersIsSet;
-@end
-
-@implementation EDAMgetAds_args
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken adParameters: (EDAMAdParameters *) adParameters
-{
-  self = [super init];
-  __authenticationToken = [authenticationToken retain];
-  __authenticationToken_isset = YES;
-  __adParameters = [adParameters retain];
-  __adParameters_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"authenticationToken"])
-  {
-    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
-    __authenticationToken_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"adParameters"])
-  {
-    __adParameters = [[decoder decodeObjectForKey: @"adParameters"] retain];
-    __adParameters_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__authenticationToken_isset)
-  {
-    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
-  }
-  if (__adParameters_isset)
-  {
-    [encoder encodeObject: __adParameters forKey: @"adParameters"];
-  }
-}
-
-- (void) dealloc
-{
-  [__authenticationToken release];
-  [__adParameters release];
-  [super dealloc];
-}
-
-- (NSString *) authenticationToken {
-  return [[__authenticationToken retain] autorelease];
-}
-
-- (void) setAuthenticationToken: (NSString *) authenticationToken {
-  [authenticationToken retain];
-  [__authenticationToken release];
-  __authenticationToken = authenticationToken;
-  __authenticationToken_isset = YES;
-}
-
-- (BOOL) authenticationTokenIsSet {
-  return __authenticationToken_isset;
-}
-
-- (void) unsetAuthenticationToken {
-  [__authenticationToken release];
-  __authenticationToken = nil;
-  __authenticationToken_isset = NO;
-}
-
-- (EDAMAdParameters *) adParameters {
-  return [[__adParameters retain] autorelease];
-}
-
-- (void) setAdParameters: (EDAMAdParameters *) adParameters {
-  [adParameters retain];
-  [__adParameters release];
-  __adParameters = adParameters;
-  __adParameters_isset = YES;
-}
-
-- (BOOL) adParametersIsSet {
-  return __adParameters_isset;
-}
-
-- (void) unsetAdParameters {
-  [__adParameters release];
-  __adParameters = nil;
-  __adParameters_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAuthenticationToken: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          EDAMAdParameters *fieldValue = [[EDAMAdParameters alloc] init];
-          [fieldValue read: inProtocol];
-          [self setAdParameters: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"getAds_args"];
-  if (__authenticationToken_isset) {
-    if (__authenticationToken != nil) {
-      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __authenticationToken];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__adParameters_isset) {
-    if (__adParameters != nil) {
-      [outProtocol writeFieldBeginWithName: @"adParameters" type: TType_STRUCT fieldID: 2];
-      [__adParameters write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"getAds_args("];
-  [ms appendString: @"authenticationToken:"];
-  [ms appendFormat: @"\"%@\"", __authenticationToken];
-  [ms appendString: @",adParameters:"];
-  [ms appendFormat: @"%@", __adParameters];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@interface EDAMGetAds_result : NSObject <NSCoding> {
-  NSArray * __success;
-  EDAMUserException * __userException;
-  EDAMSystemException * __systemException;
-
-  BOOL __success_isset;
-  BOOL __userException_isset;
-  BOOL __systemException_isset;
-}
-
-- (id) initWithSuccess: (NSArray *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) NSArray * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
-#else
-
-- (NSArray *) success;
-- (void) setSuccess: (NSArray *) success;
-
-- (EDAMUserException *) userException;
-- (void) setUserException: (EDAMUserException *) userException;
-
-- (EDAMSystemException *) systemException;
-- (void) setSystemException: (EDAMSystemException *) systemException;
-
-#endif
-
-- (BOOL) successIsSet;
-- (BOOL) userExceptionIsSet;
-- (BOOL) systemExceptionIsSet;
-@end
-
-@implementation EDAMGetAds_result
-
-- (id) initWithSuccess: (NSArray *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
-{
-  self = [super init];
-  __success = [success retain];
-  __success_isset = YES;
-  __userException = [userException retain];
-  __userException_isset = YES;
-  __systemException = [systemException retain];
-  __systemException_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"success"])
-  {
-    __success = [[decoder decodeObjectForKey: @"success"] retain];
-    __success_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"userException"])
-  {
-    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
-    __userException_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"systemException"])
-  {
-    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
-    __systemException_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__success_isset)
-  {
-    [encoder encodeObject: __success forKey: @"success"];
-  }
-  if (__userException_isset)
-  {
-    [encoder encodeObject: __userException forKey: @"userException"];
-  }
-  if (__systemException_isset)
-  {
-    [encoder encodeObject: __systemException forKey: @"systemException"];
-  }
-}
-
-- (void) dealloc
-{
-  [__success release];
-  [__userException release];
-  [__systemException release];
-  [super dealloc];
-}
-
-- (NSArray *) success {
-  return [[__success retain] autorelease];
-}
-
-- (void) setSuccess: (NSArray *) success {
-  [success retain];
-  [__success release];
-  __success = success;
-  __success_isset = YES;
-}
-
-- (BOOL) successIsSet {
-  return __success_isset;
-}
-
-- (void) unsetSuccess {
-  [__success release];
-  __success = nil;
-  __success_isset = NO;
-}
-
-- (EDAMUserException *) userException {
-  return [[__userException retain] autorelease];
-}
-
-- (void) setUserException: (EDAMUserException *) userException {
-  [userException retain];
-  [__userException release];
-  __userException = userException;
-  __userException_isset = YES;
-}
-
-- (BOOL) userExceptionIsSet {
-  return __userException_isset;
-}
-
-- (void) unsetUserException {
-  [__userException release];
-  __userException = nil;
-  __userException_isset = NO;
-}
-
-- (EDAMSystemException *) systemException {
-  return [[__systemException retain] autorelease];
-}
-
-- (void) setSystemException: (EDAMSystemException *) systemException {
-  [systemException retain];
-  [__systemException release];
-  __systemException = systemException;
-  __systemException_isset = YES;
-}
-
-- (BOOL) systemExceptionIsSet {
-  return __systemException_isset;
-}
-
-- (void) unsetSystemException {
-  [__systemException release];
-  __systemException = nil;
-  __systemException_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 0:
-        if (fieldType == TType_LIST) {
-          int _size178;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size178];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size178];
-          int _i179;
-          for (_i179 = 0; _i179 < _size178; ++_i179)
-          {
-            EDAMAd *_elem180 = [[EDAMAd alloc] init];
-            [_elem180 read: inProtocol];
-            [fieldValue addObject: _elem180];
-            [_elem180 release];
-          }
-          [inProtocol readListEnd];
-          [self setSuccess: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setUserException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setSystemException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"GetAds_result"];
-
-  if (__success_isset) {
-    if (__success != nil) {
-      [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
-      {
-        [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i182;
-        for (i182 = 0; i182 < [__success count]; i182++)
-        {
-          [[__success objectAtIndex: i182] write: outProtocol];
-        }
-        [outProtocol writeListEnd];
-      }
-      [outProtocol writeFieldEnd];
-    }
-  } else if (__userException_isset) {
-    if (__userException != nil) {
-      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
-      [__userException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  } else if (__systemException_isset) {
-    if (__systemException != nil) {
-      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
-      [__systemException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"GetAds_result("];
-  [ms appendString: @"success:"];
-  [ms appendFormat: @"%@", __success];
-  [ms appendString: @",userException:"];
-  [ms appendFormat: @"%@", __userException];
-  [ms appendString: @",systemException:"];
-  [ms appendFormat: @"%@", __systemException];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@interface EDAMgetRandomAd_args : NSObject <NSCoding> {
-  NSString * __authenticationToken;
-  EDAMAdParameters * __adParameters;
-
-  BOOL __authenticationToken_isset;
-  BOOL __adParameters_isset;
-}
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken adParameters: (EDAMAdParameters *) adParameters;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
-@property (nonatomic, retain, getter=adParameters, setter=setAdParameters:) EDAMAdParameters * adParameters;
-#else
-
-- (NSString *) authenticationToken;
-- (void) setAuthenticationToken: (NSString *) authenticationToken;
-
-- (EDAMAdParameters *) adParameters;
-- (void) setAdParameters: (EDAMAdParameters *) adParameters;
-
-#endif
-
-- (BOOL) authenticationTokenIsSet;
-- (BOOL) adParametersIsSet;
-@end
-
-@implementation EDAMgetRandomAd_args
-
-- (id) initWithAuthenticationToken: (NSString *) authenticationToken adParameters: (EDAMAdParameters *) adParameters
-{
-  self = [super init];
-  __authenticationToken = [authenticationToken retain];
-  __authenticationToken_isset = YES;
-  __adParameters = [adParameters retain];
-  __adParameters_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"authenticationToken"])
-  {
-    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
-    __authenticationToken_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"adParameters"])
-  {
-    __adParameters = [[decoder decodeObjectForKey: @"adParameters"] retain];
-    __adParameters_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__authenticationToken_isset)
-  {
-    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
-  }
-  if (__adParameters_isset)
-  {
-    [encoder encodeObject: __adParameters forKey: @"adParameters"];
-  }
-}
-
-- (void) dealloc
-{
-  [__authenticationToken release];
-  [__adParameters release];
-  [super dealloc];
-}
-
-- (NSString *) authenticationToken {
-  return [[__authenticationToken retain] autorelease];
-}
-
-- (void) setAuthenticationToken: (NSString *) authenticationToken {
-  [authenticationToken retain];
-  [__authenticationToken release];
-  __authenticationToken = authenticationToken;
-  __authenticationToken_isset = YES;
-}
-
-- (BOOL) authenticationTokenIsSet {
-  return __authenticationToken_isset;
-}
-
-- (void) unsetAuthenticationToken {
-  [__authenticationToken release];
-  __authenticationToken = nil;
-  __authenticationToken_isset = NO;
-}
-
-- (EDAMAdParameters *) adParameters {
-  return [[__adParameters retain] autorelease];
-}
-
-- (void) setAdParameters: (EDAMAdParameters *) adParameters {
-  [adParameters retain];
-  [__adParameters release];
-  __adParameters = adParameters;
-  __adParameters_isset = YES;
-}
-
-- (BOOL) adParametersIsSet {
-  return __adParameters_isset;
-}
-
-- (void) unsetAdParameters {
-  [__adParameters release];
-  __adParameters = nil;
-  __adParameters_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setAuthenticationToken: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          EDAMAdParameters *fieldValue = [[EDAMAdParameters alloc] init];
-          [fieldValue read: inProtocol];
-          [self setAdParameters: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"getRandomAd_args"];
-  if (__authenticationToken_isset) {
-    if (__authenticationToken != nil) {
-      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-      [outProtocol writeString: __authenticationToken];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__adParameters_isset) {
-    if (__adParameters != nil) {
-      [outProtocol writeFieldBeginWithName: @"adParameters" type: TType_STRUCT fieldID: 2];
-      [__adParameters write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"getRandomAd_args("];
-  [ms appendString: @"authenticationToken:"];
-  [ms appendFormat: @"\"%@\"", __authenticationToken];
-  [ms appendString: @",adParameters:"];
-  [ms appendFormat: @"%@", __adParameters];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@interface EDAMGetRandomAd_result : NSObject <NSCoding> {
-  EDAMAd * __success;
-  EDAMUserException * __userException;
-  EDAMSystemException * __systemException;
-
-  BOOL __success_isset;
-  BOOL __userException_isset;
-  BOOL __systemException_isset;
-}
-
-- (id) initWithSuccess: (EDAMAd *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAd * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
-#else
-
-- (EDAMAd *) success;
-- (void) setSuccess: (EDAMAd *) success;
-
-- (EDAMUserException *) userException;
-- (void) setUserException: (EDAMUserException *) userException;
-
-- (EDAMSystemException *) systemException;
-- (void) setSystemException: (EDAMSystemException *) systemException;
-
-#endif
-
-- (BOOL) successIsSet;
-- (BOOL) userExceptionIsSet;
-- (BOOL) systemExceptionIsSet;
-@end
-
-@implementation EDAMGetRandomAd_result
-
-- (id) initWithSuccess: (EDAMAd *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
-{
-  self = [super init];
-  __success = [success retain];
-  __success_isset = YES;
-  __userException = [userException retain];
-  __userException_isset = YES;
-  __systemException = [systemException retain];
-  __systemException_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"success"])
-  {
-    __success = [[decoder decodeObjectForKey: @"success"] retain];
-    __success_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"userException"])
-  {
-    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
-    __userException_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"systemException"])
-  {
-    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
-    __systemException_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__success_isset)
-  {
-    [encoder encodeObject: __success forKey: @"success"];
-  }
-  if (__userException_isset)
-  {
-    [encoder encodeObject: __userException forKey: @"userException"];
-  }
-  if (__systemException_isset)
-  {
-    [encoder encodeObject: __systemException forKey: @"systemException"];
-  }
-}
-
-- (void) dealloc
-{
-  [__success release];
-  [__userException release];
-  [__systemException release];
-  [super dealloc];
-}
-
-- (EDAMAd *) success {
-  return [[__success retain] autorelease];
-}
-
-- (void) setSuccess: (EDAMAd *) success {
-  [success retain];
-  [__success release];
-  __success = success;
-  __success_isset = YES;
-}
-
-- (BOOL) successIsSet {
-  return __success_isset;
-}
-
-- (void) unsetSuccess {
-  [__success release];
-  __success = nil;
-  __success_isset = NO;
-}
-
-- (EDAMUserException *) userException {
-  return [[__userException retain] autorelease];
-}
-
-- (void) setUserException: (EDAMUserException *) userException {
-  [userException retain];
-  [__userException release];
-  __userException = userException;
-  __userException_isset = YES;
-}
-
-- (BOOL) userExceptionIsSet {
-  return __userException_isset;
-}
-
-- (void) unsetUserException {
-  [__userException release];
-  __userException = nil;
-  __userException_isset = NO;
-}
-
-- (EDAMSystemException *) systemException {
-  return [[__systemException retain] autorelease];
-}
-
-- (void) setSystemException: (EDAMSystemException *) systemException {
-  [systemException retain];
-  [__systemException release];
-  __systemException = systemException;
-  __systemException_isset = YES;
-}
-
-- (BOOL) systemExceptionIsSet {
-  return __systemException_isset;
-}
-
-- (void) unsetSystemException {
-  [__systemException release];
-  __systemException = nil;
-  __systemException_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 0:
-        if (fieldType == TType_STRUCT) {
-          EDAMAd *fieldValue = [[EDAMAd alloc] init];
-          [fieldValue read: inProtocol];
-          [self setSuccess: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 1:
-        if (fieldType == TType_STRUCT) {
-          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setUserException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_STRUCT) {
-          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
-          [fieldValue read: inProtocol];
-          [self setSystemException: fieldValue];
-          [fieldValue release];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"GetRandomAd_result"];
-
-  if (__success_isset) {
-    if (__success != nil) {
-      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
-      [__success write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  } else if (__userException_isset) {
-    if (__userException != nil) {
-      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
-      [__userException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  } else if (__systemException_isset) {
-    if (__systemException != nil) {
-      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
-      [__systemException write: outProtocol];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"GetRandomAd_result("];
-  [ms appendString: @"success:"];
-  [ms appendFormat: @"%@", __success];
-  [ms appendString: @",userException:"];
-  [ms appendFormat: @"%@", __userException];
-  [ms appendString: @",systemException:"];
-  [ms appendFormat: @"%@", __systemException];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
 @interface EDAMgetPublicNotebook_args : NSObject <NSCoding> {
   EDAMUserID __userId;
   NSString * __publicUri;
@@ -38149,6 +36727,501 @@
 
 @end
 
+@interface EDAMupdateSharedNotebook_args : NSObject <NSCoding> {
+  NSString * __authenticationToken;
+  EDAMSharedNotebook * __sharedNotebook;
+
+  BOOL __authenticationToken_isset;
+  BOOL __sharedNotebook_isset;
+}
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken sharedNotebook: (EDAMSharedNotebook *) sharedNotebook;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, retain, getter=sharedNotebook, setter=setSharedNotebook:) EDAMSharedNotebook * sharedNotebook;
+#else
+
+- (NSString *) authenticationToken;
+- (void) setAuthenticationToken: (NSString *) authenticationToken;
+
+- (EDAMSharedNotebook *) sharedNotebook;
+- (void) setSharedNotebook: (EDAMSharedNotebook *) sharedNotebook;
+
+#endif
+
+- (BOOL) authenticationTokenIsSet;
+- (BOOL) sharedNotebookIsSet;
+@end
+
+@implementation EDAMupdateSharedNotebook_args
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken sharedNotebook: (EDAMSharedNotebook *) sharedNotebook
+{
+  self = [super init];
+  __authenticationToken = [authenticationToken retain];
+  __authenticationToken_isset = YES;
+  __sharedNotebook = [sharedNotebook retain];
+  __sharedNotebook_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"authenticationToken"])
+  {
+    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
+    __authenticationToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"sharedNotebook"])
+  {
+    __sharedNotebook = [[decoder decodeObjectForKey: @"sharedNotebook"] retain];
+    __sharedNotebook_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__authenticationToken_isset)
+  {
+    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
+  }
+  if (__sharedNotebook_isset)
+  {
+    [encoder encodeObject: __sharedNotebook forKey: @"sharedNotebook"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authenticationToken release];
+  [__sharedNotebook release];
+  [super dealloc];
+}
+
+- (NSString *) authenticationToken {
+  return [[__authenticationToken retain] autorelease];
+}
+
+- (void) setAuthenticationToken: (NSString *) authenticationToken {
+  [authenticationToken retain];
+  [__authenticationToken release];
+  __authenticationToken = authenticationToken;
+  __authenticationToken_isset = YES;
+}
+
+- (BOOL) authenticationTokenIsSet {
+  return __authenticationToken_isset;
+}
+
+- (void) unsetAuthenticationToken {
+  [__authenticationToken release];
+  __authenticationToken = nil;
+  __authenticationToken_isset = NO;
+}
+
+- (EDAMSharedNotebook *) sharedNotebook {
+  return [[__sharedNotebook retain] autorelease];
+}
+
+- (void) setSharedNotebook: (EDAMSharedNotebook *) sharedNotebook {
+  [sharedNotebook retain];
+  [__sharedNotebook release];
+  __sharedNotebook = sharedNotebook;
+  __sharedNotebook_isset = YES;
+}
+
+- (BOOL) sharedNotebookIsSet {
+  return __sharedNotebook_isset;
+}
+
+- (void) unsetSharedNotebook {
+  [__sharedNotebook release];
+  __sharedNotebook = nil;
+  __sharedNotebook_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthenticationToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMSharedNotebook *fieldValue = [[EDAMSharedNotebook alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSharedNotebook: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"updateSharedNotebook_args"];
+  if (__authenticationToken_isset) {
+    if (__authenticationToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __authenticationToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__sharedNotebook_isset) {
+    if (__sharedNotebook != nil) {
+      [outProtocol writeFieldBeginWithName: @"sharedNotebook" type: TType_STRUCT fieldID: 2];
+      [__sharedNotebook write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"updateSharedNotebook_args("];
+  [ms appendString: @"authenticationToken:"];
+  [ms appendFormat: @"\"%@\"", __authenticationToken];
+  [ms appendString: @",sharedNotebook:"];
+  [ms appendFormat: @"%@", __sharedNotebook];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMUpdateSharedNotebook_result : NSObject <NSCoding> {
+  int32_t __success;
+  EDAMUserException * __userException;
+  EDAMNotFoundException * __notFoundException;
+  EDAMSystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __notFoundException_isset;
+  BOOL __systemException_isset;
+}
+
+- (id) initWithSuccess: (int32_t) success userException: (EDAMUserException *) userException notFoundException: (EDAMNotFoundException *) notFoundException systemException: (EDAMSystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=success, setter=setSuccess:) int32_t success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, retain, getter=notFoundException, setter=setNotFoundException:) EDAMNotFoundException * notFoundException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+#else
+
+- (int32_t) success;
+- (void) setSuccess: (int32_t) success;
+
+- (EDAMUserException *) userException;
+- (void) setUserException: (EDAMUserException *) userException;
+
+- (EDAMNotFoundException *) notFoundException;
+- (void) setNotFoundException: (EDAMNotFoundException *) notFoundException;
+
+- (EDAMSystemException *) systemException;
+- (void) setSystemException: (EDAMSystemException *) systemException;
+
+#endif
+
+- (BOOL) successIsSet;
+- (BOOL) userExceptionIsSet;
+- (BOOL) notFoundExceptionIsSet;
+- (BOOL) systemExceptionIsSet;
+@end
+
+@implementation EDAMUpdateSharedNotebook_result
+
+- (id) initWithSuccess: (int32_t) success userException: (EDAMUserException *) userException notFoundException: (EDAMNotFoundException *) notFoundException systemException: (EDAMSystemException *) systemException
+{
+  self = [super init];
+  __success = success;
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __notFoundException = [notFoundException retain];
+  __notFoundException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [decoder decodeInt32ForKey: @"success"];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"notFoundException"])
+  {
+    __notFoundException = [[decoder decodeObjectForKey: @"notFoundException"] retain];
+    __notFoundException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeInt32: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__notFoundException_isset)
+  {
+    [encoder encodeObject: __notFoundException forKey: @"notFoundException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__userException release];
+  [__notFoundException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (int32_t) success {
+  return __success;
+}
+
+- (void) setSuccess: (int32_t) success {
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  __success_isset = NO;
+}
+
+- (EDAMUserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (EDAMUserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (EDAMNotFoundException *) notFoundException {
+  return [[__notFoundException retain] autorelease];
+}
+
+- (void) setNotFoundException: (EDAMNotFoundException *) notFoundException {
+  [notFoundException retain];
+  [__notFoundException release];
+  __notFoundException = notFoundException;
+  __notFoundException_isset = YES;
+}
+
+- (BOOL) notFoundExceptionIsSet {
+  return __notFoundException_isset;
+}
+
+- (void) unsetNotFoundException {
+  [__notFoundException release];
+  __notFoundException = nil;
+  __notFoundException_isset = NO;
+}
+
+- (EDAMSystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (EDAMSystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_I32) {
+          int32_t fieldValue = [inProtocol readI32];
+          [self setSuccess: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMNotFoundException *fieldValue = [[EDAMNotFoundException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setNotFoundException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRUCT) {
+          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"UpdateSharedNotebook_result"];
+
+  if (__success_isset) {
+    [outProtocol writeFieldBeginWithName: @"success" type: TType_I32 fieldID: 0];
+    [outProtocol writeI32: __success];
+    [outProtocol writeFieldEnd];
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__notFoundException_isset) {
+    if (__notFoundException != nil) {
+      [outProtocol writeFieldBeginWithName: @"notFoundException" type: TType_STRUCT fieldID: 2];
+      [__notFoundException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 3];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"UpdateSharedNotebook_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%i", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",notFoundException:"];
+  [ms appendFormat: @"%@", __notFoundException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @interface EDAMsendMessageToSharedNotebookMembers_args : NSObject <NSCoding> {
   NSString * __authenticationToken;
   EDAMGuid __notebookGuid;
@@ -38389,14 +37462,14 @@
         break;
       case 4:
         if (fieldType == TType_LIST) {
-          int _size183;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size183];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size183];
-          int _i184;
-          for (_i184 = 0; _i184 < _size183; ++_i184)
+          int _size172;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size172];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size172];
+          int _i173;
+          for (_i173 = 0; _i173 < _size172; ++_i173)
           {
-            NSString * _elem185 = [inProtocol readString];
-            [fieldValue addObject: _elem185];
+            NSString * _elem174 = [inProtocol readString];
+            [fieldValue addObject: _elem174];
           }
           [inProtocol readListEnd];
           [self setRecipients: fieldValue];
@@ -38442,10 +37515,10 @@
       [outProtocol writeFieldBeginWithName: @"recipients" type: TType_LIST fieldID: 4];
       {
         [outProtocol writeListBeginWithElementType: TType_STRING size: [__recipients count]];
-        int i187;
-        for (i187 = 0; i187 < [__recipients count]; i187++)
+        int i176;
+        for (i176 = 0; i176 < [__recipients count]; i176++)
         {
-          [outProtocol writeString: [__recipients objectAtIndex: i187]];
+          [outProtocol writeString: [__recipients objectAtIndex: i176]];
         }
         [outProtocol writeListEnd];
       }
@@ -39124,16 +38197,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size188;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size188];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size188];
-          int _i189;
-          for (_i189 = 0; _i189 < _size188; ++_i189)
+          int _size177;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size177];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size177];
+          int _i178;
+          for (_i178 = 0; _i178 < _size177; ++_i178)
           {
-            EDAMSharedNotebook *_elem190 = [[EDAMSharedNotebook alloc] init];
-            [_elem190 read: inProtocol];
-            [fieldValue addObject: _elem190];
-            [_elem190 release];
+            EDAMSharedNotebook *_elem179 = [[EDAMSharedNotebook alloc] init];
+            [_elem179 read: inProtocol];
+            [fieldValue addObject: _elem179];
+            [_elem179 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -39189,10 +38262,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i192;
-        for (i192 = 0; i192 < [__success count]; i192++)
+        int i181;
+        for (i181 = 0; i181 < [__success count]; i181++)
         {
-          [[__success objectAtIndex: i192] write: outProtocol];
+          [[__success objectAtIndex: i181] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -39381,14 +38454,14 @@
         break;
       case 2:
         if (fieldType == TType_LIST) {
-          int _size193;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size193];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size193];
-          int _i194;
-          for (_i194 = 0; _i194 < _size193; ++_i194)
+          int _size182;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size182];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size182];
+          int _i183;
+          for (_i183 = 0; _i183 < _size182; ++_i183)
           {
-            int64_t _elem195 = [inProtocol readI64];
-            [fieldValue addObject: [NSNumber numberWithLongLong: _elem195]];
+            int64_t _elem184 = [inProtocol readI64];
+            [fieldValue addObject: [NSNumber numberWithLongLong: _elem184]];
           }
           [inProtocol readListEnd];
           [self setSharedNotebookIds: fieldValue];
@@ -39420,10 +38493,10 @@
       [outProtocol writeFieldBeginWithName: @"sharedNotebookIds" type: TType_LIST fieldID: 2];
       {
         [outProtocol writeListBeginWithElementType: TType_I64 size: [__sharedNotebookIds count]];
-        int i197;
-        for (i197 = 0; i197 < [__sharedNotebookIds count]; i197++)
+        int i186;
+        for (i186 = 0; i186 < [__sharedNotebookIds count]; i186++)
         {
-          [outProtocol writeI64: [[__sharedNotebookIds objectAtIndex: i197] longLongValue]];
+          [outProtocol writeI64: [[__sharedNotebookIds objectAtIndex: i186] longLongValue]];
         }
         [outProtocol writeListEnd];
       }
@@ -41097,16 +40170,16 @@
     {
       case 0:
         if (fieldType == TType_LIST) {
-          int _size198;
-          [inProtocol readListBeginReturningElementType: NULL size: &_size198];
-          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size198];
-          int _i199;
-          for (_i199 = 0; _i199 < _size198; ++_i199)
+          int _size187;
+          [inProtocol readListBeginReturningElementType: NULL size: &_size187];
+          NSMutableArray * fieldValue = [[NSMutableArray alloc] initWithCapacity: _size187];
+          int _i188;
+          for (_i188 = 0; _i188 < _size187; ++_i188)
           {
-            EDAMLinkedNotebook *_elem200 = [[EDAMLinkedNotebook alloc] init];
-            [_elem200 read: inProtocol];
-            [fieldValue addObject: _elem200];
-            [_elem200 release];
+            EDAMLinkedNotebook *_elem189 = [[EDAMLinkedNotebook alloc] init];
+            [_elem189 read: inProtocol];
+            [fieldValue addObject: _elem189];
+            [_elem189 release];
           }
           [inProtocol readListEnd];
           [self setSuccess: fieldValue];
@@ -41162,10 +40235,10 @@
       [outProtocol writeFieldBeginWithName: @"success" type: TType_LIST fieldID: 0];
       {
         [outProtocol writeListBeginWithElementType: TType_STRUCT size: [__success count]];
-        int i202;
-        for (i202 = 0; i202 < [__success count]; i202++)
+        int i191;
+        for (i191 = 0; i191 < [__success count]; i191++)
         {
-          [[__success objectAtIndex: i202] write: outProtocol];
+          [[__success objectAtIndex: i191] write: outProtocol];
         }
         [outProtocol writeListEnd];
       }
@@ -45113,10 +44186,9 @@
 
 - (id) initWithInProtocol: (id <TProtocol>) anInProtocol outProtocol: (id <TProtocol>) anOutProtocol
 {
-    if((self=[super init])) {
-        inProtocol = [anInProtocol retain];
-        outProtocol = [anOutProtocol retain];
-    }
+  [super init];
+  inProtocol = [anInProtocol retain];
+  outProtocol = [anOutProtocol retain];
   return self;
 }
 
@@ -47377,10 +46449,10 @@
     [outProtocol writeFieldBeginWithName: @"noteGuids" type: TType_LIST fieldID: 2];
     {
       [outProtocol writeListBeginWithElementType: TType_STRING size: [noteGuids count]];
-      int i204;
-      for (i204 = 0; i204 < [noteGuids count]; i204++)
+      int i193;
+      for (i193 = 0; i193 < [noteGuids count]; i193++)
       {
-        [outProtocol writeString: [noteGuids objectAtIndex: i204]];
+        [outProtocol writeString: [noteGuids objectAtIndex: i193]];
       }
       [outProtocol writeListEnd];
     }
@@ -48291,154 +47363,6 @@
   return [self recv_getResourceAttributes];
 }
 
-- (void) send_getAccountSize: (NSString *) authenticationToken
-{
-  [outProtocol writeMessageBeginWithName: @"getAccountSize" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"getAccountSize_args"];
-  if (authenticationToken != nil)  {
-    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-    [outProtocol writeString: authenticationToken];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-}
-
-- (int64_t) recv_getAccountSize
-{
-  int msgType = 0;
-  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
-  if (msgType == TMessageType_EXCEPTION) {
-    TApplicationException * x = [TApplicationException read: inProtocol];
-    [inProtocol readMessageEnd];
-    @throw x;
-  }
-  EDAMGetAccountSize_result * result = [[[EDAMGetAccountSize_result alloc] init] autorelease];
-  [result read: inProtocol];
-  [inProtocol readMessageEnd];
-  if ([result successIsSet]) {
-    return [result success];
-  }
-  if ([result userExceptionIsSet]) {
-    @throw [result userException];
-  }
-  if ([result systemExceptionIsSet]) {
-    @throw [result systemException];
-  }
-  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"getAccountSize failed: unknown result"];
-}
-
-- (int64_t) getAccountSize: (NSString *) authenticationToken
-{
-  [self send_getAccountSize: authenticationToken];
-  return [self recv_getAccountSize];
-}
-
-- (void) send_getAds: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters
-{
-  [outProtocol writeMessageBeginWithName: @"getAds" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"getAds_args"];
-  if (authenticationToken != nil)  {
-    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-    [outProtocol writeString: authenticationToken];
-    [outProtocol writeFieldEnd];
-  }
-  if (adParameters != nil)  {
-    [outProtocol writeFieldBeginWithName: @"adParameters" type: TType_STRUCT fieldID: 2];
-    [adParameters write: outProtocol];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-}
-
-- (NSArray *) recv_getAds
-{
-  int msgType = 0;
-  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
-  if (msgType == TMessageType_EXCEPTION) {
-    TApplicationException * x = [TApplicationException read: inProtocol];
-    [inProtocol readMessageEnd];
-    @throw x;
-  }
-  EDAMGetAds_result * result = [[[EDAMGetAds_result alloc] init] autorelease];
-  [result read: inProtocol];
-  [inProtocol readMessageEnd];
-  if ([result successIsSet]) {
-    return [result success];
-  }
-  if ([result userExceptionIsSet]) {
-    @throw [result userException];
-  }
-  if ([result systemExceptionIsSet]) {
-    @throw [result systemException];
-  }
-  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"getAds failed: unknown result"];
-}
-
-- (NSArray *) getAds: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters
-{
-  [self send_getAds: authenticationToken : adParameters];
-  return [self recv_getAds];
-}
-
-- (void) send_getRandomAd: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters
-{
-  [outProtocol writeMessageBeginWithName: @"getRandomAd" type: TMessageType_CALL sequenceID: 0];
-  [outProtocol writeStructBeginWithName: @"getRandomAd_args"];
-  if (authenticationToken != nil)  {
-    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
-    [outProtocol writeString: authenticationToken];
-    [outProtocol writeFieldEnd];
-  }
-  if (adParameters != nil)  {
-    [outProtocol writeFieldBeginWithName: @"adParameters" type: TType_STRUCT fieldID: 2];
-    [adParameters write: outProtocol];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-}
-
-- (EDAMAd *) recv_getRandomAd
-{
-  int msgType = 0;
-  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
-  if (msgType == TMessageType_EXCEPTION) {
-    TApplicationException * x = [TApplicationException read: inProtocol];
-    [inProtocol readMessageEnd];
-    @throw x;
-  }
-  EDAMGetRandomAd_result * result = [[[EDAMGetRandomAd_result alloc] init] autorelease];
-  [result read: inProtocol];
-  [inProtocol readMessageEnd];
-  if ([result successIsSet]) {
-    return [result success];
-  }
-  if ([result userExceptionIsSet]) {
-    @throw [result userException];
-  }
-  if ([result systemExceptionIsSet]) {
-    @throw [result systemException];
-  }
-  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
-                                           reason: @"getRandomAd failed: unknown result"];
-}
-
-- (EDAMAd *) getRandomAd: (NSString *) authenticationToken : (EDAMAdParameters *) adParameters
-{
-  [self send_getRandomAd: authenticationToken : adParameters];
-  return [self recv_getRandomAd];
-}
-
 - (void) send_getPublicNotebook: (EDAMUserID) userId : (NSString *) publicUri
 {
   [outProtocol writeMessageBeginWithName: @"getPublicNotebook" type: TMessageType_CALL sequenceID: 0];
@@ -48542,6 +47466,60 @@
   return [self recv_createSharedNotebook];
 }
 
+- (void) send_updateSharedNotebook: (NSString *) authenticationToken : (EDAMSharedNotebook *) sharedNotebook
+{
+  [outProtocol writeMessageBeginWithName: @"updateSharedNotebook" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"updateSharedNotebook_args"];
+  if (authenticationToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: authenticationToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (sharedNotebook != nil)  {
+    [outProtocol writeFieldBeginWithName: @"sharedNotebook" type: TType_STRUCT fieldID: 2];
+    [sharedNotebook write: outProtocol];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (int32_t) recv_updateSharedNotebook
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EDAMUpdateSharedNotebook_result * result = [[[EDAMUpdateSharedNotebook_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result notFoundExceptionIsSet]) {
+    @throw [result notFoundException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"updateSharedNotebook failed: unknown result"];
+}
+
+- (int32_t) updateSharedNotebook: (NSString *) authenticationToken : (EDAMSharedNotebook *) sharedNotebook
+{
+  [self send_updateSharedNotebook: authenticationToken : sharedNotebook];
+  return [self recv_updateSharedNotebook];
+}
+
 - (void) send_sendMessageToSharedNotebookMembers: (NSString *) authenticationToken : (EDAMGuid) notebookGuid : (NSString *) messageText : (NSArray *) recipients
 {
   [outProtocol writeMessageBeginWithName: @"sendMessageToSharedNotebookMembers" type: TMessageType_CALL sequenceID: 0];
@@ -48565,10 +47543,10 @@
     [outProtocol writeFieldBeginWithName: @"recipients" type: TType_LIST fieldID: 4];
     {
       [outProtocol writeListBeginWithElementType: TType_STRING size: [recipients count]];
-      int i206;
-      for (i206 = 0; i206 < [recipients count]; i206++)
+      int i195;
+      for (i195 = 0; i195 < [recipients count]; i195++)
       {
-        [outProtocol writeString: [recipients objectAtIndex: i206]];
+        [outProtocol writeString: [recipients objectAtIndex: i195]];
       }
       [outProtocol writeListEnd];
     }
@@ -48676,10 +47654,10 @@
     [outProtocol writeFieldBeginWithName: @"sharedNotebookIds" type: TType_LIST fieldID: 2];
     {
       [outProtocol writeListBeginWithElementType: TType_I64 size: [sharedNotebookIds count]];
-      int i208;
-      for (i208 = 0; i208 < [sharedNotebookIds count]; i208++)
+      int i197;
+      for (i197 = 0; i197 < [sharedNotebookIds count]; i197++)
       {
-        [outProtocol writeI64: [[sharedNotebookIds objectAtIndex: i208] longLongValue]];
+        [outProtocol writeI64: [[sharedNotebookIds objectAtIndex: i197] longLongValue]];
       }
       [outProtocol writeListEnd];
     }
@@ -49775,30 +48753,6 @@
     [mMethodMap setValue: invocation forKey: @"getResourceAttributes"];
   }
   {
-    SEL s = @selector(process_getAccountSize_withSequenceID:inProtocol:outProtocol:);
-    NSMethodSignature * sig = [self methodSignatureForSelector: s];
-    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
-    [invocation setSelector: s];
-    [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"getAccountSize"];
-  }
-  {
-    SEL s = @selector(process_getAds_withSequenceID:inProtocol:outProtocol:);
-    NSMethodSignature * sig = [self methodSignatureForSelector: s];
-    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
-    [invocation setSelector: s];
-    [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"getAds"];
-  }
-  {
-    SEL s = @selector(process_getRandomAd_withSequenceID:inProtocol:outProtocol:);
-    NSMethodSignature * sig = [self methodSignatureForSelector: s];
-    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
-    [invocation setSelector: s];
-    [invocation retainArguments];
-    [mMethodMap setValue: invocation forKey: @"getRandomAd"];
-  }
-  {
     SEL s = @selector(process_getPublicNotebook_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -49813,6 +48767,14 @@
     [invocation setSelector: s];
     [invocation retainArguments];
     [mMethodMap setValue: invocation forKey: @"createSharedNotebook"];
+  }
+  {
+    SEL s = @selector(process_updateSharedNotebook_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"updateSharedNotebook"];
   }
   {
     SEL s = @selector(process_sendMessageToSharedNotebookMembers_withSequenceID:inProtocol:outProtocol:);
@@ -50936,57 +49898,6 @@
   [args release];
 }
 
-- (void) process_getAccountSize_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
-{
-  EDAMgetAccountSize_args * args = [[EDAMgetAccountSize_args alloc] init];
-  [args read: inProtocol];
-  [inProtocol readMessageEnd];
-  EDAMGetAccountSize_result * result = [[EDAMGetAccountSize_result alloc] init];
-  [result setSuccess: [mService getAccountSize: [args authenticationToken]]];
-  [outProtocol writeMessageBeginWithName: @"getAccountSize"
-                                    type: TMessageType_REPLY
-                              sequenceID: seqID];
-  [result write: outProtocol];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-  [result release];
-  [args release];
-}
-
-- (void) process_getAds_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
-{
-  EDAMgetAds_args * args = [[EDAMgetAds_args alloc] init];
-  [args read: inProtocol];
-  [inProtocol readMessageEnd];
-  EDAMGetAds_result * result = [[EDAMGetAds_result alloc] init];
-  [result setSuccess: [mService getAds: [args authenticationToken]: [args adParameters]]];
-  [outProtocol writeMessageBeginWithName: @"getAds"
-                                    type: TMessageType_REPLY
-                              sequenceID: seqID];
-  [result write: outProtocol];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-  [result release];
-  [args release];
-}
-
-- (void) process_getRandomAd_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
-{
-  EDAMgetRandomAd_args * args = [[EDAMgetRandomAd_args alloc] init];
-  [args read: inProtocol];
-  [inProtocol readMessageEnd];
-  EDAMGetRandomAd_result * result = [[EDAMGetRandomAd_result alloc] init];
-  [result setSuccess: [mService getRandomAd: [args authenticationToken]: [args adParameters]]];
-  [outProtocol writeMessageBeginWithName: @"getRandomAd"
-                                    type: TMessageType_REPLY
-                              sequenceID: seqID];
-  [result write: outProtocol];
-  [outProtocol writeMessageEnd];
-  [[outProtocol transport] flush];
-  [result release];
-  [args release];
-}
-
 - (void) process_getPublicNotebook_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
 {
   EDAMgetPublicNotebook_args * args = [[EDAMgetPublicNotebook_args alloc] init];
@@ -51012,6 +49923,23 @@
   EDAMCreateSharedNotebook_result * result = [[EDAMCreateSharedNotebook_result alloc] init];
   [result setSuccess: [mService createSharedNotebook: [args authenticationToken]: [args sharedNotebook]]];
   [outProtocol writeMessageBeginWithName: @"createSharedNotebook"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_updateSharedNotebook_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  EDAMupdateSharedNotebook_args * args = [[EDAMupdateSharedNotebook_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EDAMUpdateSharedNotebook_result * result = [[EDAMUpdateSharedNotebook_result alloc] init];
+  [result setSuccess: [mService updateSharedNotebook: [args authenticationToken]: [args sharedNotebook]]];
+  [outProtocol writeMessageBeginWithName: @"updateSharedNotebook"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

@@ -26,7 +26,8 @@
 - (void) setupRequest
 {
   if (mRequest != nil) {
-    [mRequest release];
+      [mRequest release];
+      mRequest = nil;
   }
 
   // set up our request object that we'll use for each request

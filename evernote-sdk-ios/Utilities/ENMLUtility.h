@@ -1,5 +1,5 @@
 /*
- * ENAPI.h
+ * ENMLUtility.h
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -26,36 +26,13 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #import <Foundation/Foundation.h>
-#import "EDAM.h"
-#import "EvernoteSession.h"
 
-// Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
-@interface ENAPI : NSObject
+@interface ENMLUtility : NSObject
 
-@property (nonatomic, retain) EvernoteSession *session;
-@property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
-@property (nonatomic, readonly) EDAMUserStoreClient *userStore;
-@property (nonatomic, readonly) EDAMNoteStoreClient *businessNoteStore;
-
-- (id)initWithSession:(EvernoteSession *)session;
-
-// Make an NSError from a given NSException.
-- (NSError *)errorFromNSException:(NSException *)exception;
-
-// asynchronously invoke the given blocks,
-// calling back to success/failure on the main threa.
-- (void)invokeAsyncBoolBlock:(BOOL(^)())block
-                     success:(void(^)(BOOL val))success
-                     failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncIdBlock:(id(^)())block
-                   success:(void(^)(id))success
-                   failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncInt32Block:(int32_t(^)())block
-                      success:(void(^)(int32_t val))success
-                      failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncVoidBlock:(void(^)())block
-                     success:(void(^)())success
-                     failure:(void(^)(NSError *error))failure;
+// Utility function to create an enml media tag
++ (NSString*) mediaTagWithDataHash:(NSData *)dataHash
+                              mime:(NSString *)mime;
 
 @end

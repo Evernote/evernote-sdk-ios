@@ -31,10 +31,15 @@ evernote-sdk-ios depends on Security.framework, so you'll need to add that to an
 
 ### Modify your AppDelegate
 
-First you set up the shared EvernoteSession, configuring it with your consumer key and secret. Do something like this in your AppDelegate's application:didFinishLaunchingWithOptions: method.
-The SDK now supports the Yinxiang Biji service. To support both, set the service to EVERNOTE_SERVICE_BOTH.  
-To support Yinxiang Biji only, change 'service' to EVERNOTE_SERVICE_YINXIANG and 'EVERNOTE_HOST' to 'app.yinxiang.com'. 
-To support international only, change 'service' to EVERNOTE_SERVICE_INTERNATIONAL and 'EVERNOTE_HOST' to 'www.evernote.com'. 
+First you set up the shared EvernoteSession, configuring it with your consumer key and secret. 
+
+The SDK now supports the Yinxiang Biji service. 
+
+- To support both services, set the service to EVERNOTE_SERVICE_BOTH.
+- To support Yinxiang Biji only, change 'service' to EVERNOTE_SERVICE_YINXIANG and 'EVERNOTE_HOST' to 'app.yinxiang.com'.
+- To support international only, change 'service' to EVERNOTE_SERVICE_INTERNATIONAL and 'EVERNOTE_HOST' to 'www.evernote.com'.
+
+Do something like this in your AppDelegate's application:didFinishLaunchingWithOptions: method.
 
     - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     {

@@ -1,5 +1,5 @@
 /*
- * ENAPI.h
+ * ENMLUtility.m
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -26,36 +26,28 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-#import "EDAM.h"
-#import "EvernoteSession.h"
 
-// Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
-@interface ENAPI : NSObject
+#import "ENMLUtility.h"
+#import "NSData+EvernoteSDK.h"
 
-@property (nonatomic, retain) EvernoteSession *session;
-@property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
-@property (nonatomic, readonly) EDAMUserStoreClient *userStore;
-@property (nonatomic, readonly) EDAMNoteStoreClient *businessNoteStore;
+NSString * const ENMIMETypeOctetStream = @"application/octet-stream";
+NSString * const ENMLTagMedia = @"en-media";
 
-- (id)initWithSession:(EvernoteSession *)session;
+@implementation ENMLUtility
 
-// Make an NSError from a given NSException.
-- (NSError *)errorFromNSException:(NSException *)exception;
-
-// asynchronously invoke the given blocks,
-// calling back to success/failure on the main threa.
-- (void)invokeAsyncBoolBlock:(BOOL(^)())block
-                     success:(void(^)(BOOL val))success
-                     failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncIdBlock:(id(^)())block
-                   success:(void(^)(id))success
-                   failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncInt32Block:(int32_t(^)())block
-                      success:(void(^)(int32_t val))success
-                      failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncVoidBlock:(void(^)())block
-                     success:(void(^)())success
-                     failure:(void(^)(NSError *error))failure;
++ (NSString*) mediaTagWithDataHash:(NSData *)dataHash
+                              mime:(NSString *)mime
+{
+    
+    if (mime == nil) {
+        mime = ENMIMETypeOctetStream;
+    }
+    NSString* dataHashHex = [dataHash lowercaseHexDigits];
+    NSString* mediaTag = [NSString stringWithFormat:@"<%@ type =\"%@\" hash=\"%@\"/>",
+                          ENMLTagMedia,
+                          mime,
+                          dataHashHex] ;
+    return mediaTag;
+}
 
 @end
