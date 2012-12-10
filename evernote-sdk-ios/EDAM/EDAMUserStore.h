@@ -14,27 +14,23 @@
 #import "EDAMTypes.h"
 #import "EDAMErrors.h"
 
-enum EDAMSponsoredGroupRole {
-  SponsoredGroupRole_GROUP_MEMBER = 1,
-  SponsoredGroupRole_GROUP_ADMIN = 2,
-  SponsoredGroupRole_GROUP_OWNER = 3
-};
-
 @interface EDAMPublicUserInfo : NSObject <NSCoding> {
   EDAMUserID __userId;
   NSString * __shardId;
   int __privilege;
   NSString * __username;
   NSString * __noteStoreUrl;
+  NSString * __webApiUrlPrefix;
 
   BOOL __userId_isset;
   BOOL __shardId_isset;
   BOOL __privilege_isset;
   BOOL __username_isset;
   BOOL __noteStoreUrl_isset;
+  BOOL __webApiUrlPrefix_isset;
 }
 
-- (id) initWithUserId: (EDAMUserID) userId shardId: (NSString *) shardId privilege: (int) privilege username: (NSString *) username noteStoreUrl: (NSString *) noteStoreUrl;
+- (id) initWithUserId: (EDAMUserID) userId shardId: (NSString *) shardId privilege: (int) privilege username: (NSString *) username noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -45,6 +41,7 @@ enum EDAMSponsoredGroupRole {
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
 @property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
 @property (nonatomic, retain, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
+@property (nonatomic, retain, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
 #else
 
 - (EDAMUserID) userId;
@@ -62,6 +59,9 @@ enum EDAMSponsoredGroupRole {
 - (NSString *) noteStoreUrl;
 - (void) setNoteStoreUrl: (NSString *) noteStoreUrl;
 
+- (NSString *) webApiUrlPrefix;
+- (void) setWebApiUrlPrefix: (NSString *) webApiUrlPrefix;
+
 #endif
 
 - (BOOL) userIdIsSet;
@@ -69,106 +69,7 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) privilegeIsSet;
 - (BOOL) usernameIsSet;
 - (BOOL) noteStoreUrlIsSet;
-@end
-
-@interface EDAMPremiumInfo : NSObject <NSCoding> {
-  EDAMTimestamp __currentTime;
-  BOOL __premium;
-  BOOL __premiumRecurring;
-  EDAMTimestamp __premiumExpirationDate;
-  BOOL __premiumExtendable;
-  BOOL __premiumPending;
-  BOOL __premiumCancellationPending;
-  BOOL __canPurchaseUploadAllowance;
-  NSString * __sponsoredGroupName;
-  int __sponsoredGroupRole;
-  NSString * __businessName;
-  BOOL __businessAdmin;
-
-  BOOL __currentTime_isset;
-  BOOL __premium_isset;
-  BOOL __premiumRecurring_isset;
-  BOOL __premiumExpirationDate_isset;
-  BOOL __premiumExtendable_isset;
-  BOOL __premiumPending_isset;
-  BOOL __premiumCancellationPending_isset;
-  BOOL __canPurchaseUploadAllowance_isset;
-  BOOL __sponsoredGroupName_isset;
-  BOOL __sponsoredGroupRole_isset;
-  BOOL __businessName_isset;
-  BOOL __businessAdmin_isset;
-}
-
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole businessName: (NSString *) businessName businessAdmin: (BOOL) businessAdmin;
-
-- (void) read: (id <TProtocol>) inProtocol;
-- (void) write: (id <TProtocol>) outProtocol;
-
-#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, getter=currentTime, setter=setCurrentTime:) EDAMTimestamp currentTime;
-@property (nonatomic, getter=premium, setter=setPremium:) BOOL premium;
-@property (nonatomic, getter=premiumRecurring, setter=setPremiumRecurring:) BOOL premiumRecurring;
-@property (nonatomic, getter=premiumExpirationDate, setter=setPremiumExpirationDate:) EDAMTimestamp premiumExpirationDate;
-@property (nonatomic, getter=premiumExtendable, setter=setPremiumExtendable:) BOOL premiumExtendable;
-@property (nonatomic, getter=premiumPending, setter=setPremiumPending:) BOOL premiumPending;
-@property (nonatomic, getter=premiumCancellationPending, setter=setPremiumCancellationPending:) BOOL premiumCancellationPending;
-@property (nonatomic, getter=canPurchaseUploadAllowance, setter=setCanPurchaseUploadAllowance:) BOOL canPurchaseUploadAllowance;
-@property (nonatomic, retain, getter=sponsoredGroupName, setter=setSponsoredGroupName:) NSString * sponsoredGroupName;
-@property (nonatomic, getter=sponsoredGroupRole, setter=setSponsoredGroupRole:) int sponsoredGroupRole;
-@property (nonatomic, retain, getter=businessName, setter=setBusinessName:) NSString * businessName;
-@property (nonatomic, getter=businessAdmin, setter=setBusinessAdmin:) BOOL businessAdmin;
-#else
-
-- (EDAMTimestamp) currentTime;
-- (void) setCurrentTime: (EDAMTimestamp) currentTime;
-
-- (BOOL) premium;
-- (void) setPremium: (BOOL) premium;
-
-- (BOOL) premiumRecurring;
-- (void) setPremiumRecurring: (BOOL) premiumRecurring;
-
-- (EDAMTimestamp) premiumExpirationDate;
-- (void) setPremiumExpirationDate: (EDAMTimestamp) premiumExpirationDate;
-
-- (BOOL) premiumExtendable;
-- (void) setPremiumExtendable: (BOOL) premiumExtendable;
-
-- (BOOL) premiumPending;
-- (void) setPremiumPending: (BOOL) premiumPending;
-
-- (BOOL) premiumCancellationPending;
-- (void) setPremiumCancellationPending: (BOOL) premiumCancellationPending;
-
-- (BOOL) canPurchaseUploadAllowance;
-- (void) setCanPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance;
-
-- (NSString *) sponsoredGroupName;
-- (void) setSponsoredGroupName: (NSString *) sponsoredGroupName;
-
-- (int) sponsoredGroupRole;
-- (void) setSponsoredGroupRole: (int) sponsoredGroupRole;
-
-- (NSString *) businessName;
-- (void) setBusinessName: (NSString *) businessName;
-
-- (BOOL) businessAdmin;
-- (void) setBusinessAdmin: (BOOL) businessAdmin;
-
-#endif
-
-- (BOOL) currentTimeIsSet;
-- (BOOL) premiumIsSet;
-- (BOOL) premiumRecurringIsSet;
-- (BOOL) premiumExpirationDateIsSet;
-- (BOOL) premiumExtendableIsSet;
-- (BOOL) premiumPendingIsSet;
-- (BOOL) premiumCancellationPendingIsSet;
-- (BOOL) canPurchaseUploadAllowanceIsSet;
-- (BOOL) sponsoredGroupNameIsSet;
-- (BOOL) sponsoredGroupRoleIsSet;
-- (BOOL) businessNameIsSet;
-- (BOOL) businessAdminIsSet;
+- (BOOL) webApiUrlPrefixIsSet;
 @end
 
 @interface EDAMAuthenticationResult : NSObject <NSCoding> {
@@ -249,6 +150,7 @@ enum EDAMSponsoredGroupRole {
   BOOL __enableSponsoredAccounts;
   BOOL __enableTwitterSharing;
   BOOL __enableLinkedInSharing;
+  BOOL __enablePublicNotebooks;
 
   BOOL __serviceHost_isset;
   BOOL __marketingUrl_isset;
@@ -262,9 +164,10 @@ enum EDAMSponsoredGroupRole {
   BOOL __enableSponsoredAccounts_isset;
   BOOL __enableTwitterSharing_isset;
   BOOL __enableLinkedInSharing_isset;
+  BOOL __enablePublicNotebooks_isset;
 }
 
-- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing;
+- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing enablePublicNotebooks: (BOOL) enablePublicNotebooks;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -282,6 +185,7 @@ enum EDAMSponsoredGroupRole {
 @property (nonatomic, getter=enableSponsoredAccounts, setter=setEnableSponsoredAccounts:) BOOL enableSponsoredAccounts;
 @property (nonatomic, getter=enableTwitterSharing, setter=setEnableTwitterSharing:) BOOL enableTwitterSharing;
 @property (nonatomic, getter=enableLinkedInSharing, setter=setEnableLinkedInSharing:) BOOL enableLinkedInSharing;
+@property (nonatomic, getter=enablePublicNotebooks, setter=setEnablePublicNotebooks:) BOOL enablePublicNotebooks;
 #else
 
 - (NSString *) serviceHost;
@@ -320,6 +224,9 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) enableLinkedInSharing;
 - (void) setEnableLinkedInSharing: (BOOL) enableLinkedInSharing;
 
+- (BOOL) enablePublicNotebooks;
+- (void) setEnablePublicNotebooks: (BOOL) enablePublicNotebooks;
+
 #endif
 
 - (BOOL) serviceHostIsSet;
@@ -334,6 +241,7 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) enableSponsoredAccountsIsSet;
 - (BOOL) enableTwitterSharingIsSet;
 - (BOOL) enableLinkedInSharingIsSet;
+- (BOOL) enablePublicNotebooksIsSet;
 @end
 
 @interface EDAMBootstrapProfile : NSObject <NSCoding> {
@@ -393,6 +301,8 @@ enum EDAMSponsoredGroupRole {
 - (BOOL) checkVersion: (NSString *) clientName : (int16_t) edamVersionMajor : (int16_t) edamVersionMinor;  // throws TException
 - (EDAMBootstrapInfo *) getBootstrapInfo: (NSString *) locale;  // throws TException
 - (EDAMAuthenticationResult *) authenticate: (NSString *) username : (NSString *) password : (NSString *) consumerKey : (NSString *) consumerSecret;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username : (NSString *) password : (NSString *) consumerKey : (NSString *) consumerSecret : (NSString *) deviceIdentifier : (NSString *) deviceDescription;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) authenticateToBusiness: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMAuthenticationResult *) refreshAuthentication: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMUser *) getUser: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMPublicUserInfo *) getPublicUserInfo: (NSString *) username;  // throws EDAMNotFoundException *, EDAMSystemException *, EDAMUserException *, TException

@@ -36,6 +36,7 @@
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
 #import "ENConstants.h"
+#import "NSDate+EDAMAdditions.h"
 
 #define SCHEME @"https"
 
@@ -56,6 +57,12 @@
 @property (nonatomic, assign) BOOL isSwitchingInProgress;
 
 @property (nonatomic, retain) ENOAuthViewController *oauthViewController;
+
+@property (nonatomic, retain) EDAMNoteStoreClient *noteStoreClient;
+
+@property (nonatomic, retain) EDAMUserStoreClient *userStoreClient;
+
+@property (nonatomic, retain) EDAMNoteStoreClient *businessNoteStoreClient;
 
 // generate a dictionary of name=>value from the given queryString
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString;
@@ -106,6 +113,10 @@
     [_currentProfile release];
     [_oauthViewController release];
     dispatch_release(_queue);
+    self.noteStoreClient = nil;
+    self.userStoreClient = nil;
+    self.businessNoteStoreClient = nil;
+    self.businessUser = nil;
     [super dealloc];
 }
 
@@ -198,9 +209,19 @@
     return [self.credentialStore credentialsForHost:self.host];
 }
 
+- (ENCredentials *)credentialsForBusiness
+{
+    return [self.credentialStore credentialsForHost:[NSString stringWithFormat:@"%@%@",self.host,BusinessHostNameSuffix]];
+}
+
 - (NSString *)authenticationToken
 {
     return [[self credentials] authenticationToken];
+}
+
+- (NSString *)businessAuthenticationToken
+{
+    return [[self credentialsForBusiness] authenticationToken];
 }
 
 - (BOOL)isAuthenticated
@@ -236,18 +257,63 @@
 
 - (EDAMNoteStoreClient *)noteStore
 {
-    NSURL *url = [NSURL URLWithString:[self credentials].noteStoreUrl];
-    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-    return [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    if(!self.noteStoreClient) {
+        NSURL *url = [NSURL URLWithString:[self credentials].noteStoreUrl];
+        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
+        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
+        self.noteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    }
+    return self.noteStoreClient;
 }
 
 - (EDAMUserStoreClient *)userStore
 {
-    NSURL *url = [NSURL URLWithString:[self userStoreUrl]];
+    if(!self.userStoreClient) {
+        NSURL *url = [NSURL URLWithString:[self userStoreUrl]];
+        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
+        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
+        self.userStoreClient = [[[EDAMUserStoreClient alloc] initWithProtocol:protocol] autorelease];
+    }
+    return self.userStoreClient;
+    
+}
+
+- (EDAMNoteStoreClient *)businessNoteStore
+{
+    BOOL isTokenExpired = NO;
+    // Check if the business token has expired
+    if(self.businessNoteStoreClient) {
+        NSTimeInterval savedExpirationDate = [ENCredentialStore getBusinessTokenExpiration];
+        if([[NSDate date] compare: [NSDate dateWithTimeIntervalSince1970:savedExpirationDate]]==NSOrderedDescending) {
+            isTokenExpired = YES;
+        }
+    }
+    // If we don't have a business note store client, or if the token is expired, authenticate with business
+    if(!self.businessNoteStoreClient || isTokenExpired) {
+        EDAMAuthenticationResult* authResult = [[self userStore] authenticateToBusiness: [[EvernoteSession sharedSession] authenticationToken]];
+        [self setBusinessUser:authResult.user];
+        NSString* businessStoreURL = [authResult noteStoreUrl];
+        NSURL *url = [NSURL URLWithString:businessStoreURL];
+        [ENCredentialStore saveBusinessTokenExpiration:(double)authResult.expiration/1000.0];
+        [self saveBusinessCredentialsWithEdamUserId:[NSString stringWithFormat:@"%d",[authResult.user id]]
+                               noteStoreUrl:[authResult noteStoreUrl]
+                            webApiUrlPrefix:[authResult webApiUrlPrefix]
+                        authenticationToken:[authResult authenticationToken]];
+        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
+        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
+        self.businessNoteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    }
+    return self.businessNoteStoreClient;
+    
+}
+
+- (EDAMNoteStoreClient *)noteStoreWithNoteStoreURL:(NSString*)noteStoreURL
+{
+    NSURL *url = [NSURL URLWithString:noteStoreURL];
     THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
     TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-    return [[[EDAMUserStoreClient alloc] initWithProtocol:protocol] autorelease];
+    EDAMNoteStoreClient* noteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    return noteStoreClient;
 }
 
 - (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request
@@ -272,6 +338,10 @@
     self.profiles = nil;
     self.currentProfile = nil;
     self.isSwitchingInProgress = NO;
+    self.userStoreClient = nil;
+    self.noteStoreClient = nil;
+    self.businessNoteStoreClient = nil;
+    self.businessUser = nil;
 }
 
 - (void)emptyCookieJar
@@ -500,7 +570,7 @@
                                                        userInfo:nil]];
         } else {        
             // add auth info to our credential store, saving to user defaults and keychain
-            [self saveCredentialsWithEdamUserId:edamUserId 
+            [self saveCredentialsWithEdamUserId:edamUserId
                                    noteStoreUrl:noteStoreUrl
                                 webApiUrlPrefix:webApiUrlPrefix
                             authenticationToken:authenticationToken];
@@ -561,6 +631,19 @@
     else if([self.currentProfile isEqualToString:ENBootstrapProfileNameInternational]) {
         [ENCredentialStore saveCurrentProfile:EVERNOTE_SERVICE_INTERNATIONAL];
     }
+}
+
+- (void)saveBusinessCredentialsWithEdamUserId:(NSString *)edamUserId
+                         noteStoreUrl:(NSString *)noteStoreUrl
+                      webApiUrlPrefix:(NSString *)webApiUrlPrefix
+                  authenticationToken:(NSString *)authenticationToken
+{
+    ENCredentials *ec = [[[ENCredentials alloc] initWithHost:[NSString stringWithFormat:@"%@%@",self.host,BusinessHostNameSuffix]
+                                                  edamUserId:edamUserId
+                                                noteStoreUrl:noteStoreUrl
+                                             webApiUrlPrefix:webApiUrlPrefix
+                                         authenticationToken:authenticationToken] autorelease];
+    [self.credentialStore addCredentials:ec];
 }
 
 - (void)completeAuthenticationWithError:(NSError *)error

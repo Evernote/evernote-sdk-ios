@@ -1,5 +1,5 @@
 /*
- * ENAPI.h
+ * NSData+EvernoteSDK.m
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -26,36 +26,34 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-#import "EDAM.h"
-#import "EvernoteSession.h"
 
-// Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
-@interface ENAPI : NSObject
+#import "NSData+EvernoteSDK.h"
+#import <CommonCrypto/CommonCrypto.h>
 
-@property (nonatomic, retain) EvernoteSession *session;
-@property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
-@property (nonatomic, readonly) EDAMUserStoreClient *userStore;
-@property (nonatomic, readonly) EDAMNoteStoreClient *businessNoteStore;
+@implementation NSData (EvernoteSDK)
 
-- (id)initWithSession:(EvernoteSession *)session;
+- (NSData *) md5
+{
+    unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(self.bytes, (CC_LONG)self.length, md5Buffer);
+    NSMutableData * md5Data = [NSMutableData dataWithBytes:md5Buffer length: CC_MD5_DIGEST_LENGTH];
+    return md5Data;
+}
 
-// Make an NSError from a given NSException.
-- (NSError *)errorFromNSException:(NSException *)exception;
+- (NSString *) lowercaseHexDigits
+{
+    unsigned const char * bytes = [self bytes];
+    
+    NSMutableString * hex = [NSMutableString stringWithCapacity: [self length] * 2];
+    
+    int i;
+    for (i = 0; i < [self length]; i++) {
+        [hex appendFormat: @"%.2x", bytes[i]];
+    }
+    
+    return hex;
+}
 
-// asynchronously invoke the given blocks,
-// calling back to success/failure on the main threa.
-- (void)invokeAsyncBoolBlock:(BOOL(^)())block
-                     success:(void(^)(BOOL val))success
-                     failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncIdBlock:(id(^)())block
-                   success:(void(^)(id))success
-                   failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncInt32Block:(int32_t(^)())block
-                      success:(void(^)(int32_t val))success
-                      failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncVoidBlock:(void(^)())block
-                     success:(void(^)())success
-                     failure:(void(^)(NSError *error))failure;
+
 
 @end

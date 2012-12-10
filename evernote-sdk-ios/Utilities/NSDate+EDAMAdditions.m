@@ -1,5 +1,5 @@
 /*
- * ENAPI.h
+ * NSDate+EDAMAdditions.m
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -26,36 +26,26 @@
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#import <Foundation/Foundation.h>
-#import "EDAM.h"
-#import "EvernoteSession.h"
 
-// Superclass for Evernote API classes (EvernoteNoteStore, EvernoteUserStore, etc.)
-@interface ENAPI : NSObject
+#import "NSDate+EDAMAdditions.h"
 
-@property (nonatomic, retain) EvernoteSession *session;
-@property (nonatomic, readonly) EDAMNoteStoreClient *noteStore;
-@property (nonatomic, readonly) EDAMUserStoreClient *userStore;
-@property (nonatomic, readonly) EDAMNoteStoreClient *businessNoteStore;
+@implementation NSDate (EDAMAdditions)
 
-- (id)initWithSession:(EvernoteSession *)session;
+/**
+ * Convert an edam timestamp to an NSDate
+ */
++ (NSDate *) dateFromEDAMTimestamp: (int64_t) edamTimestamp
+{
+    return [NSDate dateWithTimeIntervalSince1970: ((double)edamTimestamp)/1000.0];
+}
 
-// Make an NSError from a given NSException.
-- (NSError *)errorFromNSException:(NSException *)exception;
 
-// asynchronously invoke the given blocks,
-// calling back to success/failure on the main threa.
-- (void)invokeAsyncBoolBlock:(BOOL(^)())block
-                     success:(void(^)(BOOL val))success
-                     failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncIdBlock:(id(^)())block
-                   success:(void(^)(id))success
-                   failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncInt32Block:(int32_t(^)())block
-                      success:(void(^)(int32_t val))success
-                      failure:(void(^)(NSError *error))failure;
-- (void)invokeAsyncVoidBlock:(void(^)())block
-                     success:(void(^)())success
-                     failure:(void(^)(NSError *error))failure;
+/**
+ * Convert an NSDate to an edam timestamp
+ */
+- (int64_t) edamTimestamp
+{
+    return trunc([self timeIntervalSince1970]) * 1000;
+}
 
 @end

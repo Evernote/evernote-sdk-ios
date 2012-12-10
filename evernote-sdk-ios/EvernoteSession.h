@@ -60,6 +60,10 @@ typedef enum {
 // Will only be non-nil once we've authenticated.
 @property (nonatomic, readonly) NSString *authenticationToken;
 
+// Evernote auth token, to be passed to any NoteStore methods.
+// Will only be non-nil once we've authenticated.
+@property (nonatomic, readonly) NSString *businessAuthenticationToken;
+
 // URL for the Evernote UserStore.
 @property (nonatomic, readonly) NSString *userStoreUrl;
 
@@ -76,6 +80,9 @@ typedef enum {
 
 // Bootstrap profiles
 @property (nonatomic, retain) NSArray* profiles;
+
+// Business user info.
+@property (nonatomic,retain) EDAMUser* businessUser;
 
 // Set up the shared session.
 // @"sandbox.evernote.com" should be used for testing; 
@@ -111,6 +118,15 @@ typedef enum {
 // May throw NSException.
 // This object is NOT threadsafe.
 - (EDAMNoteStoreClient *)noteStore;
+
+// Create a new NoteStore client for EDAM calls on the Business note store.
+// May throw NSException.
+// This object is NOT threadsafe.
+- (EDAMNoteStoreClient *)businessNoteStore;
+
+// May throw NSException.
+// This object is NOT threadsafe.
+- (EDAMNoteStoreClient *)noteStoreWithNoteStoreURL:(NSString*)noteStoreURL;
 
 // Abstracted into a method to support unit testing.
 - (NSURLConnection *)connectionWithRequest:(NSURLRequest *)request;

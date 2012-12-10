@@ -1,3 +1,21 @@
+= 0.2.3 / 2012-12-07
+
+* Added support for Evernote Business
+	* Added [UserStore.authenticateToBusiness](http://dev.evernote.com/documentation/reference/UserStore.html#Fn_UserStore_authenticateToBusiness)
+	* Added BusinessNotebook and contact to [Notebook](http://dev.evernote.com/documentation/reference/Types.html#Struct_Notebook)
+	* Added businessId, businessName and businessRole to [User.accounting](http://dev.evernote.com/documentation/reference/Types.html#Struct_Accounting)
+* Added NoteFilter to [RelatedQuery](http://dev.evernote.com/documentation/reference/NoteStore.html#Struct_RelatedQuery) to allow relatedness searches to be filtered
+* Changed the way that sharing permissions are represented on a [SharedNotebook](http://dev.evernote.com/documentation/reference/Types.html#Struct_SharedNotebook)
+	* Deprecated notebookModifiable and requireLogin
+	* Added privilege and allowPreview
+* Added NotebookRestrictions to [Notebook](http://dev.evernote.com/documentation/reference/Types.html#Struct_Notebook) to allow clients to more easily determined the operations that they can perform in a given shared notebook.
+* Moved [PremiumInfo](http://dev.evernote.com/documentation/reference/Types.html#Struct_PremiumInfo) and [SponsoredGroupRole](http://dev.evernote.com/documentation/reference/Types.html#Enum_SponsoredGroupRole) from the userstore package to the types package.
+* Removed all advertising functions and structures
+* Removed the previously deprecated NoteStore.getAccountSize function
+* Added extra utility functions to make it easier to use Business api's and access shared notes.
+* Added utility functions and sample code to create a photo note.
+* Updated sample app for Business and shared notes.
+
 = 0.2.2 / 2012-11-20
 
 * Added bootstrapping to the SDK. The SDK now supports the Yinxiang Biji service.

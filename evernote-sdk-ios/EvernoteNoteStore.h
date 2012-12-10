@@ -35,6 +35,12 @@
 // Get an instance, using the shared EvernoteSession.
 + (EvernoteNoteStore *)noteStore;
 
+// Get an instance of the business note store, using the shared EvernoteSession.
++ (EvernoteNoteStore *)businessNoteStore;
+
+// Get an instance of a notestore for a linked notebook. This can be used for shared notebooks.
++ (EvernoteNoteStore *)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook;
+
 // Construct an instance with the given session.
 - (id)initWithSession:(EvernoteSession *)session;
 
@@ -257,14 +263,6 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                               success:(void(^)(EDAMResourceAttributes *attributes))success
                               failure:(void(^)(NSError *error))failure;
 
-// NoteStore ad methods
-- (void)getAdsWithParameters:(EDAMAdParameters *)adParameters
-                     success:(void(^)(NSArray *ads))success
-                     failure:(void(^)(NSError *error))failure;
-- (void)getRandomAdWithParameters:(EDAMAdParameters *)adParameters
-                          success:(void(^)(EDAMAd *ad))success
-                          failure:(void(^)(NSError *error))failure;
-
 // NoteStore shared notebook methods
 - (void)getPublicNotebookWithUserID:(EDAMUserID)userId 
                           publicUri:(NSString *)publicUri
@@ -312,5 +310,8 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                  noteKey:(NSString *)noteKey
                                  success:(void(^)(EDAMAuthenticationResult *result))success
                                  failure:(void(^)(NSError *error))failure;
+- (void)updateSharedNotebook:(EDAMSharedNotebook *)sharedNotebook
+                     success:(void(^)(int32_t usn))success
+                     failure:(void(^)(NSError *error))failure;
 
 @end

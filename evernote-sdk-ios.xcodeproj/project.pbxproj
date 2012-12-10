@@ -109,9 +109,25 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */; };
+		A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */; };
+		A92602C01672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */; };
+		A92602C11672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */; };
+		A92602C416740D5700F01E63 /* ENMLUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602C216740D5700F01E63 /* ENMLUtility.h */; };
+		A92602C516740D5700F01E63 /* ENMLUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602C316740D5700F01E63 /* ENMLUtility.m */; };
+		A92602C616740D5700F01E63 /* ENMLUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602C316740D5700F01E63 /* ENMLUtility.m */; };
 		A96E28E1165594480031EC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A96E28DF1655941F0031EC63 /* Localizable.strings */; };
 		A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
+		A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; };
+		A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
+		A9C554FE16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
+		A9C55501167149B1006E0020 /* EvernoteNoteStore+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */; };
+		A9C55502167149B1006E0020 /* EvernoteNoteStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */; };
+		A9C55503167149B1006E0020 /* EvernoteNoteStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */; };
+		A9C555061671539A006E0020 /* EvernoteUserStore+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */; };
+		A9C555071671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */; };
+		A9C555081671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */; };
 		A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; };
 		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
@@ -214,8 +230,19 @@
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evernote_logo_4c-sm.png"; sourceTree = "<group>"; };
+		A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+EvernoteSDK.h"; sourceTree = "<group>"; };
+		A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+EvernoteSDK.m"; sourceTree = "<group>"; };
+		A92602C216740D5700F01E63 /* ENMLUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENMLUtility.h; sourceTree = "<group>"; };
+		A92602C316740D5700F01E63 /* ENMLUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENMLUtility.m; sourceTree = "<group>"; };
 		A96E28E01655941F0031EC63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		A96E28EC165597C90031EC63 /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
+		A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+EDAMAdditions.h"; sourceTree = "<group>"; };
+		A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+EDAMAdditions.m"; sourceTree = "<group>"; };
+		A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EvernoteNoteStore+Extras.h"; sourceTree = "<group>"; };
+		A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EvernoteNoteStore+Extras.m"; sourceTree = "<group>"; };
+		A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EvernoteUserStore+Extras.h"; sourceTree = "<group>"; };
+		A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EvernoteUserStore+Extras.m"; sourceTree = "<group>"; };
 		A9FDF716165C5C7100DC7E4B /* ENConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENConstants.h; sourceTree = "<group>"; };
 		A9FDF717165C5C7100DC7E4B /* ENConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -390,13 +417,18 @@
 		0BB3D1B21524ED96001C4534 /* evernote-sdk-ios */ = {
 			isa = PBXGroup;
 			children = (
+				A9C554F416712E8D006E0020 /* Utilities */,
 				0BBA34A71537B09300DC7DD5 /* LICENSE */,
 				0B2B9D6615449AEE00E5BD44 /* EvernoteSDK.h */,
 				0B2B9D6715449AEE00E5BD44 /* EvernoteSDK.m */,
 				0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */,
 				0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */,
+				A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */,
+				A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */,
 				0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */,
 				0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */,
+				A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */,
+				A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */,
 				0BB3D2381524EE62001C4534 /* EvernoteSession.h */,
 				0BB3D2391524EE62001C4534 /* EvernoteSession.m */,
 				0B98592115432592007D7D37 /* internal */,
@@ -436,6 +468,7 @@
 		0BB3D2731524EF37001C4534 /* SampleApp */ = {
 			isa = PBXGroup;
 			children = (
+				A92602B91672B4FE00F01E63 /* Resources */,
 				0BB3D27C1524EF37001C4534 /* AppDelegate.h */,
 				0BB3D27D1524EF37001C4534 /* AppDelegate.m */,
 				0BB3D27F1524EF37001C4534 /* iPhone.storyboard */,
@@ -522,6 +555,22 @@
 			path = SSKeychain;
 			sourceTree = "<group>";
 		};
+		A92602B91672B4FE00F01E63 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A92602BA1672B4FE00F01E63 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A92602BA1672B4FE00F01E63 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		A96E28DD165593F00031EC63 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -536,6 +585,19 @@
 				A96E28DF1655941F0031EC63 /* Localizable.strings */,
 			);
 			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		A9C554F416712E8D006E0020 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */,
+				A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */,
+				A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */,
+				A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */,
+				A92602C216740D5700F01E63 /* ENMLUtility.h */,
+				A92602C316740D5700F01E63 /* ENMLUtility.m */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -578,6 +640,11 @@
 				0B2B9D6815449AEE00E5BD44 /* EvernoteSDK.h in Headers */,
 				0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */,
 				A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */,
+				A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */,
+				A9C55501167149B1006E0020 /* EvernoteNoteStore+Extras.h in Headers */,
+				A9C555061671539A006E0020 /* EvernoteUserStore+Extras.h in Headers */,
+				A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */,
+				A92602C416740D5700F01E63 /* ENMLUtility.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -674,6 +741,7 @@
 				0BB3D2811524EF37001C4534 /* iPhone.storyboard in Resources */,
 				0B94997E1585ADCF001A706A /* iPad.storyboard in Resources */,
 				A96E28E1165594480031EC63 /* Localizable.strings in Resources */,
+				A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -736,6 +804,11 @@
 				A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */,
 				A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */,
 				A9FDF71C165C614300DC7E4B /* AppDelegate.m in Sources */,
+				A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */,
+				A9C55502167149B1006E0020 /* EvernoteNoteStore+Extras.m in Sources */,
+				A9C555071671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */,
+				A92602C01672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */,
+				A92602C516740D5700F01E63 /* ENMLUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -773,6 +846,11 @@
 				0BA8C63D15878823004C9D6A /* iPadViewController.m in Sources */,
 				A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */,
 				A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */,
+				A9C554FE16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */,
+				A9C55503167149B1006E0020 /* EvernoteNoteStore+Extras.m in Sources */,
+				A9C555081671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */,
+				A92602C11672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */,
+				A92602C616740D5700F01E63 /* ENMLUtility.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

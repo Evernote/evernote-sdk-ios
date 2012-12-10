@@ -17,7 +17,7 @@
 #import "EDAMUserStore.h"
 
 static int16_t EDAMEDAM_VERSION_MAJOR = 1;
-static int16_t EDAMEDAM_VERSION_MINOR = 22;
+static int16_t EDAMEDAM_VERSION_MINOR = 23;
 
 @implementation EDAMUserStoreConstants
 + (void) initialize {
@@ -32,7 +32,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
 
 @implementation EDAMPublicUserInfo
 
-- (id) initWithUserId: (EDAMUserID) userId shardId: (NSString *) shardId privilege: (int) privilege username: (NSString *) username noteStoreUrl: (NSString *) noteStoreUrl
+- (id) initWithUserId: (EDAMUserID) userId shardId: (NSString *) shardId privilege: (int) privilege username: (NSString *) username noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix
 {
   self = [super init];
   __userId = userId;
@@ -45,6 +45,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   __username_isset = YES;
   __noteStoreUrl = [noteStoreUrl retain];
   __noteStoreUrl_isset = YES;
+  __webApiUrlPrefix = [webApiUrlPrefix retain];
+  __webApiUrlPrefix_isset = YES;
   return self;
 }
 
@@ -76,6 +78,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
     __noteStoreUrl = [[decoder decodeObjectForKey: @"noteStoreUrl"] retain];
     __noteStoreUrl_isset = YES;
   }
+  if ([decoder containsValueForKey: @"webApiUrlPrefix"])
+  {
+    __webApiUrlPrefix = [[decoder decodeObjectForKey: @"webApiUrlPrefix"] retain];
+    __webApiUrlPrefix_isset = YES;
+  }
   return self;
 }
 
@@ -101,6 +108,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   {
     [encoder encodeObject: __noteStoreUrl forKey: @"noteStoreUrl"];
   }
+  if (__webApiUrlPrefix_isset)
+  {
+    [encoder encodeObject: __webApiUrlPrefix forKey: @"webApiUrlPrefix"];
+  }
 }
 
 - (void) dealloc
@@ -108,6 +119,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   [__shardId release];
   [__username release];
   [__noteStoreUrl release];
+  [__webApiUrlPrefix release];
   [super dealloc];
 }
 
@@ -208,6 +220,27 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   __noteStoreUrl_isset = NO;
 }
 
+- (NSString *) webApiUrlPrefix {
+  return [[__webApiUrlPrefix retain] autorelease];
+}
+
+- (void) setWebApiUrlPrefix: (NSString *) webApiUrlPrefix {
+  [webApiUrlPrefix retain];
+  [__webApiUrlPrefix release];
+  __webApiUrlPrefix = webApiUrlPrefix;
+  __webApiUrlPrefix_isset = YES;
+}
+
+- (BOOL) webApiUrlPrefixIsSet {
+  return __webApiUrlPrefix_isset;
+}
+
+- (void) unsetWebApiUrlPrefix {
+  [__webApiUrlPrefix release];
+  __webApiUrlPrefix = nil;
+  __webApiUrlPrefix_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -263,6 +296,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 6:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setWebApiUrlPrefix: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -305,6 +346,13 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
       [outProtocol writeFieldEnd];
     }
   }
+  if (__webApiUrlPrefix_isset) {
+    if (__webApiUrlPrefix != nil) {
+      [outProtocol writeFieldBeginWithName: @"webApiUrlPrefix" type: TType_STRING fieldID: 6];
+      [outProtocol writeString: __webApiUrlPrefix];
+      [outProtocol writeFieldEnd];
+    }
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -321,597 +369,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   [ms appendFormat: @"\"%@\"", __username];
   [ms appendString: @",noteStoreUrl:"];
   [ms appendFormat: @"\"%@\"", __noteStoreUrl];
-  [ms appendString: @")"];
-  return [NSString stringWithString: ms];
-}
-
-@end
-
-@implementation EDAMPremiumInfo
-
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime premium: (BOOL) premium premiumRecurring: (BOOL) premiumRecurring premiumExpirationDate: (EDAMTimestamp) premiumExpirationDate premiumExtendable: (BOOL) premiumExtendable premiumPending: (BOOL) premiumPending premiumCancellationPending: (BOOL) premiumCancellationPending canPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance sponsoredGroupName: (NSString *) sponsoredGroupName sponsoredGroupRole: (int) sponsoredGroupRole businessName: (NSString *) businessName businessAdmin: (BOOL) businessAdmin
-{
-  self = [super init];
-  __currentTime = currentTime;
-  __currentTime_isset = YES;
-  __premium = premium;
-  __premium_isset = YES;
-  __premiumRecurring = premiumRecurring;
-  __premiumRecurring_isset = YES;
-  __premiumExpirationDate = premiumExpirationDate;
-  __premiumExpirationDate_isset = YES;
-  __premiumExtendable = premiumExtendable;
-  __premiumExtendable_isset = YES;
-  __premiumPending = premiumPending;
-  __premiumPending_isset = YES;
-  __premiumCancellationPending = premiumCancellationPending;
-  __premiumCancellationPending_isset = YES;
-  __canPurchaseUploadAllowance = canPurchaseUploadAllowance;
-  __canPurchaseUploadAllowance_isset = YES;
-  __sponsoredGroupName = [sponsoredGroupName retain];
-  __sponsoredGroupName_isset = YES;
-  __sponsoredGroupRole = sponsoredGroupRole;
-  __sponsoredGroupRole_isset = YES;
-  __businessName = [businessName retain];
-  __businessName_isset = YES;
-  __businessAdmin = businessAdmin;
-  __businessAdmin_isset = YES;
-  return self;
-}
-
-- (id) initWithCoder: (NSCoder *) decoder
-{
-  self = [super init];
-  if ([decoder containsValueForKey: @"currentTime"])
-  {
-    __currentTime = [decoder decodeInt64ForKey: @"currentTime"];
-    __currentTime_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premium"])
-  {
-    __premium = [decoder decodeBoolForKey: @"premium"];
-    __premium_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premiumRecurring"])
-  {
-    __premiumRecurring = [decoder decodeBoolForKey: @"premiumRecurring"];
-    __premiumRecurring_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premiumExpirationDate"])
-  {
-    __premiumExpirationDate = [decoder decodeInt64ForKey: @"premiumExpirationDate"];
-    __premiumExpirationDate_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premiumExtendable"])
-  {
-    __premiumExtendable = [decoder decodeBoolForKey: @"premiumExtendable"];
-    __premiumExtendable_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premiumPending"])
-  {
-    __premiumPending = [decoder decodeBoolForKey: @"premiumPending"];
-    __premiumPending_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"premiumCancellationPending"])
-  {
-    __premiumCancellationPending = [decoder decodeBoolForKey: @"premiumCancellationPending"];
-    __premiumCancellationPending_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"canPurchaseUploadAllowance"])
-  {
-    __canPurchaseUploadAllowance = [decoder decodeBoolForKey: @"canPurchaseUploadAllowance"];
-    __canPurchaseUploadAllowance_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"sponsoredGroupName"])
-  {
-    __sponsoredGroupName = [[decoder decodeObjectForKey: @"sponsoredGroupName"] retain];
-    __sponsoredGroupName_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"sponsoredGroupRole"])
-  {
-    __sponsoredGroupRole = [decoder decodeIntForKey: @"sponsoredGroupRole"];
-    __sponsoredGroupRole_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"businessName"])
-  {
-    __businessName = [[decoder decodeObjectForKey: @"businessName"] retain];
-    __businessName_isset = YES;
-  }
-  if ([decoder containsValueForKey: @"businessAdmin"])
-  {
-    __businessAdmin = [decoder decodeBoolForKey: @"businessAdmin"];
-    __businessAdmin_isset = YES;
-  }
-  return self;
-}
-
-- (void) encodeWithCoder: (NSCoder *) encoder
-{
-  if (__currentTime_isset)
-  {
-    [encoder encodeInt64: __currentTime forKey: @"currentTime"];
-  }
-  if (__premium_isset)
-  {
-    [encoder encodeBool: __premium forKey: @"premium"];
-  }
-  if (__premiumRecurring_isset)
-  {
-    [encoder encodeBool: __premiumRecurring forKey: @"premiumRecurring"];
-  }
-  if (__premiumExpirationDate_isset)
-  {
-    [encoder encodeInt64: __premiumExpirationDate forKey: @"premiumExpirationDate"];
-  }
-  if (__premiumExtendable_isset)
-  {
-    [encoder encodeBool: __premiumExtendable forKey: @"premiumExtendable"];
-  }
-  if (__premiumPending_isset)
-  {
-    [encoder encodeBool: __premiumPending forKey: @"premiumPending"];
-  }
-  if (__premiumCancellationPending_isset)
-  {
-    [encoder encodeBool: __premiumCancellationPending forKey: @"premiumCancellationPending"];
-  }
-  if (__canPurchaseUploadAllowance_isset)
-  {
-    [encoder encodeBool: __canPurchaseUploadAllowance forKey: @"canPurchaseUploadAllowance"];
-  }
-  if (__sponsoredGroupName_isset)
-  {
-    [encoder encodeObject: __sponsoredGroupName forKey: @"sponsoredGroupName"];
-  }
-  if (__sponsoredGroupRole_isset)
-  {
-    [encoder encodeInt: __sponsoredGroupRole forKey: @"sponsoredGroupRole"];
-  }
-  if (__businessName_isset)
-  {
-    [encoder encodeObject: __businessName forKey: @"businessName"];
-  }
-  if (__businessAdmin_isset)
-  {
-    [encoder encodeBool: __businessAdmin forKey: @"businessAdmin"];
-  }
-}
-
-- (void) dealloc
-{
-  [__sponsoredGroupName release];
-  [__businessName release];
-  [super dealloc];
-}
-
-- (int64_t) currentTime {
-  return __currentTime;
-}
-
-- (void) setCurrentTime: (int64_t) currentTime {
-  __currentTime = currentTime;
-  __currentTime_isset = YES;
-}
-
-- (BOOL) currentTimeIsSet {
-  return __currentTime_isset;
-}
-
-- (void) unsetCurrentTime {
-  __currentTime_isset = NO;
-}
-
-- (BOOL) premium {
-  return __premium;
-}
-
-- (void) setPremium: (BOOL) premium {
-  __premium = premium;
-  __premium_isset = YES;
-}
-
-- (BOOL) premiumIsSet {
-  return __premium_isset;
-}
-
-- (void) unsetPremium {
-  __premium_isset = NO;
-}
-
-- (BOOL) premiumRecurring {
-  return __premiumRecurring;
-}
-
-- (void) setPremiumRecurring: (BOOL) premiumRecurring {
-  __premiumRecurring = premiumRecurring;
-  __premiumRecurring_isset = YES;
-}
-
-- (BOOL) premiumRecurringIsSet {
-  return __premiumRecurring_isset;
-}
-
-- (void) unsetPremiumRecurring {
-  __premiumRecurring_isset = NO;
-}
-
-- (int64_t) premiumExpirationDate {
-  return __premiumExpirationDate;
-}
-
-- (void) setPremiumExpirationDate: (int64_t) premiumExpirationDate {
-  __premiumExpirationDate = premiumExpirationDate;
-  __premiumExpirationDate_isset = YES;
-}
-
-- (BOOL) premiumExpirationDateIsSet {
-  return __premiumExpirationDate_isset;
-}
-
-- (void) unsetPremiumExpirationDate {
-  __premiumExpirationDate_isset = NO;
-}
-
-- (BOOL) premiumExtendable {
-  return __premiumExtendable;
-}
-
-- (void) setPremiumExtendable: (BOOL) premiumExtendable {
-  __premiumExtendable = premiumExtendable;
-  __premiumExtendable_isset = YES;
-}
-
-- (BOOL) premiumExtendableIsSet {
-  return __premiumExtendable_isset;
-}
-
-- (void) unsetPremiumExtendable {
-  __premiumExtendable_isset = NO;
-}
-
-- (BOOL) premiumPending {
-  return __premiumPending;
-}
-
-- (void) setPremiumPending: (BOOL) premiumPending {
-  __premiumPending = premiumPending;
-  __premiumPending_isset = YES;
-}
-
-- (BOOL) premiumPendingIsSet {
-  return __premiumPending_isset;
-}
-
-- (void) unsetPremiumPending {
-  __premiumPending_isset = NO;
-}
-
-- (BOOL) premiumCancellationPending {
-  return __premiumCancellationPending;
-}
-
-- (void) setPremiumCancellationPending: (BOOL) premiumCancellationPending {
-  __premiumCancellationPending = premiumCancellationPending;
-  __premiumCancellationPending_isset = YES;
-}
-
-- (BOOL) premiumCancellationPendingIsSet {
-  return __premiumCancellationPending_isset;
-}
-
-- (void) unsetPremiumCancellationPending {
-  __premiumCancellationPending_isset = NO;
-}
-
-- (BOOL) canPurchaseUploadAllowance {
-  return __canPurchaseUploadAllowance;
-}
-
-- (void) setCanPurchaseUploadAllowance: (BOOL) canPurchaseUploadAllowance {
-  __canPurchaseUploadAllowance = canPurchaseUploadAllowance;
-  __canPurchaseUploadAllowance_isset = YES;
-}
-
-- (BOOL) canPurchaseUploadAllowanceIsSet {
-  return __canPurchaseUploadAllowance_isset;
-}
-
-- (void) unsetCanPurchaseUploadAllowance {
-  __canPurchaseUploadAllowance_isset = NO;
-}
-
-- (NSString *) sponsoredGroupName {
-  return [[__sponsoredGroupName retain] autorelease];
-}
-
-- (void) setSponsoredGroupName: (NSString *) sponsoredGroupName {
-  [sponsoredGroupName retain];
-  [__sponsoredGroupName release];
-  __sponsoredGroupName = sponsoredGroupName;
-  __sponsoredGroupName_isset = YES;
-}
-
-- (BOOL) sponsoredGroupNameIsSet {
-  return __sponsoredGroupName_isset;
-}
-
-- (void) unsetSponsoredGroupName {
-  [__sponsoredGroupName release];
-  __sponsoredGroupName = nil;
-  __sponsoredGroupName_isset = NO;
-}
-
-- (int) sponsoredGroupRole {
-  return __sponsoredGroupRole;
-}
-
-- (void) setSponsoredGroupRole: (int) sponsoredGroupRole {
-  __sponsoredGroupRole = sponsoredGroupRole;
-  __sponsoredGroupRole_isset = YES;
-}
-
-- (BOOL) sponsoredGroupRoleIsSet {
-  return __sponsoredGroupRole_isset;
-}
-
-- (void) unsetSponsoredGroupRole {
-  __sponsoredGroupRole_isset = NO;
-}
-
-- (NSString *) businessName {
-  return [[__businessName retain] autorelease];
-}
-
-- (void) setBusinessName: (NSString *) businessName {
-  [businessName retain];
-  [__businessName release];
-  __businessName = businessName;
-  __businessName_isset = YES;
-}
-
-- (BOOL) businessNameIsSet {
-  return __businessName_isset;
-}
-
-- (void) unsetBusinessName {
-  [__businessName release];
-  __businessName = nil;
-  __businessName_isset = NO;
-}
-
-- (BOOL) businessAdmin {
-  return __businessAdmin;
-}
-
-- (void) setBusinessAdmin: (BOOL) businessAdmin {
-  __businessAdmin = businessAdmin;
-  __businessAdmin_isset = YES;
-}
-
-- (BOOL) businessAdminIsSet {
-  return __businessAdmin_isset;
-}
-
-- (void) unsetBusinessAdmin {
-  __businessAdmin_isset = NO;
-}
-
-- (void) read: (id <TProtocol>) inProtocol
-{
-  NSString * fieldName;
-  int fieldType;
-  int fieldID;
-
-  [inProtocol readStructBeginReturningName: NULL];
-  while (true)
-  {
-    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
-    if (fieldType == TType_STOP) { 
-      break;
-    }
-    switch (fieldID)
-    {
-      case 1:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setCurrentTime: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 2:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setPremium: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 3:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setPremiumRecurring: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 4:
-        if (fieldType == TType_I64) {
-          int64_t fieldValue = [inProtocol readI64];
-          [self setPremiumExpirationDate: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 5:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setPremiumExtendable: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 6:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setPremiumPending: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 7:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setPremiumCancellationPending: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 8:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setCanPurchaseUploadAllowance: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 9:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setSponsoredGroupName: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 10:
-        if (fieldType == TType_I32) {
-          int fieldValue = [inProtocol readI32];
-          [self setSponsoredGroupRole: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 11:
-        if (fieldType == TType_STRING) {
-          NSString * fieldValue = [inProtocol readString];
-          [self setBusinessName: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      case 12:
-        if (fieldType == TType_BOOL) {
-          BOOL fieldValue = [inProtocol readBool];
-          [self setBusinessAdmin: fieldValue];
-        } else { 
-          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        }
-        break;
-      default:
-        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
-        break;
-    }
-    [inProtocol readFieldEnd];
-  }
-  [inProtocol readStructEnd];
-}
-
-- (void) write: (id <TProtocol>) outProtocol {
-  [outProtocol writeStructBeginWithName: @"PremiumInfo"];
-  if (__currentTime_isset) {
-    [outProtocol writeFieldBeginWithName: @"currentTime" type: TType_I64 fieldID: 1];
-    [outProtocol writeI64: __currentTime];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premium_isset) {
-    [outProtocol writeFieldBeginWithName: @"premium" type: TType_BOOL fieldID: 2];
-    [outProtocol writeBool: __premium];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premiumRecurring_isset) {
-    [outProtocol writeFieldBeginWithName: @"premiumRecurring" type: TType_BOOL fieldID: 3];
-    [outProtocol writeBool: __premiumRecurring];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premiumExpirationDate_isset) {
-    [outProtocol writeFieldBeginWithName: @"premiumExpirationDate" type: TType_I64 fieldID: 4];
-    [outProtocol writeI64: __premiumExpirationDate];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premiumExtendable_isset) {
-    [outProtocol writeFieldBeginWithName: @"premiumExtendable" type: TType_BOOL fieldID: 5];
-    [outProtocol writeBool: __premiumExtendable];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premiumPending_isset) {
-    [outProtocol writeFieldBeginWithName: @"premiumPending" type: TType_BOOL fieldID: 6];
-    [outProtocol writeBool: __premiumPending];
-    [outProtocol writeFieldEnd];
-  }
-  if (__premiumCancellationPending_isset) {
-    [outProtocol writeFieldBeginWithName: @"premiumCancellationPending" type: TType_BOOL fieldID: 7];
-    [outProtocol writeBool: __premiumCancellationPending];
-    [outProtocol writeFieldEnd];
-  }
-  if (__canPurchaseUploadAllowance_isset) {
-    [outProtocol writeFieldBeginWithName: @"canPurchaseUploadAllowance" type: TType_BOOL fieldID: 8];
-    [outProtocol writeBool: __canPurchaseUploadAllowance];
-    [outProtocol writeFieldEnd];
-  }
-  if (__sponsoredGroupName_isset) {
-    if (__sponsoredGroupName != nil) {
-      [outProtocol writeFieldBeginWithName: @"sponsoredGroupName" type: TType_STRING fieldID: 9];
-      [outProtocol writeString: __sponsoredGroupName];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__sponsoredGroupRole_isset) {
-    [outProtocol writeFieldBeginWithName: @"sponsoredGroupRole" type: TType_I32 fieldID: 10];
-    [outProtocol writeI32: __sponsoredGroupRole];
-    [outProtocol writeFieldEnd];
-  }
-  if (__businessName_isset) {
-    if (__businessName != nil) {
-      [outProtocol writeFieldBeginWithName: @"businessName" type: TType_STRING fieldID: 11];
-      [outProtocol writeString: __businessName];
-      [outProtocol writeFieldEnd];
-    }
-  }
-  if (__businessAdmin_isset) {
-    [outProtocol writeFieldBeginWithName: @"businessAdmin" type: TType_BOOL fieldID: 12];
-    [outProtocol writeBool: __businessAdmin];
-    [outProtocol writeFieldEnd];
-  }
-  [outProtocol writeFieldStop];
-  [outProtocol writeStructEnd];
-}
-
-- (NSString *) description {
-  NSMutableString * ms = [NSMutableString stringWithString: @"PremiumInfo("];
-  [ms appendString: @"currentTime:"];
-  [ms appendFormat: @"%qi", __currentTime];
-  [ms appendString: @",premium:"];
-  [ms appendFormat: @"%i", __premium];
-  [ms appendString: @",premiumRecurring:"];
-  [ms appendFormat: @"%i", __premiumRecurring];
-  [ms appendString: @",premiumExpirationDate:"];
-  [ms appendFormat: @"%qi", __premiumExpirationDate];
-  [ms appendString: @",premiumExtendable:"];
-  [ms appendFormat: @"%i", __premiumExtendable];
-  [ms appendString: @",premiumPending:"];
-  [ms appendFormat: @"%i", __premiumPending];
-  [ms appendString: @",premiumCancellationPending:"];
-  [ms appendFormat: @"%i", __premiumCancellationPending];
-  [ms appendString: @",canPurchaseUploadAllowance:"];
-  [ms appendFormat: @"%i", __canPurchaseUploadAllowance];
-  [ms appendString: @",sponsoredGroupName:"];
-  [ms appendFormat: @"\"%@\"", __sponsoredGroupName];
-  [ms appendString: @",sponsoredGroupRole:"];
-  [ms appendFormat: @"%i", __sponsoredGroupRole];
-  [ms appendString: @",businessName:"];
-  [ms appendFormat: @"\"%@\"", __businessName];
-  [ms appendString: @",businessAdmin:"];
-  [ms appendFormat: @"%i", __businessAdmin];
+  [ms appendString: @",webApiUrlPrefix:"];
+  [ms appendFormat: @"\"%@\"", __webApiUrlPrefix];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -1321,7 +780,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
 
 @implementation EDAMBootstrapSettings
 
-- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing
+- (id) initWithServiceHost: (NSString *) serviceHost marketingUrl: (NSString *) marketingUrl supportUrl: (NSString *) supportUrl accountEmailDomain: (NSString *) accountEmailDomain enableFacebookSharing: (BOOL) enableFacebookSharing enableGiftSubscriptions: (BOOL) enableGiftSubscriptions enableSupportTickets: (BOOL) enableSupportTickets enableSharedNotebooks: (BOOL) enableSharedNotebooks enableSingleNoteSharing: (BOOL) enableSingleNoteSharing enableSponsoredAccounts: (BOOL) enableSponsoredAccounts enableTwitterSharing: (BOOL) enableTwitterSharing enableLinkedInSharing: (BOOL) enableLinkedInSharing enablePublicNotebooks: (BOOL) enablePublicNotebooks
 {
   self = [super init];
   __serviceHost = [serviceHost retain];
@@ -1348,6 +807,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   __enableTwitterSharing_isset = YES;
   __enableLinkedInSharing = enableLinkedInSharing;
   __enableLinkedInSharing_isset = YES;
+  __enablePublicNotebooks = enablePublicNotebooks;
+  __enablePublicNotebooks_isset = YES;
   return self;
 }
 
@@ -1414,6 +875,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
     __enableLinkedInSharing = [decoder decodeBoolForKey: @"enableLinkedInSharing"];
     __enableLinkedInSharing_isset = YES;
   }
+  if ([decoder containsValueForKey: @"enablePublicNotebooks"])
+  {
+    __enablePublicNotebooks = [decoder decodeBoolForKey: @"enablePublicNotebooks"];
+    __enablePublicNotebooks_isset = YES;
+  }
   return self;
 }
 
@@ -1466,6 +932,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   if (__enableLinkedInSharing_isset)
   {
     [encoder encodeBool: __enableLinkedInSharing forKey: @"enableLinkedInSharing"];
+  }
+  if (__enablePublicNotebooks_isset)
+  {
+    [encoder encodeBool: __enablePublicNotebooks forKey: @"enablePublicNotebooks"];
   }
 }
 
@@ -1698,6 +1168,23 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   __enableLinkedInSharing_isset = NO;
 }
 
+- (BOOL) enablePublicNotebooks {
+  return __enablePublicNotebooks;
+}
+
+- (void) setEnablePublicNotebooks: (BOOL) enablePublicNotebooks {
+  __enablePublicNotebooks = enablePublicNotebooks;
+  __enablePublicNotebooks_isset = YES;
+}
+
+- (BOOL) enablePublicNotebooksIsSet {
+  return __enablePublicNotebooks_isset;
+}
+
+- (void) unsetEnablePublicNotebooks {
+  __enablePublicNotebooks_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -1809,6 +1296,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 13:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setEnablePublicNotebooks: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -1888,6 +1383,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
     [outProtocol writeBool: __enableLinkedInSharing];
     [outProtocol writeFieldEnd];
   }
+  if (__enablePublicNotebooks_isset) {
+    [outProtocol writeFieldBeginWithName: @"enablePublicNotebooks" type: TType_BOOL fieldID: 13];
+    [outProtocol writeBool: __enablePublicNotebooks];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -1918,6 +1418,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   [ms appendFormat: @"%i", __enableTwitterSharing];
   [ms appendString: @",enableLinkedInSharing:"];
   [ms appendFormat: @"%i", __enableLinkedInSharing];
+  [ms appendString: @",enablePublicNotebooks:"];
+  [ms appendFormat: @"%i", __enablePublicNotebooks];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -3397,6 +2899,1065 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"Authenticate_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMauthenticateLongSession_args : NSObject <NSCoding> {
+  NSString * __username;
+  NSString * __password;
+  NSString * __consumerKey;
+  NSString * __consumerSecret;
+  NSString * __deviceIdentifier;
+  NSString * __deviceDescription;
+
+  BOOL __username_isset;
+  BOOL __password_isset;
+  BOOL __consumerKey_isset;
+  BOOL __consumerSecret_isset;
+  BOOL __deviceIdentifier_isset;
+  BOOL __deviceDescription_isset;
+}
+
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
+@property (nonatomic, retain, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
+@property (nonatomic, retain, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
+@property (nonatomic, retain, getter=deviceIdentifier, setter=setDeviceIdentifier:) NSString * deviceIdentifier;
+@property (nonatomic, retain, getter=deviceDescription, setter=setDeviceDescription:) NSString * deviceDescription;
+#else
+
+- (NSString *) username;
+- (void) setUsername: (NSString *) username;
+
+- (NSString *) password;
+- (void) setPassword: (NSString *) password;
+
+- (NSString *) consumerKey;
+- (void) setConsumerKey: (NSString *) consumerKey;
+
+- (NSString *) consumerSecret;
+- (void) setConsumerSecret: (NSString *) consumerSecret;
+
+- (NSString *) deviceIdentifier;
+- (void) setDeviceIdentifier: (NSString *) deviceIdentifier;
+
+- (NSString *) deviceDescription;
+- (void) setDeviceDescription: (NSString *) deviceDescription;
+
+#endif
+
+- (BOOL) usernameIsSet;
+- (BOOL) passwordIsSet;
+- (BOOL) consumerKeyIsSet;
+- (BOOL) consumerSecretIsSet;
+- (BOOL) deviceIdentifierIsSet;
+- (BOOL) deviceDescriptionIsSet;
+@end
+
+@implementation EDAMauthenticateLongSession_args
+
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+{
+  self = [super init];
+  __username = [username retain];
+  __username_isset = YES;
+  __password = [password retain];
+  __password_isset = YES;
+  __consumerKey = [consumerKey retain];
+  __consumerKey_isset = YES;
+  __consumerSecret = [consumerSecret retain];
+  __consumerSecret_isset = YES;
+  __deviceIdentifier = [deviceIdentifier retain];
+  __deviceIdentifier_isset = YES;
+  __deviceDescription = [deviceDescription retain];
+  __deviceDescription_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"username"])
+  {
+    __username = [[decoder decodeObjectForKey: @"username"] retain];
+    __username_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"password"])
+  {
+    __password = [[decoder decodeObjectForKey: @"password"] retain];
+    __password_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"consumerKey"])
+  {
+    __consumerKey = [[decoder decodeObjectForKey: @"consumerKey"] retain];
+    __consumerKey_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"consumerSecret"])
+  {
+    __consumerSecret = [[decoder decodeObjectForKey: @"consumerSecret"] retain];
+    __consumerSecret_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"deviceIdentifier"])
+  {
+    __deviceIdentifier = [[decoder decodeObjectForKey: @"deviceIdentifier"] retain];
+    __deviceIdentifier_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"deviceDescription"])
+  {
+    __deviceDescription = [[decoder decodeObjectForKey: @"deviceDescription"] retain];
+    __deviceDescription_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__username_isset)
+  {
+    [encoder encodeObject: __username forKey: @"username"];
+  }
+  if (__password_isset)
+  {
+    [encoder encodeObject: __password forKey: @"password"];
+  }
+  if (__consumerKey_isset)
+  {
+    [encoder encodeObject: __consumerKey forKey: @"consumerKey"];
+  }
+  if (__consumerSecret_isset)
+  {
+    [encoder encodeObject: __consumerSecret forKey: @"consumerSecret"];
+  }
+  if (__deviceIdentifier_isset)
+  {
+    [encoder encodeObject: __deviceIdentifier forKey: @"deviceIdentifier"];
+  }
+  if (__deviceDescription_isset)
+  {
+    [encoder encodeObject: __deviceDescription forKey: @"deviceDescription"];
+  }
+}
+
+- (void) dealloc
+{
+  [__username release];
+  [__password release];
+  [__consumerKey release];
+  [__consumerSecret release];
+  [__deviceIdentifier release];
+  [__deviceDescription release];
+  [super dealloc];
+}
+
+- (NSString *) username {
+  return [[__username retain] autorelease];
+}
+
+- (void) setUsername: (NSString *) username {
+  [username retain];
+  [__username release];
+  __username = username;
+  __username_isset = YES;
+}
+
+- (BOOL) usernameIsSet {
+  return __username_isset;
+}
+
+- (void) unsetUsername {
+  [__username release];
+  __username = nil;
+  __username_isset = NO;
+}
+
+- (NSString *) password {
+  return [[__password retain] autorelease];
+}
+
+- (void) setPassword: (NSString *) password {
+  [password retain];
+  [__password release];
+  __password = password;
+  __password_isset = YES;
+}
+
+- (BOOL) passwordIsSet {
+  return __password_isset;
+}
+
+- (void) unsetPassword {
+  [__password release];
+  __password = nil;
+  __password_isset = NO;
+}
+
+- (NSString *) consumerKey {
+  return [[__consumerKey retain] autorelease];
+}
+
+- (void) setConsumerKey: (NSString *) consumerKey {
+  [consumerKey retain];
+  [__consumerKey release];
+  __consumerKey = consumerKey;
+  __consumerKey_isset = YES;
+}
+
+- (BOOL) consumerKeyIsSet {
+  return __consumerKey_isset;
+}
+
+- (void) unsetConsumerKey {
+  [__consumerKey release];
+  __consumerKey = nil;
+  __consumerKey_isset = NO;
+}
+
+- (NSString *) consumerSecret {
+  return [[__consumerSecret retain] autorelease];
+}
+
+- (void) setConsumerSecret: (NSString *) consumerSecret {
+  [consumerSecret retain];
+  [__consumerSecret release];
+  __consumerSecret = consumerSecret;
+  __consumerSecret_isset = YES;
+}
+
+- (BOOL) consumerSecretIsSet {
+  return __consumerSecret_isset;
+}
+
+- (void) unsetConsumerSecret {
+  [__consumerSecret release];
+  __consumerSecret = nil;
+  __consumerSecret_isset = NO;
+}
+
+- (NSString *) deviceIdentifier {
+  return [[__deviceIdentifier retain] autorelease];
+}
+
+- (void) setDeviceIdentifier: (NSString *) deviceIdentifier {
+  [deviceIdentifier retain];
+  [__deviceIdentifier release];
+  __deviceIdentifier = deviceIdentifier;
+  __deviceIdentifier_isset = YES;
+}
+
+- (BOOL) deviceIdentifierIsSet {
+  return __deviceIdentifier_isset;
+}
+
+- (void) unsetDeviceIdentifier {
+  [__deviceIdentifier release];
+  __deviceIdentifier = nil;
+  __deviceIdentifier_isset = NO;
+}
+
+- (NSString *) deviceDescription {
+  return [[__deviceDescription retain] autorelease];
+}
+
+- (void) setDeviceDescription: (NSString *) deviceDescription {
+  [deviceDescription retain];
+  [__deviceDescription release];
+  __deviceDescription = deviceDescription;
+  __deviceDescription_isset = YES;
+}
+
+- (BOOL) deviceDescriptionIsSet {
+  return __deviceDescription_isset;
+}
+
+- (void) unsetDeviceDescription {
+  [__deviceDescription release];
+  __deviceDescription = nil;
+  __deviceDescription_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setUsername: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setPassword: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setConsumerKey: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setConsumerSecret: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 5:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setDeviceIdentifier: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 6:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setDeviceDescription: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"authenticateLongSession_args"];
+  if (__username_isset) {
+    if (__username != nil) {
+      [outProtocol writeFieldBeginWithName: @"username" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __username];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__password_isset) {
+    if (__password != nil) {
+      [outProtocol writeFieldBeginWithName: @"password" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __password];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__consumerKey_isset) {
+    if (__consumerKey != nil) {
+      [outProtocol writeFieldBeginWithName: @"consumerKey" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __consumerKey];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__consumerSecret_isset) {
+    if (__consumerSecret != nil) {
+      [outProtocol writeFieldBeginWithName: @"consumerSecret" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __consumerSecret];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__deviceIdentifier_isset) {
+    if (__deviceIdentifier != nil) {
+      [outProtocol writeFieldBeginWithName: @"deviceIdentifier" type: TType_STRING fieldID: 5];
+      [outProtocol writeString: __deviceIdentifier];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__deviceDescription_isset) {
+    if (__deviceDescription != nil) {
+      [outProtocol writeFieldBeginWithName: @"deviceDescription" type: TType_STRING fieldID: 6];
+      [outProtocol writeString: __deviceDescription];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"authenticateLongSession_args("];
+  [ms appendString: @"username:"];
+  [ms appendFormat: @"\"%@\"", __username];
+  [ms appendString: @",password:"];
+  [ms appendFormat: @"\"%@\"", __password];
+  [ms appendString: @",consumerKey:"];
+  [ms appendFormat: @"\"%@\"", __consumerKey];
+  [ms appendString: @",consumerSecret:"];
+  [ms appendFormat: @"\"%@\"", __consumerSecret];
+  [ms appendString: @",deviceIdentifier:"];
+  [ms appendFormat: @"\"%@\"", __deviceIdentifier];
+  [ms appendString: @",deviceDescription:"];
+  [ms appendFormat: @"\"%@\"", __deviceDescription];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMAuthenticateLongSession_result : NSObject <NSCoding> {
+  EDAMAuthenticationResult * __success;
+  EDAMUserException * __userException;
+  EDAMSystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+#else
+
+- (EDAMAuthenticationResult *) success;
+- (void) setSuccess: (EDAMAuthenticationResult *) success;
+
+- (EDAMUserException *) userException;
+- (void) setUserException: (EDAMUserException *) userException;
+
+- (EDAMSystemException *) systemException;
+- (void) setSystemException: (EDAMSystemException *) systemException;
+
+#endif
+
+- (BOOL) successIsSet;
+- (BOOL) userExceptionIsSet;
+- (BOOL) systemExceptionIsSet;
+@end
+
+@implementation EDAMAuthenticateLongSession_result
+
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (EDAMAuthenticationResult *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EDAMAuthenticationResult *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (EDAMUserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (EDAMUserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (EDAMSystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (EDAMSystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EDAMAuthenticationResult *fieldValue = [[EDAMAuthenticationResult alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"AuthenticateLongSession_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthenticateLongSession_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMauthenticateToBusiness_args : NSObject <NSCoding> {
+  NSString * __authenticationToken;
+
+  BOOL __authenticationToken_isset;
+}
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+#else
+
+- (NSString *) authenticationToken;
+- (void) setAuthenticationToken: (NSString *) authenticationToken;
+
+#endif
+
+- (BOOL) authenticationTokenIsSet;
+@end
+
+@implementation EDAMauthenticateToBusiness_args
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken
+{
+  self = [super init];
+  __authenticationToken = [authenticationToken retain];
+  __authenticationToken_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"authenticationToken"])
+  {
+    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain];
+    __authenticationToken_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__authenticationToken_isset)
+  {
+    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authenticationToken release];
+  [super dealloc];
+}
+
+- (NSString *) authenticationToken {
+  return [[__authenticationToken retain] autorelease];
+}
+
+- (void) setAuthenticationToken: (NSString *) authenticationToken {
+  [authenticationToken retain];
+  [__authenticationToken release];
+  __authenticationToken = authenticationToken;
+  __authenticationToken_isset = YES;
+}
+
+- (BOOL) authenticationTokenIsSet {
+  return __authenticationToken_isset;
+}
+
+- (void) unsetAuthenticationToken {
+  [__authenticationToken release];
+  __authenticationToken = nil;
+  __authenticationToken_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthenticationToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"authenticateToBusiness_args"];
+  if (__authenticationToken_isset) {
+    if (__authenticationToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __authenticationToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"authenticateToBusiness_args("];
+  [ms appendString: @"authenticationToken:"];
+  [ms appendFormat: @"\"%@\"", __authenticationToken];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMAuthenticateToBusiness_result : NSObject <NSCoding> {
+  EDAMAuthenticationResult * __success;
+  EDAMUserException * __userException;
+  EDAMSystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+#else
+
+- (EDAMAuthenticationResult *) success;
+- (void) setSuccess: (EDAMAuthenticationResult *) success;
+
+- (EDAMUserException *) userException;
+- (void) setUserException: (EDAMUserException *) userException;
+
+- (EDAMSystemException *) systemException;
+- (void) setSystemException: (EDAMSystemException *) systemException;
+
+#endif
+
+- (BOOL) successIsSet;
+- (BOOL) userExceptionIsSet;
+- (BOOL) systemExceptionIsSet;
+@end
+
+@implementation EDAMAuthenticateToBusiness_result
+
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
+{
+  self = [super init];
+  __success = [success retain];
+  __success_isset = YES;
+  __userException = [userException retain];
+  __userException_isset = YES;
+  __systemException = [systemException retain];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release];
+  [__userException release];
+  [__systemException release];
+  [super dealloc];
+}
+
+- (EDAMAuthenticationResult *) success {
+  return [[__success retain] autorelease];
+}
+
+- (void) setSuccess: (EDAMAuthenticationResult *) success {
+  [success retain];
+  [__success release];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (EDAMUserException *) userException {
+  return [[__userException retain] autorelease];
+}
+
+- (void) setUserException: (EDAMUserException *) userException {
+  [userException retain];
+  [__userException release];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (EDAMSystemException *) systemException {
+  return [[__systemException retain] autorelease];
+}
+
+- (void) setSystemException: (EDAMSystemException *) systemException {
+  [systemException retain];
+  [__systemException release];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EDAMAuthenticationResult *fieldValue = [[EDAMAuthenticationResult alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"AuthenticateToBusiness_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"AuthenticateToBusiness_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @",userException:"];
@@ -5408,10 +5969,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
 
 - (id) initWithInProtocol: (id <TProtocol>) anInProtocol outProtocol: (id <TProtocol>) anOutProtocol
 {
-    if((self=[super init])) {
-        inProtocol = [anInProtocol retain];
-        outProtocol = [anOutProtocol retain];
-    }
+  [super init];
+  inProtocol = [anInProtocol retain];
+  outProtocol = [anOutProtocol retain];
   return self;
 }
 
@@ -5567,6 +6127,123 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
 {
   [self send_authenticate: username : password : consumerKey : consumerSecret];
   return [self recv_authenticate];
+}
+
+- (void) send_authenticateLongSession: (NSString *) username : (NSString *) password : (NSString *) consumerKey : (NSString *) consumerSecret : (NSString *) deviceIdentifier : (NSString *) deviceDescription
+{
+  [outProtocol writeMessageBeginWithName: @"authenticateLongSession" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"authenticateLongSession_args"];
+  if (username != nil)  {
+    [outProtocol writeFieldBeginWithName: @"username" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: username];
+    [outProtocol writeFieldEnd];
+  }
+  if (password != nil)  {
+    [outProtocol writeFieldBeginWithName: @"password" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: password];
+    [outProtocol writeFieldEnd];
+  }
+  if (consumerKey != nil)  {
+    [outProtocol writeFieldBeginWithName: @"consumerKey" type: TType_STRING fieldID: 3];
+    [outProtocol writeString: consumerKey];
+    [outProtocol writeFieldEnd];
+  }
+  if (consumerSecret != nil)  {
+    [outProtocol writeFieldBeginWithName: @"consumerSecret" type: TType_STRING fieldID: 4];
+    [outProtocol writeString: consumerSecret];
+    [outProtocol writeFieldEnd];
+  }
+  if (deviceIdentifier != nil)  {
+    [outProtocol writeFieldBeginWithName: @"deviceIdentifier" type: TType_STRING fieldID: 5];
+    [outProtocol writeString: deviceIdentifier];
+    [outProtocol writeFieldEnd];
+  }
+  if (deviceDescription != nil)  {
+    [outProtocol writeFieldBeginWithName: @"deviceDescription" type: TType_STRING fieldID: 6];
+    [outProtocol writeString: deviceDescription];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EDAMAuthenticationResult *) recv_authenticateLongSession
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EDAMAuthenticateLongSession_result * result = [[[EDAMAuthenticateLongSession_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"authenticateLongSession failed: unknown result"];
+}
+
+- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username : (NSString *) password : (NSString *) consumerKey : (NSString *) consumerSecret : (NSString *) deviceIdentifier : (NSString *) deviceDescription
+{
+  [self send_authenticateLongSession: username : password : consumerKey : consumerSecret : deviceIdentifier : deviceDescription];
+  return [self recv_authenticateLongSession];
+}
+
+- (void) send_authenticateToBusiness: (NSString *) authenticationToken
+{
+  [outProtocol writeMessageBeginWithName: @"authenticateToBusiness" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"authenticateToBusiness_args"];
+  if (authenticationToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: authenticationToken];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EDAMAuthenticationResult *) recv_authenticateToBusiness
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EDAMAuthenticateToBusiness_result * result = [[[EDAMAuthenticateToBusiness_result alloc] init] autorelease];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"authenticateToBusiness failed: unknown result"];
+}
+
+- (EDAMAuthenticationResult *) authenticateToBusiness: (NSString *) authenticationToken
+{
+  [self send_authenticateToBusiness: authenticationToken];
+  return [self recv_authenticateToBusiness];
 }
 
 - (void) send_refreshAuthentication: (NSString *) authenticationToken
@@ -5839,6 +6516,22 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
     [mMethodMap setValue: invocation forKey: @"authenticate"];
   }
   {
+    SEL s = @selector(process_authenticateLongSession_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"authenticateLongSession"];
+  }
+  {
+    SEL s = @selector(process_authenticateToBusiness_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"authenticateToBusiness"];
+  }
+  {
     SEL s = @selector(process_refreshAuthentication_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -5961,6 +6654,40 @@ static int16_t EDAMEDAM_VERSION_MINOR = 22;
   EDAMAuthenticate_result * result = [[EDAMAuthenticate_result alloc] init];
   [result setSuccess: [mService authenticate: [args username]: [args password]: [args consumerKey]: [args consumerSecret]]];
   [outProtocol writeMessageBeginWithName: @"authenticate"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_authenticateLongSession_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  EDAMauthenticateLongSession_args * args = [[EDAMauthenticateLongSession_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EDAMAuthenticateLongSession_result * result = [[EDAMAuthenticateLongSession_result alloc] init];
+  [result setSuccess: [mService authenticateLongSession: [args username]: [args password]: [args consumerKey]: [args consumerSecret]: [args deviceIdentifier]: [args deviceDescription]]];
+  [outProtocol writeMessageBeginWithName: @"authenticateLongSession"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release];
+  [args release];
+}
+
+- (void) process_authenticateToBusiness_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  EDAMauthenticateToBusiness_args * args = [[EDAMauthenticateToBusiness_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EDAMAuthenticateToBusiness_result * result = [[EDAMAuthenticateToBusiness_result alloc] init];
+  [result setSuccess: [mService authenticateToBusiness: [args authenticationToken]]];
+  [outProtocol writeMessageBeginWithName: @"authenticateToBusiness"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];
