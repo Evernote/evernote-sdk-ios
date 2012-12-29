@@ -31,7 +31,7 @@
 
 @implementation EvernoteUserStore
 
-+ (EvernoteUserStore *)userStore
++ (instancetype)userStore
 {
     EvernoteUserStore *userStore = [[[EvernoteUserStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
     return userStore;

@@ -56,6 +56,8 @@
 
 @property (nonatomic, assign) BOOL isSwitchingInProgress;
 
+@property (nonatomic, assign) BOOL isMultitaskLoginDisabled;
+
 @property (nonatomic, retain) ENOAuthViewController *oauthViewController;
 
 @property (nonatomic, retain) EDAMNoteStoreClient *noteStoreClient;
@@ -381,26 +383,21 @@
     // remove all cookies from the Evernote service so that the user can log in with
     // different credentials after declining to authorize access
     [self emptyCookieJar];
-    // Only do bootstrapping for clients which want to support both
-    if(self.serviceType == EVERNOTE_SERVICE_BOTH) {
-        NSString* locale = [[NSLocale currentLocale] localeIdentifier];
-        EvernoteUserStore *userStore = [EvernoteUserStore userStore];
-        [userStore getBootstrapInfoWithLocale:locale success:^(EDAMBootstrapInfo *info) {
-            // Using first profile as the preferred profile.
-            EDAMBootstrapProfile *profile = info.profiles[0];
-            self.profiles = info.profiles;
-            self.currentProfile = profile.name;
-            // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
-            [self startOauthAuthentication];
-        } failure:^(NSError *error) {
-            // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
-            [self startOauthAuthentication];
-        }];
-    }
-    else {
-        // only one profile supported.
+    
+    // Start bootstrapping
+    NSString* locale = [[NSLocale currentLocale] localeIdentifier];
+    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+    [userStore getBootstrapInfoWithLocale:locale success:^(EDAMBootstrapInfo *info) {
+        // Using first profile as the preferred profile.
+        EDAMBootstrapProfile *profile = [info.profiles objectAtIndex:0];
+        self.profiles = info.profiles;
+        self.currentProfile = profile.name;
+        // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
         [self startOauthAuthentication];
-    }
+    } failure:^(NSError *error) {
+        // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
+        [self startOauthAuthentication];
+    }];
 }
 
 - (void)verifyConsumerKeyAndSecret
@@ -547,12 +544,37 @@
         // Save the token secret, for later use in OAuth step 3.
         self.tokenSecret = [parameters objectForKey:@"oauth_token_secret"];
         
-        // Open a modal ENOAuthViewController on top of our given view controller,
-        // and point it at the proper Evernote web page so the user can authorize us.
-        NSString *userAuthURLString = [self userAuthorizationURLStringWithParameters:parameters];
-        NSURL *userAuthURL = [NSURL URLWithString:userAuthURLString];
-        [self openOAuthViewControllerWithURL:userAuthURL];
         
+        // If the device supports multitasking,
+        // try to get the OAuth token from the Evernote app
+        // on the device.
+        // If the Evernote app is not installed or it doesn't support
+        // the evernote:// URL scheme, fall back on WebKit for obtaining the OAuth token.
+        // This minimizes the chance that the user will have to enter his or
+        // her credentials in order to authorize the application.
+        UIDevice *device = [UIDevice currentDevice];
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"evernote://"]] == NO) {
+            self.isMultitaskLoginDisabled = YES;
+        }
+        if ([device respondsToSelector:@selector(isMultitaskingSupported)] &&
+            [device isMultitaskingSupported] &&
+            self.isMultitaskLoginDisabled==NO) {
+            NSString* openURL = [NSString stringWithFormat:@"evernote://link-sdk/profileName/%@/consumerKey/%@/authorization/%@",self.currentProfile,self.consumerKey,parameters[@"oauth_token"]];
+            BOOL success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openURL]];
+            if(success == NO) {
+                // The Evernote app does not support the full URL, falling back
+                self.isMultitaskLoginDisabled = YES;
+                // Restart oAuth dance
+                [self startOauthAuthentication];
+            }
+        }
+        else {
+            // Open a modal ENOAuthViewController on top of our given view controller,
+            // and point it at the proper Evernote web page so the user can authorize us.
+            NSString *userAuthURLString = [self userAuthorizationURLStringWithParameters:parameters];
+            NSURL *userAuthURL = [NSURL URLWithString:userAuthURLString];
+            [self openOAuthViewControllerWithURL:userAuthURL];
+        }
     } else {
         // OAuth step 4: final callback, with our real token
         NSString *authenticationToken = [parameters objectForKey:@"oauth_token"];
@@ -670,6 +692,23 @@
     [self startOauthAuthentication];
 }
 
+- (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName {
+    BOOL wasProfileFound = NO;
+    for (EDAMBootstrapProfile *p in self.profiles) {
+        if ([aProfileName isEqualToString:[p name]]) {
+            self.currentProfile = p.name;
+            wasProfileFound = YES;
+            break;
+        }
+    }
+    if(wasProfileFound == NO) {
+        // We could not find any profile mathching with the evernote app
+        self.isMultitaskLoginDisabled = YES;
+    }
+    // Restart oAuth dance
+    [self startOauthAuthentication];
+}
+
 #pragma mark - querystring parsing
 
 + (NSString *)queryStringFromParameters:(NSDictionary *)parameters 
@@ -716,6 +755,11 @@
 {
     [self.viewController dismissModalViewControllerAnimated:YES];
     [self completeAuthenticationWithError:error];
+}
+
+- (void)gotCallbackURL : (NSString*)callback {
+    NSURL* callbackURL = [NSURL URLWithString:callback];
+    [self oauthViewController:nil receivedOAuthCallbackURL:callbackURL];
 }
 
 - (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url

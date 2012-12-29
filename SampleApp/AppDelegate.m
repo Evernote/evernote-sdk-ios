@@ -78,4 +78,41 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSString* hostName = [NSString stringWithFormat:@"en%@",
+                          [[EvernoteSession sharedSession] consumerKey]];
+    BOOL canHandle = NO;
+    // Check if we got back the oauth token
+    if ([hostName isEqualToString:[url scheme]] == YES
+        && [@"oauth" isEqualToString:[url host]] == YES) {
+        canHandle = YES;
+        NSString* oAuthPrefix = [NSString stringWithFormat:@"en%@://oauth/",[[EvernoteSession sharedSession] consumerKey]];
+        NSString *callback = [url.absoluteString stringByReplacingOccurrencesOfString:oAuthPrefix withString:@""];
+        [[EvernoteSession sharedSession] gotCallbackURL:callback];
+    }
+    // Check if the login was cancelled
+    else if ([hostName isEqualToString:[url scheme]] == YES
+             && [@"loginCancelled" isEqualToString:[url host]] == YES) {
+        canHandle = YES;
+        [[EvernoteSession sharedSession] gotCallbackURL:nil];
+    }
+    // Check if we need to switch profiles
+    else if ([hostName isEqualToString:[url scheme]] == YES
+             && [@"incorrectProfile" isEqualToString:[url host]] == YES) {
+        return [self canHandleSwitchProfileURL:url];
+    }
+    return canHandle;
+}
+
+- (BOOL) canHandleSwitchProfileURL:(NSURL *)url {
+    NSString *requestURL = [url path];
+    NSArray *components = [requestURL componentsSeparatedByString:@"/"];
+    if ([components count] < 2) {
+        NSLog(@"URL:%@ has invalid component count: %i", url, [components count]);
+        return NO;
+    }
+    [[EvernoteSession sharedSession] updateCurrentBootstrapProfileWithName:components[1]];
+    return YES;
+}
+
 @end

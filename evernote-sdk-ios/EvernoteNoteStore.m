@@ -38,7 +38,7 @@
 
 @implementation EvernoteNoteStore
 
-+ (EvernoteNoteStore *)noteStore
++ (instancetype)noteStore
 {
     EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
     noteStore.isBusiness = NO;
@@ -46,7 +46,7 @@
     return noteStore;
 }
 
-+ (EvernoteNoteStore *)businessNoteStore
++ (instancetype)businessNoteStore
 {
     EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
     noteStore.isBusiness = YES;
@@ -54,7 +54,7 @@
     return noteStore;
 }
 
-+ (EvernoteNoteStore *)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook
++ (instancetype)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook
 {
     EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
     noteStore.isBusiness = NO;

@@ -33,13 +33,13 @@
 @interface EvernoteNoteStore : ENAPI
 
 // Get an instance, using the shared EvernoteSession.
-+ (EvernoteNoteStore *)noteStore;
++ (instancetype)noteStore;
 
 // Get an instance of the business note store, using the shared EvernoteSession.
-+ (EvernoteNoteStore *)businessNoteStore;
++ (instancetype)businessNoteStore;
 
 // Get an instance of a notestore for a linked notebook. This can be used for shared notebooks.
-+ (EvernoteNoteStore *)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook;
++ (instancetype)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook;
 
 // Construct an instance with the given session.
 - (id)initWithSession:(EvernoteSession *)session;

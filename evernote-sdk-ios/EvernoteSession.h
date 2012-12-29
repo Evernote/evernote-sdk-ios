@@ -102,6 +102,9 @@ typedef enum {
 // Get the singleton shared session.
 + (EvernoteSession *)sharedSession;
 
+//  Got the token from the Evernote app
+- (void)gotCallbackURL:(NSString*)callback;
+
 // Authenticate, calling the given handler upon completion.
 - (void)authenticateWithViewController:(UIViewController *)viewController
                      completionHandler:(EvernoteAuthCompletionHandler)completionHandler;
@@ -142,5 +145,8 @@ typedef enum {
                          noteStoreUrl:(NSString *)noteStoreUrl
                       webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken;
+
+// Update the boostrap profile to the specified one
+- (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName;
 
 @end

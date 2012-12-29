@@ -33,7 +33,7 @@
 @interface EvernoteUserStore : ENAPI
 
 // Get an instance, using the shared EvernoteSession.
-+ (EvernoteUserStore *)userStore;
++ (instancetype)userStore;
 
 // Construct an instance with the given session.
 - (id)initWithSession:(EvernoteSession *)session;
