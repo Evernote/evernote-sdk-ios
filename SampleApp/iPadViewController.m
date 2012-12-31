@@ -142,7 +142,8 @@
                              "<br />"
                              "%@"
                              "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
-    EDAMNote *newNote = [[[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:@[resource] attributes:nil tagNames:nil] autorelease];
+    NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
+    EDAMNote *newNote = [[[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil] autorelease];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         NSLog(@"Note created successfully.");
     } failure:^(NSError *error) {

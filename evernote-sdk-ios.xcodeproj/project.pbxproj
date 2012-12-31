@@ -128,6 +128,7 @@
 		A9C555061671539A006E0020 /* EvernoteUserStore+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */; };
 		A9C555071671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */; };
 		A9C555081671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */; };
+		A9D166C5169151D600043DA0 /* TObjective-C.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D166C4169151D600043DA0 /* TObjective-C.h */; };
 		A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; };
 		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
@@ -243,6 +244,7 @@
 		A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EvernoteNoteStore+Extras.m"; sourceTree = "<group>"; };
 		A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EvernoteUserStore+Extras.h"; sourceTree = "<group>"; };
 		A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EvernoteUserStore+Extras.m"; sourceTree = "<group>"; };
+		A9D166C4169151D600043DA0 /* TObjective-C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TObjective-C.h"; sourceTree = "<group>"; };
 		A9FDF716165C5C7100DC7E4B /* ENConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENConstants.h; sourceTree = "<group>"; };
 		A9FDF717165C5C7100DC7E4B /* ENConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENConstants.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -320,6 +322,7 @@
 		0B943F2E1525015500DB20A3 /* Thrift */ = {
 			isa = PBXGroup;
 			children = (
+				A9D166C4169151D600043DA0 /* TObjective-C.h */,
 				0BBA34A61537AFED00DC7DD5 /* LICENSE */,
 				0B943F3B1525015500DB20A3 /* TApplicationException.h */,
 				0B943F3C1525015500DB20A3 /* TApplicationException.m */,
@@ -645,6 +648,7 @@
 				A9C555061671539A006E0020 /* EvernoteUserStore+Extras.h in Headers */,
 				A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */,
 				A92602C416740D5700F01E63 /* ENMLUtility.h in Headers */,
+				A9D166C5169151D600043DA0 /* TObjective-C.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

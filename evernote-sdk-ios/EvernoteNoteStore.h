@@ -196,7 +196,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 - (void)expungeNoteWithGuid:(EDAMGuid)guid
                     success:(void(^)(int32_t usn))success
                     failure:(void(^)(NSError *error))failure;
-- (void)expungeNotesWithGuids:(NSArray *)guids
+- (void)expungeNotesWithGuids:(NSMutableArray *)guids
                       success:(void(^)(int32_t usn))success
                       failure:(void(^)(NSError *error))failure;
 - (void)expungeInactiveNoteWithSuccess:(void(^)(int32_t usn))success
@@ -273,12 +273,12 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                      failure:(void(^)(NSError *error))failure;
 - (void)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
                                        messageText:(NSString *)messageText 
-                                        recipients:(NSArray *)recipients
+                                        recipients:(NSMutableArray *)recipients
                                            success:(void(^)(int32_t numMessagesSent))success
                                            failure:(void(^)(NSError *error))failure;
 - (void)listSharedNotebooksWithSuccess:(void(^)(NSArray *sharedNotebooks))success
                                failure:(void(^)(NSError *error))failure;
-- (void)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds
+- (void)expungeSharedNotebooksWithIds:(NSMutableArray *)sharedNotebookIds
                               success:(void(^)(int32_t usn))success
                               failure:(void(^)(NSError *error))failure;
 - (void)createLinkedNotebook:(EDAMLinkedNotebook *)linkedNotebook

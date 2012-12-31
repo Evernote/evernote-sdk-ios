@@ -55,7 +55,7 @@
 
 {
     [self invokeAsyncBoolBlock:^BOOL{
-        return [self.userStore checkVersion:clientName:edamVersionMajor:edamVersionMinor];
+        return [self.userStore checkVersion:clientName edamVersionMajor:edamVersionMajor edamVersionMinor:edamVersionMinor];
     } success:success failure:failure];
 }
 

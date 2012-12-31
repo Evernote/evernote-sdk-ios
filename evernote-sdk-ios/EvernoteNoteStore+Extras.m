@@ -111,7 +111,8 @@
     EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
     EvernoteNoteStore* sharedNoteStore = [EvernoteNoteStore noteStoreForLinkedNotebook:notebook];
     [sharedNoteStore getSharedNotebookByAuthWithSuccess:^(EDAMSharedNotebook *sharedNotebook) {
-        [businessNoteStore expungeSharedNotebooksWithIds:@[[NSNumber numberWithInt:sharedNotebook.id]] success:^(int32_t usn) {
+        NSMutableArray* notebookIds = [NSMutableArray arrayWithArray:@[[NSNumber numberWithInt:sharedNotebook.id]]];
+        [businessNoteStore expungeSharedNotebooksWithIds:notebookIds success:^(int32_t usn) {
             [self expungeLinkedNotebookWithGuid:notebook.guid success:^(int32_t usn) {
                 success(usn);
             } failure:failure];
