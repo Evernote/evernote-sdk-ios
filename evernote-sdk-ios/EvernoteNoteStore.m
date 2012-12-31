@@ -32,7 +32,7 @@
 @interface EvernoteNoteStore ()
 
 @property (nonatomic,assign) BOOL isBusiness;
-@property (nonatomic,retain) EDAMLinkedNotebook* linkedNotebook;
+@property (nonatomic,strong) EDAMLinkedNotebook* linkedNotebook;
 
 @end
 
@@ -40,7 +40,7 @@
 
 + (instancetype)noteStore
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = NO;
     noteStore.linkedNotebook = nil;
     return noteStore;
@@ -48,7 +48,7 @@
 
 + (instancetype)businessNoteStore
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = YES;
     noteStore.linkedNotebook = nil;
     return noteStore;
@@ -56,7 +56,7 @@
 
 + (instancetype)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = NO;
     noteStore.linkedNotebook = notebook;
     return noteStore;

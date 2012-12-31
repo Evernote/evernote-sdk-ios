@@ -48,6 +48,8 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
 @property (nonatomic, copy) NSDictionary *requestParameters;
 @property (nonatomic, copy) NSString *HTTPMethod;
 @property (nonatomic, copy) NSURL *URL;
+@property (nonatomic, copy) NSString *signatureSecret;
+@property (nonatomic, strong) NSDictionary* OAuthParameters;
 
 // get a nonce string
 + (NSString *)nonce;
@@ -97,15 +99,15 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
               tokenSecret:(NSString *)tokenSecret {
     self = [super init];
     if (self) {
-        OAuthParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
-                           [[consumerKey copy] autorelease], @"oauth_consumer_key",
+        self.OAuthParameters = [[NSDictionary alloc] initWithObjectsAndKeys:
+                           [consumerKey copy] , @"oauth_consumer_key",
                            [GCOAuth nonce], @"oauth_nonce",
                            [GCOAuth timeStamp], @"oauth_timestamp",
                            @"1.0",  @"oauth_version",
                            @"HMAC-SHA1", @"oauth_signature_method",
-                           [[accessToken copy] autorelease], @"oauth_token", // leave accessToken last or you'll break XAuth attempts
+                           [accessToken copy] , @"oauth_token", // leave accessToken last or you'll break XAuth attempts
                            nil];
-        signatureSecret = [[NSString stringWithFormat:@"%@&%@", [consumerSecret pcen], [tokenSecret ?: @"" pcen]] retain];
+        self.signatureSecret = [NSString stringWithFormat:@"%@&%@", [consumerSecret pcen], [tokenSecret ?: @"" pcen]] ;
     }
     return self;
 }
@@ -125,20 +127,19 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
 }
 - (NSString *)authorizationHeader {
     NSMutableArray *entries = [NSMutableArray array];
-    NSMutableDictionary *dictionary = [OAuthParameters mutableCopy];
+    NSMutableDictionary *dictionary = [self.OAuthParameters mutableCopy];
     [dictionary setObject:[self signature] forKey:@"oauth_signature"];
     [dictionary enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
         NSString *entry = [NSString stringWithFormat:@"%@=\"%@\"", [key pcen], [obj pcen]];
         [entries addObject:entry];
     }];
-    [dictionary release];
     return [@"OAuth " stringByAppendingString:[entries componentsJoinedByString:@","]];
 }
 - (NSString *)signature {
     
     // get signature components
     NSData *base = [[self signatureBase] dataUsingEncoding:NSUTF8StringEncoding];
-    NSData *secret = [signatureSecret dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *secret = [self.signatureSecret dataUsingEncoding:NSUTF8StringEncoding];
     
     // hmac
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
@@ -156,7 +157,7 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     
     // normalize parameters
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    [parameters addEntriesFromDictionary:OAuthParameters];
+    [parameters addEntriesFromDictionary:self.OAuthParameters];
     [parameters addEntriesFromDictionary:self.requestParameters];
     NSMutableArray *entries = [NSMutableArray arrayWithCapacity:[parameters count]];
     NSArray *keys = [[parameters allKeys] sortedArrayUsingSelector:@selector(compare:)];
@@ -185,20 +186,9 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     return [components componentsJoinedByString:@"&"];
     
 }
-- (void)dealloc {
-    self.URL = nil;
-    self.HTTPMethod = nil;
-    self.requestParameters = nil;
-    [OAuthParameters release];
-    OAuthParameters = nil;
-    [signatureSecret release];
-    signatureSecret = nil;
-    [super dealloc];
-}
 
 #pragma mark - class methods
 + (void)setUserAgent:(NSString *)agent {
-    [GCOAuthUserAgent release];
     GCOAuthUserAgent = [agent copy];
 }
 + (void)setTimeStampOffset:(time_t)offset {
@@ -211,7 +201,7 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, uuid);
     CFRelease(uuid);
-    return [(NSString *)string autorelease];
+    return (__bridge NSString *)string ;
 }
 + (NSString *)timeStamp {
     time_t t;
@@ -274,7 +264,6 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     
     // return
     NSURLRequest *request = [oauth request];
-    [oauth release];
     return request;
     
 }
@@ -298,7 +287,6 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     oauth.requestParameters = parameters;
     NSURL *URL = [[NSURL alloc] initWithScheme:@"https" host:host path:path];
     oauth.URL = URL;
-    [URL release];
     
     // create request
     NSMutableURLRequest *request = [oauth request];
@@ -312,7 +300,6 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     }
     
     // return
-    [oauth release];
     return request;
     
 }
@@ -325,6 +312,6 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
                                                                  NULL,
                                                                  CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                  kCFStringEncodingUTF8);
-    return [(NSString *)string autorelease];
+    return (__bridge NSString *)string;
 }
 @end

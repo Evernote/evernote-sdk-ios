@@ -1773,7 +1773,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=clientName, setter=setClientName:) NSString * clientName;
+@property (nonatomic, strong, getter=clientName, setter=setClientName:) NSString * clientName;
 @property (nonatomic, getter=edamVersionMajor, setter=setEdamVersionMajor:) int16_t edamVersionMajor;
 @property (nonatomic, getter=edamVersionMinor, setter=setEdamVersionMinor:) int16_t edamVersionMinor;
 #endif
@@ -2157,7 +2157,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=locale, setter=setLocale:) NSString * locale;
+@property (nonatomic, strong, getter=locale, setter=setLocale:) NSString * locale;
 #endif
 
 - (id) init;
@@ -2300,7 +2300,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMBootstrapInfo * success;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMBootstrapInfo * success;
 #endif
 
 - (id) init;
@@ -2452,10 +2452,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
-@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
-@property (nonatomic, retain, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
-@property (nonatomic, retain, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=password, setter=setPassword:) NSString * password;
+@property (nonatomic, strong, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
+@property (nonatomic, strong, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
 #endif
 
 - (id) init;
@@ -2770,9 +2770,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -3042,12 +3042,12 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
-@property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
-@property (nonatomic, retain, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
-@property (nonatomic, retain, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
-@property (nonatomic, retain, getter=deviceIdentifier, setter=setDeviceIdentifier:) NSString * deviceIdentifier;
-@property (nonatomic, retain, getter=deviceDescription, setter=setDeviceDescription:) NSString * deviceDescription;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=password, setter=setPassword:) NSString * password;
+@property (nonatomic, strong, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
+@property (nonatomic, strong, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
+@property (nonatomic, strong, getter=deviceIdentifier, setter=setDeviceIdentifier:) NSString * deviceIdentifier;
+@property (nonatomic, strong, getter=deviceDescription, setter=setDeviceDescription:) NSString * deviceDescription;
 #endif
 
 - (id) init;
@@ -3474,9 +3474,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -3736,7 +3736,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 #endif
 
 - (id) init;
@@ -3883,9 +3883,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -4145,7 +4145,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 #endif
 
 - (id) init;
@@ -4292,9 +4292,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -4554,7 +4554,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 #endif
 
 - (id) init;
@@ -4701,9 +4701,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMUser * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMUser * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -4963,7 +4963,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
 #endif
 
 - (id) init;
@@ -5112,10 +5112,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMPublicUserInfo * success;
-@property (nonatomic, retain, getter=notFoundException, setter=setNotFoundException:) EDAMNotFoundException * notFoundException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMPublicUserInfo * success;
+@property (nonatomic, strong, getter=notFoundException, setter=setNotFoundException:) EDAMNotFoundException * notFoundException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
 #endif
 
 - (id) init;
@@ -5432,7 +5432,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 #endif
 
 - (id) init;
@@ -5579,9 +5579,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMPremiumInfo * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) EDAMPremiumInfo * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -5841,7 +5841,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 #endif
 
 - (id) init;
@@ -5988,9 +5988,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=success, setter=setSuccess:) NSString * success;
-@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
-@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+@property (nonatomic, strong, getter=success, setter=setSuccess:) NSString * success;
+@property (nonatomic, strong, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, strong, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
 #endif
 
 - (id) init;
@@ -6859,8 +6859,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 23;
   return [[mService retain_stub] autorelease_stub];
 }
 
-- (BOOL) processOnInputProtocol: (id <TProtocol>) inProtocol
-                 outputProtocol: (id <TProtocol>) outProtocol
+- (BOOL) processOnInputProtocol: (__unsafe_unretained id <TProtocol>) inProtocol
+                 outputProtocol: (__unsafe_unretained id <TProtocol>) outProtocol
 {
   NSString * messageName;
   int messageType;

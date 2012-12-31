@@ -37,9 +37,7 @@
  to interact with in the wild. How ace is that?!
  */
 @interface GCOAuth : NSObject {
-@private
-    NSString *signatureSecret;
-    NSDictionary *OAuthParameters;
+
 }
 
 /*

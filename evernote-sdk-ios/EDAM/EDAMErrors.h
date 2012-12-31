@@ -44,7 +44,7 @@ enum EDAMErrorCode {
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=errorCode, setter=setErrorCode:) int errorCode;
-@property (nonatomic, retain, getter=parameter, setter=setParameter:) NSString * parameter;
+@property (nonatomic, strong, getter=parameter, setter=setParameter:) NSString * parameter;
 #endif
 
 - (id) init;
@@ -77,7 +77,7 @@ enum EDAMErrorCode {
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=errorCode, setter=setErrorCode:) int errorCode;
-@property (nonatomic, retain, getter=message, setter=setMessage:) NSString * message;
+@property (nonatomic, strong, getter=message, setter=setMessage:) NSString * message;
 #endif
 
 - (id) init;
@@ -109,8 +109,8 @@ enum EDAMErrorCode {
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=identifier, setter=setIdentifier:) NSString * identifier;
-@property (nonatomic, retain, getter=key, setter=setKey:) NSString * key;
+@property (nonatomic, strong, getter=identifier, setter=setIdentifier:) NSString * identifier;
+@property (nonatomic, strong, getter=key, setter=setKey:) NSString * key;
 #endif
 
 - (id) init;

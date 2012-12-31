@@ -34,11 +34,11 @@
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=userId, setter=setUserId:) EDAMUserID userId;
-@property (nonatomic, retain, getter=shardId, setter=setShardId:) NSString * shardId;
+@property (nonatomic, strong, getter=shardId, setter=setShardId:) NSString * shardId;
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
-@property (nonatomic, retain, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
-@property (nonatomic, retain, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
+@property (nonatomic, strong, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
 #endif
 
 - (id) init;
@@ -105,12 +105,12 @@
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=currentTime, setter=setCurrentTime:) EDAMTimestamp currentTime;
-@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, strong, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
 @property (nonatomic, getter=expiration, setter=setExpiration:) EDAMTimestamp expiration;
-@property (nonatomic, retain, getter=user, setter=setUser:) EDAMUser * user;
-@property (nonatomic, retain, getter=publicUserInfo, setter=setPublicUserInfo:) EDAMPublicUserInfo * publicUserInfo;
-@property (nonatomic, retain, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
-@property (nonatomic, retain, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
+@property (nonatomic, strong, getter=user, setter=setUser:) EDAMUser * user;
+@property (nonatomic, strong, getter=publicUserInfo, setter=setPublicUserInfo:) EDAMPublicUserInfo * publicUserInfo;
+@property (nonatomic, strong, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
+@property (nonatomic, strong, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
 #endif
 
 - (id) init;
@@ -194,10 +194,10 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=serviceHost, setter=setServiceHost:) NSString * serviceHost;
-@property (nonatomic, retain, getter=marketingUrl, setter=setMarketingUrl:) NSString * marketingUrl;
-@property (nonatomic, retain, getter=supportUrl, setter=setSupportUrl:) NSString * supportUrl;
-@property (nonatomic, retain, getter=accountEmailDomain, setter=setAccountEmailDomain:) NSString * accountEmailDomain;
+@property (nonatomic, strong, getter=serviceHost, setter=setServiceHost:) NSString * serviceHost;
+@property (nonatomic, strong, getter=marketingUrl, setter=setMarketingUrl:) NSString * marketingUrl;
+@property (nonatomic, strong, getter=supportUrl, setter=setSupportUrl:) NSString * supportUrl;
+@property (nonatomic, strong, getter=accountEmailDomain, setter=setAccountEmailDomain:) NSString * accountEmailDomain;
 @property (nonatomic, getter=enableFacebookSharing, setter=setEnableFacebookSharing:) BOOL enableFacebookSharing;
 @property (nonatomic, getter=enableGiftSubscriptions, setter=setEnableGiftSubscriptions:) BOOL enableGiftSubscriptions;
 @property (nonatomic, getter=enableSupportTickets, setter=setEnableSupportTickets:) BOOL enableSupportTickets;
@@ -304,8 +304,8 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, retain, getter=settings, setter=setSettings:) EDAMBootstrapSettings * settings;
+@property (nonatomic, strong, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, strong, getter=settings, setter=setSettings:) EDAMBootstrapSettings * settings;
 #endif
 
 - (id) init;
@@ -335,7 +335,7 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=profiles, setter=setProfiles:) NSMutableArray * profiles;
+@property (nonatomic, strong, getter=profiles, setter=setProfiles:) NSMutableArray * profiles;
 #endif
 
 - (id) init;

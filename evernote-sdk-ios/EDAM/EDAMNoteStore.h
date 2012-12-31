@@ -105,17 +105,17 @@
 @property (nonatomic, getter=currentTime, setter=setCurrentTime:) EDAMTimestamp currentTime;
 @property (nonatomic, getter=chunkHighUSN, setter=setChunkHighUSN:) int32_t chunkHighUSN;
 @property (nonatomic, getter=updateCount, setter=setUpdateCount:) int32_t updateCount;
-@property (nonatomic, retain, getter=notes, setter=setNotes:) NSMutableArray * notes;
-@property (nonatomic, retain, getter=notebooks, setter=setNotebooks:) NSMutableArray * notebooks;
-@property (nonatomic, retain, getter=tags, setter=setTags:) NSMutableArray * tags;
-@property (nonatomic, retain, getter=searches, setter=setSearches:) NSMutableArray * searches;
-@property (nonatomic, retain, getter=resources, setter=setResources:) NSMutableArray * resources;
-@property (nonatomic, retain, getter=expungedNotes, setter=setExpungedNotes:) NSMutableArray * expungedNotes;
-@property (nonatomic, retain, getter=expungedNotebooks, setter=setExpungedNotebooks:) NSMutableArray * expungedNotebooks;
-@property (nonatomic, retain, getter=expungedTags, setter=setExpungedTags:) NSMutableArray * expungedTags;
-@property (nonatomic, retain, getter=expungedSearches, setter=setExpungedSearches:) NSMutableArray * expungedSearches;
-@property (nonatomic, retain, getter=linkedNotebooks, setter=setLinkedNotebooks:) NSMutableArray * linkedNotebooks;
-@property (nonatomic, retain, getter=expungedLinkedNotebooks, setter=setExpungedLinkedNotebooks:) NSMutableArray * expungedLinkedNotebooks;
+@property (nonatomic, strong, getter=notes, setter=setNotes:) NSMutableArray * notes;
+@property (nonatomic, strong, getter=notebooks, setter=setNotebooks:) NSMutableArray * notebooks;
+@property (nonatomic, strong, getter=tags, setter=setTags:) NSMutableArray * tags;
+@property (nonatomic, strong, getter=searches, setter=setSearches:) NSMutableArray * searches;
+@property (nonatomic, strong, getter=resources, setter=setResources:) NSMutableArray * resources;
+@property (nonatomic, strong, getter=expungedNotes, setter=setExpungedNotes:) NSMutableArray * expungedNotes;
+@property (nonatomic, strong, getter=expungedNotebooks, setter=setExpungedNotebooks:) NSMutableArray * expungedNotebooks;
+@property (nonatomic, strong, getter=expungedTags, setter=setExpungedTags:) NSMutableArray * expungedTags;
+@property (nonatomic, strong, getter=expungedSearches, setter=setExpungedSearches:) NSMutableArray * expungedSearches;
+@property (nonatomic, strong, getter=linkedNotebooks, setter=setLinkedNotebooks:) NSMutableArray * linkedNotebooks;
+@property (nonatomic, strong, getter=expungedLinkedNotebooks, setter=setExpungedLinkedNotebooks:) NSMutableArray * expungedLinkedNotebooks;
 #endif
 
 - (id) init;
@@ -253,7 +253,7 @@
 @property (nonatomic, getter=includeNoteApplicationDataFullMap, setter=setIncludeNoteApplicationDataFullMap:) BOOL includeNoteApplicationDataFullMap;
 @property (nonatomic, getter=includeResourceApplicationDataFullMap, setter=setIncludeResourceApplicationDataFullMap:) BOOL includeResourceApplicationDataFullMap;
 @property (nonatomic, getter=includeNoteResourceApplicationDataFullMap, setter=setIncludeNoteResourceApplicationDataFullMap:) BOOL includeNoteResourceApplicationDataFullMap;
-@property (nonatomic, retain, getter=requireNoteContentClass, setter=setRequireNoteContentClass:) NSString * requireNoteContentClass;
+@property (nonatomic, strong, getter=requireNoteContentClass, setter=setRequireNoteContentClass:) NSString * requireNoteContentClass;
 #endif
 
 - (id) init;
@@ -365,12 +365,12 @@
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=order, setter=setOrder:) int32_t order;
 @property (nonatomic, getter=ascending, setter=setAscending:) BOOL ascending;
-@property (nonatomic, retain, getter=words, setter=setWords:) NSString * words;
-@property (nonatomic, retain, getter=notebookGuid, setter=setNotebookGuid:) EDAMGuid notebookGuid;
-@property (nonatomic, retain, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
-@property (nonatomic, retain, getter=timeZone, setter=setTimeZone:) NSString * timeZone;
+@property (nonatomic, strong, getter=words, setter=setWords:) NSString * words;
+@property (nonatomic, strong, getter=notebookGuid, setter=setNotebookGuid:) EDAMGuid notebookGuid;
+@property (nonatomic, strong, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
+@property (nonatomic, strong, getter=timeZone, setter=setTimeZone:) NSString * timeZone;
 @property (nonatomic, getter=inactive, setter=setInactive:) BOOL inactive;
-@property (nonatomic, retain, getter=emphasized, setter=setEmphasized:) NSString * emphasized;
+@property (nonatomic, strong, getter=emphasized, setter=setEmphasized:) NSString * emphasized;
 #endif
 
 - (id) init;
@@ -448,9 +448,9 @@
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=startIndex, setter=setStartIndex:) int32_t startIndex;
 @property (nonatomic, getter=totalNotes, setter=setTotalNotes:) int32_t totalNotes;
-@property (nonatomic, retain, getter=notes, setter=setNotes:) NSMutableArray * notes;
-@property (nonatomic, retain, getter=stoppedWords, setter=setStoppedWords:) NSMutableArray * stoppedWords;
-@property (nonatomic, retain, getter=searchedWords, setter=setSearchedWords:) NSMutableArray * searchedWords;
+@property (nonatomic, strong, getter=notes, setter=setNotes:) NSMutableArray * notes;
+@property (nonatomic, strong, getter=stoppedWords, setter=setStoppedWords:) NSMutableArray * stoppedWords;
+@property (nonatomic, strong, getter=searchedWords, setter=setSearchedWords:) NSMutableArray * searchedWords;
 @property (nonatomic, getter=updateCount, setter=setUpdateCount:) int32_t updateCount;
 #endif
 
@@ -525,16 +525,16 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=title, setter=setTitle:) NSString * title;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=title, setter=setTitle:) NSString * title;
 @property (nonatomic, getter=contentLength, setter=setContentLength:) int32_t contentLength;
 @property (nonatomic, getter=created, setter=setCreated:) EDAMTimestamp created;
 @property (nonatomic, getter=updated, setter=setUpdated:) EDAMTimestamp updated;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
-@property (nonatomic, retain, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
-@property (nonatomic, retain, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
-@property (nonatomic, retain, getter=attributes, setter=setAttributes:) EDAMNoteAttributes * attributes;
-@property (nonatomic, retain, getter=largestResourceMime, setter=setLargestResourceMime:) NSString * largestResourceMime;
+@property (nonatomic, strong, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
+@property (nonatomic, strong, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
+@property (nonatomic, strong, getter=attributes, setter=setAttributes:) EDAMNoteAttributes * attributes;
+@property (nonatomic, strong, getter=largestResourceMime, setter=setLargestResourceMime:) NSString * largestResourceMime;
 @property (nonatomic, getter=largestResourceSize, setter=setLargestResourceSize:) int32_t largestResourceSize;
 #endif
 
@@ -631,9 +631,9 @@
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=startIndex, setter=setStartIndex:) int32_t startIndex;
 @property (nonatomic, getter=totalNotes, setter=setTotalNotes:) int32_t totalNotes;
-@property (nonatomic, retain, getter=notes, setter=setNotes:) NSMutableArray * notes;
-@property (nonatomic, retain, getter=stoppedWords, setter=setStoppedWords:) NSMutableArray * stoppedWords;
-@property (nonatomic, retain, getter=searchedWords, setter=setSearchedWords:) NSMutableArray * searchedWords;
+@property (nonatomic, strong, getter=notes, setter=setNotes:) NSMutableArray * notes;
+@property (nonatomic, strong, getter=stoppedWords, setter=setStoppedWords:) NSMutableArray * stoppedWords;
+@property (nonatomic, strong, getter=searchedWords, setter=setSearchedWords:) NSMutableArray * searchedWords;
 @property (nonatomic, getter=updateCount, setter=setUpdateCount:) int32_t updateCount;
 #endif
 
@@ -797,8 +797,8 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=notebookCounts, setter=setNotebookCounts:) NSMutableDictionary * notebookCounts;
-@property (nonatomic, retain, getter=tagCounts, setter=setTagCounts:) NSMutableDictionary * tagCounts;
+@property (nonatomic, strong, getter=notebookCounts, setter=setNotebookCounts:) NSMutableDictionary * notebookCounts;
+@property (nonatomic, strong, getter=tagCounts, setter=setTagCounts:) NSMutableDictionary * tagCounts;
 @property (nonatomic, getter=trashCount, setter=setTrashCount:) int32_t trashCount;
 #endif
 
@@ -845,12 +845,12 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) NSString * guid;
-@property (nonatomic, retain, getter=note, setter=setNote:) EDAMNote * note;
-@property (nonatomic, retain, getter=toAddresses, setter=setToAddresses:) NSMutableArray * toAddresses;
-@property (nonatomic, retain, getter=ccAddresses, setter=setCcAddresses:) NSMutableArray * ccAddresses;
-@property (nonatomic, retain, getter=subject, setter=setSubject:) NSString * subject;
-@property (nonatomic, retain, getter=message, setter=setMessage:) NSString * message;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) NSString * guid;
+@property (nonatomic, strong, getter=note, setter=setNote:) EDAMNote * note;
+@property (nonatomic, strong, getter=toAddresses, setter=setToAddresses:) NSMutableArray * toAddresses;
+@property (nonatomic, strong, getter=ccAddresses, setter=setCcAddresses:) NSMutableArray * ccAddresses;
+@property (nonatomic, strong, getter=subject, setter=setSubject:) NSString * subject;
+@property (nonatomic, strong, getter=message, setter=setMessage:) NSString * message;
 #endif
 
 - (id) init;
@@ -913,7 +913,7 @@
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
 @property (nonatomic, getter=updated, setter=setUpdated:) EDAMTimestamp updated;
 @property (nonatomic, getter=saved, setter=setSaved:) EDAMTimestamp saved;
-@property (nonatomic, retain, getter=title, setter=setTitle:) NSString * title;
+@property (nonatomic, strong, getter=title, setter=setTitle:) NSString * title;
 #endif
 
 - (id) init;
@@ -983,9 +983,9 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=noteGuid, setter=setNoteGuid:) NSString * noteGuid;
-@property (nonatomic, retain, getter=plainText, setter=setPlainText:) NSString * plainText;
-@property (nonatomic, retain, getter=filter, setter=setFilter:) EDAMNoteFilter * filter;
+@property (nonatomic, strong, getter=noteGuid, setter=setNoteGuid:) NSString * noteGuid;
+@property (nonatomic, strong, getter=plainText, setter=setPlainText:) NSString * plainText;
+@property (nonatomic, strong, getter=filter, setter=setFilter:) EDAMNoteFilter * filter;
 #endif
 
 - (id) init;
@@ -1029,11 +1029,11 @@
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=notes, setter=setNotes:) NSMutableArray * notes;
-@property (nonatomic, retain, getter=notebooks, setter=setNotebooks:) NSMutableArray * notebooks;
-@property (nonatomic, retain, getter=tags, setter=setTags:) NSMutableArray * tags;
-@property (nonatomic, retain, getter=containingNotebooks, setter=setContainingNotebooks:) NSMutableArray * containingNotebooks;
-@property (nonatomic, retain, getter=debugInfo, setter=setDebugInfo:) NSString * debugInfo;
+@property (nonatomic, strong, getter=notes, setter=setNotes:) NSMutableArray * notes;
+@property (nonatomic, strong, getter=notebooks, setter=setNotebooks:) NSMutableArray * notebooks;
+@property (nonatomic, strong, getter=tags, setter=setTags:) NSMutableArray * tags;
+@property (nonatomic, strong, getter=containingNotebooks, setter=setContainingNotebooks:) NSMutableArray * containingNotebooks;
+@property (nonatomic, strong, getter=debugInfo, setter=setDebugInfo:) NSString * debugInfo;
 #endif
 
 - (id) init;

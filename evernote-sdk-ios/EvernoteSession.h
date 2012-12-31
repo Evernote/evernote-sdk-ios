@@ -48,9 +48,9 @@ typedef enum {
  */
 @interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate>
 
-@property (nonatomic, retain) NSString *host;
-@property (nonatomic, retain) NSString *consumerKey;
-@property (nonatomic, retain) NSString *consumerSecret;
+@property (nonatomic, copy) NSString *host;
+@property (nonatomic, copy) NSString *consumerKey;
+@property (nonatomic, copy) NSString *consumerSecret;
 @property (nonatomic, assign) EvernoteService serviceType;
 
 // Are we authenticated?
@@ -58,31 +58,31 @@ typedef enum {
 
 // Evernote auth token, to be passed to any NoteStore methods.
 // Will only be non-nil once we've authenticated.
-@property (nonatomic, readonly) NSString *authenticationToken;
+@property (weak, nonatomic, readonly) NSString *authenticationToken;
 
 // Evernote auth token, to be passed to any NoteStore methods.
 // Will only be non-nil once we've authenticated.
-@property (nonatomic, readonly) NSString *businessAuthenticationToken;
+@property (weak, nonatomic, readonly) NSString *businessAuthenticationToken;
 
 // URL for the Evernote UserStore.
-@property (nonatomic, readonly) NSString *userStoreUrl;
+@property (weak, nonatomic, readonly) NSString *userStoreUrl;
 
 // URL for the Evernote NoteStore for the authenticated user.
 // Will only be non-nil once we've authenticated.
-@property (nonatomic, readonly) NSString *noteStoreUrl;
+@property (weak, nonatomic, readonly) NSString *noteStoreUrl;
 
 // URL prefix for the web API.
 // Will only be non-nil once we've authenticated.
-@property (nonatomic, readonly) NSString *webApiUrlPrefix;
+@property (weak, nonatomic, readonly) NSString *webApiUrlPrefix;
 
 // Shared dispatch queue for API operations.
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
 // Bootstrap profiles
-@property (nonatomic, retain) NSArray* profiles;
+@property (nonatomic, strong) NSArray* profiles;
 
 // Business user info.
-@property (nonatomic,retain) EDAMUser* businessUser;
+@property (nonatomic,strong) EDAMUser* businessUser;
 
 // Set up the shared session.
 // @"sandbox.evernote.com" should be used for testing; 

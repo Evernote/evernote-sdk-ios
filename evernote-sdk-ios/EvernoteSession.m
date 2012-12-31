@@ -42,15 +42,15 @@
 
 @interface EvernoteSession()
 
-@property (nonatomic, retain) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController *viewController;
 
-@property (nonatomic, retain) NSURLResponse *response;
-@property (nonatomic, retain) NSMutableData *receivedData;
+@property (nonatomic, strong) NSURLResponse *response;
+@property (nonatomic, strong) NSMutableData *receivedData;
 
-@property (nonatomic, retain) ENCredentialStore *credentialStore;
+@property (nonatomic, strong) ENCredentialStore *credentialStore;
 
 @property (nonatomic, copy) EvernoteAuthCompletionHandler completionHandler;
-@property (nonatomic, retain) NSString *tokenSecret;
+@property (nonatomic, copy) NSString *tokenSecret;
 
 @property (nonatomic, copy) NSString* currentProfile;
 
@@ -58,13 +58,13 @@
 
 @property (nonatomic, assign) BOOL isMultitaskLoginDisabled;
 
-@property (nonatomic, retain) ENOAuthViewController *oauthViewController;
+@property (nonatomic, strong) ENOAuthViewController *oauthViewController;
 
-@property (nonatomic, retain) EDAMNoteStoreClient *noteStoreClient;
+@property (nonatomic, strong) EDAMNoteStoreClient *noteStoreClient;
 
-@property (nonatomic, retain) EDAMUserStoreClient *userStoreClient;
+@property (nonatomic, strong) EDAMUserStoreClient *userStoreClient;
 
-@property (nonatomic, retain) EDAMNoteStoreClient *businessNoteStoreClient;
+@property (nonatomic, strong) EDAMNoteStoreClient *businessNoteStoreClient;
 
 // generate a dictionary of name=>value from the given queryString
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString;
@@ -103,23 +103,7 @@
 
 - (void)dealloc
 {
-    [_viewController release];
-    [_consumerKey release];
-    [_consumerSecret release];
-    [_credentialStore release];
-    [_host release];
-    [_receivedData release];
-    [_response release];
-    [_tokenSecret release];
-    [_profiles release];
-    [_currentProfile release];
-    [_oauthViewController release];
     dispatch_release(_queue);
-    self.noteStoreClient = nil;
-    self.userStoreClient = nil;
-    self.businessNoteStoreClient = nil;
-    self.businessUser = nil;
-    [super dealloc];
 }
 
 - (id)init 
@@ -149,7 +133,7 @@
 {
     self.credentialStore = [ENCredentialStore loadCredentials];
     if (!self.credentialStore) {
-        self.credentialStore = [[[ENCredentialStore alloc] init] autorelease];
+        self.credentialStore = [[ENCredentialStore alloc] init];
         [self.credentialStore save];
     } 
     _queue = dispatch_queue_create("com.evernote.sdk.EvernoteSession", NULL);
@@ -261,9 +245,9 @@
 {
     if(!self.noteStoreClient) {
         NSURL *url = [NSURL URLWithString:[self credentials].noteStoreUrl];
-        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-        self.noteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+        THTTPClient *transport = [[THTTPClient alloc] initWithURL:url];
+        TBinaryProtocol *protocol = [[TBinaryProtocol alloc] initWithTransport:transport];
+        self.noteStoreClient = [[EDAMNoteStoreClient alloc] initWithProtocol:protocol];
     }
     return self.noteStoreClient;
 }
@@ -272,9 +256,9 @@
 {
     if(!self.userStoreClient) {
         NSURL *url = [NSURL URLWithString:[self userStoreUrl]];
-        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-        self.userStoreClient = [[[EDAMUserStoreClient alloc] initWithProtocol:protocol] autorelease];
+        THTTPClient *transport = [[THTTPClient alloc] initWithURL:url];
+        TBinaryProtocol *protocol = [[TBinaryProtocol alloc] initWithTransport:transport];
+        self.userStoreClient = [[EDAMUserStoreClient alloc] initWithProtocol:protocol];
     }
     return self.userStoreClient;
     
@@ -301,9 +285,9 @@
                                noteStoreUrl:[authResult noteStoreUrl]
                             webApiUrlPrefix:[authResult webApiUrlPrefix]
                         authenticationToken:[authResult authenticationToken]];
-        THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-        TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-        self.businessNoteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+        THTTPClient *transport = [[THTTPClient alloc] initWithURL:url];
+        TBinaryProtocol *protocol = [[TBinaryProtocol alloc] initWithTransport:transport];
+        self.businessNoteStoreClient = [[EDAMNoteStoreClient alloc] initWithProtocol:protocol];
     }
     return self.businessNoteStoreClient;
     
@@ -312,9 +296,9 @@
 - (EDAMNoteStoreClient *)noteStoreWithNoteStoreURL:(NSString*)noteStoreURL
 {
     NSURL *url = [NSURL URLWithString:noteStoreURL];
-    THTTPClient *transport = [[[THTTPClient alloc] initWithURL:url] autorelease];
-    TBinaryProtocol *protocol = [[[TBinaryProtocol alloc] initWithTransport:transport] autorelease];
-    EDAMNoteStoreClient* noteStoreClient = [[[EDAMNoteStoreClient alloc] initWithProtocol:protocol] autorelease];
+    THTTPClient *transport = [[THTTPClient alloc] initWithURL:url];
+    TBinaryProtocol *protocol = [[TBinaryProtocol alloc] initWithTransport:transport];
+    EDAMNoteStoreClient* noteStoreClient = [[EDAMNoteStoreClient alloc] initWithProtocol:protocol];
     return noteStoreClient;
 }
 
@@ -516,8 +500,8 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSString *string = [[[NSString alloc] initWithData:self.receivedData 
-                                              encoding:NSUTF8StringEncoding] autorelease];
+    NSString *string = [[NSString alloc] initWithData:self.receivedData 
+                                              encoding:NSUTF8StringEncoding];
 
     // Trap bad HTTP response status codes.
     // This might be from an invalid consumer key, a key not set up for OAuth, etc.
@@ -615,12 +599,12 @@
         isSwitchAllowed = NO;
     }
     if(!self.isSwitchingInProgress ) {
-        self.oauthViewController = [[[ENOAuthViewController alloc] initWithAuthorizationURL:authorizationURL
+        self.oauthViewController = [[ENOAuthViewController alloc] initWithAuthorizationURL:authorizationURL
                                                                                           oauthCallbackPrefix:[self oauthCallback]
                                                                                                   profileName:self.currentProfile
                                                                                                allowSwitching:isSwitchAllowed
-                                                                                                     delegate:self] autorelease];
-        UINavigationController *oauthNavController = [[[UINavigationController alloc] initWithRootViewController:self.oauthViewController] autorelease];
+                                                                                                     delegate:self];
+        UINavigationController *oauthNavController = [[UINavigationController alloc] initWithRootViewController:self.oauthViewController];
         
         // use a formsheet on iPad
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -641,11 +625,11 @@
                       webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken
 {
-    ENCredentials *ec = [[[ENCredentials alloc] initWithHost:self.host
+    ENCredentials *ec = [[ENCredentials alloc] initWithHost:self.host
                                                   edamUserId:edamUserId 
                                                 noteStoreUrl:noteStoreUrl 
                                              webApiUrlPrefix:webApiUrlPrefix
-                                         authenticationToken:authenticationToken] autorelease];
+                                         authenticationToken:authenticationToken];
     [self.credentialStore addCredentials:ec];
     if([self.currentProfile isEqualToString:ENBootstrapProfileNameChina]) {
         [ENCredentialStore saveCurrentProfile:EVERNOTE_SERVICE_YINXIANG];
@@ -660,11 +644,11 @@
                       webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken
 {
-    ENCredentials *ec = [[[ENCredentials alloc] initWithHost:[NSString stringWithFormat:@"%@%@",self.host,BusinessHostNameSuffix]
+    ENCredentials *ec = [[ENCredentials alloc] initWithHost:[NSString stringWithFormat:@"%@%@",self.host,BusinessHostNameSuffix]
                                                   edamUserId:edamUserId
                                                 noteStoreUrl:noteStoreUrl
                                              webApiUrlPrefix:webApiUrlPrefix
-                                         authenticationToken:authenticationToken] autorelease];
+                                         authenticationToken:authenticationToken];
     [self.credentialStore addCredentials:ec];
 }
 
@@ -723,7 +707,7 @@
 
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString 
 {
-    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     NSArray *nameValues = [queryString componentsSeparatedByString:@"&"];
     for (NSString *nameValue in nameValues) {
         NSArray *components = [nameValue componentsSeparatedByString:@"="];

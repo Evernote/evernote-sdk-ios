@@ -87,9 +87,9 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=bodyHash, setter=setBodyHash:) NSData * bodyHash;
+@property (nonatomic, strong, getter=bodyHash, setter=setBodyHash:) NSData * bodyHash;
 @property (nonatomic, getter=size, setter=setSize:) int32_t size;
-@property (nonatomic, retain, getter=body, setter=setBody:) NSData * body;
+@property (nonatomic, strong, getter=body, setter=setBody:) NSData * body;
 #endif
 
 - (id) init;
@@ -183,34 +183,34 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=defaultLocationName, setter=setDefaultLocationName:) NSString * defaultLocationName;
+@property (nonatomic, strong, getter=defaultLocationName, setter=setDefaultLocationName:) NSString * defaultLocationName;
 @property (nonatomic, getter=defaultLatitude, setter=setDefaultLatitude:) double defaultLatitude;
 @property (nonatomic, getter=defaultLongitude, setter=setDefaultLongitude:) double defaultLongitude;
 @property (nonatomic, getter=preactivation, setter=setPreactivation:) BOOL preactivation;
-@property (nonatomic, retain, getter=viewedPromotions, setter=setViewedPromotions:) NSMutableArray * viewedPromotions;
-@property (nonatomic, retain, getter=incomingEmailAddress, setter=setIncomingEmailAddress:) NSString * incomingEmailAddress;
-@property (nonatomic, retain, getter=recentMailedAddresses, setter=setRecentMailedAddresses:) NSMutableArray * recentMailedAddresses;
-@property (nonatomic, retain, getter=comments, setter=setComments:) NSString * comments;
+@property (nonatomic, strong, getter=viewedPromotions, setter=setViewedPromotions:) NSMutableArray * viewedPromotions;
+@property (nonatomic, strong, getter=incomingEmailAddress, setter=setIncomingEmailAddress:) NSString * incomingEmailAddress;
+@property (nonatomic, strong, getter=recentMailedAddresses, setter=setRecentMailedAddresses:) NSMutableArray * recentMailedAddresses;
+@property (nonatomic, strong, getter=comments, setter=setComments:) NSString * comments;
 @property (nonatomic, getter=dateAgreedToTermsOfService, setter=setDateAgreedToTermsOfService:) EDAMTimestamp dateAgreedToTermsOfService;
 @property (nonatomic, getter=maxReferrals, setter=setMaxReferrals:) int32_t maxReferrals;
 @property (nonatomic, getter=referralCount, setter=setReferralCount:) int32_t referralCount;
-@property (nonatomic, retain, getter=refererCode, setter=setRefererCode:) NSString * refererCode;
+@property (nonatomic, strong, getter=refererCode, setter=setRefererCode:) NSString * refererCode;
 @property (nonatomic, getter=sentEmailDate, setter=setSentEmailDate:) EDAMTimestamp sentEmailDate;
 @property (nonatomic, getter=sentEmailCount, setter=setSentEmailCount:) int32_t sentEmailCount;
 @property (nonatomic, getter=dailyEmailLimit, setter=setDailyEmailLimit:) int32_t dailyEmailLimit;
 @property (nonatomic, getter=emailOptOutDate, setter=setEmailOptOutDate:) EDAMTimestamp emailOptOutDate;
 @property (nonatomic, getter=partnerEmailOptInDate, setter=setPartnerEmailOptInDate:) EDAMTimestamp partnerEmailOptInDate;
-@property (nonatomic, retain, getter=preferredLanguage, setter=setPreferredLanguage:) NSString * preferredLanguage;
-@property (nonatomic, retain, getter=preferredCountry, setter=setPreferredCountry:) NSString * preferredCountry;
+@property (nonatomic, strong, getter=preferredLanguage, setter=setPreferredLanguage:) NSString * preferredLanguage;
+@property (nonatomic, strong, getter=preferredCountry, setter=setPreferredCountry:) NSString * preferredCountry;
 @property (nonatomic, getter=clipFullPage, setter=setClipFullPage:) BOOL clipFullPage;
-@property (nonatomic, retain, getter=twitterUserName, setter=setTwitterUserName:) NSString * twitterUserName;
-@property (nonatomic, retain, getter=twitterId, setter=setTwitterId:) NSString * twitterId;
-@property (nonatomic, retain, getter=groupName, setter=setGroupName:) NSString * groupName;
-@property (nonatomic, retain, getter=recognitionLanguage, setter=setRecognitionLanguage:) NSString * recognitionLanguage;
+@property (nonatomic, strong, getter=twitterUserName, setter=setTwitterUserName:) NSString * twitterUserName;
+@property (nonatomic, strong, getter=twitterId, setter=setTwitterId:) NSString * twitterId;
+@property (nonatomic, strong, getter=groupName, setter=setGroupName:) NSString * groupName;
+@property (nonatomic, strong, getter=recognitionLanguage, setter=setRecognitionLanguage:) NSString * recognitionLanguage;
 @property (nonatomic, getter=customerProfileId, setter=setCustomerProfileId:) int64_t customerProfileId;
-@property (nonatomic, retain, getter=referralProof, setter=setReferralProof:) NSString * referralProof;
+@property (nonatomic, strong, getter=referralProof, setter=setReferralProof:) NSString * referralProof;
 @property (nonatomic, getter=educationalDiscount, setter=setEducationalDiscount:) BOOL educationalDiscount;
-@property (nonatomic, retain, getter=businessAddress, setter=setBusinessAddress:) NSString * businessAddress;
+@property (nonatomic, strong, getter=businessAddress, setter=setBusinessAddress:) NSString * businessAddress;
 @property (nonatomic, getter=hideSponsorBilling, setter=setHideSponsorBilling:) BOOL hideSponsorBilling;
 @property (nonatomic, getter=taxExempt, setter=setTaxExempt:) BOOL taxExempt;
 #endif
@@ -454,22 +454,22 @@ typedef int64_t EDAMTimestamp;
 @property (nonatomic, getter=uploadLimitEnd, setter=setUploadLimitEnd:) EDAMTimestamp uploadLimitEnd;
 @property (nonatomic, getter=uploadLimitNextMonth, setter=setUploadLimitNextMonth:) int64_t uploadLimitNextMonth;
 @property (nonatomic, getter=premiumServiceStatus, setter=setPremiumServiceStatus:) int premiumServiceStatus;
-@property (nonatomic, retain, getter=premiumOrderNumber, setter=setPremiumOrderNumber:) NSString * premiumOrderNumber;
-@property (nonatomic, retain, getter=premiumCommerceService, setter=setPremiumCommerceService:) NSString * premiumCommerceService;
+@property (nonatomic, strong, getter=premiumOrderNumber, setter=setPremiumOrderNumber:) NSString * premiumOrderNumber;
+@property (nonatomic, strong, getter=premiumCommerceService, setter=setPremiumCommerceService:) NSString * premiumCommerceService;
 @property (nonatomic, getter=premiumServiceStart, setter=setPremiumServiceStart:) EDAMTimestamp premiumServiceStart;
-@property (nonatomic, retain, getter=premiumServiceSKU, setter=setPremiumServiceSKU:) NSString * premiumServiceSKU;
+@property (nonatomic, strong, getter=premiumServiceSKU, setter=setPremiumServiceSKU:) NSString * premiumServiceSKU;
 @property (nonatomic, getter=lastSuccessfulCharge, setter=setLastSuccessfulCharge:) EDAMTimestamp lastSuccessfulCharge;
 @property (nonatomic, getter=lastFailedCharge, setter=setLastFailedCharge:) EDAMTimestamp lastFailedCharge;
-@property (nonatomic, retain, getter=lastFailedChargeReason, setter=setLastFailedChargeReason:) NSString * lastFailedChargeReason;
+@property (nonatomic, strong, getter=lastFailedChargeReason, setter=setLastFailedChargeReason:) NSString * lastFailedChargeReason;
 @property (nonatomic, getter=nextPaymentDue, setter=setNextPaymentDue:) EDAMTimestamp nextPaymentDue;
 @property (nonatomic, getter=premiumLockUntil, setter=setPremiumLockUntil:) EDAMTimestamp premiumLockUntil;
 @property (nonatomic, getter=updated, setter=setUpdated:) EDAMTimestamp updated;
-@property (nonatomic, retain, getter=premiumSubscriptionNumber, setter=setPremiumSubscriptionNumber:) NSString * premiumSubscriptionNumber;
+@property (nonatomic, strong, getter=premiumSubscriptionNumber, setter=setPremiumSubscriptionNumber:) NSString * premiumSubscriptionNumber;
 @property (nonatomic, getter=lastRequestedCharge, setter=setLastRequestedCharge:) EDAMTimestamp lastRequestedCharge;
-@property (nonatomic, retain, getter=currency, setter=setCurrency:) NSString * currency;
+@property (nonatomic, strong, getter=currency, setter=setCurrency:) NSString * currency;
 @property (nonatomic, getter=unitPrice, setter=setUnitPrice:) int32_t unitPrice;
 @property (nonatomic, getter=businessId, setter=setBusinessId:) int32_t businessId;
-@property (nonatomic, retain, getter=businessName, setter=setBusinessName:) NSString * businessName;
+@property (nonatomic, strong, getter=businessName, setter=setBusinessName:) NSString * businessName;
 @property (nonatomic, getter=businessRole, setter=setBusinessRole:) int businessRole;
 #endif
 
@@ -640,7 +640,7 @@ typedef int64_t EDAMTimestamp;
 @property (nonatomic, getter=premiumPending, setter=setPremiumPending:) BOOL premiumPending;
 @property (nonatomic, getter=premiumCancellationPending, setter=setPremiumCancellationPending:) BOOL premiumCancellationPending;
 @property (nonatomic, getter=canPurchaseUploadAllowance, setter=setCanPurchaseUploadAllowance:) BOOL canPurchaseUploadAllowance;
-@property (nonatomic, retain, getter=sponsoredGroupName, setter=setSponsoredGroupName:) NSString * sponsoredGroupName;
+@property (nonatomic, strong, getter=sponsoredGroupName, setter=setSponsoredGroupName:) NSString * sponsoredGroupName;
 @property (nonatomic, getter=sponsoredGroupRole, setter=setSponsoredGroupRole:) int sponsoredGroupRole;
 #endif
 
@@ -746,19 +746,19 @@ typedef int64_t EDAMTimestamp;
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) EDAMUserID id;
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
-@property (nonatomic, retain, getter=email, setter=setEmail:) NSString * email;
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, retain, getter=timezone, setter=setTimezone:) NSString * timezone;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=email, setter=setEmail:) NSString * email;
+@property (nonatomic, strong, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, strong, getter=timezone, setter=setTimezone:) NSString * timezone;
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
 @property (nonatomic, getter=created, setter=setCreated:) EDAMTimestamp created;
 @property (nonatomic, getter=updated, setter=setUpdated:) EDAMTimestamp updated;
 @property (nonatomic, getter=deleted, setter=setDeleted:) EDAMTimestamp deleted;
 @property (nonatomic, getter=active, setter=setActive:) BOOL active;
-@property (nonatomic, retain, getter=shardId, setter=setShardId:) NSString * shardId;
-@property (nonatomic, retain, getter=attributes, setter=setAttributes:) EDAMUserAttributes * attributes;
-@property (nonatomic, retain, getter=accounting, setter=setAccounting:) EDAMAccounting * accounting;
-@property (nonatomic, retain, getter=premiumInfo, setter=setPremiumInfo:) EDAMPremiumInfo * premiumInfo;
+@property (nonatomic, strong, getter=shardId, setter=setShardId:) NSString * shardId;
+@property (nonatomic, strong, getter=attributes, setter=setAttributes:) EDAMUserAttributes * attributes;
+@property (nonatomic, strong, getter=accounting, setter=setAccounting:) EDAMAccounting * accounting;
+@property (nonatomic, strong, getter=premiumInfo, setter=setPremiumInfo:) EDAMPremiumInfo * premiumInfo;
 #endif
 
 - (id) init;
@@ -866,9 +866,9 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, retain, getter=parentGuid, setter=setParentGuid:) EDAMGuid parentGuid;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, strong, getter=parentGuid, setter=setParentGuid:) EDAMGuid parentGuid;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
 #endif
 
@@ -913,8 +913,8 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=keysOnly, setter=setKeysOnly:) NSMutableSet * keysOnly;
-@property (nonatomic, retain, getter=fullMap, setter=setFullMap:) NSMutableDictionary * fullMap;
+@property (nonatomic, strong, getter=keysOnly, setter=setKeysOnly:) NSMutableSet * keysOnly;
+@property (nonatomic, strong, getter=fullMap, setter=setFullMap:) NSMutableDictionary * fullMap;
 #endif
 
 - (id) init;
@@ -966,18 +966,18 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=sourceURL, setter=setSourceURL:) NSString * sourceURL;
+@property (nonatomic, strong, getter=sourceURL, setter=setSourceURL:) NSString * sourceURL;
 @property (nonatomic, getter=timestamp, setter=setTimestamp:) EDAMTimestamp timestamp;
 @property (nonatomic, getter=latitude, setter=setLatitude:) double latitude;
 @property (nonatomic, getter=longitude, setter=setLongitude:) double longitude;
 @property (nonatomic, getter=altitude, setter=setAltitude:) double altitude;
-@property (nonatomic, retain, getter=cameraMake, setter=setCameraMake:) NSString * cameraMake;
-@property (nonatomic, retain, getter=cameraModel, setter=setCameraModel:) NSString * cameraModel;
+@property (nonatomic, strong, getter=cameraMake, setter=setCameraMake:) NSString * cameraMake;
+@property (nonatomic, strong, getter=cameraModel, setter=setCameraModel:) NSString * cameraModel;
 @property (nonatomic, getter=clientWillIndex, setter=setClientWillIndex:) BOOL clientWillIndex;
-@property (nonatomic, retain, getter=recoType, setter=setRecoType:) NSString * recoType;
-@property (nonatomic, retain, getter=fileName, setter=setFileName:) NSString * fileName;
+@property (nonatomic, strong, getter=recoType, setter=setRecoType:) NSString * recoType;
+@property (nonatomic, strong, getter=fileName, setter=setFileName:) NSString * fileName;
 @property (nonatomic, getter=attachment, setter=setAttachment:) BOOL attachment;
-@property (nonatomic, retain, getter=applicationData, setter=setApplicationData:) EDAMLazyMap * applicationData;
+@property (nonatomic, strong, getter=applicationData, setter=setApplicationData:) EDAMLazyMap * applicationData;
 #endif
 
 - (id) init;
@@ -1089,18 +1089,18 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=noteGuid, setter=setNoteGuid:) EDAMGuid noteGuid;
-@property (nonatomic, retain, getter=data, setter=setData:) EDAMData * data;
-@property (nonatomic, retain, getter=mime, setter=setMime:) NSString * mime;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=noteGuid, setter=setNoteGuid:) EDAMGuid noteGuid;
+@property (nonatomic, strong, getter=data, setter=setData:) EDAMData * data;
+@property (nonatomic, strong, getter=mime, setter=setMime:) NSString * mime;
 @property (nonatomic, getter=width, setter=setWidth:) int16_t width;
 @property (nonatomic, getter=height, setter=setHeight:) int16_t height;
 @property (nonatomic, getter=duration, setter=setDuration:) int16_t duration;
 @property (nonatomic, getter=active, setter=setActive:) BOOL active;
-@property (nonatomic, retain, getter=recognition, setter=setRecognition:) EDAMData * recognition;
-@property (nonatomic, retain, getter=attributes, setter=setAttributes:) EDAMResourceAttributes * attributes;
+@property (nonatomic, strong, getter=recognition, setter=setRecognition:) EDAMData * recognition;
+@property (nonatomic, strong, getter=attributes, setter=setAttributes:) EDAMResourceAttributes * attributes;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
-@property (nonatomic, retain, getter=alternateData, setter=setAlternateData:) EDAMData * alternateData;
+@property (nonatomic, strong, getter=alternateData, setter=setAlternateData:) EDAMData * alternateData;
 #endif
 
 - (id) init;
@@ -1220,16 +1220,16 @@ typedef int64_t EDAMTimestamp;
 @property (nonatomic, getter=latitude, setter=setLatitude:) double latitude;
 @property (nonatomic, getter=longitude, setter=setLongitude:) double longitude;
 @property (nonatomic, getter=altitude, setter=setAltitude:) double altitude;
-@property (nonatomic, retain, getter=author, setter=setAuthor:) NSString * author;
-@property (nonatomic, retain, getter=source, setter=setSource:) NSString * source;
-@property (nonatomic, retain, getter=sourceURL, setter=setSourceURL:) NSString * sourceURL;
-@property (nonatomic, retain, getter=sourceApplication, setter=setSourceApplication:) NSString * sourceApplication;
+@property (nonatomic, strong, getter=author, setter=setAuthor:) NSString * author;
+@property (nonatomic, strong, getter=source, setter=setSource:) NSString * source;
+@property (nonatomic, strong, getter=sourceURL, setter=setSourceURL:) NSString * sourceURL;
+@property (nonatomic, strong, getter=sourceApplication, setter=setSourceApplication:) NSString * sourceApplication;
 @property (nonatomic, getter=shareDate, setter=setShareDate:) EDAMTimestamp shareDate;
-@property (nonatomic, retain, getter=placeName, setter=setPlaceName:) NSString * placeName;
-@property (nonatomic, retain, getter=contentClass, setter=setContentClass:) NSString * contentClass;
-@property (nonatomic, retain, getter=applicationData, setter=setApplicationData:) EDAMLazyMap * applicationData;
-@property (nonatomic, retain, getter=lastEditedBy, setter=setLastEditedBy:) NSString * lastEditedBy;
-@property (nonatomic, retain, getter=classifications, setter=setClassifications:) NSMutableDictionary * classifications;
+@property (nonatomic, strong, getter=placeName, setter=setPlaceName:) NSString * placeName;
+@property (nonatomic, strong, getter=contentClass, setter=setContentClass:) NSString * contentClass;
+@property (nonatomic, strong, getter=applicationData, setter=setApplicationData:) EDAMLazyMap * applicationData;
+@property (nonatomic, strong, getter=lastEditedBy, setter=setLastEditedBy:) NSString * lastEditedBy;
+@property (nonatomic, strong, getter=classifications, setter=setClassifications:) NSMutableDictionary * classifications;
 #endif
 
 - (id) init;
@@ -1359,21 +1359,21 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=title, setter=setTitle:) NSString * title;
-@property (nonatomic, retain, getter=content, setter=setContent:) NSString * content;
-@property (nonatomic, retain, getter=contentHash, setter=setContentHash:) NSData * contentHash;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=title, setter=setTitle:) NSString * title;
+@property (nonatomic, strong, getter=content, setter=setContent:) NSString * content;
+@property (nonatomic, strong, getter=contentHash, setter=setContentHash:) NSData * contentHash;
 @property (nonatomic, getter=contentLength, setter=setContentLength:) int32_t contentLength;
 @property (nonatomic, getter=created, setter=setCreated:) EDAMTimestamp created;
 @property (nonatomic, getter=updated, setter=setUpdated:) EDAMTimestamp updated;
 @property (nonatomic, getter=deleted, setter=setDeleted:) EDAMTimestamp deleted;
 @property (nonatomic, getter=active, setter=setActive:) BOOL active;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
-@property (nonatomic, retain, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
-@property (nonatomic, retain, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
-@property (nonatomic, retain, getter=resources, setter=setResources:) NSMutableArray * resources;
-@property (nonatomic, retain, getter=attributes, setter=setAttributes:) EDAMNoteAttributes * attributes;
-@property (nonatomic, retain, getter=tagNames, setter=setTagNames:) NSMutableArray * tagNames;
+@property (nonatomic, strong, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
+@property (nonatomic, strong, getter=tagGuids, setter=setTagGuids:) NSMutableArray * tagGuids;
+@property (nonatomic, strong, getter=resources, setter=setResources:) NSMutableArray * resources;
+@property (nonatomic, strong, getter=attributes, setter=setAttributes:) EDAMNoteAttributes * attributes;
+@property (nonatomic, strong, getter=tagNames, setter=setTagNames:) NSMutableArray * tagNames;
 #endif
 
 - (id) init;
@@ -1487,10 +1487,10 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=uri, setter=setUri:) NSString * uri;
+@property (nonatomic, strong, getter=uri, setter=setUri:) NSString * uri;
 @property (nonatomic, getter=order, setter=setOrder:) int order;
 @property (nonatomic, getter=ascending, setter=setAscending:) BOOL ascending;
-@property (nonatomic, retain, getter=publicDescription, setter=setPublicDescription:) NSString * publicDescription;
+@property (nonatomic, strong, getter=publicDescription, setter=setPublicDescription:) NSString * publicDescription;
 #endif
 
 - (id) init;
@@ -1536,7 +1536,7 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=notebookDescription, setter=setNotebookDescription:) NSString * notebookDescription;
+@property (nonatomic, strong, getter=notebookDescription, setter=setNotebookDescription:) NSString * notebookDescription;
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
 @property (nonatomic, getter=recommended, setter=setRecommended:) BOOL recommended;
 #endif
@@ -1582,9 +1582,9 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
-@property (nonatomic, retain, getter=query, setter=setQuery:) NSString * query;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, strong, getter=query, setter=setQuery:) NSString * query;
 @property (nonatomic, getter=format, setter=setFormat:) int format;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
 #endif
@@ -1658,14 +1658,14 @@ typedef int64_t EDAMTimestamp;
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, getter=id, setter=setId:) int64_t id;
 @property (nonatomic, getter=userId, setter=setUserId:) int32_t userId;
-@property (nonatomic, retain, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
-@property (nonatomic, retain, getter=email, setter=setEmail:) NSString * email;
+@property (nonatomic, strong, getter=notebookGuid, setter=setNotebookGuid:) NSString * notebookGuid;
+@property (nonatomic, strong, getter=email, setter=setEmail:) NSString * email;
 @property (nonatomic, getter=notebookModifiable, setter=setNotebookModifiable:) BOOL notebookModifiable;
 @property (nonatomic, getter=requireLogin, setter=setRequireLogin:) BOOL requireLogin;
 @property (nonatomic, getter=serviceCreated, setter=setServiceCreated:) EDAMTimestamp serviceCreated;
 @property (nonatomic, getter=serviceUpdated, setter=setServiceUpdated:) EDAMTimestamp serviceUpdated;
-@property (nonatomic, retain, getter=shareKey, setter=setShareKey:) NSString * shareKey;
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=shareKey, setter=setShareKey:) NSString * shareKey;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
 @property (nonatomic, getter=allowPreview, setter=setAllowPreview:) BOOL allowPreview;
 #endif
@@ -1978,20 +1978,20 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=name, setter=setName:) NSString * name;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=name, setter=setName:) NSString * name;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
 @property (nonatomic, getter=defaultNotebook, setter=setDefaultNotebook:) BOOL defaultNotebook;
 @property (nonatomic, getter=serviceCreated, setter=setServiceCreated:) EDAMTimestamp serviceCreated;
 @property (nonatomic, getter=serviceUpdated, setter=setServiceUpdated:) EDAMTimestamp serviceUpdated;
-@property (nonatomic, retain, getter=publishing, setter=setPublishing:) EDAMPublishing * publishing;
+@property (nonatomic, strong, getter=publishing, setter=setPublishing:) EDAMPublishing * publishing;
 @property (nonatomic, getter=published, setter=setPublished:) BOOL published;
-@property (nonatomic, retain, getter=stack, setter=setStack:) NSString * stack;
-@property (nonatomic, retain, getter=sharedNotebookIds, setter=setSharedNotebookIds:) NSMutableArray * sharedNotebookIds;
-@property (nonatomic, retain, getter=sharedNotebooks, setter=setSharedNotebooks:) NSMutableArray * sharedNotebooks;
-@property (nonatomic, retain, getter=businessNotebook, setter=setBusinessNotebook:) EDAMBusinessNotebook * businessNotebook;
-@property (nonatomic, retain, getter=contact, setter=setContact:) EDAMUser * contact;
-@property (nonatomic, retain, getter=restrictions, setter=setRestrictions:) EDAMNotebookRestrictions * restrictions;
+@property (nonatomic, strong, getter=stack, setter=setStack:) NSString * stack;
+@property (nonatomic, strong, getter=sharedNotebookIds, setter=setSharedNotebookIds:) NSMutableArray * sharedNotebookIds;
+@property (nonatomic, strong, getter=sharedNotebooks, setter=setSharedNotebooks:) NSMutableArray * sharedNotebooks;
+@property (nonatomic, strong, getter=businessNotebook, setter=setBusinessNotebook:) EDAMBusinessNotebook * businessNotebook;
+@property (nonatomic, strong, getter=contact, setter=setContact:) EDAMUser * contact;
+@property (nonatomic, strong, getter=restrictions, setter=setRestrictions:) EDAMNotebookRestrictions * restrictions;
 #endif
 
 - (id) init;
@@ -2113,16 +2113,16 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=shareName, setter=setShareName:) NSString * shareName;
-@property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
-@property (nonatomic, retain, getter=shardId, setter=setShardId:) NSString * shardId;
-@property (nonatomic, retain, getter=shareKey, setter=setShareKey:) NSString * shareKey;
-@property (nonatomic, retain, getter=uri, setter=setUri:) NSString * uri;
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=shareName, setter=setShareName:) NSString * shareName;
+@property (nonatomic, strong, getter=username, setter=setUsername:) NSString * username;
+@property (nonatomic, strong, getter=shardId, setter=setShardId:) NSString * shardId;
+@property (nonatomic, strong, getter=shareKey, setter=setShareKey:) NSString * shareKey;
+@property (nonatomic, strong, getter=uri, setter=setUri:) NSString * uri;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
 @property (nonatomic, getter=updateSequenceNum, setter=setUpdateSequenceNum:) int32_t updateSequenceNum;
-@property (nonatomic, retain, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
-@property (nonatomic, retain, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
-@property (nonatomic, retain, getter=stack, setter=setStack:) NSString * stack;
+@property (nonatomic, strong, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
+@property (nonatomic, strong, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
+@property (nonatomic, strong, getter=stack, setter=setStack:) NSString * stack;
 @property (nonatomic, getter=businessId, setter=setBusinessId:) int32_t businessId;
 #endif
 
@@ -2215,9 +2215,9 @@ typedef int64_t EDAMTimestamp;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
-@property (nonatomic, retain, getter=guid, setter=setGuid:) EDAMGuid guid;
-@property (nonatomic, retain, getter=notebookDisplayName, setter=setNotebookDisplayName:) NSString * notebookDisplayName;
-@property (nonatomic, retain, getter=contactName, setter=setContactName:) NSString * contactName;
+@property (nonatomic, strong, getter=guid, setter=setGuid:) EDAMGuid guid;
+@property (nonatomic, strong, getter=notebookDisplayName, setter=setNotebookDisplayName:) NSString * notebookDisplayName;
+@property (nonatomic, strong, getter=contactName, setter=setContactName:) NSString * contactName;
 @property (nonatomic, getter=hasSharedNotebook, setter=setHasSharedNotebook:) BOOL hasSharedNotebook;
 @property (nonatomic, getter=joinedUserCount, setter=setJoinedUserCount:) int32_t joinedUserCount;
 #endif
