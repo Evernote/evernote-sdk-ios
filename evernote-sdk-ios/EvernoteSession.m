@@ -421,7 +421,7 @@
 - (NSString *)callbackScheme
 {
     // The callback scheme is client-app specific, of the form en-CONSUMERKEY
-    return [NSString stringWithFormat:@"en-%@", self.consumerKey];
+    return [NSString stringWithFormat:@"en-%@", [self.consumerKey stringByReplacingOccurrencesOfString:@"_" withString:@"+"]];
 }
 
 - (NSString *)oauthCallback
