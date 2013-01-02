@@ -31,18 +31,11 @@
 
 @implementation NSDate (EDAMAdditions)
 
-/**
- * Convert an edam timestamp to an NSDate
- */
 + (NSDate *) dateFromEDAMTimestamp: (int64_t) edamTimestamp
 {
     return [NSDate dateWithTimeIntervalSince1970: ((double)edamTimestamp)/1000.0];
 }
 
-
-/**
- * Convert an NSDate to an edam timestamp
- */
 - (int64_t) edamTimestamp
 {
     return trunc([self timeIntervalSince1970]) * 1000;

@@ -29,15 +29,19 @@
 
 #import <Foundation/Foundation.h>
 
+/** Extra methods on `NSData` to deal with Evernote API data.
+ */
 @interface NSData (EvernoteSDK)
 
-/**
- * MD5 hash of the receiver
+/** MD5 hash of the receiver
+ 
+ @returns The MD5 hash
  */
 - (NSData *) md5;
 
-/**
- * hex representation of data (used in ENML media)
+/** hex representation of data (used in ENML media)
+ 
+ @returns The hex representation in lower case
  */
 - (NSString *) lowercaseHexDigits;
 

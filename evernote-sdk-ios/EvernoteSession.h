@@ -14,7 +14,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright notice, 
  *    this list of conditions and the following disclaimer in the documentation 
  *    and/or other materials provided with the distribution.
- *  
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
@@ -33,18 +33,28 @@
 
 // For Evernote-related error codes, see EDAMErrors.h
 
-// Post-authentication callback type, defined for easy reuse.
+/**
+ * Post authentication callback.
+ 
+ @param error The error after authentication. It is nil if the authentication is successfull.
+ */
 typedef void (^EvernoteAuthCompletionHandler)(NSError *error);
 
+/**
+ * Service options.
+ */
 typedef enum {
+    /** No service */
     EVERNOTE_SERVICE_NONE = 0,
+    /** Evernote international only */
     EVERNOTE_SERVICE_INTERNATIONAL = 1,
+    /** Evernote China only */
     EVERNOTE_SERVICE_YINXIANG = 2,
+    /** Evernote international and China services */
     EVERNOTE_SERVICE_BOTH = 3
 } EvernoteService;
 
-/*
- * Evernote Session, using OAuth to authenticate.
+/** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
 @interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate>
 
@@ -53,40 +63,50 @@ typedef enum {
 @property (nonatomic, copy) NSString *consumerSecret;
 @property (nonatomic, assign) EvernoteService serviceType;
 
-// Are we authenticated?
+///---------------------------------------------------------------------------------------
+/// @name Session data
+///---------------------------------------------------------------------------------------
+
+/** Determines whether this session is authenticated or not. */
 @property (nonatomic, readonly) BOOL isAuthenticated;
 
-// Evernote auth token, to be passed to any NoteStore methods.
-// Will only be non-nil once we've authenticated.
+/** Evernote auth token, to be passed to any NoteStore methods. Will only be non-nil once we've authenticated. */
 @property (weak, nonatomic, readonly) NSString *authenticationToken;
 
-// Evernote auth token, to be passed to any NoteStore methods.
-// Will only be non-nil once we've authenticated.
+/** Evernote auth token for Business, to be passed to any NoteStore methods. Will only be non-nil once we've authenticated. */
 @property (weak, nonatomic, readonly) NSString *businessAuthenticationToken;
 
-// URL for the Evernote UserStore.
+/** URL for the Evernote UserStore. */
 @property (weak, nonatomic, readonly) NSString *userStoreUrl;
 
-// URL for the Evernote NoteStore for the authenticated user.
-// Will only be non-nil once we've authenticated.
+/** URL for the Evernote NoteStore for the authenticated user. Will only be non-nil once we've authenticated. */
 @property (weak, nonatomic, readonly) NSString *noteStoreUrl;
 
-// URL prefix for the web API.
-// Will only be non-nil once we've authenticated.
+/** URL prefix for the web API. Will only be non-nil once we've authenticated. */
 @property (weak, nonatomic, readonly) NSString *webApiUrlPrefix;
 
-// Shared dispatch queue for API operations.
+/** Shared dispatch queue for API operations. */
 @property (nonatomic, readonly) dispatch_queue_t queue;
 
-// Bootstrap profiles
+/** All the bootstrap profiles for the user. */
 @property (nonatomic, strong) NSArray* profiles;
 
-// Business user info.
+/** The business user object. */
 @property (nonatomic,strong) EDAMUser* businessUser;
 
-// Set up the shared session.
-// @"sandbox.evernote.com" should be used for testing; 
-// @"www.evernote.com" for production apps.
+///---------------------------------------------------------------------------------------
+/// @name Session handling
+///---------------------------------------------------------------------------------------
+
+/** Set up the shared session.
+ 
+ This should be called as soon as the application is ready to run.
+ 
+ @param host The server URL. "sandbox.evernote.com" should be used for testing ."www.evernote.com" for production apps.
+ @param consumerKey The consumer key. Get your consumer key [here](http://dev.evernote.com/documentation/cloud/).
+ @param consumerSecret The consumer secret.
+ @param service What services supported by the application.
+ */
 + (void)setSharedSessionHost:(NSString *)host 
                  consumerKey:(NSString *)consumerKey 
               consumerSecret:(NSString *)consumerSecret
@@ -99,36 +119,71 @@ typedef enum {
               consumerSecret:(NSString *)consumerSecret DEPRECATED_ATTRIBUTE;
 
 
-// Get the singleton shared session.
+/**
+ * Get the singleton shared session.
+ @return Returns the singleton session object.
+ */
 + (EvernoteSession *)sharedSession;
 
-//  Got the token from the Evernote app
+/** Got the token from the Evernote app.
+ 
+ This is called internally, the application should not be calling this function under normal circumstances.
+ 
+ @param callback The callback URL after authentication.
+*/
 - (void)gotCallbackURL:(NSString*)callback;
 
-// Authenticate, calling the given handler upon completion.
+/** Authenticate, calling the given handler upon completion.
+ 
+ This should be called to kick off the authentication process with Evernote. 
+ 
+ @param viewController The view controller that should be used to present the authentication view
+ @param completionHandler This block will be called once the authentication process is completed with sucess or failure.
+*/
 - (void)authenticateWithViewController:(UIViewController *)viewController
                      completionHandler:(EvernoteAuthCompletionHandler)completionHandler;
 
-// Clear authentication.
+/** Logout and clear authentication.
+ 
+ This will clear all the cookies as well.
+ */
 - (void)logout;
 
-// Create a new UserStore client for EDAM calls.
-// May throw NSException.
-// This object is NOT threadsafe.
+///---------------------------------------------------------------------------------------
+/// @name Accessing user and notes data
+///---------------------------------------------------------------------------------------
+
+/** Create a new UserStore client for EDAM calls.
+ 
+ This lets you make API calls to get information about the user. This function may throw an NSException. The returned object is NOT thread safe. 
+ 
+ @return Returns the user store client.
+ */
 - (EDAMUserStoreClient *)userStore;
 
-// Create a new NoteStore client for EDAM calls.
-// May throw NSException.
-// This object is NOT threadsafe.
+/** Create a new NoteStore client for EDAM calls.
+ 
+ This lets you make API calls for all the data. This function may throw an NSException. The returned object is NOT thread safe. 
+ 
+ @return Returns the note store client.
+ */
 - (EDAMNoteStoreClient *)noteStore;
 
-// Create a new NoteStore client for EDAM calls on the Business note store.
-// May throw NSException.
-// This object is NOT threadsafe.
+/** Create a new NoteStore client for EDAM calls.
+ 
+ This lets you make API calls for all the data in the user's business account. This also handles authentication to business, as long as the Evernote session is authenticated. This function may throw an NSException. The returned object is NOT thread safe. 
+ 
+ @return Returns the note store client.
+ */
 - (EDAMNoteStoreClient *)businessNoteStore;
 
-// May throw NSException.
-// This object is NOT threadsafe.
+/** Create a new NoteStore client for EDAM calls.
+ 
+ This lets you make API calls for all the data. This function may throw an NSException. The returned object is NOT thread safe.
+ 
+ @param noteStoreURL The URL of the note store.
+ @return Returns the note store client.
+ */
 - (EDAMNoteStoreClient *)noteStoreWithNoteStoreURL:(NSString*)noteStoreURL;
 
 // Abstracted into a method to support unit testing.
@@ -146,7 +201,12 @@ typedef enum {
                       webApiUrlPrefix:(NSString *)webApiUrlPrefix
                   authenticationToken:(NSString *)authenticationToken;
 
-// Update the boostrap profile to the specified one
+/** Change the bootstrap profile. 
+ 
+ This is only used by the Authentication flow and should not be called the the application.
+ 
+ @param aProfileName The name of the profile to be switched to.
+*/
 - (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName;
 
 @end

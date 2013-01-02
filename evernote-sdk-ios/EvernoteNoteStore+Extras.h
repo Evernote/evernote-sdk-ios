@@ -29,10 +29,24 @@
 
 #import "EvernoteNoteStore.h"
 
+/** Some utility functions for the Evernote NoteStore, which makes it easier to use Business API's and Shared Note API's.
+ */
 @interface EvernoteNoteStore (Extras)
 
 #pragma mark - Shared notes
+///---------------------------------------------------------------------------------------
+/// @name NoteStore convenience methods for shared notes
+///---------------------------------------------------------------------------------------
 
+/** Asks the NoteStore to all the notes in the given linked notebook.
+ 
+ This is a utility function that makes it easier to access notes in the linked notebooks. Internally, it does the authentication(to the linked notebook) for you.
+ 
+ @param linkedNotebook The linked notebook, this can be retrieved using listLinkedNotebooksWithSuccess:failure: or createLinkedNotebook:success:failure:
+ @param filter The filter to be used
+ @param success Success completion block.
+ @param failure Failure completion block.
+*/
 - (void)listNotesForLinkedNotebook:(EDAMLinkedNotebook*)linkedNotebook
                               withFilter:(EDAMNoteFilter *)filter
                                  success:(void(^)(EDAMNoteList *list))success
@@ -40,35 +54,73 @@
 
 #pragma mark - Evernote Business Notebooks
 
-// List all the business notebooks in a users account
+///---------------------------------------------------------------------------------------
+/// @name NoteStore convenience methods for Evernote Business
+///---------------------------------------------------------------------------------------
+
+/** List all the business notebooks in a users account.
+ 
+ This is a utility function that makes it easier to access all the business notebooks. Internally, it does the authentication to Business for you.
+ 
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)listBusinessNotebooksWithSuccess:(void(^)(NSArray *linkedNotebooks))success
                                  failure:(void(^)(NSError *error))failure;
 
-// Create a new business notebook
+/** Create a new business notebook.
+ 
+ This is a utility function that makes it easier to create a new Business notebook. Internally, it does the authentication to Business for you.
+ 
+ @param notebook Details on the business notebook to be created.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)createBusinessNotebook:(EDAMNotebook *)notebook
                        success:(void(^)(EDAMLinkedNotebook *notebook))success
                        failure:(void(^)(NSError *error))failure;
 
-// Remove a business notebook from a users account
+/** Remove a business notebook from a users account.
+ 
+ This is a utility function that makes it easier to create a new Business notebook. Internally, it does the authentication to Business for you.
+ 
+ @param notebook Details on the business notebook to be removed.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)deleteBusinessNotebook:(EDAMLinkedNotebook *)notebook
                         success:(void(^)(int32_t usn))success
                         failure:(void(^)(NSError *error))failure;
 
-// Get the corresponding Notebook, given a Linked Notebook
+/** Get the corresponding Notebook, given a Linked Notebook
+ 
+ @param notebook Details on the linked notebook, for which you need a notebook.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)getCorrespondingNotebookForBusinessNotebook:(EDAMLinkedNotebook *)notebook
                                             success:(void(^)(EDAMNotebook *notebook))success
                                             failure:(void(^)(NSError *error))failure;
 
 #pragma mark - Evernote Business Notes
-
-// Create a new business note (has be in an existing business notebook)
+/** Create a new business note (has be in an existing business notebook)
+ 
+ @param note Details on the business note to be created.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)createBusinessNote:(EDAMNote *)note
            success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure;
 
 #pragma mark - Evernote Business Tags
 
-// Create a tag 
+/** Create a new business tag 
+ 
+ @param tag Details on the business tag to be created.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)createBusinessTag:(EDAMTag *)tag
                   success:(void(^)(EDAMTag *tag))success
                   failure:(void(^)(NSError *error))failure;

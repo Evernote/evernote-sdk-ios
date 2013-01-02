@@ -430,7 +430,7 @@
     return [NSString stringWithFormat:@"%@://response", [self callbackScheme]];
 }
 
-/**
+/*
  * Make an authorization URL.
  *
  * E.g.,
