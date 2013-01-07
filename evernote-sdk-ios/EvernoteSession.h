@@ -31,6 +31,9 @@
 #import "EDAM.h"
 #import "ENOAuthViewController.h"
 
+#ifndef NS_ENUM
+#define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
+#endif
 // For Evernote-related error codes, see EDAMErrors.h
 
 /**
@@ -54,6 +57,24 @@ typedef enum {
     EVERNOTE_SERVICE_BOTH = 3
 } EvernoteService;
 
+/*!
+ @typedef ENSessionState enum
+ 
+ @abstract Used when authenticating with the Evernote iOS app
+ 
+ @discussion
+ */
+typedef NS_ENUM(NSInteger, ENSessionState) {
+    /*! Evernote session has been created but not logged in */
+    ENSessionLoggedOut,
+    /*! Authentication is in progress */
+    ENSessionAuthenticationInProgress,
+    /*! Session has been called back by the Evernote app*/
+    ENSessionGotCallback,
+    /*! Session has authenticated successfully*/
+    ENSessionAuthenticated
+};
+
 /** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
 @interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate>
@@ -61,11 +82,13 @@ typedef enum {
 @property (nonatomic, copy) NSString *host;
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
-@property (nonatomic, assign) EvernoteService serviceType;
 
 ///---------------------------------------------------------------------------------------
 /// @name Session data
 ///---------------------------------------------------------------------------------------
+
+/*! The detailed state of the session */
+@property(readonly) ENSessionState state;
 
 /** Determines whether this session is authenticated or not. */
 @property (nonatomic, readonly) BOOL isAuthenticated;
@@ -105,18 +128,10 @@ typedef enum {
  @param host The server URL. "sandbox.evernote.com" should be used for testing ."www.evernote.com" for production apps.
  @param consumerKey The consumer key. Get your consumer key [here](http://dev.evernote.com/documentation/cloud/).
  @param consumerSecret The consumer secret.
- @param service What services supported by the application.
  */
-+ (void)setSharedSessionHost:(NSString *)host 
-                 consumerKey:(NSString *)consumerKey 
-              consumerSecret:(NSString *)consumerSecret
-          supportedService:(EvernoteService)service;
-
-
-// will be deprecated soon, use function above instead
 + (void)setSharedSessionHost:(NSString *)host
                  consumerKey:(NSString *)consumerKey
-              consumerSecret:(NSString *)consumerSecret DEPRECATED_ATTRIBUTE;
+              consumerSecret:(NSString *)consumerSecret;
 
 
 /**
@@ -125,13 +140,19 @@ typedef enum {
  */
 + (EvernoteSession *)sharedSession;
 
-/** Got the token from the Evernote app.
+/** Handle open url from the Evernote app.
  
- This is called internally, the application should not be calling this function under normal circumstances.
+ This will used during authentication and should be called from the AppDelegate class.
  
- @param callback The callback URL after authentication.
-*/
-- (void)gotCallbackURL:(NSString*)callback;
+ @param url The URL passed from the AppDelegate
+ */
+- (BOOL)canHandleOpenURL:(NSURL*)url;
+
+/** Application became active as a result of app switching.
+ 
+ This will be used to handle unexpected events due to app switching.
+ */
+- (void)handleDidBecomeActive;
 
 /** Authenticate, calling the given handler upon completion.
  

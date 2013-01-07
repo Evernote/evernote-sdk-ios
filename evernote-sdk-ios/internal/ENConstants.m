@@ -36,6 +36,10 @@ NSString * const ENBootstrapProfileNameInternational = @"Evernote";
 
 NSString * const BootstrapServerBaseURLStringCN  = @"app.yinxiang.com";
 NSString * const BootstrapServerBaseURLStringUS  = @"www.evernote.com";
+NSString * const BootstrapServerBaseURLStringSandbox  = @"sandbox.evernote.com";
+
+NSString * const kBootstrapServerBaseURLStringUS = @"en_US";
+NSString * const kBootstrapServerBaseURLStringCN = @"zh";
 
 NSString * const BusinessHostNameSuffix = @"-business";
 

@@ -201,6 +201,7 @@
         self.logoutButton.enabled = NO;
         self.logoutButton.alpha = 0.5;
         self.userLabel.text = @"(not authenticated)";
+        self.businessLabel.text = @"(not authenticated)";
     }
 }
 

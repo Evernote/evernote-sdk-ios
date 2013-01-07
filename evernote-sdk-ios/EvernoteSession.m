@@ -35,7 +35,6 @@
 #import "GCOAuth.h"
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
-#import "ENConstants.h"
 #import "NSDate+EDAMAdditions.h"
 
 #define SCHEME @"https"
@@ -65,6 +64,8 @@
 @property (nonatomic, strong) EDAMUserStoreClient *userStoreClient;
 
 @property (nonatomic, strong) EDAMNoteStoreClient *businessNoteStoreClient;
+
+@property(readwrite) ENSessionState state;
 
 // generate a dictionary of name=>value from the given queryString
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString;
@@ -139,45 +140,32 @@
     _queue = dispatch_queue_create("com.evernote.sdk.EvernoteSession", NULL);
 }
 
-- (NSString *)host {
-    NSString *serviceHost = nil;
-    if(self.profiles.count>0 && self.currentProfile) {
-        for (EDAMBootstrapProfile* profile in self.profiles) {
-            if([profile.name isEqualToString:self.currentProfile]) {
-                EDAMBootstrapSettings *settings = profile.settings;
-                serviceHost = settings.serviceHost;
-            }
-        }
-    }
-    else {
-        // Use EVERNOTE_HOST
-        serviceHost = _host;
-    }
-    return serviceHost;
-}
-
-+ (void)setSharedSessionHost:(NSString *)host consumerKey:(NSString *)consumerKey consumerSecret:(NSString *)consumerSecret supportedService:(EvernoteService)service
-{
++ (void)setSharedSessionHost:(NSString *)host
+                 consumerKey:(NSString *)consumerKey
+              consumerSecret:(NSString *)consumerSecret {
     EvernoteSession *session = [self sharedSession];
-
+    // First see if we already have a profile
     if([ENCredentialStore getCurrentProfile] == EVERNOTE_SERVICE_YINXIANG) {
         session.host = BootstrapServerBaseURLStringCN;
     }
     else if([ENCredentialStore getCurrentProfile] == EVERNOTE_SERVICE_INTERNATIONAL) {
         session.host = BootstrapServerBaseURLStringUS;
     }
+    // If not, check what boostrap server you want to use based on the locale
+    else if([host isEqualToString:BootstrapServerBaseURLStringUS] || [host isEqualToString:BootstrapServerBaseURLStringCN]) {
+        NSString* locale = [[NSLocale currentLocale] localeIdentifier];
+        if ([[locale lowercaseString] hasPrefix:kBootstrapServerBaseURLStringCN]) {
+            session.host = BootstrapServerBaseURLStringCN;
+        }
+        else {
+            session.host = BootstrapServerBaseURLStringUS;
+        }
+    }
     else {
         session.host = host;
     }
     session.consumerKey = consumerKey;
     session.consumerSecret = consumerSecret;
-    session.serviceType = service;
-}
-
-+ (void)setSharedSessionHost:(NSString *)host
-                 consumerKey:(NSString *)consumerKey
-              consumerSecret:(NSString *)consumerSecret {
-    [self setSharedSessionHost:host consumerKey:consumerKey consumerSecret:consumerSecret supportedService:EVERNOTE_SERVICE_INTERNATIONAL];
 }
 
 + (EvernoteSession *)sharedSession
@@ -324,10 +312,16 @@
     self.profiles = nil;
     self.currentProfile = nil;
     self.isSwitchingInProgress = NO;
+    self.businessUser = nil;
+    
+    // Clear all clients
+    [self clearAllClients];
+}
+
+- (void) clearAllClients {
     self.userStoreClient = nil;
     self.noteStoreClient = nil;
     self.businessNoteStoreClient = nil;
-    self.businessUser = nil;
 }
 
 - (void)emptyCookieJar
@@ -376,6 +370,9 @@
         EDAMBootstrapProfile *profile = [info.profiles objectAtIndex:0];
         self.profiles = info.profiles;
         self.currentProfile = profile.name;
+        [[EvernoteSession sharedSession] setHost:profile.settings.serviceHost];
+        // reset the user and note store objects
+        [self clearAllClients];
         // start the OAuth dance to get credentials (auth token, noteStoreUrl, etc).
         [self startOauthAuthentication];
     } failure:^(NSError *error) {
@@ -448,7 +445,6 @@
 - (BOOL)handleOpenURL:(NSURL *)url
 {
     [self.viewController dismissModalViewControllerAnimated:YES];
-
     // only handle our specific oauth_callback URLs
     if (![[url absoluteString] hasPrefix:[self oauthCallback]]) {
         return NO;
@@ -476,6 +472,20 @@
     }
     
     return YES;
+}
+
+- (void)handleDidBecomeActive{
+    //Unexpected to calls to app delegate's applicationDidBecomeActive are
+    // handled by this method. 
+    const ENSessionState state = self.state;
+    
+    if (state == ENSessionLoggedOut ||
+        state == ENSessionAuthenticated ||
+        state == ENSessionGotCallback) {
+        return;
+    }
+    [[EvernoteSession sharedSession] gotCallbackURL:nil];
+    self.state = ENSessionLoggedOut;
 }
 
 #pragma mark - NSURLConnectionDataDelegate
@@ -533,17 +543,18 @@
         // try to get the OAuth token from the Evernote app
         // on the device.
         // If the Evernote app is not installed or it doesn't support
-        // the evernote:// URL scheme, fall back on WebKit for obtaining the OAuth token.
+        // the en:// URL scheme, fall back on WebKit for obtaining the OAuth token.
         // This minimizes the chance that the user will have to enter his or
         // her credentials in order to authorize the application.
         UIDevice *device = [UIDevice currentDevice];
-        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"evernote://"]] == NO) {
+        if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"en://"]] == NO) {
             self.isMultitaskLoginDisabled = YES;
         }
         if ([device respondsToSelector:@selector(isMultitaskingSupported)] &&
             [device isMultitaskingSupported] &&
             self.isMultitaskLoginDisabled==NO) {
-            NSString* openURL = [NSString stringWithFormat:@"evernote://link-sdk/profileName/%@/consumerKey/%@/authorization/%@",self.currentProfile,self.consumerKey,parameters[@"oauth_token"]];
+            self.state = ENSessionAuthenticationInProgress;
+            NSString* openURL = [NSString stringWithFormat:@"en://link-sdk/consumerKey/%@/profileName/%@/authorization/%@",self.consumerKey,self.currentProfile,parameters[@"oauth_token"]];
             BOOL success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openURL]];
             if(success == NO) {
                 // The Evernote app does not support the full URL, falling back
@@ -571,7 +582,7 @@
         // If any of the fields are nil, we can't continue.
         // Assume an invalid response from the server.
         if (!authenticationToken || !noteStoreUrl || !edamUserId || !webApiUrlPrefix) {
-            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
                                                            code:EDAMErrorCode_INTERNAL_ERROR 
                                                        userInfo:nil]];
         } else {        
@@ -582,6 +593,8 @@
                             authenticationToken:authenticationToken];
             // call our callback, without error.
             [self completeAuthenticationWithError:nil];
+            // update the auth state
+            self.state = ENSessionAuthenticated;
         }
     }
 
@@ -657,6 +670,9 @@
     if (self.completionHandler) {
         self.completionHandler(error);
     }
+    if(error) {
+        self.state = ENSessionLoggedOut;
+    }
     self.completionHandler = nil;
     self.viewController = nil;
 }
@@ -671,9 +687,7 @@
     }
     
     EDAMBootstrapProfile* nextProfile = [self.profiles objectAtIndex:(profileIndex+1)%self.profiles.count];
-    self.currentProfile = nextProfile.name;
-    // Restart oAuth dance
-    [self startOauthAuthentication];
+    [self updateCurrentBootstrapProfileWithName:nextProfile.name];
 }
 
 - (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName {
@@ -681,6 +695,7 @@
     for (EDAMBootstrapProfile *p in self.profiles) {
         if ([aProfileName isEqualToString:[p name]]) {
             self.currentProfile = p.name;
+            self.host = p.settings.serviceHost;
             wasProfileFound = YES;
             break;
         }
@@ -739,6 +754,49 @@
 {
     [self.viewController dismissModalViewControllerAnimated:YES];
     [self completeAuthenticationWithError:error];
+}
+
+- (BOOL)canHandleOpenURL:(NSURL *)url {
+    if([[url host] isEqualToString:@"invalidURL"]) {
+        NSLog(@"Invalid URL sent to Evernote!");
+        return NO;
+    }
+    // update state
+    self.state = ENSessionGotCallback;
+    NSString* hostName = [NSString stringWithFormat:@"en-%@",
+                          [[EvernoteSession sharedSession] consumerKey]];
+    BOOL canHandle = NO;
+    // Check if we got back the oauth token
+    if ([hostName isEqualToString:[url scheme]] == YES
+        && [@"oauth" isEqualToString:[url host]] == YES) {
+        canHandle = YES;
+        NSString* oAuthPrefix = [NSString stringWithFormat:@"en-%@://oauth/",[[EvernoteSession sharedSession] consumerKey]];
+        NSString *callback = [url.absoluteString stringByReplacingOccurrencesOfString:oAuthPrefix withString:@""];
+        [[EvernoteSession sharedSession] gotCallbackURL:callback];
+    }
+    // Check if the login was cancelled
+    else if ([hostName isEqualToString:[url scheme]] == YES
+             && [@"loginCancelled" isEqualToString:[url host]] == YES) {
+        canHandle = YES;
+        [[EvernoteSession sharedSession] gotCallbackURL:nil];
+    }
+    // Check if we need to switch profiles
+    else if ([hostName isEqualToString:[url scheme]] == YES
+             && [@"incorrectProfile" isEqualToString:[url host]] == YES) {
+        return [self canHandleSwitchProfileURL:url];
+    }
+    return  canHandle;
+}
+
+- (BOOL) canHandleSwitchProfileURL:(NSURL *)url {
+    NSString *requestURL = [url path];
+    NSArray *components = [requestURL componentsSeparatedByString:@"/"];
+    if ([components count] < 2) {
+        NSLog(@"URL:%@ has invalid component count: %i", url, [components count]);
+        return NO;
+    }
+    [[EvernoteSession sharedSession] updateCurrentBootstrapProfileWithName:components[1]];
+    return YES;
 }
 
 - (void)gotCallbackURL : (NSString*)callback {

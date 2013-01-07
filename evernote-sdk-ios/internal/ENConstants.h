@@ -38,6 +38,10 @@ FOUNDATION_EXPORT NSString * const ENBootstrapProfileNameInternational;
 FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringCN;
 FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringUS;
 
+FOUNDATION_EXPORT NSString * const kBootstrapServerBaseURLStringUS;
+FOUNDATION_EXPORT NSString * const kBootstrapServerBaseURLStringCN;
+FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringSandbox;
+
 FOUNDATION_EXPORT NSString * const BusinessHostNameSuffix;
 
 @end
