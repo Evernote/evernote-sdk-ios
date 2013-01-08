@@ -29,9 +29,15 @@
 
 #import <Foundation/Foundation.h>
 
+/** Utility methods to work with ENML.
+ */
 @interface ENMLUtility : NSObject
 
-// Utility function to create an enml media tag
+/** Utility function to create an enml media tag.
+ 
+ @param  dataHash The md5 hash of the data
+ @param  mime The mime type of the data
+ */
 + (NSString*) mediaTagWithDataHash:(NSData *)dataHash
                               mime:(NSString *)mime;
 

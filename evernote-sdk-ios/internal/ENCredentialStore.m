@@ -37,19 +37,13 @@
 
 @interface ENCredentialStore() <NSCoding>
 
-@property (nonatomic, retain) NSMutableDictionary *store;
+@property (nonatomic, strong) NSMutableDictionary *store;
 
 @end
 
 @implementation ENCredentialStore
 
 @synthesize store = _store;
-
-- (void)dealloc
-{
-    [_store release];
-    [super dealloc];
-}
 
 - (id)init
 {

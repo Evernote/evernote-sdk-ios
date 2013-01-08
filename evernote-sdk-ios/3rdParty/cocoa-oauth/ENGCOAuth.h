@@ -36,10 +36,8 @@
  But you'll find it works with almost all the OAuth implementations you need
  to interact with in the wild. How ace is that?!
  */
-@interface GCOAuth : NSObject {
-@private
-    NSString *signatureSecret;
-    NSDictionary *OAuthParameters;
+@interface ENGCOAuth : NSObject {
+
 }
 
 /*

@@ -29,11 +29,14 @@
 
 #import <Foundation/Foundation.h>
 
-
+/** Extra methods on `NSDate` to deal with Evernote API time stamps.
+ */
 @interface NSDate (NSDateEDAMAdditions)
 
-/**
- * Convert an edam timestamp to an NSDate
+/** Convert an edam timestamp to an NSDate
+ 
+ @param edamTimestamp The timestamp obtained from an Evernote API data structure.
+ @return The equivalent NSDate
  */
 + (NSDate *) dateFromEDAMTimestamp: (int64_t) edamTimestamp;
 

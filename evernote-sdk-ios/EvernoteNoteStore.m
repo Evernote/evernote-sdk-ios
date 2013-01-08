@@ -32,31 +32,31 @@
 @interface EvernoteNoteStore ()
 
 @property (nonatomic,assign) BOOL isBusiness;
-@property (nonatomic,retain) EDAMLinkedNotebook* linkedNotebook;
+@property (nonatomic,strong) EDAMLinkedNotebook* linkedNotebook;
 
 @end
 
 @implementation EvernoteNoteStore
 
-+ (EvernoteNoteStore *)noteStore
++ (instancetype)noteStore
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = NO;
     noteStore.linkedNotebook = nil;
     return noteStore;
 }
 
-+ (EvernoteNoteStore *)businessNoteStore
++ (instancetype)businessNoteStore
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = YES;
     noteStore.linkedNotebook = nil;
     return noteStore;
 }
 
-+ (EvernoteNoteStore *)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook
++ (instancetype)noteStoreForLinkedNotebook:(EDAMLinkedNotebook*)notebook
 {
-    EvernoteNoteStore *noteStore = [[[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteNoteStore *noteStore = [[EvernoteNoteStore alloc] initWithSession:[EvernoteSession sharedSession]];
     noteStore.isBusiness = NO;
     noteStore.linkedNotebook = notebook;
     return noteStore;
@@ -78,7 +78,7 @@
     EvernoteSession* sharedSession = [EvernoteSession sharedSession];
     if(self.linkedNotebook) {
         EDAMNoteStoreClient* noteStoreClient = [sharedSession noteStoreWithNoteStoreURL:self.linkedNotebook.noteStoreUrl];
-        EDAMAuthenticationResult* authResult = [noteStoreClient authenticateToSharedNotebook:self.linkedNotebook.shareKey :sharedSession.authenticationToken];
+        EDAMAuthenticationResult* authResult = [noteStoreClient authenticateToSharedNotebook:self.linkedNotebook.shareKey authenticationToken:sharedSession.authenticationToken];
         return authResult.authenticationToken;
     }
     else if(self.isBusiness) {
@@ -112,7 +112,7 @@
                      failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-         return [[self currentNoteStore] getSyncChunk:[self authenticationToken]:afterUSN:maxEntries:fullSyncOnly];
+         return [[self currentNoteStore] getSyncChunk:[self authenticationToken] afterUSN:afterUSN maxEntries:maxEntries fullSyncOnly:fullSyncOnly];
     } success:success failure:failure];
 }
 
@@ -123,7 +123,7 @@
                              failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-         return [[self currentNoteStore] getFilteredSyncChunk:[self authenticationToken]:afterUSN:maxEntries:filter];
+         return [[self currentNoteStore] getFilteredSyncChunk:[self authenticationToken] afterUSN:afterUSN maxEntries:maxEntries filter:filter];
     } success:success failure:failure];
 }
 
@@ -132,7 +132,7 @@
                            failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-         return [[self currentNoteStore] getLinkedNotebookSyncState:[self authenticationToken]:linkedNotebook];
+         return [[self currentNoteStore] getLinkedNotebookSyncState:[self authenticationToken] linkedNotebook:linkedNotebook];
     } success:success failure:failure];
 }
 
@@ -151,7 +151,7 @@
                     failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-         return [[self currentNoteStore] getNotebook:[self authenticationToken]:guid];
+         return [[self currentNoteStore] getNotebook:[self authenticationToken] guid:guid];
      } success:success failure:failure];
 }
 
@@ -163,7 +163,7 @@
                            failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-         return [[self currentNoteStore] getLinkedNotebookSyncChunk:[self authenticationToken]:linkedNotebook:afterUSN:maxEntries:fullSyncOnly];
+         return [[self currentNoteStore] getLinkedNotebookSyncChunk:[self authenticationToken] linkedNotebook:linkedNotebook afterUSN:afterUSN maxEntries:maxEntries fullSyncOnly:fullSyncOnly];
     } success:success failure:failure];
 }
 
@@ -180,7 +180,7 @@
                failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createNotebook:[self authenticationToken]:notebook];
+        return [[self currentNoteStore] createNotebook:[self authenticationToken] notebook:notebook];
     } success:success failure:failure];
 }
 
@@ -189,7 +189,7 @@
                failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateNotebook:[self authenticationToken]:notebook];
+        return [[self currentNoteStore] updateNotebook:[self authenticationToken] notebook:notebook];
     } success:success failure:failure];
 }
 
@@ -198,7 +198,7 @@
                         failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeNotebook:[self authenticationToken]:guid];
+        return [[self currentNoteStore] expungeNotebook:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -217,7 +217,7 @@
                            failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] listTagsByNotebook:[self authenticationToken]:guid];
+        return [[self currentNoteStore] listTagsByNotebook:[self authenticationToken] notebookGuid:guid];
     } success:success failure:failure];
 };
 
@@ -226,7 +226,7 @@
                failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getTag:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getTag:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -235,7 +235,7 @@
           failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createTag:[self authenticationToken]:tag];
+        return [[self currentNoteStore] createTag:[self authenticationToken] tag:tag];
     } success:success failure:failure];
 }
 
@@ -244,7 +244,7 @@
           failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateTag:[self authenticationToken]:tag];
+        return [[self currentNoteStore] updateTag:[self authenticationToken] tag:tag];
     } success:success failure:failure];
 }
 
@@ -253,7 +253,7 @@
                  failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncVoidBlock:^ {
-        [[self currentNoteStore] untagAll:[self authenticationToken]:guid];
+        [[self currentNoteStore] untagAll:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -262,7 +262,7 @@
                    failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeTag:[self authenticationToken]:guid];
+        return [[self currentNoteStore] expungeTag:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -282,7 +282,7 @@
 
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getSearch:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getSearch:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -291,7 +291,7 @@
              failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createSearch:[self authenticationToken]:search];
+        return [[self currentNoteStore] createSearch:[self authenticationToken] search:search];
     } success:success failure:failure];
 }
 
@@ -300,7 +300,7 @@
              failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateSearch:[self authenticationToken]:search];
+        return [[self currentNoteStore] updateSearch:[self authenticationToken] search:search];
     } success:success failure:failure];
 }
 
@@ -309,7 +309,7 @@
                       failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeSearch:[self authenticationToken]:guid];
+        return [[self currentNoteStore] expungeSearch:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -320,7 +320,7 @@
                      failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] findRelated:[self authenticationToken]:query:resultSpec];
+        return [[self currentNoteStore] findRelated:[self authenticationToken] query:query resultSpec:resultSpec];
     } success:success failure:failure];
 }
 
@@ -331,7 +331,7 @@
                     failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] findNotes:[self authenticationToken]:filter:offset:maxNotes];
+        return [[self currentNoteStore] findNotes:[self authenticationToken] filter:filter offset:offset maxNotes:maxNotes];
     } success:success failure:failure];
 }
 
@@ -341,7 +341,7 @@
                          failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] findNoteOffset:[self authenticationToken]:filter:guid];
+        return [[self currentNoteStore] findNoteOffset:[self authenticationToken] filter:filter guid:guid];
     } success:success failure:failure];
 }
 
@@ -353,7 +353,7 @@
                             failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] findNotesMetadata:[self authenticationToken]:filter:offset:maxNotes:resultSpec];
+        return [[self currentNoteStore] findNotesMetadata:[self authenticationToken] filter:filter offset:offset maxNotes:maxNotes resultSpec:resultSpec];
     } success:success failure:failure];
 }
 
@@ -363,7 +363,7 @@
                          failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] findNoteCounts:[self authenticationToken]:filter:withTrash];
+        return [[self currentNoteStore] findNoteCounts:[self authenticationToken] filter:filter withTrash:withTrash];
     } success:success failure:failure];
 }
 
@@ -376,7 +376,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                 failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNote:[self authenticationToken]:guid:withContent:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
+        return [[self currentNoteStore] getNote:[self authenticationToken] guid:guid withContent:withContent withResourcesData:withResourcesData withResourcesRecognition:withResourcesRecognition withResourcesAlternateData:withResourcesAlternateData];
     } success:success failure:failure];
 }
 
@@ -385,7 +385,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteApplicationData:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getNoteApplicationData:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -395,7 +395,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                     failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteApplicationDataEntry:[self authenticationToken]:guid:key];
+        return [[self currentNoteStore] getNoteApplicationDataEntry:[self authenticationToken] guid:guid key:key];
     } success:success failure:failure];
 }
 
@@ -406,7 +406,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                     failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] setNoteApplicationDataEntry:[self authenticationToken]:guid:key:value];
+        return [[self currentNoteStore] setNoteApplicationDataEntry:[self authenticationToken] guid:guid key:key value:value];
     } success:success failure:failure];
 }
 
@@ -416,7 +416,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                       failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] unsetNoteApplicationDataEntry:[self authenticationToken]:guid:key];
+        return [[self currentNoteStore] unsetNoteApplicationDataEntry:[self authenticationToken] guid:guid key:key];
     } success:success failure:failure];
 }
 
@@ -425,7 +425,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                        failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteContent:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getNoteContent:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -436,7 +436,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                           failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteSearchText:[self authenticationToken]:guid:noteOnly:tokenizeForIndexing];
+        return [[self currentNoteStore] getNoteSearchText:[self authenticationToken] guid:guid noteOnly:noteOnly tokenizeForIndexing:tokenizeForIndexing];
     } success:success failure:failure];
 }
 
@@ -445,7 +445,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                               failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceSearchText:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceSearchText:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -454,7 +454,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteTagNames:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getNoteTagNames:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -463,7 +463,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
            failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createNote:[self authenticationToken]:note];
+        return [[self currentNoteStore] createNote:[self authenticationToken] note:note];
     } success:success failure:failure];
 }
 
@@ -472,7 +472,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
            failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] updateNote:[self authenticationToken]:note];
+        return [[self currentNoteStore] updateNote:[self authenticationToken] note:note];
     } success:success failure:failure];
 }
 
@@ -481,7 +481,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                    failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] deleteNote:[self authenticationToken]:guid];
+        return [[self currentNoteStore] deleteNote:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -490,16 +490,16 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                     failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeNote:[self authenticationToken]:guid];
+        return [[self currentNoteStore] expungeNote:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
-- (void)expungeNotesWithGuids:(NSArray *)guids
+- (void)expungeNotesWithGuids:(NSMutableArray *)guids
                       success:(void(^)(int32_t usn))success
                       failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeNotes:[self authenticationToken]:guids];
+        return [[self currentNoteStore] expungeNotes:[self authenticationToken] noteGuids:guids];
     } success:success failure:failure];
 }
 
@@ -517,7 +517,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                  failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] copyNote:[self authenticationToken]:guid:toNotebookGuid];
+        return [[self currentNoteStore] copyNote:[self authenticationToken] noteGuid:guid toNotebookGuid:toNotebookGuid];
     } success:success failure:failure];
 }
 
@@ -526,7 +526,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                          failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] listNoteVersions:[self authenticationToken]:guid];
+        return [[self currentNoteStore] listNoteVersions:[self authenticationToken] noteGuid:guid];
     } success:success failure:failure];
 }
 
@@ -539,7 +539,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                        failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getNoteVersion:[self authenticationToken]:guid:updateSequenceNum:withResourcesData:withResourcesRecognition:withResourcesAlternateData];
+        return [[self currentNoteStore] getNoteVersion:[self authenticationToken] noteGuid:guid updateSequenceNum:updateSequenceNum withResourcesData:withResourcesData withResourcesRecognition:withResourcesRecognition withResourcesAlternateData:withResourcesAlternateData];
     } success:success failure:failure];
 }
 
@@ -554,7 +554,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                     failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResource:[self authenticationToken]:guid:withData:withRecognition:withAttributes:withAlternateData];
+        return [[self currentNoteStore] getResource:[self authenticationToken] guid:guid withData:withData withRecognition:withRecognition withAttributes:withAttributes withAlternateData:withAlternateData];
     } success:success failure:failure];
 }
 
@@ -563,7 +563,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                    failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceApplicationData:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceApplicationData:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -573,7 +573,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                         failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceApplicationDataEntry:[self authenticationToken]:guid:key];
+        return [[self currentNoteStore] getResourceApplicationDataEntry:[self authenticationToken] guid:guid key:key];
     } success:success failure:failure];
 }
 
@@ -584,7 +584,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                         failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] setResourceApplicationDataEntry:[self authenticationToken]:guid:key:value];
+        return [[self currentNoteStore] setResourceApplicationDataEntry:[self authenticationToken] guid:guid key:key value:value];
     } success:success failure:failure];
 }
 
@@ -594,7 +594,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                           failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] unsetResourceApplicationDataEntry:[self authenticationToken]:guid:key];
+        return [[self currentNoteStore] unsetResourceApplicationDataEntry:[self authenticationToken] guid:guid key:key];
     } success:success failure:failure];
 }
 
@@ -603,7 +603,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateResource:[self authenticationToken]:resource];
+        return [[self currentNoteStore] updateResource:[self authenticationToken] resource:resource];
     } success:success failure:failure];
 }
 
@@ -612,7 +612,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceData:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceData:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -625,7 +625,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                           failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceByHash:[self authenticationToken]:guid:contentHash:withData:withRecognition:withAlternateData];
+        return [[self currentNoteStore] getResourceByHash:[self authenticationToken] noteGuid:guid contentHash:contentHash withData:withData withRecognition:withRecognition withAlternateData:withAlternateData];
     } success:success failure:failure];
 }
 
@@ -634,7 +634,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceRecognition:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceRecognition:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -643,7 +643,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                  failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceAlternateData:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceAlternateData:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -652,7 +652,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                               failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getResourceAttributes:[self authenticationToken]:guid];
+        return [[self currentNoteStore] getResourceAttributes:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -664,7 +664,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                             failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] getPublicNotebook:userId:publicUri];
+        return [[self currentNoteStore] getPublicNotebook:userId publicUri:publicUri];
     } success:success failure:failure];
 }
 
@@ -674,18 +674,18 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createSharedNotebook:[self authenticationToken]:sharedNotebook];
+        return [[self currentNoteStore] createSharedNotebook:[self authenticationToken] sharedNotebook:sharedNotebook];
     } success:success failure:failure];
 }
 
 - (void)sendMessageToSharedNotebookMembersWithGuid:(EDAMGuid)guid 
                                        messageText:(NSString *)messageText 
-                                        recipients:(NSArray *)recipients
+                                        recipients:(NSMutableArray *)recipients
                                            success:(void(^)(int32_t numMessagesSent))success
                                            failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] sendMessageToSharedNotebookMembers:[self authenticationToken]:guid:messageText:recipients];
+        return [[self currentNoteStore] sendMessageToSharedNotebookMembers:[self authenticationToken] notebookGuid:guid messageText:messageText recipients:recipients];
     } success:success failure:failure];
 }
 
@@ -697,12 +697,12 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
     } success:success failure:failure];
 }
 
-- (void)expungeSharedNotebooksWithIds:(NSArray *)sharedNotebookIds
+- (void)expungeSharedNotebooksWithIds:(NSMutableArray *)sharedNotebookIds
                               success:(void(^)(int32_t usn))success
                               failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeSharedNotebooks:[self authenticationToken]:sharedNotebookIds];
+        return [[self currentNoteStore] expungeSharedNotebooks:[self authenticationToken] sharedNotebookIds:sharedNotebookIds];
     } success:success failure:failure];
 }
 
@@ -711,7 +711,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                      failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] createLinkedNotebook:[self authenticationToken]:linkedNotebook];
+        return [[self currentNoteStore] createLinkedNotebook:[self authenticationToken] linkedNotebook:linkedNotebook];
     } success:success failure:failure];
 }
 
@@ -720,7 +720,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                      failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateLinkedNotebook:[self authenticationToken]:linkedNotebook];
+        return [[self currentNoteStore] updateLinkedNotebook:[self authenticationToken] linkedNotebook:linkedNotebook];
     } success:success failure:failure];
 }
 
@@ -737,7 +737,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                               failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] expungeLinkedNotebook:[self authenticationToken]:guid];
+        return [[self currentNoteStore] expungeLinkedNotebook:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -746,7 +746,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                          failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] authenticateToSharedNotebook:[self authenticationToken]:shareKey];
+        return [[self currentNoteStore] authenticateToSharedNotebook:[self authenticationToken] authenticationToken:shareKey];
     } success:success failure:failure];
 }
 
@@ -764,7 +764,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncVoidBlock:^ {
-        [[self currentNoteStore] emailNote:[self authenticationToken]:parameters];
+        [[self currentNoteStore] emailNote:[self authenticationToken] parameters:parameters];
     } success:success failure:failure];
 }
 
@@ -773,7 +773,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                   failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] shareNote:[self authenticationToken]:guid];
+        return [[self currentNoteStore] shareNote:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -782,7 +782,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                         failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncVoidBlock:^ {
-        [[self currentNoteStore] stopSharingNote:[self authenticationToken]:guid];
+        [[self currentNoteStore] stopSharingNote:[self authenticationToken] guid:guid];
     } success:success failure:failure];
 }
 
@@ -792,7 +792,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                  failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] authenticateToSharedNote:[self authenticationToken]:noteKey];
+        return [[self currentNoteStore] authenticateToSharedNote:[self authenticationToken] noteKey:noteKey];
     } success:success failure:failure];
 }
 
@@ -801,7 +801,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                      failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncInt32Block:^int32_t {
-        return [[self currentNoteStore] updateSharedNotebook:[self authenticationToken] :sharedNotebook];
+        return [[self currentNoteStore] updateSharedNotebook:[self authenticationToken] sharedNotebook:sharedNotebook];
     } success:success failure:failure];
 }
 

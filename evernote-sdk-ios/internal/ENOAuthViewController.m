@@ -11,11 +11,11 @@
 
 @interface ENOAuthViewController() <UIWebViewDelegate>
 
-@property (nonatomic, retain) NSURL *authorizationURL;
-@property (nonatomic, retain) NSString *oauthCallbackPrefix;
-@property (nonatomic, retain) UIWebView *webView;
+@property (nonatomic, strong) NSURL *authorizationURL;
+@property (nonatomic, strong) NSString *oauthCallbackPrefix;
+@property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, copy) NSString* currentProfileName;
-@property (nonatomic, retain) UIActivityIndicatorView* activityIndicator;
+@property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property (nonatomic, assign) BOOL isSwitchingAllowed;
 
 @end
@@ -32,12 +32,6 @@
     self.delegate = nil;
     self.webView.delegate = nil;
     [self.webView stopLoading];
-    [_webView release];
-    [_authorizationURL release];
-    [_oauthCallbackPrefix release];
-    [_currentProfileName release];
-    [_activityIndicator release];
-    [super dealloc];
 }
 
 - (id)initWithAuthorizationURL:(NSURL *)authorizationURL 
@@ -61,15 +55,15 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *cancelItem = [[[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)] autorelease];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
     
     self.navigationItem.rightBarButtonItem = cancelItem;
     
     // adding an activity indicator
-    self.activityIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray] autorelease];
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.activityIndicator setHidesWhenStopped:YES];
     
-    self.webView = [[[UIWebView alloc] initWithFrame:self.view.bounds] autorelease];
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webView.scalesPageToFit = YES;
     self.webView.delegate = self;
@@ -126,7 +120,7 @@
         else {
             leftButtonTitle = NSLocalizedString(@"Evernote-China", @"Evernote-China");
         }
-        UIBarButtonItem* switchProfileButton = [[[UIBarButtonItem alloc] initWithTitle:leftButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(switchProfile:)] autorelease];
+        UIBarButtonItem* switchProfileButton = [[UIBarButtonItem alloc] initWithTitle:leftButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(switchProfile:)];
         self.navigationItem.leftBarButtonItem = switchProfileButton;
     }
     [self loadWebView];

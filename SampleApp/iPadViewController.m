@@ -64,11 +64,11 @@
     EvernoteSession *session = [EvernoteSession sharedSession];
     [session authenticateWithViewController:self completionHandler:^(NSError *error) {
         if (error || !session.isAuthenticated) {
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
                                                              message:@"Could not authenticate" 
                                                             delegate:nil 
                                                    cancelButtonTitle:@"OK" 
-                                                   otherButtonTitles:nil] autorelease];
+                                                   otherButtonTitles:nil];
             [alert show];
         } else {
             NSLog(@"authenticated! noteStoreUrl:%@ webApiUrlPrefix:%@", session.noteStoreUrl, session.webApiUrlPrefix);
@@ -93,14 +93,14 @@
     EvernoteNoteStore *defaultNoteStore = [EvernoteNoteStore noteStore];
     [defaultNoteStore listLinkedNotebooksWithSuccess:^(NSArray *linkedNotebooks) {
         if(linkedNotebooks.count >0) {
-            EDAMNoteFilter* noteFilter = [[[EDAMNoteFilter alloc] initWithOrder:0
+            EDAMNoteFilter* noteFilter = [[EDAMNoteFilter alloc] initWithOrder:0
                                                                       ascending:NO
                                                                           words:nil
                                                                    notebookGuid:nil
                                                                        tagGuids:nil
                                                                        timeZone:nil
                                                                        inactive:NO
-                                                                     emphasized:nil] autorelease];
+                                                                     emphasized:nil];
             [defaultNoteStore listNotesForLinkedNotebook:linkedNotebooks[0]  withFilter:noteFilter success:^(EDAMNoteList *list) {
                 NSLog(@"Shared notes : %@",list);
             } failure:^(NSError *error) {
@@ -131,8 +131,8 @@
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
     NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
     NSData *dataHash = [myFileData md5];
-    EDAMData *edamData = [[[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData] autorelease];
-    EDAMResource* resource = [[[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil] autorelease];
+    EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+    EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
     NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                              "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
                              "<en-note>"
@@ -142,7 +142,8 @@
                              "<br />"
                              "%@"
                              "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
-    EDAMNote *newNote = [[[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:@[resource] attributes:nil tagNames:nil] autorelease];
+    NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
+    EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         NSLog(@"Note created successfully.");
     } failure:^(NSError *error) {
@@ -190,17 +191,6 @@
     }
 }
 
-- (void)dealloc {
-    [_tableView release];
-    [_notebooks release];
-    [_authenticateButton release];
-    [_listNotebooksButton release];
-    [_logoutButton release];
-    [_listBusinessButton release];
-    [_photoNoteButton release];
-    [_sharedNotesButton release];
-    [super dealloc];
-}
 
 #pragma mark - Table view data source
 

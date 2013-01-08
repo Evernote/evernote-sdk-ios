@@ -1,5 +1,5 @@
 /*
- * ENConstants.h
+ * ENConstants.m
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -27,17 +27,20 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "ENConstants.h"
 
-#import <Foundation/Foundation.h>
+@implementation ENConstants
 
-@interface ENConstants : NSObject
+NSString * const ENBootstrapProfileNameChina = @"Evernote-China";
+NSString * const ENBootstrapProfileNameInternational = @"Evernote";
 
-FOUNDATION_EXPORT NSString * const ENBootstrapProfileNameChina;
-FOUNDATION_EXPORT NSString * const ENBootstrapProfileNameInternational;
+NSString * const BootstrapServerBaseURLStringCN  = @"app.yinxiang.com";
+NSString * const BootstrapServerBaseURLStringUS  = @"www.evernote.com";
+NSString * const BootstrapServerBaseURLStringSandbox  = @"sandbox.evernote.com";
 
-FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringCN;
-FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringUS;
+NSString * const kBootstrapServerBaseURLStringUS = @"en_US";
+NSString * const kBootstrapServerBaseURLStringCN = @"zh";
 
-FOUNDATION_EXPORT NSString * const BusinessHostNameSuffix;
+NSString * const BusinessHostNameSuffix = @"-business";
 
 @end

@@ -29,9 +29,15 @@
 
 #import "EvernoteUserStore.h"
 
+/** Some utility functions for the Evernote UserStore, which makes it easier to use Business API's.
+ */
 @interface EvernoteUserStore (Extras)
 
-// Check if the user is a member of a business premium account
+/** Check if the user is a member of a business premium account.
+ 
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
 - (void)isUserMemberOfBusinessWithSuccess:(void(^)(BOOL isMemberOfBusiness))success
                            failure:(void(^)(NSError *error))failure;
 

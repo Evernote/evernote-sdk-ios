@@ -32,6 +32,7 @@
 #import "EvernoteUserStore.h"
 #import "EvernoteNoteStore+Extras.h"
 #import "EvernoteUserStore+Extras.h"
+#import "ENConstants.h"
 
 // For other application-level error codes, see EDAMErrorCode in EDAMErrors.h.
 typedef enum {

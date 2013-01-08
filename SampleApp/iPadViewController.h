@@ -17,12 +17,12 @@
 - (IBAction)createPhotoNote:(id)sender;
 - (IBAction)logout:(id)sender;
 
-@property (retain, nonatomic) IBOutlet UIButton *authenticateButton;
-@property (retain, nonatomic) IBOutlet UIButton *listNotebooksButton;
-@property (retain, nonatomic) IBOutlet UIButton *listBusinessButton;
-@property (retain, nonatomic) IBOutlet UIButton *photoNoteButton;
-@property (retain, nonatomic) IBOutlet UIButton *sharedNotesButton;
-@property (retain, nonatomic) IBOutlet UITableView *tableView;
-@property (retain, nonatomic) IBOutlet UIButton *logoutButton;
+@property (strong, nonatomic) IBOutlet UIButton *authenticateButton;
+@property (strong, nonatomic) IBOutlet UIButton *listNotebooksButton;
+@property (strong, nonatomic) IBOutlet UIButton *listBusinessButton;
+@property (strong, nonatomic) IBOutlet UIButton *photoNoteButton;
+@property (strong, nonatomic) IBOutlet UIButton *sharedNotesButton;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 
 @end

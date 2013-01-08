@@ -31,9 +31,9 @@
 
 @implementation EvernoteUserStore
 
-+ (EvernoteUserStore *)userStore
++ (instancetype)userStore
 {
-    EvernoteUserStore *userStore = [[[EvernoteUserStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteUserStore *userStore = [[EvernoteUserStore alloc] initWithSession:[EvernoteSession sharedSession]];
     return userStore;
 }
 
@@ -55,7 +55,7 @@
 
 {
     [self invokeAsyncBoolBlock:^BOOL{
-        return [self.userStore checkVersion:clientName:edamVersionMajor:edamVersionMinor];
+        return [self.userStore checkVersion:clientName edamVersionMajor:edamVersionMajor edamVersionMinor:edamVersionMinor];
     } success:success failure:failure];
 }
 

@@ -1,5 +1,5 @@
 //
-//  NSData+Base64.m
+//  NSData+ENBase64.m
 //  base64
 //
 //  Created by Matt Gallagher on 2009/06/03.
@@ -21,7 +21,7 @@
 //     distribution.
 //
 
-#import "NSData+Base64.h"
+#import "NSData+ENBase64.h"
 
 //
 // Mapping from 6 bit pattern to ASCII character.
@@ -301,11 +301,10 @@ char *NewBase64Encode(
 		NewBase64Encode([self bytes], [self length], true, &outputLength);
 	
 	NSString *result =
-		[[[NSString alloc]
+		[[NSString alloc]
 			initWithBytes:outputBuffer
 			length:outputLength
-			encoding:NSASCIIStringEncoding]
-		autorelease];
+			encoding:NSASCIIStringEncoding];
 	free(outputBuffer);
 	return result;
 }

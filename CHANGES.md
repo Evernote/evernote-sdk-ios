@@ -1,3 +1,11 @@
+= 1.0.0 / 2013-01-07
+
+* Supports bootstrapping by default, make sure you activate your consumer key for the China service
+* ARC
+* Authentication improvements, including the ability to login using the Evernote iOS app (this will be enabled automatically once the next update for the iOS app comes out)
+* Apple style documentation
+* Deployment target has been changed to 5.0. There are ways to compile for 4.0. If needed, please open an issue in GitHub
+
 = 0.2.3 / 2012-12-07
 
 * Added support for Evernote Business

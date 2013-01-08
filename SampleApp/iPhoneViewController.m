@@ -50,11 +50,11 @@
     EvernoteSession *session = [EvernoteSession sharedSession];
     [session authenticateWithViewController:self completionHandler:^(NSError *error) {
         if (error || !session.isAuthenticated) {
-            UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" 
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
                                                              message:@"Could not authenticate" 
                                                             delegate:nil 
                                                    cancelButtonTitle:@"OK" 
-                                                   otherButtonTitles:nil] autorelease];
+                                                   otherButtonTitles:nil];
             [alert show];
         } else {
             NSLog(@"authenticated! noteStoreUrl:%@ webApiUrlPrefix:%@", session.noteStoreUrl, session.webApiUrlPrefix);
@@ -105,7 +105,7 @@
 
 - (IBAction)createBusinessNotebook:(id)sender {
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
-    EDAMNotebook* notebook = [[[EDAMNotebook alloc] initWithGuid:nil name:@"test" updateSequenceNum:0 defaultNotebook:NO serviceCreated:0 serviceUpdated:0 publishing:nil published:NO stack:nil sharedNotebookIds:nil sharedNotebooks:nil businessNotebook:nil contact:nil restrictions:nil] autorelease];
+    EDAMNotebook* notebook = [[EDAMNotebook alloc] initWithGuid:nil name:@"test" updateSequenceNum:0 defaultNotebook:NO serviceCreated:0 serviceUpdated:0 publishing:nil published:NO stack:nil sharedNotebookIds:nil sharedNotebooks:nil businessNotebook:nil contact:nil restrictions:nil];
     [noteStore createBusinessNotebook:notebook success:^(EDAMLinkedNotebook *notebook) {
         NSLog(@"Created a business notebook");
     } failure:^(NSError *error) {
@@ -118,14 +118,14 @@
     EvernoteNoteStore *defaultNoteStore = [EvernoteNoteStore noteStore];
     [defaultNoteStore listLinkedNotebooksWithSuccess:^(NSArray *linkedNotebooks) {
         if(linkedNotebooks.count >0) {
-            EDAMNoteFilter* noteFilter = [[[EDAMNoteFilter alloc] initWithOrder:0
+            EDAMNoteFilter* noteFilter = [[EDAMNoteFilter alloc] initWithOrder:0
                                                                      ascending:NO
                                                                          words:nil
                                                                   notebookGuid:nil
                                                                       tagGuids:nil
                                                                       timeZone:nil
                                                                       inactive:NO
-                                                                    emphasized:nil] autorelease];
+                                                                    emphasized:nil];
             [defaultNoteStore listNotesForLinkedNotebook:linkedNotebooks[0]  withFilter:noteFilter success:^(EDAMNoteList *list) {
                 NSLog(@"Shared notes : %@",list);
             } failure:^(NSError *error) {
@@ -145,8 +145,8 @@
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
     NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
     NSData *dataHash = [myFileData md5];
-    EDAMData *edamData = [[[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData] autorelease];
-    EDAMResource* resource = [[[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil] autorelease];
+    EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+    EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
     NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                              "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
                              "<en-note>"
@@ -156,7 +156,8 @@
                              "<br />"
                              "%@"
                              "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
-    EDAMNote *newNote = [[[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:@[resource] attributes:nil tagNames:nil] autorelease];
+    NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
+    EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         NSLog(@"Note created successfully.");
     } failure:^(NSError *error) {
@@ -200,6 +201,7 @@
         self.logoutButton.enabled = NO;
         self.logoutButton.alpha = 0.5;
         self.userLabel.text = @"(not authenticated)";
+        self.businessLabel.text = @"(not authenticated)";
     }
 }
 
@@ -208,16 +210,4 @@
     [self updateButtonsForAuthentication];
 }
 
-- (void)dealloc {
-    [listNotebooksButton release];
-    [userLabel release];
-    [authenticateButton release];
-    [logoutButton release];
-    [_listBusinessButton release];
-    [_businessLabel release];
-    [_sharedNotesButton release];
-    [_createBusinessNotebookButton release];
-    [_createPhotoButton release];
-    [super dealloc];
-}
 @end

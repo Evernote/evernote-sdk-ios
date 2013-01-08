@@ -42,14 +42,14 @@
     EvernoteNoteStore* sharedNoteStore = [EvernoteNoteStore noteStoreForLinkedNotebook:linkedNotebook];
     // Get the shared notebook, for the GUID
     [sharedNoteStore getSharedNotebookByAuthWithSuccess:^(EDAMSharedNotebook *sharedNotebook) {
-        EDAMNoteFilter* noteFilter = [[[EDAMNoteFilter alloc] initWithOrder:filter.order
+        EDAMNoteFilter* noteFilter = [[EDAMNoteFilter alloc] initWithOrder:filter.order
                                                                  ascending:filter.ascending
                                                                      words:filter.words
                                                               notebookGuid:sharedNotebook.notebookGuid
                                                                   tagGuids:filter.tagGuids
                                                                   timeZone:filter.timeZone
                                                                   inactive:filter.inactive
-                                                                emphasized:filter.emphasized] autorelease];
+                                                                emphasized:filter.emphasized];
         [sharedNoteStore findNotesWithFilter:noteFilter
                                       offset:0
                                     maxNotes:200
@@ -89,7 +89,7 @@
     EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
     [businessNoteStore createNotebook:notebook success:^(EDAMNotebook *notebook) {
         EDAMSharedNotebook* sharedNotebook = notebook.sharedNotebooks[0];
-        EDAMLinkedNotebook* linkedNotebook = [[[EDAMLinkedNotebook alloc] init] autorelease];
+        EDAMLinkedNotebook* linkedNotebook = [[EDAMLinkedNotebook alloc] init];
         [linkedNotebook setShareKey:[sharedNotebook shareKey]];
         [linkedNotebook setShareName:[notebook name]];
         [linkedNotebook setUsername:[[[EvernoteSession sharedSession] businessUser] username]];
@@ -111,7 +111,8 @@
     EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
     EvernoteNoteStore* sharedNoteStore = [EvernoteNoteStore noteStoreForLinkedNotebook:notebook];
     [sharedNoteStore getSharedNotebookByAuthWithSuccess:^(EDAMSharedNotebook *sharedNotebook) {
-        [businessNoteStore expungeSharedNotebooksWithIds:@[[NSNumber numberWithInt:sharedNotebook.id]] success:^(int32_t usn) {
+        NSMutableArray* notebookIds = [NSMutableArray arrayWithArray:@[[NSNumber numberWithInt:sharedNotebook.id]]];
+        [businessNoteStore expungeSharedNotebooksWithIds:notebookIds success:^(int32_t usn) {
             [self expungeLinkedNotebookWithGuid:notebook.guid success:^(int32_t usn) {
                 success(usn);
             } failure:failure];

@@ -36,12 +36,6 @@
 @dynamic noteStore;
 @dynamic userStore;
 
-- (void)dealloc
-{
-    [_session release];
-    [super dealloc];
-}
-
 - (id)initWithSession:(EvernoteSession *)session
 {
     self = [super init];
