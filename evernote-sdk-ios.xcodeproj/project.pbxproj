@@ -17,12 +17,12 @@
 		0B345EBE1544633F00A1FDBF /* EvernoteNoteStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */; };
 		0B345EBF1544633F00A1FDBF /* EvernoteNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */; };
 		0B345EC01544633F00A1FDBF /* EvernoteNoteStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */; };
-		0B943F521525015500DB20A3 /* GCOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F261525015500DB20A3 /* GCOAuth.h */; };
-		0B943F531525015500DB20A3 /* GCOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F271525015500DB20A3 /* GCOAuth.m */; };
-		0B943F541525015500DB20A3 /* GCOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F271525015500DB20A3 /* GCOAuth.m */; };
-		0B943F551525015500DB20A3 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F281525015500DB20A3 /* NSData+Base64.h */; };
-		0B943F561525015500DB20A3 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F291525015500DB20A3 /* NSData+Base64.m */; };
-		0B943F571525015500DB20A3 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F291525015500DB20A3 /* NSData+Base64.m */; };
+		0B943F521525015500DB20A3 /* ENGCOAuth.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F261525015500DB20A3 /* ENGCOAuth.h */; };
+		0B943F531525015500DB20A3 /* ENGCOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F271525015500DB20A3 /* ENGCOAuth.m */; };
+		0B943F541525015500DB20A3 /* ENGCOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F271525015500DB20A3 /* ENGCOAuth.m */; };
+		0B943F551525015500DB20A3 /* NSData+ENBase64.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F281525015500DB20A3 /* NSData+ENBase64.h */; };
+		0B943F561525015500DB20A3 /* NSData+ENBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F291525015500DB20A3 /* NSData+ENBase64.m */; };
+		0B943F571525015500DB20A3 /* NSData+ENBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F291525015500DB20A3 /* NSData+ENBase64.m */; };
 		0B943F591525015500DB20A3 /* NSString+URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F2C1525015500DB20A3 /* NSString+URLEncoding.h */; };
 		0B943F5A1525015500DB20A3 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F2D1525015500DB20A3 /* NSString+URLEncoding.m */; };
 		0B943F5B1525015500DB20A3 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F2D1525015500DB20A3 /* NSString+URLEncoding.m */; };
@@ -143,10 +143,10 @@
 		0B2B9D6715449AEE00E5BD44 /* EvernoteSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteSDK.m; sourceTree = "<group>"; };
 		0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteNoteStore.h; sourceTree = "<group>"; };
 		0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteNoteStore.m; sourceTree = "<group>"; };
-		0B943F261525015500DB20A3 /* GCOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCOAuth.h; sourceTree = "<group>"; };
-		0B943F271525015500DB20A3 /* GCOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCOAuth.m; sourceTree = "<group>"; };
-		0B943F281525015500DB20A3 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
-		0B943F291525015500DB20A3 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		0B943F261525015500DB20A3 /* ENGCOAuth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENGCOAuth.h; sourceTree = "<group>"; };
+		0B943F271525015500DB20A3 /* ENGCOAuth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENGCOAuth.m; sourceTree = "<group>"; };
+		0B943F281525015500DB20A3 /* NSData+ENBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ENBase64.h"; sourceTree = "<group>"; };
+		0B943F291525015500DB20A3 /* NSData+ENBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+ENBase64.m"; sourceTree = "<group>"; };
 		0B943F2C1525015500DB20A3 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		0B943F2D1525015500DB20A3 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		0B943F301525015500DB20A3 /* TBinaryProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBinaryProtocol.h; sourceTree = "<group>"; };
@@ -301,10 +301,10 @@
 			isa = PBXGroup;
 			children = (
 				0BBA34A51537AF7D00DC7DD5 /* LICENSE */,
-				0B943F261525015500DB20A3 /* GCOAuth.h */,
-				0B943F271525015500DB20A3 /* GCOAuth.m */,
-				0B943F281525015500DB20A3 /* NSData+Base64.h */,
-				0B943F291525015500DB20A3 /* NSData+Base64.m */,
+				0B943F261525015500DB20A3 /* ENGCOAuth.h */,
+				0B943F271525015500DB20A3 /* ENGCOAuth.m */,
+				0B943F281525015500DB20A3 /* NSData+ENBase64.h */,
+				0B943F291525015500DB20A3 /* NSData+ENBase64.m */,
 			);
 			path = "cocoa-oauth";
 			sourceTree = "<group>";
@@ -378,8 +378,6 @@
 				0B98592715432592007D7D37 /* ENCredentialStore.m */,
 				0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */,
 				A96E28EC165597C90031EC63 /* ENOAuthViewController.m */,
-				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
-				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
 			);
 			path = internal;
 			sourceTree = "<group>";
@@ -434,6 +432,8 @@
 				A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */,
 				0BB3D2381524EE62001C4534 /* EvernoteSession.h */,
 				0BB3D2391524EE62001C4534 /* EvernoteSession.m */,
+				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
+				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
 				0B98592115432592007D7D37 /* internal */,
 				0BB3D22C1524EE62001C4534 /* EDAM */,
 				0B943F241525015500DB20A3 /* 3rdParty */,
@@ -631,8 +631,8 @@
 				0B943F761525015500DB20A3 /* TMemoryBuffer.h in Headers */,
 				0B943F821525015500DB20A3 /* TTransport.h in Headers */,
 				0B943F831525015500DB20A3 /* TTransportException.h in Headers */,
-				0B943F521525015500DB20A3 /* GCOAuth.h in Headers */,
-				0B943F551525015500DB20A3 /* NSData+Base64.h in Headers */,
+				0B943F521525015500DB20A3 /* ENGCOAuth.h in Headers */,
+				0B943F551525015500DB20A3 /* NSData+ENBase64.h in Headers */,
 				0B943F591525015500DB20A3 /* NSString+URLEncoding.h in Headers */,
 				0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */,
 				0B98592815432592007D7D37 /* ENAPI.h in Headers */,
@@ -787,8 +787,8 @@
 				0BB3D2421524EE62001C4534 /* EDAMUserStore.m in Sources */,
 				0BB3D2441524EE62001C4534 /* EDAMErrors.m in Sources */,
 				0BB3D2461524EE62001C4534 /* EvernoteSession.m in Sources */,
-				0B943F531525015500DB20A3 /* GCOAuth.m in Sources */,
-				0B943F561525015500DB20A3 /* NSData+Base64.m in Sources */,
+				0B943F531525015500DB20A3 /* ENGCOAuth.m in Sources */,
+				0B943F561525015500DB20A3 /* NSData+ENBase64.m in Sources */,
 				0B943F5A1525015500DB20A3 /* NSString+URLEncoding.m in Sources */,
 				0B943F5D1525015500DB20A3 /* TBinaryProtocol.m in Sources */,
 				0B943F611525015500DB20A3 /* TProtocolException.m in Sources */,
@@ -829,8 +829,8 @@
 				0BB3D27A1524EF37001C4534 /* main.m in Sources */,
 				0BB3D27E1524EF37001C4534 /* AppDelegate.m in Sources */,
 				0BB3D2841524EF37001C4534 /* iPhoneViewController.m in Sources */,
-				0B943F541525015500DB20A3 /* GCOAuth.m in Sources */,
-				0B943F571525015500DB20A3 /* NSData+Base64.m in Sources */,
+				0B943F541525015500DB20A3 /* ENGCOAuth.m in Sources */,
+				0B943F571525015500DB20A3 /* NSData+ENBase64.m in Sources */,
 				0B943F5B1525015500DB20A3 /* NSString+URLEncoding.m in Sources */,
 				0B943F5E1525015500DB20A3 /* TBinaryProtocol.m in Sources */,
 				0B943F621525015500DB20A3 /* TProtocolException.m in Sources */,

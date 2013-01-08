@@ -32,7 +32,7 @@
 #import "ENCredentialStore.h"
 #import "EvernoteSDK.h"
 #import "EvernoteSession.h"
-#import "GCOAuth.h"
+#import "ENGCOAuth.h"
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
 #import "NSDate+EDAMAdditions.h"
@@ -397,7 +397,7 @@
 - (void)startOauthAuthentication
 {
     // OAuth step 1: temporary credentials (aka request token) request
-    NSURLRequest *tempTokenRequest = [GCOAuth URLRequestForPath:@"/oauth"
+    NSURLRequest *tempTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
                                                   GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                  [self oauthCallback], @"oauth_callback", nil]
                                                          scheme:SCHEME
@@ -454,7 +454,7 @@
     NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
     NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
     NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
-    NSURLRequest *authTokenRequest = [GCOAuth URLRequestForPath:@"/oauth"
+    NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
                                                   GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                  oauthVerifier, @"oauth_verifier", nil]
                                                          scheme:SCHEME
@@ -812,7 +812,7 @@
     NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
     NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
     NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
-    NSURLRequest *authTokenRequest = [GCOAuth URLRequestForPath:@"/oauth"
+    NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
                                                   GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                  oauthVerifier, @"oauth_verifier", nil]
                                                          scheme:SCHEME
