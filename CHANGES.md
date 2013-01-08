@@ -4,6 +4,7 @@
 * ARC
 * Authentication improvements, including the ability to login using the Evernote iOS app (this will be enabled automatically once the next update for the iOS app comes out)
 * Apple style documentation
+* Deployment target has been changed to 5.0. There are ways to compile for 4.0. If needed, please open an issue in GitHub
 
 = 0.2.3 / 2012-12-07
 
