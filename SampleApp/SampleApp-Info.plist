@@ -35,7 +35,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>en-mustafaf</string>
+				<string>en-&lt;your consumer key&gt;</string>
 			</array>
 		</dict>
 	</array>

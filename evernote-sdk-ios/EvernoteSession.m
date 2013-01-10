@@ -550,6 +550,7 @@
         if([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"en://"]] == NO) {
             self.isMultitaskLoginDisabled = YES;
         }
+        [self verifyCFBundleURLSchemes];
         if ([device respondsToSelector:@selector(isMultitaskingSupported)] &&
             [device isMultitaskingSupported] &&
             self.isMultitaskLoginDisabled==NO) {
@@ -624,7 +625,9 @@
             self.oauthViewController.modalPresentationStyle = UIModalPresentationFormSheet;
             oauthNavController.modalPresentationStyle = UIModalPresentationFormSheet;
         }
-        [self.viewController presentModalViewController:oauthNavController animated:YES];
+        [self.viewController presentViewController:oauthNavController animated:YES completion:^{
+            ;
+        }];
     }
     else {
         [self.oauthViewController updateUIForNewProfile:self.currentProfile withAuthorizationURL:authorizationURL];
@@ -706,6 +709,33 @@
     }
     // Restart oAuth dance
     [self startOauthAuthentication];
+}
+
+// Make sure our Info.plist has the needed CFBundleURLTypes/CGBundleURLSchemes entries.
+// E.g.
+// <key>CFBundleURLTypes</key>
+// <array>
+//   <dict>
+//     <key>CFBundleURLSchemes</key>
+//     <array>
+//       <string>en-YOUR_CONSUMER_KEY</string>
+//     </array>
+//   </dict>
+// </array>
+
+- (void)verifyCFBundleURLSchemes {
+    NSArray *urlTypes = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleURLTypes"];
+    NSString* callbackScheme = [NSString stringWithFormat:@"en-%@",self.consumerKey];
+    
+    for (NSDictionary *dict in urlTypes) {
+        NSArray *urlSchemes = [dict objectForKey:@"CFBundleURLSchemes"];
+        for (NSString *urlScheme in urlSchemes) {
+            if ([callbackScheme isEqualToString:urlScheme]) {
+                return;
+            }
+        }
+    }
+    self.isMultitaskLoginDisabled = YES;
 }
 
 #pragma mark - querystring parsing
