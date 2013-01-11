@@ -67,6 +67,8 @@
 
 @property(readwrite) ENSessionState state;
 
+@property (nonatomic, strong) NSDate* startDate;
+
 // generate a dictionary of name=>value from the given queryString
 + (NSDictionary *)parametersFromQueryString:(NSString *)queryString;
 
@@ -405,7 +407,9 @@
                                                     consumerKey:self.consumerKey
                                                  consumerSecret:self.consumerSecret
                                                     accessToken:nil
-                                                    tokenSecret:nil];    
+                                                    tokenSecret:nil];
+    
+    self.startDate = [NSDate date];
     NSURLConnection *connection = [self connectionWithRequest:tempTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
@@ -462,7 +466,9 @@
                                                     consumerKey:self.consumerKey
                                                  consumerSecret:self.consumerSecret
                                                     accessToken:oauthToken
-                                                    tokenSecret:self.tokenSecret];    
+                                                    tokenSecret:self.tokenSecret];
+    
+    self.startDate = [NSDate date];
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.
@@ -538,6 +544,7 @@
         // Save the token secret, for later use in OAuth step 3.
         self.tokenSecret = [parameters objectForKey:@"oauth_token_secret"];
         
+        NSLog(@"OAuth Step 1 - Time Running is: %f",[self.startDate timeIntervalSinceNow] * - 1);
         
         // If the device supports multitasking,
         // try to get the OAuth token from the Evernote app
@@ -577,6 +584,8 @@
         NSString *noteStoreUrl = [parameters objectForKey:@"edam_noteStoreUrl"];
         NSString *edamUserId = [parameters objectForKey:@"edam_userId"];
         NSString *webApiUrlPrefix = [parameters objectForKey:@"edam_webApiUrlPrefix"];
+        
+        NSLog(@"OAuth Step 3 - Time Running is: %f",[self.startDate timeIntervalSinceNow] * -1);
         // Evernote doesn't use the token secret, so we can ignore it.
         // NSString *oauthTokenSecret = [parameters objectForKey:@"oauth_token_secret"];
         
@@ -850,7 +859,8 @@
                                                     consumerKey:self.consumerKey
                                                  consumerSecret:self.consumerSecret
                                                     accessToken:oauthToken
-                                                    tokenSecret:self.tokenSecret];    
+                                                    tokenSecret:self.tokenSecret];
+    self.startDate = [NSDate date];
     NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
     if (!connection) {
         // can't make connection, so immediately fail.

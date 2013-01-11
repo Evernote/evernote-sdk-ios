@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString* currentProfileName;
 @property (nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property (nonatomic, assign) BOOL isSwitchingAllowed;
+@property (nonatomic, strong) NSDate* startDate;
 
 @end
 
@@ -130,6 +131,7 @@
     [self.activityIndicator startAnimating];
     [self.webView setDelegate:self];
     [self.webView loadRequest:[NSURLRequest requestWithURL:self.authorizationURL]];
+    self.startDate = [NSDate date];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -173,6 +175,8 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activityIndicator stopAnimating];
+    self.startDate = [NSDate date];
+    NSLog(@"OAuth Step 2 - Time Running is: %f",[self.startDate timeIntervalSinceNow] * -1);
 }
 
 @end
