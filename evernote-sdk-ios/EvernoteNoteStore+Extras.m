@@ -28,6 +28,7 @@
  */
 
 #import "EvernoteNoteStore+Extras.h"
+#import "EDAMNoteStoreClient+Utilities.h"
 #import "EDAMTypes.h"
 
 @implementation EvernoteNoteStore (Extras)
@@ -157,6 +158,12 @@
      createTag:tag
      success:success
      failure:failure];
+}
+
+#pragma mark - Custom extra function
+
+- (void)cancel {
+    [[self currentNoteStore] cancel];
 }
 
 @end

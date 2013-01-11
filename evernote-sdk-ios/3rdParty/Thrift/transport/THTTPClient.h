@@ -38,5 +38,7 @@
 
 - (void) setURL: (NSURL *) aURL;
 
+- (void) cancel;
+
 @end
 

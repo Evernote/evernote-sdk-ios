@@ -33,4 +33,6 @@
 - (void) write: (const uint8_t *) data offset: (unsigned int) offset length: (unsigned int) length;
 
 - (void) flush;
+
+- (void) cancel;
 @end

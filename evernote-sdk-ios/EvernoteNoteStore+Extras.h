@@ -125,4 +125,8 @@
                   success:(void(^)(EDAMTag *tag))success
                   failure:(void(^)(NSError *error))failure;
 
+/** Cancel the first operation in the queue
+ */
+- (void) cancel;
+
 @end

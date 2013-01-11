@@ -119,6 +119,12 @@
 		A96E28E1165594480031EC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A96E28DF1655941F0031EC63 /* Localizable.strings */; };
 		A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
+		A96FE4D816A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */; };
+		A96FE4D916A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */; };
+		A96FE4DA16A097B700F1AD8C /* EDAMNoteStoreClient+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */; };
+		A96FE4EE16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = A96FE4EC16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.h */; };
+		A96FE4EF16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A96FE4ED16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m */; };
+		A96FE4F016A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A96FE4ED16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m */; };
 		A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; };
 		A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
 		A9C554FE16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
@@ -238,6 +244,10 @@
 		A92602C316740D5700F01E63 /* ENMLUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENMLUtility.m; sourceTree = "<group>"; };
 		A96E28E01655941F0031EC63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		A96E28EC165597C90031EC63 /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
+		A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDAMNoteStoreClient+Utilities.h"; sourceTree = "<group>"; };
+		A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDAMNoteStoreClient+Utilities.m"; sourceTree = "<group>"; };
+		A96FE4EC16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENAFURLConnectionOperation.h; sourceTree = "<group>"; };
+		A96FE4ED16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENAFURLConnectionOperation.m; sourceTree = "<group>"; };
 		A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+EDAMAdditions.h"; sourceTree = "<group>"; };
 		A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+EDAMAdditions.m"; sourceTree = "<group>"; };
 		A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EvernoteNoteStore+Extras.h"; sourceTree = "<group>"; };
@@ -289,6 +299,7 @@
 		0B943F241525015500DB20A3 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				A96FE4EB16A0A3DB00F1AD8C /* AFNetworking */,
 				0B943F251525015500DB20A3 /* cocoa-oauth */,
 				0B943F2B1525015500DB20A3 /* NSString+URLEncoding */,
 				0BF0CF7D152E25E1003D6115 /* SSKeychain */,
@@ -434,6 +445,8 @@
 				0BB3D2391524EE62001C4534 /* EvernoteSession.m */,
 				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
 				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
+				A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */,
+				A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */,
 				0B98592115432592007D7D37 /* internal */,
 				0BB3D22C1524EE62001C4534 /* EDAM */,
 				0B943F241525015500DB20A3 /* 3rdParty */,
@@ -590,6 +603,15 @@
 			path = en.lproj;
 			sourceTree = "<group>";
 		};
+		A96FE4EB16A0A3DB00F1AD8C /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				A96FE4EC16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.h */,
+				A96FE4ED16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
 		A9C554F416712E8D006E0020 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -649,6 +671,8 @@
 				A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */,
 				A92602C416740D5700F01E63 /* ENMLUtility.h in Headers */,
 				A9D166C5169151D600043DA0 /* TObjective-C.h in Headers */,
+				A96FE4D816A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h in Headers */,
+				A96FE4EE16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -813,6 +837,8 @@
 				A9C555071671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */,
 				A92602C01672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */,
 				A92602C516740D5700F01E63 /* ENMLUtility.m in Sources */,
+				A96FE4D916A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m in Sources */,
+				A96FE4EF16A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +881,8 @@
 				A9C555081671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */,
 				A92602C11672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */,
 				A92602C616740D5700F01E63 /* ENMLUtility.m in Sources */,
+				A96FE4DA16A097B700F1AD8C /* EDAMNoteStoreClient+Utilities.m in Sources */,
+				A96FE4F016A0A3DB00F1AD8C /* ENAFURLConnectionOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
