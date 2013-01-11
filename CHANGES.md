@@ -1,3 +1,7 @@
+= 1.0.1 / 2013-01-10
+
+* Switch to the Evernote app only if the right URL schemes are setup
+
 = 1.0.0 / 2013-01-07
 
 * Supports bootstrapping by default, make sure you activate your consumer key for the China service
