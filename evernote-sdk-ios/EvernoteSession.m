@@ -106,7 +106,9 @@
 
 - (void)dealloc
 {
+#if !OS_OBJECT_USE_OBJC
     dispatch_release(_queue);
+#endif
 }
 
 - (id)init 
