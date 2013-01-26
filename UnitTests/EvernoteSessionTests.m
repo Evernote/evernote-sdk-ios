@@ -227,7 +227,7 @@
     [self.mockSession verify];
 
     // successful authentication will dismiss the modal popup
-    [[self.mockViewController expect] dismissModalViewControllerAnimated:YES];
+	[[self.mockViewController expect] dismissViewControllerAnimated:YES completion:nil];
     
     NSString *urlString = @"en-dummyaccount-1234://response?action=oauthCallback&oauth_token=en_oauth_test.12BF88D95B9.687474703A2F2F6C6F63616C686F73742F7E736574682F4544414D576562546573742F696E6465782E7068703F616374696F6E3D63616C6C6261636B.AEDE24F1FAFD67D267E78D27D14F01D3&oauth_verifier=0D6A636CD623302F8D69DBB8DF76D86E";
     [self.mockSession oauthViewController:nil receivedOAuthCallbackURL:[NSURL URLWithString:urlString]];
