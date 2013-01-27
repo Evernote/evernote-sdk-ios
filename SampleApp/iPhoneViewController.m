@@ -106,10 +106,10 @@
 - (IBAction)createBusinessNotebook:(id)sender {
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     EDAMNotebook* notebook = [[EDAMNotebook alloc] initWithGuid:nil name:@"test" updateSequenceNum:0 defaultNotebook:NO serviceCreated:0 serviceUpdated:0 publishing:nil published:NO stack:nil sharedNotebookIds:nil sharedNotebooks:nil businessNotebook:nil contact:nil restrictions:nil];
-    [noteStore createBusinessNotebook:notebook success:^(EDAMLinkedNotebook *notebook) {
-        NSLog(@"Created a business notebook");
+    [noteStore createBusinessNotebook:notebook success:^(EDAMLinkedNotebook *businessNotebook) {
+        NSLog(@"Created a business notebook : %@",businessNotebook);
     } failure:^(NSError *error) {
-        NSLog(@"ERror : %@",error);
+        NSLog(@"Error : %@",error);
     }];
 }
 

@@ -46,7 +46,7 @@
     
     NSMutableString * hex = [NSMutableString stringWithCapacity: [self length] * 2];
     
-    int i;
+    NSUInteger i;
     for (i = 0; i < [self length]; i++) {
         [hex appendFormat: @"%.2x", bytes[i]];
     }

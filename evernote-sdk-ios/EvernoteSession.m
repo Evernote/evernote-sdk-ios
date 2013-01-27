@@ -450,35 +450,37 @@
 
 - (BOOL)handleOpenURL:(NSURL *)url
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];
-    // only handle our specific oauth_callback URLs
+    [self.viewController dismissViewControllerAnimated:YES completion:^{
+        // only handle our specific oauth_callback URLs
+        if (![[url absoluteString] hasPrefix:[self oauthCallback]]) {
+            return;
+        }
+        // OAuth step 3: got authorization from the user, now get a real token.
+        NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
+        NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
+        NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
+        NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
+                                                        GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                       oauthVerifier, @"oauth_verifier", nil]
+                                                               scheme:SCHEME
+                                                                 host:self.host
+                                                          consumerKey:self.consumerKey
+                                                       consumerSecret:self.consumerSecret
+                                                          accessToken:oauthToken
+                                                          tokenSecret:self.tokenSecret];
+        
+        self.startDate = [NSDate date];
+        NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
+        if (!connection) {
+            // can't make connection, so immediately fail.
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
+                                                                      code:EvernoteSDKErrorCode_TRANSPORT_ERROR
+                                                                  userInfo:nil]];
+        };
+    }];
     if (![[url absoluteString] hasPrefix:[self oauthCallback]]) {
         return NO;
     }
-    
-    // OAuth step 3: got authorization from the user, now get a real token.
-    NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
-    NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
-    NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
-    NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
-                                                  GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                 oauthVerifier, @"oauth_verifier", nil]
-                                                         scheme:SCHEME
-                                                           host:self.host
-                                                    consumerKey:self.consumerKey
-                                                 consumerSecret:self.consumerSecret
-                                                    accessToken:oauthToken
-                                                    tokenSecret:self.tokenSecret];
-    
-    self.startDate = [NSDate date];
-    NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
-    if (!connection) {
-        // can't make connection, so immediately fail.
-        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                   userInfo:nil]];
-    }
-    
     return YES;
 }
 
@@ -692,7 +694,7 @@
 }
 
 - (void) switchProfile {
-    int profileIndex = 0;
+    NSUInteger profileIndex = 0;
     for (profileIndex = 0; profileIndex<self.profiles.count; profileIndex++) {
         EDAMBootstrapProfile *profile = [self.profiles objectAtIndex:profileIndex];
         if([self.currentProfile isEqualToString:profile.name]) {
@@ -782,8 +784,9 @@
 
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];    
-	[self completeAuthenticationWithError:nil];
+    [self.viewController dismissViewControllerAnimated:YES completion:^{
+        [self completeAuthenticationWithError:nil];
+    }];
 }
 
 - (void)oauthViewControllerDidSwitchProfile:(ENOAuthViewController *)sender {
@@ -793,8 +796,10 @@
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];
-    [self completeAuthenticationWithError:error];
+    [self.viewController dismissViewControllerAnimated:YES completion:^{
+        [self completeAuthenticationWithError:error];
+    }];
+   
 }
 
 - (BOOL)canHandleOpenURL:(NSURL *)url {
@@ -847,29 +852,29 @@
 
 - (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url
 {
-    [self.viewController dismissModalViewControllerAnimated:YES];
-    
-    // OAuth step 3: got authorization from the user, now get a real token.
-    NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
-    NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
-    NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
-    NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
-                                                  GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                 oauthVerifier, @"oauth_verifier", nil]
-                                                         scheme:SCHEME
-                                                           host:self.host
-                                                    consumerKey:self.consumerKey
-                                                 consumerSecret:self.consumerSecret
-                                                    accessToken:oauthToken
-                                                    tokenSecret:self.tokenSecret];
-    self.startDate = [NSDate date];
-    NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
-    if (!connection) {
-        // can't make connection, so immediately fail.
-        [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain 
-                                                       code:EvernoteSDKErrorCode_TRANSPORT_ERROR 
-                                                   userInfo:nil]];
-    }
+    [self.viewController dismissViewControllerAnimated:YES completion:^{
+        // OAuth step 3: got authorization from the user, now get a real token.
+        NSDictionary *parameters = [EvernoteSession parametersFromQueryString:url.query];
+        NSString *oauthToken = [parameters objectForKey:@"oauth_token"];
+        NSString *oauthVerifier = [parameters objectForKey:@"oauth_verifier"];
+        NSURLRequest *authTokenRequest = [ENGCOAuth URLRequestForPath:@"/oauth"
+                                                        GETParameters:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                       oauthVerifier, @"oauth_verifier", nil]
+                                                               scheme:SCHEME
+                                                                 host:self.host
+                                                          consumerKey:self.consumerKey
+                                                       consumerSecret:self.consumerSecret
+                                                          accessToken:oauthToken
+                                                          tokenSecret:self.tokenSecret];
+        self.startDate = [NSDate date];
+        NSURLConnection *connection = [self connectionWithRequest:authTokenRequest];
+        if (!connection) {
+            // can't make connection, so immediately fail.
+            [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
+                                                                      code:EvernoteSDKErrorCode_TRANSPORT_ERROR
+                                                                  userInfo:nil]];
+        };
+    }];
 }
 
 @end

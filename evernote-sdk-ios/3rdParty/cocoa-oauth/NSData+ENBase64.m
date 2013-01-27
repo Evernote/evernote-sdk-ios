@@ -81,7 +81,8 @@ void *NewBase64Decode(
 	size_t length,
 	size_t *outputLength)
 {
-	if (length == -1)
+    size_t invalLength = -1;
+	if (length == invalLength)
 	{
 		length = strlen(inputBuffer);
 	}
@@ -296,7 +297,7 @@ char *NewBase64Encode(
 //
 - (NSString *)base64EncodedString
 {
-	size_t outputLength;
+	size_t outputLength = 0;
 	char *outputBuffer =
 		NewBase64Encode([self bytes], [self length], true, &outputLength);
 	

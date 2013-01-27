@@ -88,16 +88,16 @@
                success:(void(^)(EDAMLinkedNotebook *notebook))success
                        failure:(void(^)(NSError *error))failure {
     EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
-    [businessNoteStore createNotebook:notebook success:^(EDAMNotebook *notebook) {
-        EDAMSharedNotebook* sharedNotebook = notebook.sharedNotebooks[0];
+    [businessNoteStore createNotebook:notebook success:^(EDAMNotebook *businessNotebook) {
+        EDAMSharedNotebook* sharedNotebook = businessNotebook.sharedNotebooks[0];
         EDAMLinkedNotebook* linkedNotebook = [[EDAMLinkedNotebook alloc] init];
         [linkedNotebook setShareKey:[sharedNotebook shareKey]];
-        [linkedNotebook setShareName:[notebook name]];
+        [linkedNotebook setShareName:[businessNotebook name]];
         [linkedNotebook setUsername:[[[EvernoteSession sharedSession] businessUser] username]];
         [linkedNotebook setShardId:[[[EvernoteSession sharedSession] businessUser] shardId]];
         [self createLinkedNotebook:linkedNotebook
-                           success:^(EDAMLinkedNotebook *linkedNotebook) {
-                               success(linkedNotebook);
+                           success:^(EDAMLinkedNotebook *businessLinkedNotebook) {
+                               success(businessLinkedNotebook);
         } failure:^(NSError *error) {
             failure(error);
         }];
@@ -112,10 +112,10 @@
     EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
     EvernoteNoteStore* sharedNoteStore = [EvernoteNoteStore noteStoreForLinkedNotebook:notebook];
     [sharedNoteStore getSharedNotebookByAuthWithSuccess:^(EDAMSharedNotebook *sharedNotebook) {
-        NSMutableArray* notebookIds = [NSMutableArray arrayWithArray:@[[NSNumber numberWithInt:sharedNotebook.id]]];
+        NSMutableArray* notebookIds = [NSMutableArray arrayWithArray:@[[NSNumber numberWithLongLong:sharedNotebook.id]]];
         [businessNoteStore expungeSharedNotebooksWithIds:notebookIds success:^(int32_t usn) {
-            [self expungeLinkedNotebookWithGuid:notebook.guid success:^(int32_t usn) {
-                success(usn);
+            [self expungeLinkedNotebookWithGuid:notebook.guid success:^(int32_t expungedUsn) {
+                success(expungedUsn);
             } failure:failure];
         } failure:failure];
     } failure:^(NSError *error) {
