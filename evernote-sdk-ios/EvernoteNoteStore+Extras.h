@@ -125,6 +125,15 @@
                   success:(void(^)(EDAMTag *tag))success
                   failure:(void(^)(NSError *error))failure;
 
+/** Save a new note to the Evernote for iOS app
+ 
+ After completetion the ENSessionDelegate will be used to confirm success or failure.
+ 
+ @param note The note that needs to be saved.
+ @param contentMimeType This can be either text/plain or text/html.
+ */
+- (void)saveNewNoteToEvernoteApp:(EDAMNote*)note withType:(NSString*)contentMimeType;
+
 /** Cancel the first operation in the queue
  */
 - (void) cancel;

@@ -30,6 +30,8 @@
 #import "EvernoteNoteStore+Extras.h"
 #import "EDAMNoteStoreClient+Utilities.h"
 #import "EDAMTypes.h"
+#import "ENApplicationBridge.h"
+#import "ENApplicationBridge_Private.h"
 
 @implementation EvernoteNoteStore (Extras)
 
@@ -158,6 +160,70 @@
      createTag:tag
      success:success
      failure:failure];
+}
+
+#pragma mark - Application bridge 
+
+- (void)saveNewNoteToEvernoteApp:(EDAMNote*)note withType:(NSString*)contentMimeType {
+    if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+        NSMutableDictionary* appBridgeData = [NSMutableDictionary dictionary];
+        ENNewNoteRequest* request = [[ENNewNoteRequest alloc] init];
+        NSMutableArray *enResources = [NSMutableArray array];
+        [request setTitle:note.title];
+        [request setContent:note.content];
+        [request setContentMimeType:contentMimeType];
+        [request setTagNames:note.tagNames];
+        [request setLatitude:[note.attributes latitude]];
+        [request setLongitude:[note.attributes longitude]];
+        [request setAltitude:[note.attributes altitude]];
+        if(note.resources.count > 0) {
+            for (EDAMResource *edamResource in note.resources) {
+                ENResourceAttachment *enRes = [[ENResourceAttachment alloc] init];
+                [enRes setMimeType:edamResource.mime];
+                [enRes setFilename:edamResource.attributes.fileName];
+                [enRes setResourceData:edamResource.data.body];
+                [enResources addObject:enRes];
+            }
+            [request setResourceAttachments:[NSArray arrayWithArray:enResources]];
+        }
+        [request setSourceApplication:[note.attributes sourceApplication]];
+        [request setSourceURL:[NSURL URLWithString:[note.attributes sourceURL]]];
+        [request setConsumerKey:[[EvernoteSession sharedSession] consumerKey]];
+        [appBridgeData setObject:[NSNumber numberWithUnsignedInt:kEN_ApplicationBridge_DataVersion] forKey:kEN_ApplicationBridge_DataVersionKey];
+        [appBridgeData setObject:[request requestIdentifier] forKey:kEN_ApplicationBridge_RequestIdentifierKey];
+        [appBridgeData setObject:[[EvernoteSession sharedSession] consumerKey] forKey:kEN_ApplicationBridge_ConsumerKey];
+        
+        
+        NSData *requestData = [NSKeyedArchiver archivedDataWithRootObject:request];
+        [appBridgeData setObject:requestData forKey:kEN_ApplicationBridge_RequestDataKey];
+        
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        if (infoDictionary != nil) {
+            NSString *appIdentifier = [infoDictionary objectForKey:(NSString *)kCFBundleIdentifierKey];
+            if (appIdentifier != nil) {
+                [appBridgeData setObject:appIdentifier forKey:kEN_ApplicationBridge_CallerAppIdentifierKey];
+            }
+            NSString *appName = [infoDictionary objectForKey:(NSString *)kCFBundleNameKey];
+            if (appName != nil) {
+                [appBridgeData setObject:appName forKey:kEN_ApplicationBridge_CallerAppNameKey];
+            }
+        }
+        NSString* pasteboardName = [NSString stringWithFormat:@"com.evernote.bridge.%@",[[EvernoteSession sharedSession] consumerKey]];
+        UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:pasteboardName create:YES];
+        [pasteboard setPersistent:YES];
+        [pasteboard setData:[NSKeyedArchiver archivedDataWithRootObject:appBridgeData] forPasteboardType:@"$EvernoteApplicationBridgeData$"];
+        NSString* openURL = [NSString stringWithFormat:@"en://new-note/consumerKey/%@/pasteBoardName/%@",[[EvernoteSession sharedSession] consumerKey],pasteboardName];
+        BOOL success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openURL]];
+        if(success) {
+            
+        }
+    }
+    else {
+        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(appNotInstalled)]) {
+            [[[EvernoteSession sharedSession] delegate] appNotInstalled];
+        }
+    }
+
 }
 
 #pragma mark - Custom extra function
