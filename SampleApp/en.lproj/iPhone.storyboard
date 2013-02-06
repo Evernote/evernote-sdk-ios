@@ -172,7 +172,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1004" y="-281"/>
+            <point key="canvasLocation" x="-1552" y="-275"/>
         </scene>
         <!--More View Controller - Evernote SDK-->
         <scene sceneID="iRE-la-Jk4">
@@ -197,6 +197,21 @@
                                     <action selector="saveNewNote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="Tz5-hm-Ol8"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="m8X-Sa-iwn">
+                                <rect key="frame" x="20" y="71" width="280" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Install Evernote for iOS app">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="installEvernote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="Z61-uR-nWu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -204,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wRb-ar-Pww" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-633" y="-281"/>
+            <point key="canvasLocation" x="-1197" y="-275"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rvk-Bj-LbK">
@@ -222,12 +237,17 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6gG-eJ-h1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1391" y="-281"/>
+            <point key="canvasLocation" x="-1910" y="-275"/>
         </scene>
     </scenes>
     <classes>
         <class className="MoreViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MoreViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="installEvernote:"/>
+                <relationship kind="action" name="saveNewNote:"/>
+                <relationship kind="action" name="viewNote:"/>
+            </relationships>
         </class>
         <class className="iPhoneViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/iPhoneViewController.h"/>

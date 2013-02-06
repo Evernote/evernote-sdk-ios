@@ -134,6 +134,14 @@
  */
 - (void)saveNewNoteToEvernoteApp:(EDAMNote*)note withType:(NSString*)contentMimeType;
 
+/** View a note using the Evernote for iOS app
+ 
+ After completetion the ENSessionDelegate will be used to confirm success or failure.
+ 
+ @param note The note that needs to be viewed.
+ */
+- (void)viewNoteInEvernote:(EDAMNote*)note;
+
 /** Cancel the first operation in the queue
  */
 - (void) cancel;

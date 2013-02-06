@@ -28,6 +28,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 #import "EDAM.h"
 #import "ENOAuthViewController.h"
 
@@ -77,12 +78,13 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 
 @protocol ENSessionDelegate <NSObject>
 - (void)noteSaved;
+- (void)appInstalled;
 - (void)appNotInstalled;
 @end
 
 /** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
-@interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate>
+@interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate,SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, copy) NSString *host;
 @property (nonatomic, copy) NSString *consumerKey;
@@ -242,5 +244,11 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  @param aProfileName The name of the profile to be switched to.
 */
 - (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName;
+
+/** Install the evernote for iOS app.
+ 
+ This can be used to present the user with a dialog to install the Evernote for iOS app
+ */
+- (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
 
 @end

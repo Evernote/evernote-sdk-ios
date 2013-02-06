@@ -12,5 +12,7 @@
 @interface MoreViewController : UIViewController <ENSessionDelegate>
 
 - (IBAction)saveNewNote:(id)sender;
+- (IBAction)viewNote:(id)sender;
+- (IBAction)installEvernote:(id)sender;
 
 @end

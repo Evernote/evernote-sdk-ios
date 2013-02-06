@@ -153,6 +153,7 @@
 		A9AD4C5A16BA0572005609A6 /* ENSearchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9AD4C3F16BA0572005609A6 /* ENSearchRequest.m */; };
 		A9AD4C5B16BA0572005609A6 /* EvernoteBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A9AD4C4016BA0572005609A6 /* EvernoteBridge.h */; };
 		A9B1E82016C056B700D54760 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E81F16C056B700D54760 /* MoreViewController.m */; };
+		A9B1E82716C1E73900D54760 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B1E82616C1E73900D54760 /* StoreKit.framework */; };
 		A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C552F716B5915200A97E48 /* Default-568h@2x.png */; };
 		A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; };
 		A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
@@ -298,6 +299,7 @@
 		A9AD4C4016BA0572005609A6 /* EvernoteBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteBridge.h; sourceTree = "<group>"; };
 		A9B1E81E16C056B700D54760 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		A9B1E81F16C056B700D54760 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		A9B1E82616C1E73900D54760 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		A9C552F716B5915200A97E48 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Default-568h@2x.png"; sourceTree = "<group>"; };
 		A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+EDAMAdditions.h"; sourceTree = "<group>"; };
 		A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+EDAMAdditions.m"; sourceTree = "<group>"; };
@@ -324,6 +326,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9B1E82716C1E73900D54760 /* StoreKit.framework in Frameworks */,
 				0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */,
 				0BB3D2701524EF37001C4534 /* UIKit.framework in Frameworks */,
 				0BB3D2711524EF37001C4534 /* Foundation.framework in Frameworks */,
@@ -471,6 +474,7 @@
 		0BB3D1AF1524ED96001C4534 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A9B1E82616C1E73900D54760 /* StoreKit.framework */,
 				0BF0CF84152E2601003D6115 /* Security.framework */,
 				0BB3D1B01524ED96001C4534 /* Foundation.framework */,
 				0BB3D24D1524EEF3001C4534 /* UIKit.framework */,

@@ -97,7 +97,6 @@
 
 @synthesize completionHandler = _completionHandler;
 @synthesize queue = _queue;
-
 @dynamic authenticationToken;
 @dynamic isAuthenticated;
 @dynamic userStoreUrl;
@@ -890,5 +889,35 @@
                                                                   code:EvernoteSDKErrorCode_TRANSPORT_ERROR
                                                               userInfo:nil]];
     };
+}
+
+- (void)installEvernoteAppUsingViewController:(UIViewController*)viewController {
+    if([SKStoreProductViewController class]) {
+        SKStoreProductViewController *storeViewController =
+        [[SKStoreProductViewController alloc] init];
+        [storeViewController setDelegate:self];
+        NSDictionary *parameters =
+        @{SKStoreProductParameterITunesItemIdentifier:
+              [NSNumber numberWithInteger:281796108]};
+        [storeViewController loadProductWithParameters:parameters
+                                       completionBlock:^(BOOL result, NSError *error) {
+                                           if (result)
+                                               [viewController presentViewController:storeViewController
+                                                                            animated:YES
+                                                                          completion:nil];
+                                       }];
+    }
+    else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/evernote/id281796108"]];
+    }
+}
+
+#pragma mark - SKStoreProductViewController delegate
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    [viewController dismissViewControllerAnimated:YES completion:^{
+        if(self.delegate && [self.delegate respondsToSelector:@selector(appInstalled)]) {
+            [self.delegate appInstalled];
+        }
+    }];
 }
 @end

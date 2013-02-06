@@ -50,11 +50,35 @@
     [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
 }
 
+- (IBAction)viewNote:(id)sender {
+    NSLog(@"Viewing note..");
+    EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
+    [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:0 maxNotes:100 success:^(EDAMNoteList *list) {
+        NSLog(@"Notes : %d",list.notes.count);
+        [[EvernoteNoteStore noteStore] viewNoteInEvernote:list.notes[0]];
+    } failure:^(NSError *error) {
+        NSLog(@"Error : %@",error);
+    }];
+}
+
+- (IBAction)installEvernote:(id)sender {
+    [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self];
+}
+
 - (void)noteSaved {
     NSLog(@"Note saved successfully");
 }
 
 - (void)appNotInstalled {
     NSLog(@"app not installed");
+}
+
+-(void) appInstalled {
+    NSLog(@"App was installed");
+}
+
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
 }
 @end
