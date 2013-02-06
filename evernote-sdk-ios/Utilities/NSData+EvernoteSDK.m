@@ -69,7 +69,7 @@
     unsigned char * bytes = [data mutableBytes];
     
     const char * pos = sourceBytes;
-    for (int count = 0; count < [hexDigits length] / 2; count++) {
+    for (NSUInteger count = 0; count < [hexDigits length] / 2; count++) {
         sscanf(pos, "%2hhx", &bytes[count]);
         pos += 2;
     }

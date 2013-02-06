@@ -85,11 +85,15 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser {
     [self.htmlWriter close];
-    self.completionBlock(self.outputHTML,nil);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionBlock(self.outputHTML,nil);
+    });
 }
 
 - (void) parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError {
-    self.completionBlock(nil,parseError);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionBlock(nil,parseError);
+    });
 }
 
 - (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {

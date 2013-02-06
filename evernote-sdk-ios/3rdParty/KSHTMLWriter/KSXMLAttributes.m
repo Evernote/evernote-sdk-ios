@@ -38,7 +38,7 @@
 {
   NSMutableDictionary *result = [NSMutableDictionary dictionary];
   
-  for (int i = 0; i < [_attributes count]; i+=2)
+  for (NSUInteger i = 0; i < [_attributes count]; i+=2)
   {
     NSString *attribute = [_attributes objectAtIndex:i];
     NSString *value = [_attributes objectAtIndex:i+1];
@@ -64,9 +64,6 @@
 - (void)addAttribute:(NSString *)attribute value:(id)value;
 {
   NSParameterAssert(value);
-  
-  // TODO: Ignore if the attribute is already present
-  
   [_attributes addObject:attribute];
   [_attributes addObject:value];
 }
