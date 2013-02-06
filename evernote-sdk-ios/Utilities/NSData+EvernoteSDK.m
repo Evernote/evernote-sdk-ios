@@ -54,6 +54,27 @@
     return hex;
 }
 
-
++ (NSData *) dataWithHexDigits: (NSString *) hexDigits
+{
+    if (!hexDigits) {
+        return nil;
+    }
+    if ([hexDigits length] % 2 != 0) {
+        return nil;
+    }
+    
+    NSMutableData * data = [NSMutableData dataWithLength: [hexDigits length] / 2];
+    
+    const char * sourceBytes = [hexDigits cStringUsingEncoding: NSASCIIStringEncoding];
+    unsigned char * bytes = [data mutableBytes];
+    
+    const char * pos = sourceBytes;
+    for (int count = 0; count < [hexDigits length] / 2; count++) {
+        sscanf(pos, "%2hhx", &bytes[count]);
+        pos += 2;
+    }
+    
+	return [NSData dataWithData:data];
+}
 
 @end

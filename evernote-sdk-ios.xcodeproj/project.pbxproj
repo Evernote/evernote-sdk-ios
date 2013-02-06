@@ -154,6 +154,28 @@
 		A9AD4C5B16BA0572005609A6 /* EvernoteBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A9AD4C4016BA0572005609A6 /* EvernoteBridge.h */; };
 		A9B1E82016C056B700D54760 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E81F16C056B700D54760 /* MoreViewController.m */; };
 		A9B1E82716C1E73900D54760 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B1E82616C1E73900D54760 /* StoreKit.framework */; };
+		A9B1E86616C2242200D54760 /* KSForwardingWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E85B16C2242200D54760 /* KSForwardingWriter.h */; };
+		A9B1E86716C2242200D54760 /* KSForwardingWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E85C16C2242200D54760 /* KSForwardingWriter.m */; };
+		A9B1E86816C2242200D54760 /* KSForwardingWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E85C16C2242200D54760 /* KSForwardingWriter.m */; };
+		A9B1E86916C2242200D54760 /* KSHTMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E85D16C2242200D54760 /* KSHTMLWriter.h */; };
+		A9B1E86A16C2242200D54760 /* KSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E85E16C2242200D54760 /* KSHTMLWriter.m */; };
+		A9B1E86B16C2242200D54760 /* KSHTMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E85E16C2242200D54760 /* KSHTMLWriter.m */; };
+		A9B1E86C16C2242200D54760 /* KSWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E85F16C2242200D54760 /* KSWriter.h */; };
+		A9B1E86D16C2242200D54760 /* KSWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86016C2242200D54760 /* KSWriter.m */; };
+		A9B1E86E16C2242200D54760 /* KSWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86016C2242200D54760 /* KSWriter.m */; };
+		A9B1E86F16C2242200D54760 /* KSXMLAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E86116C2242200D54760 /* KSXMLAttributes.h */; };
+		A9B1E87016C2242200D54760 /* KSXMLAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86216C2242200D54760 /* KSXMLAttributes.m */; };
+		A9B1E87116C2242200D54760 /* KSXMLAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86216C2242200D54760 /* KSXMLAttributes.m */; };
+		A9B1E87216C2242200D54760 /* KSXMLWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E86316C2242200D54760 /* KSXMLWriter.h */; };
+		A9B1E87316C2242200D54760 /* KSXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86416C2242200D54760 /* KSXMLWriter.m */; };
+		A9B1E87416C2242200D54760 /* KSXMLWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E86416C2242200D54760 /* KSXMLWriter.m */; };
+		A9B1E87516C2242200D54760 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = A9B1E86516C2242200D54760 /* LICENSE.txt */; };
+		A9B1E87A16C2259F00D54760 /* NSString+XMLAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E87816C2259F00D54760 /* NSString+XMLAdditions.h */; };
+		A9B1E87B16C2259F00D54760 /* NSString+XMLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E87916C2259F00D54760 /* NSString+XMLAdditions.m */; };
+		A9B1E87C16C2259F00D54760 /* NSString+XMLAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E87916C2259F00D54760 /* NSString+XMLAdditions.m */; };
+		A9B1E88B16C2F99A00D54760 /* NSDataBase64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E88916C2F99A00D54760 /* NSDataBase64Additions.h */; };
+		A9B1E88C16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */; };
+		A9B1E88D16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */; };
 		A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C552F716B5915200A97E48 /* Default-568h@2x.png */; };
 		A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; };
 		A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
@@ -300,6 +322,21 @@
 		A9B1E81E16C056B700D54760 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		A9B1E81F16C056B700D54760 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		A9B1E82616C1E73900D54760 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A9B1E85B16C2242200D54760 /* KSForwardingWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSForwardingWriter.h; sourceTree = "<group>"; };
+		A9B1E85C16C2242200D54760 /* KSForwardingWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSForwardingWriter.m; sourceTree = "<group>"; };
+		A9B1E85D16C2242200D54760 /* KSHTMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSHTMLWriter.h; sourceTree = "<group>"; };
+		A9B1E85E16C2242200D54760 /* KSHTMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSHTMLWriter.m; sourceTree = "<group>"; };
+		A9B1E85F16C2242200D54760 /* KSWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSWriter.h; sourceTree = "<group>"; };
+		A9B1E86016C2242200D54760 /* KSWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSWriter.m; sourceTree = "<group>"; };
+		A9B1E86116C2242200D54760 /* KSXMLAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSXMLAttributes.h; sourceTree = "<group>"; };
+		A9B1E86216C2242200D54760 /* KSXMLAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSXMLAttributes.m; sourceTree = "<group>"; };
+		A9B1E86316C2242200D54760 /* KSXMLWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSXMLWriter.h; sourceTree = "<group>"; };
+		A9B1E86416C2242200D54760 /* KSXMLWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSXMLWriter.m; sourceTree = "<group>"; };
+		A9B1E86516C2242200D54760 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		A9B1E87816C2259F00D54760 /* NSString+XMLAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+XMLAdditions.h"; sourceTree = "<group>"; };
+		A9B1E87916C2259F00D54760 /* NSString+XMLAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+XMLAdditions.m"; sourceTree = "<group>"; };
+		A9B1E88916C2F99A00D54760 /* NSDataBase64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataBase64Additions.h; sourceTree = "<group>"; };
+		A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataBase64Additions.m; sourceTree = "<group>"; };
 		A9C552F716B5915200A97E48 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../../../Default-568h@2x.png"; sourceTree = "<group>"; };
 		A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+EDAMAdditions.h"; sourceTree = "<group>"; };
 		A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+EDAMAdditions.m"; sourceTree = "<group>"; };
@@ -353,6 +390,7 @@
 		0B943F241525015500DB20A3 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				A9B1E85A16C2242200D54760 /* KSHTMLWriter */,
 				A96FE4EB16A0A3DB00F1AD8C /* AFNetworking */,
 				0B943F251525015500DB20A3 /* cocoa-oauth */,
 				0B943F2B1525015500DB20A3 /* NSString+URLEncoding */,
@@ -700,9 +738,31 @@
 			path = Bridge;
 			sourceTree = "<group>";
 		};
+		A9B1E85A16C2242200D54760 /* KSHTMLWriter */ = {
+			isa = PBXGroup;
+			children = (
+				A9B1E87816C2259F00D54760 /* NSString+XMLAdditions.h */,
+				A9B1E87916C2259F00D54760 /* NSString+XMLAdditions.m */,
+				A9B1E85B16C2242200D54760 /* KSForwardingWriter.h */,
+				A9B1E85C16C2242200D54760 /* KSForwardingWriter.m */,
+				A9B1E85D16C2242200D54760 /* KSHTMLWriter.h */,
+				A9B1E85E16C2242200D54760 /* KSHTMLWriter.m */,
+				A9B1E85F16C2242200D54760 /* KSWriter.h */,
+				A9B1E86016C2242200D54760 /* KSWriter.m */,
+				A9B1E86116C2242200D54760 /* KSXMLAttributes.h */,
+				A9B1E86216C2242200D54760 /* KSXMLAttributes.m */,
+				A9B1E86316C2242200D54760 /* KSXMLWriter.h */,
+				A9B1E86416C2242200D54760 /* KSXMLWriter.m */,
+				A9B1E86516C2242200D54760 /* LICENSE.txt */,
+			);
+			path = KSHTMLWriter;
+			sourceTree = "<group>";
+		};
 		A9C554F416712E8D006E0020 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A9B1E88916C2F99A00D54760 /* NSDataBase64Additions.h */,
+				A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */,
 				A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */,
 				A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */,
 				A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */,
@@ -772,6 +832,13 @@
 				A9AD4C5516BA0572005609A6 /* ENResourceAttachment.h in Headers */,
 				A9AD4C5816BA0572005609A6 /* ENSearchRequest.h in Headers */,
 				A9AD4C5B16BA0572005609A6 /* EvernoteBridge.h in Headers */,
+				A9B1E86616C2242200D54760 /* KSForwardingWriter.h in Headers */,
+				A9B1E86916C2242200D54760 /* KSHTMLWriter.h in Headers */,
+				A9B1E86C16C2242200D54760 /* KSWriter.h in Headers */,
+				A9B1E86F16C2242200D54760 /* KSXMLAttributes.h in Headers */,
+				A9B1E87216C2242200D54760 /* KSXMLWriter.h in Headers */,
+				A9B1E87A16C2259F00D54760 /* NSString+XMLAdditions.h in Headers */,
+				A9B1E88B16C2F99A00D54760 /* NSDataBase64Additions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -871,6 +938,7 @@
 				A96E28E1165594480031EC63 /* Localizable.strings in Resources */,
 				A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */,
 				A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */,
+				A9B1E87516C2242200D54760 /* LICENSE.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +1030,13 @@
 				A9AD4C5316BA0572005609A6 /* ENNoteViewRequest.m in Sources */,
 				A9AD4C5616BA0572005609A6 /* ENResourceAttachment.m in Sources */,
 				A9AD4C5916BA0572005609A6 /* ENSearchRequest.m in Sources */,
+				A9B1E86716C2242200D54760 /* KSForwardingWriter.m in Sources */,
+				A9B1E86A16C2242200D54760 /* KSHTMLWriter.m in Sources */,
+				A9B1E86D16C2242200D54760 /* KSWriter.m in Sources */,
+				A9B1E87016C2242200D54760 /* KSXMLAttributes.m in Sources */,
+				A9B1E87316C2242200D54760 /* KSXMLWriter.m in Sources */,
+				A9B1E87B16C2259F00D54760 /* NSString+XMLAdditions.m in Sources */,
+				A9B1E88C16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1015,6 +1090,13 @@
 				A9AD4C5716BA0572005609A6 /* ENResourceAttachment.m in Sources */,
 				A9AD4C5A16BA0572005609A6 /* ENSearchRequest.m in Sources */,
 				A9B1E82016C056B700D54760 /* MoreViewController.m in Sources */,
+				A9B1E86816C2242200D54760 /* KSForwardingWriter.m in Sources */,
+				A9B1E86B16C2242200D54760 /* KSHTMLWriter.m in Sources */,
+				A9B1E86E16C2242200D54760 /* KSWriter.m in Sources */,
+				A9B1E87116C2242200D54760 /* KSXMLAttributes.m in Sources */,
+				A9B1E87416C2242200D54760 /* KSXMLWriter.m in Sources */,
+				A9B1E87C16C2259F00D54760 /* NSString+XMLAdditions.m in Sources */,
+				A9B1E88D16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
