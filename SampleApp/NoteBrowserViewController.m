@@ -13,6 +13,7 @@
 @interface NoteBrowserViewController ()
 
 @property (nonatomic,assign) NSInteger currentNote;
+@property (nonatomic,strong) UIActivityIndicatorView* activityIndicator;
 
 @end
 
@@ -32,6 +33,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.btnPrev setEnabled:NO];
+    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    CGRect viewRect = self.webView.frame;
+    [self.activityIndicator setFrame:CGRectMake(viewRect.size.width/2, viewRect.size.height/2, 20, 20)];
+    [self.activityIndicator setHidesWhenStopped:YES];
+    [self.webView addSubview:self.activityIndicator];
     [self loadCurrentNote];
 }
 
@@ -67,21 +73,31 @@
 }
 
 - (void) loadCurrentNote {
+    [[self activityIndicator] startAnimating];
     EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
     [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:self.currentNote maxNotes:1 success:^(EDAMNoteList *list) {
-        EDAMNote* foundNote = list.notes[0];
-        [[EvernoteNoteStore noteStore] getNoteWithGuid:foundNote.guid withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
-            ENMLUtility *utltility = [[ENMLUtility alloc] init];
-            [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
-                if(error == nil) {
-                    [self.webView loadHTMLString:html baseURL:nil];
-                }
+        if(list.notes.count > 0) {
+            EDAMNote* foundNote = list.notes[0];
+            [[EvernoteNoteStore noteStore] getNoteWithGuid:foundNote.guid withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
+                ENMLUtility *utltility = [[ENMLUtility alloc] init];
+                [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
+                    if(error == nil) {
+                        [self.webView loadHTMLString:html baseURL:nil];
+                        [[self activityIndicator] stopAnimating];
+                    }
+                }];
+            } failure:^(NSError *error) {
+                NSLog(@"Failed to get note : %@",error);
+                [[self activityIndicator] stopAnimating];
             }];
-        } failure:^(NSError *error) {
-            NSLog(@"Failed to get note : %@",error);
-        }];
+        }
+        else {
+            [self.webView loadHTMLString:@"No note found" baseURL:nil];
+            [[self activityIndicator] stopAnimating];
+        }
     } failure:^(NSError *error) {
-        NSLog(@"Failed to find notes : %@",error);;
+        NSLog(@"Failed to find notes : %@",error);
+        [[self activityIndicator] stopAnimating];
     }];
 }
 @end

@@ -837,9 +837,18 @@
     // Check if a note was saved
     else if ([hostName isEqualToString:[url scheme]] == YES
              && [@"noteSaved" isEqualToString:[url host]] == YES) {
-        if(self.delegate && [self.delegate respondsToSelector:@selector(noteSaved)])  {
-            [self.delegate noteSaved];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(noteSavedWithNoteGuid:)])  {
+            if ([url.pathComponents count] < 3) {
+                [self.delegate noteSavedWithNoteGuid:nil];
+            }
+            else if([url.pathComponents[1] isEqualToString:@"noteGUID"]) {
+                [self.delegate noteSavedWithNoteGuid:url.pathComponents[2]];
+            }
+            else {
+                [self.delegate noteSavedWithNoteGuid:nil];
+            }
         }
+        canHandle = YES;
     }
     return  canHandle;
 }

@@ -36,6 +36,7 @@
     [self setSharedNotesButton:nil];
     [self setCreateBusinessNotebookButton:nil];
     [self setCreatePhotoButton:nil];
+    [self setMoreButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -183,7 +184,9 @@
         self.sharedNotesButton.enabled = YES;
         self.sharedNotesButton.alpha = 1.0;
         self.logoutButton.enabled = YES;
-        self.logoutButton.alpha = 1.0; 
+        self.logoutButton.alpha = 1.0;
+        self.moreButton.enabled = YES;
+        self.moreButton.alpha = 1.0;
         [self showUserInfo];
     } else {
         self.authenticateButton.enabled = YES;
@@ -200,6 +203,8 @@
         self.sharedNotesButton.alpha = 0.5;
         self.logoutButton.enabled = NO;
         self.logoutButton.alpha = 0.5;
+        self.moreButton.enabled = NO;
+        self.moreButton.alpha = 0.5;
         self.userLabel.text = @"(not authenticated)";
         self.businessLabel.text = @"(not authenticated)";
     }

@@ -77,7 +77,7 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 };
 
 @protocol ENSessionDelegate <NSObject>
-- (void)noteSaved;
+- (void)noteSavedWithNoteGuid:(NSString*)noteGuid;
 - (void)appInstalled;
 - (void)appNotInstalled;
 @end

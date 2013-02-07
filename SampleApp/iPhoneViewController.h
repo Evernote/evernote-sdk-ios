@@ -24,5 +24,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *createPhotoButton;
 @property (strong, nonatomic) IBOutlet UIButton *sharedNotesButton;
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
+@property (weak, nonatomic) IBOutlet UIButton *moreButton;
 
 @end

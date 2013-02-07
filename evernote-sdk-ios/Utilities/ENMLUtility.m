@@ -44,6 +44,7 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
 @property (nonatomic,strong) NSArray* resources;
 @property (nonatomic,copy) ENMLHTMLCompletionBlock completionBlock;
 @property (nonatomic,strong) NSXMLParser* xmlParser;
+@property (nonatomic,assign) BOOL shouldIgnoreNextEndElement;
 
 @end
 
@@ -101,12 +102,8 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
         [self.htmlWriter startElement:@"body"];
     }
     else if([elementName isEqualToString:ENMLTagTodo]) {
-        if([attributeDict[@"checked"] isEqualToString:@"true"]) {
-            [self.htmlWriter startElement:@"input" attributes:@{@"disabled": @"true",@"type":@"checkbox",@"checked":@"true"}];
-        }
-        else {
-            [self.htmlWriter startElement:@"input" attributes:@{@"disabled": @"true",@"type":@"checkbox"}];
-        }
+        self.shouldIgnoreNextEndElement = YES;
+        [self writeTodoWithAttributes:attributeDict];
     }
     else if([elementName isEqualToString:ENMLTagMedia] && self.resources) {
         NSString *mediaHash = [attributeDict objectForKey:@"hash"];
@@ -120,6 +117,7 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
         NSMutableDictionary *scrubbedAttributes = [NSMutableDictionary dictionaryWithDictionary:attributeDict];
         [scrubbedAttributes removeObjectForKey:@"hash"];
         [scrubbedAttributes removeObjectForKey:@"type"];
+        [self setShouldIgnoreNextEndElement:YES];
         [self writeResource:foundResource withAttributes:scrubbedAttributes];
     }
     else {
@@ -129,7 +127,12 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
-    [self.htmlWriter endElement];
+    if(self.shouldIgnoreNextEndElement == NO) {
+        [self.htmlWriter endElement];
+    }
+    else {
+        self.shouldIgnoreNextEndElement = NO;
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string {
@@ -198,6 +201,22 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
                         forKey:@"height"];
     
     [self.htmlWriter startElement:@"img" attributes:imageAttributes];
+    [self.htmlWriter endElement];
+}
+
+- (void) writeTodoWithAttributes:(NSDictionary *)attributes
+{
+    NSMutableDictionary *checkboxAttributes = [NSMutableDictionary dictionary];
+    [checkboxAttributes setObject:@"checkbox" forKey:@"type"];
+    [checkboxAttributes setObject:@"true" forKey:@"disabled"];
+    
+    if ([[attributes valueForKey:@"checked"] isEqualToString:@"true"] == YES) {
+        [checkboxAttributes setObject:[NSNull null] forKey:@"checked"];
+    }
+    
+    [self.htmlWriter startElement:@"input"
+            attributes:checkboxAttributes];
+    [self.htmlWriter endElement];
 }
 
 

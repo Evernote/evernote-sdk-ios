@@ -65,8 +65,8 @@
     [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self];
 }
 
-- (void)noteSaved {
-    NSLog(@"Note saved successfully");
+- (void)noteSavedWithNoteGuid:(NSString *)noteGuid {
+    NSLog(@"Note saved successfully : %@",noteGuid);
 }
 
 - (void)appNotInstalled {
