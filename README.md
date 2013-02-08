@@ -149,13 +149,13 @@ If you need to check if the Evernote for iOS app is installed, you can use the f
 
     [[EvernoteSession sharedSession] isEvernoteInstalled]
 
-If you need to prompt the user to use the Evernote for iOS app, you can use the following :
+If you need to prompt the user to install the Evernote for iOS app, you can use the following :
 
     [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self]
 
 The preferred way for using any of the Evernote for iOS related functions is :
 
-   if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+    if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
     // Invoke Evernote for iOS related function
     }
     else {
