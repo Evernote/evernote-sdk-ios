@@ -38,27 +38,38 @@
 }
 
 - (IBAction)saveNewNote:(id)sender {
-    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
-    NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
-    NSData *dataHash = [myFileData md5];
-    EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
-    EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
-    NSMutableArray *resources = [NSMutableArray arrayWithObjects:resource,resource, nil];
-    NSMutableArray *tagNames = [NSMutableArray arrayWithObjects:@"evernote",@"sdk", nil];
-    EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test Note - Evernote SDK" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:tagNames];
-    [[EvernoteSession sharedSession] setDelegate:self];
-    [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
+    if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+        NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
+        NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
+        NSData *dataHash = [myFileData md5];
+        EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+        EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
+        NSMutableArray *resources = [NSMutableArray arrayWithObjects:resource,resource, nil];
+        NSMutableArray *tagNames = [NSMutableArray arrayWithObjects:@"evernote",@"sdk", nil];
+        EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test Note - Evernote SDK" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:tagNames];
+        [[EvernoteSession sharedSession] setDelegate:self];
+        [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
+    }
+    else {
+        [self installEvernote:self];
+    }
+
 }
 
 - (IBAction)viewNote:(id)sender {
-    NSLog(@"Viewing note..");
-    EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
-    [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:0 maxNotes:100 success:^(EDAMNoteList *list) {
-        NSLog(@"Notes : %d",list.notes.count);
-        [[EvernoteNoteStore noteStore] viewNoteInEvernote:list.notes[0]];
-    } failure:^(NSError *error) {
-        NSLog(@"Error : %@",error);
-    }];
+    if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+        NSLog(@"Viewing note..");
+        EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
+        [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:0 maxNotes:100 success:^(EDAMNoteList *list) {
+            NSLog(@"Notes : %d",list.notes.count);
+            [[EvernoteNoteStore noteStore] viewNoteInEvernote:list.notes[0]];
+        } failure:^(NSError *error) {
+            NSLog(@"Error : %@",error);
+        }];
+    }
+    else {
+        [self installEvernote:self];
+    }
 }
 
 - (IBAction)installEvernote:(id)sender {

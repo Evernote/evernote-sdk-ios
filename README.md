@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.0.1
+Evernote SDK for iOS version 1.2.0
 =========================================
 
 What this is
@@ -28,7 +28,11 @@ You have a few options:
 
 ### Link with frameworks
 
-evernote-sdk-ios depends on Security.framework, so you'll need to add that to any target's "Link Binary With Libraries" Build Phase.
+evernote-sdk-ios depends on some frameworks, so you'll need to add them to any target's "Link Binary With Libraries" Build Phase.
+Add the following frameworks in the "Link Binary With Libraries" phase
+
+- Security.framework
+- StoreKit.framework
 
 ### Modify your application's main plist file
 
@@ -138,6 +142,63 @@ E.g.,
                                 }];
                                 
 Full information on the Evernote NoteStore and UserStore API is available on the [Evernote Developers portal page](http://dev.evernote.com/documentation/cloud/).
+
+### Prompting the user to install the Evernote for iOS app
+
+If you need to check if the Evernote for iOS app is installed, you can use the following :
+
+    [[EvernoteSession sharedSession] isEvernoteInstalled]
+
+If you need to prompt the user to use the Evernote for iOS app, you can use the following :
+
+    [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self]
+
+The preferred way for using any of the Evernote for iOS related functions is :
+
+   if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+    // Invoke Evernote for iOS related function
+    }
+    else {
+    // Prompt user to install the app
+    [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self];
+    }
+
+
+### Use the Evernote for iOS App to create/view Notes
+
+For this to work, the latest Evernote for iOS app needs to be installed. You can send text/html or text/plain types of content. You can also send attachments.
+
+To make a new note:
+
+    EDAMNote *note = <create a new note here>
+    [[EvernoteSession sharedSession] setDelegate:self];
+    [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
+
+To view a note:
+
+    EDAMNote *noteToBeViewed : <Get the note that you want to view>
+    [[EvernoteNoteStore noteStore] viewNoteInEvernote:noteToBeViewed];
+
+You can also see sample for this in the sample app.
+
+
+### Viewing notes
+
+You can use this to view notes within your app. You will need to include `ENMLUtitlity.h`
+
+Here is an example. The example requires you to setup a web view or any other html renderer. 
+
+    [[EvernoteNoteStore noteStore] getNoteWithGuid:<guid of note to be displayed> withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
+                ENMLUtility *utltility = [[ENMLUtility alloc] init];
+                [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
+                    if(error == nil) {
+                        [self.webView loadHTMLString:html baseURL:nil];
+                    }
+                }];
+            } failure:^(NSError *error) {
+                NSLog(@"Failed to get note : %@",error);
+            }];
+Check the Note browser in the sample app for some sample code.
 
 FAQ
 ---
