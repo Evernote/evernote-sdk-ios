@@ -14,6 +14,7 @@
 
 @property (nonatomic,assign) NSInteger currentNote;
 @property (nonatomic,strong) UIActivityIndicatorView* activityIndicator;
+@property (nonatomic,strong) NSArray* noteList;
 
 @end
 
@@ -38,7 +39,7 @@
     [self.activityIndicator setFrame:CGRectMake(viewRect.size.width/2, viewRect.size.height/2, 20, 20)];
     [self.activityIndicator setHidesWhenStopped:YES];
     [self.webView addSubview:self.activityIndicator];
-    [self loadCurrentNote];
+    [self loadMoreNotes];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,14 +55,17 @@
 }
 
 - (IBAction)nextNote:(id)sender {
-    self.currentNote++;
+    if(self.currentNote%10==0) {
+        self.currentNote++;
+        [self loadMoreNotes];
+    }
+    else {
+        self.currentNote++;
+        [self loadCurrentNote];
+    }
     if(self.currentNote > 0) {
         [self.btnPrev setEnabled:YES];
     }
-    else {
-        [self.btnPrev setEnabled:NO];
-    }
-    [self loadCurrentNote];
 }
 
 - (IBAction)previousNote:(id)sender {
@@ -72,24 +76,14 @@
     }
 }
 
-- (void) loadCurrentNote {
+- (void)loadMoreNotes {
     [[self activityIndicator] startAnimating];
     EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
-    [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:self.currentNote maxNotes:1 success:^(EDAMNoteList *list) {
-        if(list.notes.count > 0) {
-            EDAMNote* foundNote = list.notes[0];
-            [[EvernoteNoteStore noteStore] getNoteWithGuid:foundNote.guid withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
-                ENMLUtility *utltility = [[ENMLUtility alloc] init];
-                [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
-                    if(error == nil) {
-                        [self.webView loadHTMLString:html baseURL:nil];
-                        [[self activityIndicator] stopAnimating];
-                    }
-                }];
-            } failure:^(NSError *error) {
-                NSLog(@"Failed to get note : %@",error);
-                [[self activityIndicator] stopAnimating];
-            }];
+    EDAMNotesMetadataResultSpec *resultSpec = [[EDAMNotesMetadataResultSpec alloc] initWithIncludeTitle:NO includeContentLength:NO includeCreated:NO includeUpdated:NO includeUpdateSequenceNum:NO includeNotebookGuid:NO includeTagGuids:NO includeAttributes:NO includeLargestResourceMime:NO includeLargestResourceSize:NO];
+    [[EvernoteNoteStore noteStore] findNotesMetadataWithFilter:filter offset:self.currentNote maxNotes:10 resultSpec:resultSpec success:^(EDAMNotesMetadataList *metadata) {
+        if(metadata.notes.count > 0) {
+            self.noteList = metadata.notes;
+            [self loadCurrentNote];
         }
         else {
             [self.webView loadHTMLString:@"No note found" baseURL:nil];
@@ -99,5 +93,24 @@
         NSLog(@"Failed to find notes : %@",error);
         [[self activityIndicator] stopAnimating];
     }];
+}
+
+- (void) loadCurrentNote {
+    [[self activityIndicator] startAnimating];
+    if([self.noteList count] > self.currentNote%10) {
+        EDAMNoteMetadata* foundNote = self.noteList[self.currentNote%10];
+        [[EvernoteNoteStore noteStore] getNoteWithGuid:foundNote.guid withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
+            ENMLUtility *utltility = [[ENMLUtility alloc] init];
+            [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
+                if(error == nil) {
+                    [self.webView loadHTMLString:html baseURL:nil];
+                    [[self activityIndicator] stopAnimating];
+                }
+            }];
+        } failure:^(NSError *error) {
+            NSLog(@"Failed to get note : %@",error);
+            [[self activityIndicator] stopAnimating];
+        }];
+    }
 }
 @end
