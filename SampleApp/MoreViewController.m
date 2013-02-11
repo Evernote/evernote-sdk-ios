@@ -12,6 +12,8 @@
 
 @interface MoreViewController ()
 
+@property (nonatomic,copy) NSString* selectedNotebookGUID;
+
 @end
 
 @implementation MoreViewController
@@ -76,6 +78,19 @@
     [[EvernoteSession sharedSession] installEvernoteAppUsingViewController:self];
 }
 
+- (IBAction)invlokeNotebookChooser:(id)sender {
+    NotebookChooserViewController *nbc = [[NotebookChooserViewController alloc] init];
+    [nbc setDelegate:self];
+    UINavigationController* notbookChooserNav = [[UINavigationController alloc] initWithRootViewController:nbc];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        nbc.modalPresentationStyle = UIModalPresentationFormSheet;
+        notbookChooserNav.modalPresentationStyle = UIModalPresentationFormSheet;
+    }
+    [[self navigationController] presentViewController:notbookChooserNav animated:YES completion:^{
+        [nbc.navigationItem setTitle:@"Select a notebook"];
+    }];
+}
+
 - (void)noteSavedWithNoteGuid:(NSString *)noteGuid {
     NSLog(@"Note saved successfully : %@",noteGuid);
 }
@@ -88,8 +103,17 @@
     NSLog(@"App was installed");
 }
 
-
 - (void)viewDidUnload {
     [super viewDidUnload];
 }
+
+#pragma mark -
+#pragma Notebook chooser delegate
+
+- (void)notebookChooserController:(NotebookChooserViewController *)controller didSelectNotebook:(EDAMNotebook *)notebook {
+    self.selectedNotebookGUID = notebook.guid;
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Notebook chosen" message:notebook.name delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
 @end

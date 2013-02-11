@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "EvernoteSDK.h"
+#import "NotebookChooserViewController.h"
 
-@interface MoreViewController : UIViewController <ENSessionDelegate>
+@interface MoreViewController : UIViewController <ENSessionDelegate,NotebookChooserViewControllerDelegate>
 
 - (IBAction)saveNewNote:(id)sender;
 - (IBAction)viewNote:(id)sender;
 - (IBAction)installEvernote:(id)sender;
+- (IBAction)invlokeNotebookChooser:(id)sender;
 
 @end
