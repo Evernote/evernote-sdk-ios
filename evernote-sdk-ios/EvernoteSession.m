@@ -444,9 +444,17 @@
  */
 - (NSString *)userAuthorizationURLStringWithParameters:(NSDictionary *)tokenParameters
 {
-    NSDictionary *authParameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [tokenParameters objectForKey:@"oauth_token"], @"oauth_token", 
-                                    nil];
+    NSString* deviceID = nil;
+    if([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)]) {
+        deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    }
+    if(deviceID == nil) {
+        deviceID = [NSString string];
+    }
+    NSDictionary *authParameters = @{ @"oauth_token":[tokenParameters objectForKey:@"oauth_token"],
+                                      @"inapp":@"ios",
+                                      @"deviceDescription":[[UIDevice currentDevice] name],
+                                      @"deviceIdentifier":deviceID};
     NSString *queryString = [EvernoteSession queryStringFromParameters:authParameters];
     return [NSString stringWithFormat:@"%@://%@/OAuth.action?%@", SCHEME, self.host, queryString];    
 }
