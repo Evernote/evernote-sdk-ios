@@ -109,7 +109,11 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 @property (weak, nonatomic, readonly) NSString *webApiUrlPrefix;
 
 /** Shared dispatch queue for API operations. */
+#if !OS_OBJECT_USE_OBJC
 @property (nonatomic, readonly) dispatch_queue_t queue;
+#else
+@property (nonatomic, strong, readonly) dispatch_queue_t queue;
+#endif
 
 /** All the bootstrap profiles for the user. */
 @property (nonatomic, strong) NSArray* profiles;
