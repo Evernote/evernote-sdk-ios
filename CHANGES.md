@@ -1,3 +1,12 @@
+= 1.1.0 / 2013-03-01
+
+* ENML to HTML converter
+* Save a new note using Evernote for iOS app
+* View a note using Evernote for iOS app
+* Utility function to check if a business notebook is writable
+* Demonstrate how to fetch large number of notes
+* Sample code for all of the above 
+
 = 1.0.1 / 2013-01-10
 
 * Switch to the Evernote app only if the right URL schemes are setup
