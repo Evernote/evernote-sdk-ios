@@ -81,6 +81,7 @@
 - (IBAction)invlokeNotebookChooser:(id)sender {
     NotebookChooserViewController *nbc = [[NotebookChooserViewController alloc] init];
     [nbc setDelegate:self];
+    [nbc setSelectedNotebookWithGUID:self.selectedNotebookGUID];
     UINavigationController* notbookChooserNav = [[UINavigationController alloc] initWithRootViewController:nbc];
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         nbc.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -95,11 +96,11 @@
     NSLog(@"Note saved successfully : %@",noteGuid);
 }
 
-- (void)appNotInstalled {
+- (void)evernoteAppNotInstalled {
     NSLog(@"app not installed");
 }
 
--(void) appInstalled {
+-(void) evernoteAppInstalled {
     NSLog(@"App was installed");
 }
 

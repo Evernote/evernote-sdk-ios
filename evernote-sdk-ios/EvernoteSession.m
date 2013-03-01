@@ -932,8 +932,8 @@
 #pragma mark - SKStoreProductViewController delegate
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
     [viewController dismissViewControllerAnimated:YES completion:^{
-        if(self.delegate && [self.delegate respondsToSelector:@selector(appInstalled)]) {
-            [self.delegate appInstalled];
+        if(self.delegate && [self.delegate respondsToSelector:@selector(evernoteAppInstalled)]) {
+            [self.delegate evernoteAppInstalled];
         }
     }];
 }

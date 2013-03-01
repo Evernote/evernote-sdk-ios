@@ -87,6 +87,18 @@
     }];
 }
 
+- (void)isBusinessNotebookWritable:(EDAMLinkedNotebook *)linkedNotebook
+                                            success:(void(^)(BOOL isWritable))success
+                                      failure:(void(^)(NSError *error))failure {
+    [self getCorrespondingNotebookForBusinessNotebook:linkedNotebook success:^(EDAMNotebook *notebook) {
+        if(notebook.restrictions.noCreateNotes==YES) {
+            success(NO);
+        } else {
+            success(YES);
+        }
+    } failure:failure];
+}
+
 - (void)createBusinessNotebook:(EDAMNotebook *)notebook
                success:(void(^)(EDAMLinkedNotebook *notebook))success
                        failure:(void(^)(NSError *error))failure {
@@ -135,9 +147,7 @@
         [businessNoteStore getNotebookWithGuid:sharedNotebook.notebookGuid success:^(EDAMNotebook *correspondingNotebook) {
             success(correspondingNotebook);
         } failure:failure];
-    } failure:^(NSError *error) {
-        failure(error);
-    }];
+    } failure:failure];
 }
 
 #pragma mark - Evernote Business Notes
@@ -220,8 +230,8 @@
         }
     }
     else {
-        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(appNotInstalled)]) {
-            [[[EvernoteSession sharedSession] delegate] appNotInstalled];
+        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(evernoteAppNotInstalled)]) {
+            [[[EvernoteSession sharedSession] delegate] evernoteAppNotInstalled];
         }
     }
 }
@@ -267,8 +277,8 @@
         }];
            }
     else {
-        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(appNotInstalled)]) {
-            [[[EvernoteSession sharedSession] delegate] appNotInstalled];
+        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(evernoteAppNotInstalled)]) {
+            [[[EvernoteSession sharedSession] delegate] evernoteAppNotInstalled];
         }
     }
 }

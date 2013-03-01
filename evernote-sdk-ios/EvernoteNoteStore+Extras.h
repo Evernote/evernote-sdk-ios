@@ -68,6 +68,17 @@
 - (void)listBusinessNotebooksWithSuccess:(void(^)(NSArray *linkedNotebooks))success
                                  failure:(void(^)(NSError *error))failure;
 
+/** Check if the business notebook is writable.
+ 
+ This is a utility function that makes it easier to find if a business notebook is writable for this user.
+ 
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
+- (void)isBusinessNotebookWritable:(EDAMLinkedNotebook *)linkedNotebook
+                           success:(void(^)(BOOL isWritable))success
+                           failure:(void(^)(NSError *error))failure;
+
 /** Create a new business notebook.
  
  This is a utility function that makes it easier to create a new Business notebook. Internally, it does the authentication to Business for you.

@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.2.0
+Evernote SDK for iOS version 1.1.0
 =========================================
 
 What this is
@@ -54,11 +54,7 @@ Create an array key called URL types with a single array sub-item called URL Sch
 
 First you set up the shared EvernoteSession, configuring it with your consumer key and secret. 
 
-The SDK now supports the Yinxiang Biji service. 
-
-- To support both services, set the service to EVERNOTE_SERVICE_BOTH.
-- To support Yinxiang Biji only, change 'service' to EVERNOTE_SERVICE_YINXIANG and 'EVERNOTE_HOST' to 'app.yinxiang.com'.
-- To support international only, change 'service' to EVERNOTE_SERVICE_INTERNATIONAL and 'EVERNOTE_HOST' to 'www.evernote.com'.
+The SDK now supports the Yinxiang Biji service by default. 
 
 Do something like this in your AppDelegate's `application:didFinishLaunchingWithOptions:` method.
 
