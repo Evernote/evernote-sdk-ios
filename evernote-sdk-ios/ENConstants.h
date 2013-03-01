@@ -44,4 +44,20 @@ FOUNDATION_EXPORT NSString * const BootstrapServerBaseURLStringSandbox;
 
 FOUNDATION_EXPORT NSString * const BusinessHostNameSuffix;
 
+FOUNDATION_EXPORT NSString * const ENMLTagCrypt;
+FOUNDATION_EXPORT NSString * const ENMLTagTodo;
+FOUNDATION_EXPORT NSString * const ENMLTagNote;
+FOUNDATION_EXPORT NSString * const ENHTMLClassInkSlice;
+FOUNDATION_EXPORT NSString * const ENHTMLClassInkContainer;
+FOUNDATION_EXPORT NSString * const ENHTMLClassIgnore;
+FOUNDATION_EXPORT NSString * const ENHTMLClassAttachment;
+
+FOUNDATION_EXPORT NSString * const ENHTMLAttributeMime;
+
+FOUNDATION_EXPORT NSString * const ENHTMLEncryptionAttributeHint;
+FOUNDATION_EXPORT NSString * const ENHTMLEncryptionAttributeCipher;
+
+FOUNDATION_EXPORT NSString * const ENMIMETypeOctetStream;
+FOUNDATION_EXPORT NSString * const ENMLTagMedia;
+
 @end

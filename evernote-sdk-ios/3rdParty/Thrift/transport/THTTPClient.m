@@ -20,6 +20,14 @@
 #import "THTTPClient.h"
 #import "TTransportException.h"
 #import "TObjective-C.h"
+#import "ENAFURLConnectionOperation.h"
+
+@interface THTTPClient ()
+
+@property (nonatomic,strong) ENAFURLConnectionOperation *httpOperation;
+@property (nonatomic,assign) BOOL isCancelled;
+
+@end
 
 @implementation THTTPClient
 
@@ -128,10 +136,16 @@
   // make the HTTP request
   NSURLResponse * response;
   NSError * error;
-  NSData * responseData =
-    [NSURLConnection sendSynchronousRequest: mRequest returningResponse: &response error: &error];
+    NSData *responseData = nil;
+    if(self.isCancelled==NO) {
+        self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
+        [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
+        responseData = self.httpOperation.responseData;
+        response = self.httpOperation.response;
+        error = self.httpOperation.error;
 
-  [mRequestData setLength: 0];
+    }
+    [mRequestData setLength: 0];
 
   if (responseData == nil) {
     @throw [TTransportException exceptionWithName: @"TTransportException"
@@ -155,6 +169,15 @@
   [mResponseData release_stub];
   mResponseData = [responseData retain_stub];
   mResponseDataOffset = 0;
+    self.httpOperation = nil;
+}
+
+-(void) cancel {
+    self.isCancelled = YES;
+    if(self.httpOperation) {
+        [self.httpOperation cancel];
+        self.httpOperation = nil;
+    }
 }
 
 

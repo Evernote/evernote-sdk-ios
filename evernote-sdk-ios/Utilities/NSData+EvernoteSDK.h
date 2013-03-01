@@ -45,5 +45,6 @@
  */
 - (NSString *) lowercaseHexDigits;
 
++ (NSData *) dataWithHexDigits: (NSString *) hexDigits;
 
 @end

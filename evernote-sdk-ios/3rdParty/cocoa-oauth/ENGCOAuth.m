@@ -201,7 +201,7 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     CFUUIDRef uuid = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, uuid);
     CFRelease(uuid);
-    return (__bridge NSString *)string ;
+    return CFBridgingRelease(string) ;
 }
 + (NSString *)timeStamp {
     time_t t;
@@ -312,6 +312,6 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
                                                                  NULL,
                                                                  CFSTR("!*'();:@&=+$,/?%#[]"),
                                                                  kCFStringEncodingUTF8);
-    return (__bridge NSString *)string;
+    return CFBridgingRelease(string);
 }
 @end

@@ -69,7 +69,7 @@
             errorCode = [(id)exception errorCode];
         } else if ([exception isKindOfClass:[TException class]]) {
             // treat any Thrift errors as a transport error
-            // TODO: we could create separate error codes for the various TException subclasses
+            // we could create separate error codes for the various TException subclasses
             errorCode = EvernoteSDKErrorCode_TRANSPORT_ERROR;
         }
         

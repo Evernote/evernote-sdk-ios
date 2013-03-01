@@ -48,6 +48,9 @@
 /** Get an instance of the business note store, using the shared EvernoteSession.*/
 + (instancetype)businessNoteStore;
 
+/** Get an instance of the current note store client.*/
+-  (EDAMNoteStoreClient*)currentNoteStore;
+
 /** Get an instance of a notestore for a linked notebook. This can be used for shared notebooks.
  
  @param notebook The linked notebook

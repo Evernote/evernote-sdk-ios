@@ -43,4 +43,21 @@ NSString * const kBootstrapServerBaseURLStringCN = @"zh";
 
 NSString * const BusinessHostNameSuffix = @"-business";
 
+NSString * const ENMLTagCrypt = @"en-crypt";
+NSString * const ENMLTagTodo = @"en-todo";
+NSString * const ENMLTagNote = @"en-note";
+NSString * const ENHTMLClassInkSlice = @"en-ink-slice";
+NSString * const ENHTMLClassInkContainer = @"en-ink-media";
+
+NSString * const ENHTMLClassIgnore = @"en-ignore";
+NSString * const ENHTMLClassAttachment = @"en-attachment";
+
+NSString * const ENHTMLAttributeMime = @"x-evernote-mime";
+
+NSString * const ENHTMLEncryptionAttributeHint = @"title";
+NSString * const ENHTMLEncryptionAttributeCipher = @"alt";
+
+NSString * const ENMIMETypeOctetStream = @"application/octet-stream";
+NSString * const ENMLTagMedia = @"en-media";
+
 @end

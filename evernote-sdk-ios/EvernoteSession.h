@@ -28,6 +28,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import <StoreKit/StoreKit.h>
 #import "EDAM.h"
 #import "ENOAuthViewController.h"
 
@@ -75,13 +76,21 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
     ENSessionAuthenticated
 };
 
+@protocol ENSessionDelegate <NSObject>
+- (void)noteSavedWithNoteGuid:(NSString*)noteGuid;
+- (void)evernoteAppInstalled;
+- (void)evernoteAppNotInstalled;
+@end
+
 /** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
-@interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate>
+@interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate,SKStoreProductViewControllerDelegate>
 
 @property (nonatomic, copy) NSString *host;
 @property (nonatomic, copy) NSString *consumerKey;
 @property (nonatomic, copy) NSString *consumerSecret;
+/*! The delegate of the Evernote session */
+@property (nonatomic, assign) id<ENSessionDelegate> delegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name Session data
@@ -164,6 +173,12 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 - (void)authenticateWithViewController:(UIViewController *)viewController
                      completionHandler:(EvernoteAuthCompletionHandler)completionHandler;
 
+/** Check if the Evernote app is installed.
+ 
+ Checks if the Evernote for IOS app is installed on the user's device
+ */
+- (BOOL) isEvernoteInstalled;
+
 /** Logout and clear authentication.
  
  This will clear all the cookies as well.
@@ -229,5 +244,11 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  @param aProfileName The name of the profile to be switched to.
 */
 - (void)updateCurrentBootstrapProfileWithName:(NSString *)aProfileName;
+
+/** Install the evernote for iOS app.
+ 
+ This can be used to present the user with a dialog to install the Evernote for iOS app
+ */
+- (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
 
 @end

@@ -68,6 +68,17 @@
 - (void)listBusinessNotebooksWithSuccess:(void(^)(NSArray *linkedNotebooks))success
                                  failure:(void(^)(NSError *error))failure;
 
+/** Check if the business notebook is writable.
+ 
+ This is a utility function that makes it easier to find if a business notebook is writable for this user.
+ 
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
+- (void)isBusinessNotebookWritable:(EDAMLinkedNotebook *)linkedNotebook
+                           success:(void(^)(BOOL isWritable))success
+                           failure:(void(^)(NSError *error))failure;
+
 /** Create a new business notebook.
  
  This is a utility function that makes it easier to create a new Business notebook. Internally, it does the authentication to Business for you.
@@ -124,5 +135,26 @@
 - (void)createBusinessTag:(EDAMTag *)tag
                   success:(void(^)(EDAMTag *tag))success
                   failure:(void(^)(NSError *error))failure;
+
+/** Save a new note to the Evernote for iOS app
+ 
+ After completetion the ENSessionDelegate will be used to confirm success or failure.
+ 
+ @param note The note that needs to be saved.
+ @param contentMimeType This can be either text/plain or text/html.
+ */
+- (void)saveNewNoteToEvernoteApp:(EDAMNote*)note withType:(NSString*)contentMimeType;
+
+/** View a note using the Evernote for iOS app
+ 
+ After completetion the ENSessionDelegate will be used to confirm success or failure.
+ 
+ @param note The note that needs to be viewed.
+ */
+- (void)viewNoteInEvernote:(EDAMNote*)note;
+
+/** Cancel the first operation in the queue
+ */
+- (void) cancel;
 
 @end

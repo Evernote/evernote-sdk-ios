@@ -28,10 +28,11 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "KSHTMLWriter.h"
 
 /** Utility methods to work with ENML.
  */
-@interface ENMLUtility : NSObject
+@interface ENMLUtility : NSObject <NSXMLParserDelegate>
 
 /** Utility function to create an enml media tag.
  
@@ -40,5 +41,22 @@
  */
 + (NSString*) mediaTagWithDataHash:(NSData *)dataHash
                               mime:(NSString *)mime;
+
+
+/** Utility function to convert ENML to HTML.
+ 
+ @param  enmlContent The enml content of the note
+ @param  block The completion block that will be called on completion
+ */
+- (void) convertENMLToHTML:(NSString*)enmlContent completionBlock:(void(^)(NSString* html, NSError *error))block;
+
+
+/** Utility function to convert ENML to HTML.
+ 
+ @param  enmlContent The enml content of the note
+ @param  resources The resources array
+ @param  block The completion block that will be called on completion
+ */
+- (void) convertENMLToHTML:(NSString*)enmlContent withResources:(NSArray*)resources completionBlock:(void(^)(NSString* html, NSError *error))block;
 
 @end
