@@ -48,12 +48,12 @@ typedef id AFBackgroundTaskIdentifier;
 
 static NSString * const kAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
 
-NSString * const AFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
-NSString * const AFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
-NSString * const AFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
+NSString * const ENAFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
+NSString * const ENAFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
+NSString * const ENAFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
 
-NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
-NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
+NSString * const ENAFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
+NSString * const ENAFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
 
 typedef void (^AFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
 typedef BOOL (^AFURLConnectionOperationAuthenticationAgainstProtectionSpaceBlock)(NSURLConnection *connection, NSURLProtectionSpace *protectionSpace);
@@ -311,10 +311,10 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
         
         switch (state) {
             case AFOperationExecutingState:
-                [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidStartNotification object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ENAFNetworkingOperationDidStartNotification object:self];
                 break;
             case AFOperationFinishedState:
-                [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+                [[NSNotificationCenter defaultCenter] postNotificationName:ENAFNetworkingOperationDidFinishNotification object:self];
                 break;
             default:
                 break;
@@ -350,7 +350,7 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     
     if ([self isExecuting]) {
         [self.connection performSelector:@selector(cancel) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO modes:[self.runLoopModes allObjects]];
-        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingOperationDidFinishNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:ENAFNetworkingOperationDidFinishNotification object:self];
     }
     
     self.state = AFOperationPausedState;
