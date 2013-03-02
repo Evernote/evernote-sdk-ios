@@ -20,7 +20,13 @@
 #import "THTTPClient.h"
 #import "TTransportException.h"
 #import "TObjective-C.h"
+#ifdef _EVERNOTE_API_INCLUDES_AFNETWORKING_
+#import "AFNetworking.h"
+#define ENAFURLConnectionOperation AFURLConnectionOperation
+#else
 #import "ENAFURLConnectionOperation.h"
+#endif
+
 
 @interface THTTPClient ()
 
