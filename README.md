@@ -134,6 +134,10 @@ E.g.,
                                 }
                                 failure:^(NSError *error) {
                                     // failure... show error notification, etc
+                                    if([EvernoteSession isTokenExpiredWithError:error]) {
+                                        // trigger auth again
+                                        // auth code is shown in the Authenticate section
+                                    }
                                     NSLog(@"error %@", error);                                            
                                 }];
                                 
@@ -195,6 +199,12 @@ Here is an example. The example requires you to setup a web view or any other ht
                 NSLog(@"Failed to get note : %@",error);
             }];
 Check the Note browser in the sample app for some sample code.
+
+### Handling expired Authentication tokens
+
+You should check for expired auth tokens and trigger authentication again if the authentication token is expired or revoked by the user.
+
+You can check for expired using `if(EvernoteSession isTokenExpiredWithError:error])` in the error block. 
 
 FAQ
 ---

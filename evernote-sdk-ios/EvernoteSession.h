@@ -149,6 +149,14 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  */
 + (EvernoteSession *)sharedSession;
 
+/**
+ * Checks whether the given error signifies an expired token.
+ 
+ @param error The error returned by the API. 
+ @return Returns whether the token has expired.
+ */
++ (BOOL)isTokenExpiredWithError:(NSError*)error;
+
 /** Handle open url from the Evernote app.
  
  This will used during authentication and should be called from the AppDelegate class.
