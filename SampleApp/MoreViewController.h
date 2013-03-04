@@ -16,5 +16,6 @@
 - (IBAction)viewNote:(id)sender;
 - (IBAction)installEvernote:(id)sender;
 - (IBAction)invlokeNotebookChooser:(id)sender;
+- (IBAction)createBusinessNote:(id)sender;
 
 @end
