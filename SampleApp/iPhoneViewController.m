@@ -159,6 +159,9 @@
                              "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
     NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
     EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
+    [[EvernoteNoteStore noteStore] setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"Total bytes written : %lld , Total bytes expected to be written : %lld",totalBytesWritten,totalBytesExpectedToWrite);
+    }];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         NSLog(@"Note created successfully.");
     } failure:^(NSError *error) {

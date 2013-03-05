@@ -35,4 +35,12 @@
     [[outProtocol transport] cancel];
 }
 
+- (void)setUploadProgressBlock:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block {
+    [[outProtocol transport] setUploadProgressBlock:block];
+}
+
+- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block {
+    [[outProtocol transport] setDownloadProgressBlock:block];
+}
+
 @end
