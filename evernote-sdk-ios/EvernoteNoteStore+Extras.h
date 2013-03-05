@@ -72,6 +72,7 @@
  
  This is a utility function that makes it easier to find if a business notebook is writable for this user.
  
+ @param linkedNotebook Details on the business notebook to be checked.
  @param success Success completion block.
  @param failure Failure completion block.
  */
@@ -120,7 +121,8 @@
  @param success Success completion block.
  @param failure Failure completion block.
  */
-- (void)createBusinessNote:(EDAMNote *)note
+- (void)createNote:(EDAMNote *)note
+inBusinessNotebook:(EDAMLinkedNotebook*) notebook
            success:(void(^)(EDAMNote *note))success
            failure:(void(^)(NSError *error))failure;
 

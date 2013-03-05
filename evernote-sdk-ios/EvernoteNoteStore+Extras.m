@@ -152,13 +152,17 @@
 
 #pragma mark - Evernote Business Notes
 
-- (void)createBusinessNote:(EDAMNote *)note
+- (void)createNote:(EDAMNote *)note
+        inBusinessNotebook:(EDAMLinkedNotebook*) notebook
                    success:(void(^)(EDAMNote *note))success
                    failure:(void(^)(NSError *error))failure {
-    EvernoteNoteStore* businessNoteStore = [EvernoteNoteStore businessNoteStore];
-    [businessNoteStore createNote:note
-                          success:success
-                          failure:failure];
+    EvernoteNoteStore* sharedNoteStore = [EvernoteNoteStore noteStoreForLinkedNotebook:notebook];
+    [sharedNoteStore getSharedNotebookByAuthWithSuccess:^(EDAMSharedNotebook *sharedNotebook) {
+        [note setNotebookGuid:sharedNotebook.notebookGuid];
+        [sharedNoteStore createNote:note success:^(EDAMNote *createdNote) {
+            success(createdNote);
+        } failure:failure];
+    } failure:failure];
 }
 
 #pragma mark - Evernote Business Tags

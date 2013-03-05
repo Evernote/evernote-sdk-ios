@@ -791,6 +791,15 @@
     return dict;
 }
 
++ (BOOL)isTokenExpiredWithError:(NSError*)error {
+    NSDictionary* params = error.userInfo;
+    if(params.count>0) {
+        if([params[@"parameter"] isEqualToString:@"authenticationToken"] && (error.code==EDAMErrorCode_AUTH_EXPIRED || error.code==EDAMErrorCode_BAD_DATA_FORMAT)) {
+            return YES;
+        }
+    }
+    return NO;
+}
 #pragma mark - ENOAuthViewControllerDelegate
 
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender

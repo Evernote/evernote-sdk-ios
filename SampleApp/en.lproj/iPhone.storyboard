@@ -258,6 +258,21 @@
                                     <action selector="invlokeNotebookChooser:" destination="td1-ZB-CzD" eventType="touchUpInside" id="mnV-Nu-yoC"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sXy-96-OZs">
+                                <rect key="frame" x="20" y="276" width="280" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" title="Create a business note">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createBusinessNote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="1BU-Be-M50"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -332,6 +347,7 @@
         <class className="MoreViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MoreViewController.h"/>
             <relationships>
+                <relationship kind="action" name="createBusinessNote:"/>
                 <relationship kind="action" name="installEvernote:"/>
                 <relationship kind="action" name="invlokeNotebookChooser:"/>
                 <relationship kind="action" name="saveNewNote:"/>

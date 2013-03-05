@@ -149,6 +149,14 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  */
 + (EvernoteSession *)sharedSession;
 
+/**
+ * Checks whether the given error signifies an expired token.
+ 
+ @param error The error returned by the API. 
+ @return Returns whether the token has expired.
+ */
++ (BOOL)isTokenExpiredWithError:(NSError*)error;
+
 /** Handle open url from the Evernote app.
  
  This will used during authentication and should be called from the AppDelegate class.
@@ -248,6 +256,8 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 /** Install the evernote for iOS app.
  
  This can be used to present the user with a dialog to install the Evernote for iOS app
+ 
+ @param viewController The view controller that should be used as a base controller to present this view controller.
  */
 - (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
 

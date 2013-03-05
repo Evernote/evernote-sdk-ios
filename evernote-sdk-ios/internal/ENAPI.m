@@ -36,6 +36,8 @@
 @dynamic noteStore;
 @dynamic userStore;
 
+typedef void (^EvernoteErrorBlock) (NSError *error);
+
 - (id)initWithSession:(EvernoteSession *)session
 {
     self = [super init];
@@ -104,12 +106,7 @@
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               if (failure) {
-                                   failure(error);
-                               }
-                           });
+            [self processError:failure withError:error];
         }
     });
 }
@@ -133,12 +130,7 @@
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               if (failure) {
-                                   failure(error);
-                               }
-                           });
+            [self processError:failure withError:error];
         }
     });
 }
@@ -163,12 +155,7 @@
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               if (failure) {
-                                   failure(error);
-                               }
-                           });
+            [self processError:failure withError:error];
         }
     });
 }
@@ -191,14 +178,37 @@
         }
         @catch (NSException *exception) {
             NSError *error = [self errorFromNSException:exception];
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               if (failure) {
-                                   failure(error);
-                               }
-                           });
+            [self processError:failure withError:error];
         }
     });
+}
+
+- (void)processError:(EvernoteErrorBlock)errorBlock withError:(NSError*)error {
+    // See if we can trigger OAuth automatically
+    BOOL didTriggerAuth = NO;
+    if([EvernoteSession isTokenExpiredWithError:error]) {
+        [self.session logout];
+        UIViewController* topVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+        if(!topVC.modalViewController && topVC.isViewLoaded) {
+            didTriggerAuth = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.session authenticateWithViewController:topVC completionHandler:^(NSError *authError) {
+                    if(errorBlock) {
+                        errorBlock(authError);
+                    }
+                }];
+            });
+        }
+        
+    }
+    // If we were not able to trigger auth, send the error over to the client
+    if(didTriggerAuth==NO) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(errorBlock) {
+                errorBlock(error);
+            }
+        });
+    }
 }
 
 @end
