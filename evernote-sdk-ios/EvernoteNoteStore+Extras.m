@@ -294,4 +294,12 @@
     [[self currentNoteStore] cancel];
 }
 
+- (void)setUploadProgressBlock:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block {
+    [[self currentNoteStore] setUploadProgressBlock:block];
+}
+
+- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block {
+    [[self currentNoteStore] setDownloadProgressBlock:block];
+}
+
 @end

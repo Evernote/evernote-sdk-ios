@@ -139,6 +139,12 @@
     NSData *responseData = nil;
     if(self.isCancelled==NO) {
         self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
+        if(self.uploadBlock) {
+            [self.httpOperation setUploadProgressBlock:self.uploadBlock];
+        }
+        if(self.downloadBlock) {
+            [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
+        }
         [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
         responseData = self.httpOperation.responseData;
         response = self.httpOperation.response;
@@ -169,6 +175,8 @@
   [mResponseData release_stub];
   mResponseData = [responseData retain_stub];
   mResponseDataOffset = 0;
+    self.uploadBlock = nil;
+    self.downloadBlock = nil;
     self.httpOperation = nil;
 }
 
@@ -176,8 +184,18 @@
     self.isCancelled = YES;
     if(self.httpOperation) {
         [self.httpOperation cancel];
+        self.uploadBlock = nil;
+        self.downloadBlock = nil;
         self.httpOperation = nil;
     }
+}
+
+- (void)setUploadProgressBlock:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block {
+    [self setUploadBlock:block];
+}
+
+- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block {
+    [self setDownloadProgressBlock:block];
 }
 
 
