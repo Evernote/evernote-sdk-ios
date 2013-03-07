@@ -150,7 +150,7 @@ static BOOL GCOAuthUseHTTPSCookieStorage = YES;
     
     // base 64
     NSData *data = [NSData dataWithBytes:digest length:CC_SHA1_DIGEST_LENGTH];
-    return [data base64EncodedString];
+    return [data en_base64EncodedString];
     
 }
 - (NSString *)signatureBase {
