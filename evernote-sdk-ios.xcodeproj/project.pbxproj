@@ -117,7 +117,7 @@
 		A92602C516740D5700F01E63 /* ENMLUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602C316740D5700F01E63 /* ENMLUtility.m */; };
 		A92602C616740D5700F01E63 /* ENMLUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602C316740D5700F01E63 /* ENMLUtility.m */; };
 		A92FB1B916C998160014D9CA /* NotebookChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A92FB1B816C998160014D9CA /* NotebookChooserViewController.m */; };
-		A96E28E1165594480031EC63 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A96E28DF1655941F0031EC63 /* Localizable.strings */; };
+		A93FAFBE16E8E18600B6594D /* EvernoteSDK.strings in Resources */ = {isa = PBXBuildFile; fileRef = A93FAFBD16E8E18600B6594D /* EvernoteSDK.strings */; };
 		A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96FE4D816A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */; };
@@ -300,7 +300,7 @@
 		A92602C316740D5700F01E63 /* ENMLUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENMLUtility.m; sourceTree = "<group>"; };
 		A92FB1B716C998160014D9CA /* NotebookChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookChooserViewController.h; sourceTree = "<group>"; };
 		A92FB1B816C998160014D9CA /* NotebookChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookChooserViewController.m; sourceTree = "<group>"; };
-		A96E28E01655941F0031EC63 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		A93FAFBD16E8E18600B6594D /* EvernoteSDK.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = EvernoteSDK.strings; path = "evernote-sdk-ios/internal/Resources/EvernoteSDK.strings"; sourceTree = SOURCE_ROOT; };
 		A96E28EC165597C90031EC63 /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
 		A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDAMNoteStoreClient+Utilities.h"; sourceTree = "<group>"; };
 		A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDAMNoteStoreClient+Utilities.m"; sourceTree = "<group>"; };
@@ -726,7 +726,7 @@
 		A96E28DE165594000031EC63 /* en.lproj */ = {
 			isa = PBXGroup;
 			children = (
-				A96E28DF1655941F0031EC63 /* Localizable.strings */,
+				A93FAFBD16E8E18600B6594D /* EvernoteSDK.strings */,
 			);
 			path = en.lproj;
 			sourceTree = "<group>";
@@ -964,10 +964,10 @@
 				0BB3D2781524EF37001C4534 /* InfoPlist.strings in Resources */,
 				0BB3D2811524EF37001C4534 /* iPhone.storyboard in Resources */,
 				0B94997E1585ADCF001A706A /* iPad.storyboard in Resources */,
-				A96E28E1165594480031EC63 /* Localizable.strings in Resources */,
 				A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */,
 				A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */,
 				A9B1E87516C2242200D54760 /* LICENSE.txt in Resources */,
+				A93FAFBE16E8E18600B6594D /* EvernoteSDK.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1173,14 +1173,6 @@
 				0BDBBC4C1550A11A003E6681 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		A96E28DF1655941F0031EC63 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A96E28E01655941F0031EC63 /* en */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
