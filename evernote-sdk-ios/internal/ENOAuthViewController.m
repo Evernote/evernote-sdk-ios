@@ -56,7 +56,7 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", @"Cancel") style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
+    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"EvernoteSDK", nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
     
     self.navigationItem.rightBarButtonItem = cancelItem;
     
@@ -116,10 +116,10 @@
     if(self.isSwitchingAllowed) {
         NSString *leftButtonTitle = nil;
         if([self.currentProfileName isEqualToString:ENBootstrapProfileNameChina]) {
-            leftButtonTitle = NSLocalizedString(@"Evernote-International", @"Evernote-International");
+            leftButtonTitle = NSLocalizedStringFromTable(@"Evernote-International", @"EvernoteSDK", nil);
         }
         else {
-            leftButtonTitle = NSLocalizedString(@"Evernote-China", @"Evernote-China");
+            leftButtonTitle = NSLocalizedStringFromTable(@"Evernote-China", @"EvernoteSDK", nil);
         }
         UIBarButtonItem* switchProfileButton = [[UIBarButtonItem alloc] initWithTitle:leftButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(switchProfile:)];
         self.navigationItem.leftBarButtonItem = switchProfileButton;
