@@ -23,7 +23,7 @@ You have a few options:
 
 - Copy the evernote-sdk-ios source code into your Xcode project.
 - Add the evernote-sdk-ios xcodeproj to your project/workspace.
-- Build the evernote-sdk-ios as a static library and include the .h's and .a.
+- Build the evernote-sdk-ios as a static library and include the .h's and .a. (Make sure to add the `-ObjC` flag to your compiler flags if you choose this option.)
 - Use [cocoapods](http://cocoapods.org), a nice Objective-C dependency manager. Our pod name is "Evernote-SDK-iOS".
 
 ### Link with frameworks

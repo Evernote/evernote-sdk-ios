@@ -151,7 +151,6 @@
 		A9B1E88C16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */; };
 		A9B1E88D16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */; };
 		A9B1E89016C31B9A00D54760 /* NoteBrowserViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E88E16C31B9900D54760 /* NoteBrowserViewController.h */; };
-		A9B1E89116C31B9A00D54760 /* NoteBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88F16C31B9900D54760 /* NoteBrowserViewController.m */; };
 		A9B1E89216C31B9A00D54760 /* NoteBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E88F16C31B9900D54760 /* NoteBrowserViewController.m */; };
 		A9B1E8A716C3265300D54760 /* ENApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89416C3265300D54760 /* ENApplicationBridge.h */; };
 		A9B1E8A816C3265300D54760 /* ENApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E89516C3265300D54760 /* ENApplicationBridge.m */; };
@@ -194,7 +193,6 @@
 		A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; };
 		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
-		A9FDF71C165C614300DC7E4B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BB3D27D1524EF37001C4534 /* AppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1043,7 +1041,6 @@
 				0B2B9D6915449AEE00E5BD44 /* EvernoteSDK.m in Sources */,
 				A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */,
 				A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */,
-				A9FDF71C165C614300DC7E4B /* AppDelegate.m in Sources */,
 				A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */,
 				A9C55502167149B1006E0020 /* EvernoteNoteStore+Extras.m in Sources */,
 				A9C555071671539A006E0020 /* EvernoteUserStore+Extras.m in Sources */,
@@ -1058,7 +1055,6 @@
 				A9B1E87316C2242200D54760 /* KSXMLWriter.m in Sources */,
 				A9B1E87B16C2259F00D54760 /* NSString+XMLAdditions.m in Sources */,
 				A9B1E88C16C2F99A00D54760 /* NSDataBase64Additions.m in Sources */,
-				A9B1E89116C31B9A00D54760 /* NoteBrowserViewController.m in Sources */,
 				A9B1E8A816C3265300D54760 /* ENApplicationBridge.m in Sources */,
 				A9B1E8AD16C3265300D54760 /* ENAuthenticationRequest.m in Sources */,
 				A9B1E8B016C3265300D54760 /* ENLinkNotebookRequest.m in Sources */,
