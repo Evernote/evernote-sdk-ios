@@ -32,7 +32,7 @@
 
 @implementation NSData (EvernoteSDK)
 
-- (NSData *) md5
+- (NSData *) enmd5
 {
     unsigned char md5Buffer[CC_MD5_DIGEST_LENGTH];
     CC_MD5(self.bytes, (CC_LONG)self.length, md5Buffer);
@@ -40,7 +40,7 @@
     return md5Data;
 }
 
-- (NSString *) lowercaseHexDigits
+- (NSString *) enlowercaseHexDigits
 {
     unsigned const char * bytes = [self bytes];
     
@@ -54,7 +54,7 @@
     return hex;
 }
 
-+ (NSData *) dataWithHexDigits: (NSString *) hexDigits
++ (NSData *) endataWithHexDigits: (NSString *) hexDigits
 {
     if (!hexDigits) {
         return nil;

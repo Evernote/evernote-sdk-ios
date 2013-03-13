@@ -38,12 +38,12 @@
  @param edamTimestamp The timestamp obtained from an Evernote API data structure.
  @return The equivalent NSDate
  */
-+ (NSDate *) dateFromEDAMTimestamp: (int64_t) edamTimestamp;
++ (NSDate *) endateFromEDAMTimestamp: (int64_t) edamTimestamp;
 
 
 /**
  * Convert an NSDate to an edam timestamp
  */
-- (int64_t) edamTimestamp;
+- (int64_t) enedamTimestamp;
 
 @end
