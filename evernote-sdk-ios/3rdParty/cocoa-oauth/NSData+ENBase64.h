@@ -23,12 +23,12 @@
 
 #import <Foundation/Foundation.h>
 
-void *NewBase64Decode(
+void *EnNewBase64Decode(
 	const char *inputBuffer,
 	size_t length,
 	size_t *outputLength);
 
-char *NewBase64Encode(
+char *EnNewBase64Encode(
 	const void *inputBuffer,
 	size_t length,
 	bool separateLines,
@@ -36,7 +36,7 @@ char *NewBase64Encode(
 
 @interface NSData (ENBase64)
 
-+ (NSData *)dataFromBase64String:(NSString *)aString;
-- (NSString *)base64EncodedString;
++ (NSData *)en_dataFromBase64String:(NSString *)aString;
+- (NSString *)en_base64EncodedString;
 
 @end
