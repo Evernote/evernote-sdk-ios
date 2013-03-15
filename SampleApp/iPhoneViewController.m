@@ -145,7 +145,7 @@
 - (IBAction)createPhotoNote:(id)sender {
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
     NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
-    NSData *dataHash = [myFileData md5];
+    NSData *dataHash = [myFileData enmd5];
     EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
     EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
     NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"

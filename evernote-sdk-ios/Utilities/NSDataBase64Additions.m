@@ -12,7 +12,7 @@ static char encodingTable[64] = {
 		'w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/' };
 
 @implementation NSData (NSDataBase64Additions)
-+ (NSData *) dataWithBase64EncodedString:(NSString *) string {
++ (NSData *) endataWithBase64EncodedString:(NSString *) string {
 	return [[NSData allocWithZone:nil] initWithBase64EncodedString:string];
 }
 
@@ -84,11 +84,11 @@ static char encodingTable[64] = {
 
 #pragma mark -
 
-- (NSString *) base64Encoding {
-	return [self base64EncodingWithLineLength:0];
+- (NSString *) enbase64Encoding {
+	return [self enbase64EncodingWithLineLength:0];
 }
 
-- (NSString *) base64EncodingWithLineLength:(unsigned int) lineLength {
+- (NSString *) enbase64EncodingWithLineLength:(unsigned int) lineLength {
 	const unsigned char	*bytes = [self bytes];
   NSMutableData * resultData = [NSMutableData dataWithCapacity: [self length]*1.5];
 	unsigned long ixtext = 0;

@@ -31,12 +31,12 @@
 
 @implementation NSDate (EDAMAdditions)
 
-+ (NSDate *) dateFromEDAMTimestamp: (int64_t) edamTimestamp
++ (NSDate *) endateFromEDAMTimestamp: (int64_t) edamTimestamp
 {
     return [NSDate dateWithTimeIntervalSince1970: ((double)edamTimestamp)/1000.0];
 }
 
-- (int64_t) edamTimestamp
+- (int64_t) enedamTimestamp
 {
     return trunc([self timeIntervalSince1970]) * 1000;
 }

@@ -37,14 +37,14 @@
  
  @returns The MD5 hash
  */
-- (NSData *) md5;
+- (NSData *) enmd5;
 
 /** hex representation of data (used in ENML media)
  
  @returns The hex representation in lower case
  */
-- (NSString *) lowercaseHexDigits;
+- (NSString *) enlowercaseHexDigits;
 
-+ (NSData *) dataWithHexDigits: (NSString *) hexDigits;
++ (NSData *) endataWithHexDigits: (NSString *) hexDigits;
 
 @end
