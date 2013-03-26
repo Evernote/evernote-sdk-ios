@@ -25,7 +25,6 @@
 @interface THTTPClient ()
 
 @property (nonatomic,strong) ENAFURLConnectionOperation *httpOperation;
-@property (nonatomic,assign) BOOL isCancelled;
 
 @end
 
@@ -137,22 +136,19 @@
   NSURLResponse * response;
   NSError * error;
     NSData *responseData = nil;
-    if(self.isCancelled==NO) {
-        self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
-        if(self.uploadBlock) {
-            [self.httpOperation setUploadProgressBlock:self.uploadBlock];
-        }
-        if(self.downloadBlock) {
-            [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
-        }
-        [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
-        responseData = self.httpOperation.responseData;
-        response = self.httpOperation.response;
-        error = self.httpOperation.error;
-
+    self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
+    if(self.uploadBlock) {
+        [self.httpOperation setUploadProgressBlock:self.uploadBlock];
     }
+    if(self.downloadBlock) {
+        [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
+    }
+    [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
+    responseData = self.httpOperation.responseData;
+    response = self.httpOperation.response;
+    error = self.httpOperation.error;
     [mRequestData setLength: 0];
-
+    
   if (responseData == nil) {
     @throw [TTransportException exceptionWithName: @"TTransportException"
                                 reason: @"Could not make HTTP request"
@@ -181,7 +177,6 @@
 }
 
 -(void) cancel {
-    self.isCancelled = YES;
     if(self.httpOperation) {
         [self.httpOperation cancel];
         self.uploadBlock = nil;
