@@ -45,7 +45,7 @@
 
   NSString * userAgent = mUserAgent;
   if (!userAgent) {
-    userAgent = @"Cocoa/THTTPClient";
+    userAgent = [THTTPClient createClientVersionString];
   }
   [mRequest setValue: userAgent forHTTPHeaderField: @"User-Agent"];
 
@@ -193,5 +193,23 @@
     [self setDownloadProgressBlock:block];
 }
 
++ (NSString *)createClientVersionString
+{
+	NSString * clientName = nil;
+    NSString * locale = [NSString stringWithFormat: @"%@",
+                         [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]];
+    
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSString *appName = [infoDic valueForKey:(id)kCFBundleNameKey];
+    NSString * buildVersion = [infoDic valueForKey: @"SourceVersion"];
+    if (buildVersion == nil) {
+        buildVersion = [infoDic valueForKey:(id)kCFBundleVersionKey];
+    }
+    clientName = [NSString stringWithFormat: @"%@ iPhone/%@ (%@);",
+                  appName,
+                  buildVersion,
+                  locale];
+	return clientName;
+}
 
 @end
