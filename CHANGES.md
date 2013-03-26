@@ -1,3 +1,9 @@
+= 1.1.1 / 2013-03-26
+
+* Adding ability to monitor download/upload progress
+* Handle invalid tokens
+* Bug fixes
+
 = 1.1.0 / 2013-03-01
 
 * ENML to HTML converter

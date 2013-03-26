@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.1.0
+Evernote SDK for iOS version 1.1.1
 =========================================
 
 What this is
