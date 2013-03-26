@@ -25,7 +25,6 @@
 @interface THTTPClient ()
 
 @property (nonatomic,strong) ENAFURLConnectionOperation *httpOperation;
-@property (nonatomic,assign) BOOL isCancelled;
 
 @end
 
@@ -46,7 +45,7 @@
 
   NSString * userAgent = mUserAgent;
   if (!userAgent) {
-    userAgent = @"Cocoa/THTTPClient";
+    userAgent = [THTTPClient createClientVersionString];
   }
   [mRequest setValue: userAgent forHTTPHeaderField: @"User-Agent"];
 
@@ -137,22 +136,19 @@
   NSURLResponse * response;
   NSError * error;
     NSData *responseData = nil;
-    if(self.isCancelled==NO) {
-        self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
-        if(self.uploadBlock) {
-            [self.httpOperation setUploadProgressBlock:self.uploadBlock];
-        }
-        if(self.downloadBlock) {
-            [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
-        }
-        [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
-        responseData = self.httpOperation.responseData;
-        response = self.httpOperation.response;
-        error = self.httpOperation.error;
-
+    self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
+    if(self.uploadBlock) {
+        [self.httpOperation setUploadProgressBlock:self.uploadBlock];
     }
+    if(self.downloadBlock) {
+        [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
+    }
+    [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
+    responseData = self.httpOperation.responseData;
+    response = self.httpOperation.response;
+    error = self.httpOperation.error;
     [mRequestData setLength: 0];
-
+    
   if (responseData == nil) {
     @throw [TTransportException exceptionWithName: @"TTransportException"
                                 reason: @"Could not make HTTP request"
@@ -181,7 +177,6 @@
 }
 
 -(void) cancel {
-    self.isCancelled = YES;
     if(self.httpOperation) {
         [self.httpOperation cancel];
         self.uploadBlock = nil;
@@ -198,5 +193,23 @@
     [self setDownloadProgressBlock:block];
 }
 
++ (NSString *)createClientVersionString
+{
+	NSString * clientName = nil;
+    NSString * locale = [NSString stringWithFormat: @"%@",
+                         [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]];
+    
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSString *appName = [infoDic valueForKey:(id)kCFBundleNameKey];
+    NSString * buildVersion = [infoDic valueForKey: @"SourceVersion"];
+    if (buildVersion == nil) {
+        buildVersion = [infoDic valueForKey:(id)kCFBundleVersionKey];
+    }
+    clientName = [NSString stringWithFormat: @"%@ iPhone/%@ (%@);",
+                  appName,
+                  buildVersion,
+                  locale];
+	return clientName;
+}
 
 @end
