@@ -230,7 +230,7 @@
                            failure:(void(^)(NSError *error))failure;
 
 
-/** Asks the service to make a tag with a set of information.
+/** Asks the service to get a tag with a set of information.
  
  @param  guid The GUID of the tag to be retrieved.
  @param success Success completion block.
