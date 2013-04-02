@@ -34,7 +34,7 @@
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #import "ENOAuthViewController.h"
 #else
-
+#import "ENOAuthWindowController.h"
 #endif
 
 #ifndef NS_ENUM

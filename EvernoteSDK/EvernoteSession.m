@@ -47,6 +47,9 @@
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 @property (nonatomic, strong) UIViewController *viewController;
 @property (nonatomic, strong) ENOAuthViewController *oauthViewController;
+#else
+@property (nonatomic, strong) ENOAuthWindowController *oauthWindowController;
+@property (nonatomic, strong) NSWindow *window;
 #endif
 
 @property (nonatomic, strong) NSURLResponse *response;
@@ -91,6 +94,7 @@
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 @synthesize viewController = _viewController;
+#else
 #endif
 
 @synthesize response = _response;
@@ -186,15 +190,10 @@
     NSAssert(session.consumerSecret.length && ![session.consumerSecret isEqualToString:@"your secret"],
              @"You need to provide a valid Evernote Consumer Secret. Get it via http://dev.evernote.com/documentation/cloud/");
 
-    for(id schemes in [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"] valueForKeyPath:@"CFBundleURLSchemes"]) {
-        for(id scheme in schemes) {
-            if([scheme isEqualToString:[NSString stringWithFormat:@"en-%@", session.consumerKey]]) {
-                return;
-            }
-        }
-    }
-
-    NSAssert(FALSE, @"You need to define an entry in CFBundleURLTypes with the following scheme 'en-%@'.", session.consumerKey);
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+    NSAssert([self verifyCFBundleURLSchemes],
+             @"You need to define an entry in CFBundleURLTypes with the following scheme 'en-%@'.", session.consumerKey);
+#endif
 }
 
 + (EvernoteSession *)sharedSession
@@ -372,12 +371,7 @@
     }
 }
 
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-- (void)authenticateWithViewController:(UIViewController *)viewController
-                     completionHandler:(EvernoteAuthCompletionHandler)completionHandler
-{
-    self.viewController = viewController;
-    self.completionHandler = completionHandler;
+- (void)authenticate { 
 
     // authenticate is idempotent; check if we're already authenticated
     if (self.isAuthenticated) {
@@ -389,6 +383,7 @@
     // This verification raises an NSException if problems are found.
     [self verifyConsumerKeyAndSecret];
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
     if (!viewController) {
         // no point continuing without a valid view controller,
         [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
@@ -396,6 +391,7 @@
                                                               userInfo:nil]];
         return;
     }
+#endif
 
     // remove all cookies from the Evernote service so that the user can log in with
     // different credentials after declining to authorize access
@@ -419,10 +415,22 @@
         [self startOauthAuthentication];
     }];
 }
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+- (void)authenticateWithViewController:(UIViewController *)viewController
+                     completionHandler:(EvernoteAuthCompletionHandler)completionHandler
+{
+    self.viewController = viewController;
+    self.completionHandler = completionHandler;
+}
 #else
 - (void)authenticateWithWindow:(NSWindow *)window
              completionHandler:(EvernoteAuthCompletionHandler)completionHandler {
-    // FIXME:dholtwick:2013-04-02
+    self.window = window;
+    self.completionHandler = completionHandler;
+    NSAssert(self.window, nil);
+    NSAssert(self.completionHandler, nil);
+    [self authenticate];
 }
 #endif
 
@@ -538,8 +546,22 @@
 #else
 - (NSString *)userAuthorizationURLStringWithParameters:(NSDictionary *)tokenParameters
 {
-    // FIXME:dholtwick:2013-04-02
-    return @"";
+    //    NSString* deviceID = nil;
+    //    NSString *deviceName = nil;
+    //    if([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)]) {
+    //        deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    //    }
+    //    deviceName = [[UIDevice currentDevice] name];
+    //    if(deviceID == nil) {
+    //        deviceID = [NSString string];
+    //    }
+    NSDictionary *authParameters = @{ @"oauth_token":[tokenParameters objectForKey:@"oauth_token"],
+                                      @"inapp":@"mac",
+                                      // @"deviceDescription":deviceName,
+                                      // @"deviceIdentifier":deviceID
+                                      };
+    NSString *queryString = [EvernoteSession queryStringFromParameters:authParameters];
+    return [NSString stringWithFormat:@"%@://%@/OAuth.action?%@", SCHEME, self.host, queryString];
 }
 #endif
 
@@ -717,8 +739,28 @@
 }
 #else
 - (void)openOAuthDialogWithURL:(NSURL *)authorizationURL {
-    // FIXME:dholtwick:2013-04-02
+    BOOL isSwitchAllowed = NO;
+    if([self.profiles count]>1) {
+        isSwitchAllowed = YES;
+    }
+    else {
+        isSwitchAllowed = NO;
+    }
+    if(!self.isSwitchingInProgress ) {
+
+        self.oauthWindowController = [[ENOAuthWindowController alloc] initWithAuthorizationURL:authorizationURL
+                                                                           oauthCallbackPrefix:[self oauthCallback]
+                                                                                   profileName:self.currentProfile
+                                                                                allowSwitching:isSwitchAllowed  
+                                                                                      delegate:self];
+        [self.oauthWindowController presentSheetForWindow:self.window];
+    }
+    else {
+        [self.oauthWindowController updateUIForNewProfile:self.currentProfile withAuthorizationURL:authorizationURL];
+        self.isSwitchingInProgress = NO;        
+    }
 }
+
 #endif
 
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId

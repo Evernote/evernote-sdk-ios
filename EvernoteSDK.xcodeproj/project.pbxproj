@@ -109,6 +109,9 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		4369155B170B0DBB00893324 /* ENOAuthWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43691558170B0DBB00893324 /* ENOAuthWindowController.h */; };
+		4369155C170B0DBB00893324 /* ENOAuthWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43691559170B0DBB00893324 /* ENOAuthWindowController.m */; };
+		4369155D170B0DBB00893324 /* ENOAuthWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */; };
 		4374185D170AD42900D2BE51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4374185C170AD42900D2BE51 /* Default-568h@2x.png */; };
 		43741866170ADB2400D2BE51 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43741865170ADB2400D2BE51 /* Cocoa.framework */; };
 		43741870170ADB2400D2BE51 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4374186E170ADB2400D2BE51 /* InfoPlist.strings */; };
@@ -376,6 +379,9 @@
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		43691558170B0DBB00893324 /* ENOAuthWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ENOAuthWindowController.h; path = EvernoteSDK/internal/ENOAuthWindowController.h; sourceTree = SOURCE_ROOT; };
+		43691559170B0DBB00893324 /* ENOAuthWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ENOAuthWindowController.m; path = EvernoteSDK/internal/ENOAuthWindowController.m; sourceTree = SOURCE_ROOT; };
+		4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ENOAuthWindowController.xib; path = EvernoteSDK/internal/ENOAuthWindowController.xib; sourceTree = SOURCE_ROOT; };
 		4374185C170AD42900D2BE51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4374185E170ADA8100D2BE51 /* EvernoteSDK.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = EvernoteSDK.strings; path = EvernoteSDK/internal/Resources/EvernoteSDK.strings; sourceTree = SOURCE_ROOT; };
 		43741864170ADB2400D2BE51 /* EvernoteSDK-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "EvernoteSDK-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -875,6 +881,9 @@
 				43741911170AEAFC00D2BE51 /* ENOAuthProtocol.h */,
 				0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */,
 				A96E28EC165597C90031EC63 /* ENOAuthViewController.m */,
+				43691558170B0DBB00893324 /* ENOAuthWindowController.h */,
+				43691559170B0DBB00893324 /* ENOAuthWindowController.m */,
+				4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */,
 			);
 			name = iOS;
 			path = internal;
@@ -1067,6 +1076,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				43741909170ADE8E00D2BE51 /* EvernoteSDK.h in Headers */,
+				4369155B170B0DBB00893324 /* ENOAuthWindowController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1224,6 +1234,7 @@
 			files = (
 				43741870170ADB2400D2BE51 /* InfoPlist.strings in Resources */,
 				4374190F170ADF7900D2BE51 /* EvernoteSDK.strings in Resources */,
+				4369155D170B0DBB00893324 /* ENOAuthWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1447,6 +1458,7 @@
 				437418A5170ADB9300D2BE51 /* THTTPClient.m in Sources */,
 				437418A6170ADB9300D2BE51 /* TMemoryBuffer.m in Sources */,
 				437418A7170ADB9300D2BE51 /* TTransportException.m in Sources */,
+				4369155C170B0DBB00893324 /* ENOAuthWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1881,6 +1893,7 @@
 				43741877170ADB2400D2BE51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		437418C0170ADCD700D2BE51 /* Build configuration list for PBXNativeTarget "SampleApp-Mac" */ = {
 			isa = XCConfigurationList;
@@ -1889,6 +1902,7 @@
 				437418C2170ADCD700D2BE51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
