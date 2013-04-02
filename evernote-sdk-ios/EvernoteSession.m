@@ -169,6 +169,25 @@
     }
     session.consumerKey = consumerKey;
     session.consumerSecret = consumerSecret;
+
+    // Check if everything is ok, these are the most basic settings and have to be correct
+    // Don't frustrate the developer ;)
+
+    NSAssert(session.consumerKey.length && ![session.consumerKey isEqualToString:@"your key"],
+             @"You need to provide a valid Evernote Consumer Key. Get it via http://dev.evernote.com/documentation/cloud/");
+
+    NSAssert(session.consumerSecret.length && ![session.consumerSecret isEqualToString:@"your secret"],
+             @"You need to provide a valid Evernote Consumer Secret. Get it via http://dev.evernote.com/documentation/cloud/");
+
+    for(id schemes in [[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleURLTypes"] valueForKeyPath:@"CFBundleURLSchemes"]) {
+        for(id scheme in schemes) {
+            if([scheme isEqualToString:[NSString stringWithFormat:@"en-%@", session.consumerKey]]) {
+                return;
+            }
+        }
+    }
+
+    NSAssert(FALSE, @"You need to define an entry in CFBundleURLTypes with the following scheme 'en-%@'.", session.consumerKey);
 }
 
 + (EvernoteSession *)sharedSession
