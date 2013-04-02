@@ -39,7 +39,7 @@
            oauthCallbackPrefix:(NSString *)oauthCallbackPrefix
                    profileName:(NSString *)currentProfileName
                 allowSwitching:(BOOL)isSwitchingAllowed
-                      delegate:(id<ENOAuthViewControllerDelegate>)delegate
+                      delegate:(id<ENOAuthDelegate>)delegate
 {
     self = [super init];
     if (self) {

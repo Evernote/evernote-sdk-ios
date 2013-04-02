@@ -7,25 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ENOAuthProtocol.h"
 
 @class ENOAuthViewController;
 
-@protocol ENOAuthViewControllerDelegate <NSObject>
-- (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender;
-- (void)oauthViewControllerDidSwitchProfile:(ENOAuthViewController *)sender;
-- (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error;
-- (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url;
-@end
-
 @interface ENOAuthViewController : UIViewController
 
-@property (nonatomic, weak) id<ENOAuthViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ENOAuthDelegate> delegate;
 
 - (id)initWithAuthorizationURL:(NSURL *)authorizationURL
            oauthCallbackPrefix:(NSString *)oauthCallbackPrefix
                    profileName:(NSString *)currentProfileName
                 allowSwitching:(BOOL)isSwitchingAllowed
-                      delegate:(id<ENOAuthViewControllerDelegate>)delegate;
+                      delegate:(id<ENOAuthDelegate>)delegate;
 
 - (void)updateUIForNewProfile:(NSString*)newProfile withAuthorizationURL:(NSURL*)authURL;
 

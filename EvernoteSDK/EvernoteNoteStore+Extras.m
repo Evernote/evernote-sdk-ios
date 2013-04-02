@@ -179,6 +179,7 @@
 
 #pragma mark - Application bridge 
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (void)saveNewNoteToEvernoteApp:(EDAMNote*)note withType:(NSString*)contentMimeType {
     if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
         NSMutableDictionary* appBridgeData = [NSMutableDictionary dictionary];
@@ -286,7 +287,8 @@
         }
     }
 }
-
+// FIXME:dholtwick:2013-04-02 
+#endif
 
 #pragma mark - Custom extra function
 

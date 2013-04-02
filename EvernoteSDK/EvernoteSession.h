@@ -27,10 +27,15 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 #import "EDAM.h"
+#import "ENOAuthProtocol.h"
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 #import "ENOAuthViewController.h"
+#else
+
+#endif
 
 #ifndef NS_ENUM
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
@@ -84,7 +89,11 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 
 /** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
-@interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate,SKStoreProductViewControllerDelegate>
+@interface EvernoteSession : NSObject <ENOAuthDelegate
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+, SKStoreProductViewControllerDelegate
+#endif
+>
 
 @property (nonatomic, copy) NSString *host;
 @property (nonatomic, copy) NSString *consumerKey;
@@ -178,8 +187,14 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  @param viewController The view controller that should be used to present the authentication view
  @param completionHandler This block will be called once the authentication process is completed with sucess or failure.
 */
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (void)authenticateWithViewController:(UIViewController *)viewController
                      completionHandler:(EvernoteAuthCompletionHandler)completionHandler;
+#else
+- (void)authenticateWithWindow:(NSWindow *)window
+             completionHandler:(EvernoteAuthCompletionHandler)completionHandler;
+#endif
 
 /** Check if the Evernote app is installed.
  
@@ -259,6 +274,9 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  
  @param viewController The view controller that should be used as a base controller to present this view controller.
  */
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 - (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
+#endif
 
 @end

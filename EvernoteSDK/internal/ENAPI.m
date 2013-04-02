@@ -219,6 +219,8 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
     BOOL didTriggerAuth = NO;
     if([EvernoteSession isTokenExpiredWithError:error]) {
         [self.session logout];
+
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
         UIViewController* topVC = [UIApplication sharedApplication].keyWindow.rootViewController;
         if(!topVC.presentedViewController && topVC.isViewLoaded) {
             didTriggerAuth = YES;
@@ -230,7 +232,8 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
                 }];
             });
         }
-        
+#endif
+
     }
     // If we were not able to trigger auth, send the error over to the client
     if(didTriggerAuth==NO) {
