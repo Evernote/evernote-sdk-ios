@@ -1,3 +1,7 @@
+* Add more testing for correct developer setup
+* Cleanup the repository
+* License clarifications
+
 = 1.1.1 / 2013-03-26
 
 * Adding ability to monitor download/upload progress
