@@ -106,7 +106,7 @@ static NSString *kEN_NewNoteRequest_Altitude = @"mAltitude";
 }
 
 - (uint32_t) totalRequestSize {
-  uint32_t result = [[self content] length];
+  uint32_t result = (uint32_t)[[self content] length];
   NSArray *attachments = self.resourceAttachments;
   for (ENResourceAttachment *anAttachment in attachments) {
     NSData *resourceData = [anAttachment resourceData];

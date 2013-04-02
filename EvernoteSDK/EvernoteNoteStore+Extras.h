@@ -138,6 +138,7 @@ inBusinessNotebook:(EDAMLinkedNotebook*) notebook
                   success:(void(^)(EDAMTag *tag))success
                   failure:(void(^)(NSError *error))failure;
 
+#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
 /** Save a new note to the Evernote for iOS app
  
  After completetion the ENSessionDelegate will be used to confirm success or failure.
@@ -154,6 +155,8 @@ inBusinessNotebook:(EDAMLinkedNotebook*) notebook
  @param note The note that needs to be viewed.
  */
 - (void)viewNoteInEvernote:(EDAMNote*)note;
+// FIXME:dholtwick:2013-04-02 
+#endif
 
 /** Cancel the first operation in the queue
  */

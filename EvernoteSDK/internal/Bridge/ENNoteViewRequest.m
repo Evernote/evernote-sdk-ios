@@ -134,7 +134,7 @@ NSString * const ENNoteViewRequestErrorDomain = @"ENNoteViewRequestErrorDomain";
     [coder encodeObject:_searchTerms forKey:kEN_NoteViewRequest_SearchTerms];
     [coder encodeObject:_linkedNotebookID forKey:kEN_NoteViewRequest_LinkedNotebookID];
     [coder encodeObject:_shardID forKey:kEN_NoteViewRequest_ShardID];
-    [coder encodeInt:_userID forKey:kEN_NoteViewRequest_UserID];
+    [coder encodeInt:(int)_userID forKey:kEN_NoteViewRequest_UserID];
 }
 
 

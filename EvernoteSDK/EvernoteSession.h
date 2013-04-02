@@ -252,7 +252,7 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 - (void)verifyConsumerKeyAndSecret;
 
 // Abstracted into a method to support unit testing.
-- (void)openOAuthViewControllerWithURL:(NSURL *)authorizationURL;
+// - (void)openOAuthViewControllerWithURL:(NSURL *)authorizationURL;
 
 // Abstracted into a method to support unit testing.
 - (void)saveCredentialsWithEdamUserId:(NSString *)edamUserId 

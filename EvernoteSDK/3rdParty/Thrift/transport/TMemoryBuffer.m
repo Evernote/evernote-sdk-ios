@@ -41,7 +41,7 @@
 }
 
 - (int)readAll:(uint8_t *)buf offset:(int)off length:(int)len {
-	if ([mBuffer length] - mOffset < len) {
+	if ((int)([mBuffer length] - mOffset) < len) {
 		@throw [TTransportException exceptionWithReason:@"Not enough bytes remain in buffer"];
 	}
 	[mBuffer getBytes:buf range:NSMakeRange(mOffset, len)];
