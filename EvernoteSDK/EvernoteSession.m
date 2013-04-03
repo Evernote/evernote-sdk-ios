@@ -189,11 +189,6 @@
 
     NSAssert(session.consumerSecret.length && ![session.consumerSecret isEqualToString:@"your secret"],
              @"You need to provide a valid Evernote Consumer Secret. Get it via http://dev.evernote.com/documentation/cloud/");
-
-#if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    NSAssert([self verifyCFBundleURLSchemes],
-             @"You need to define an entry in CFBundleURLTypes with the following scheme 'en-%@'.", session.consumerKey);
-#endif
 }
 
 + (EvernoteSession *)sharedSession
@@ -384,7 +379,7 @@
     [self verifyConsumerKeyAndSecret];
 
 #if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
-    if (!viewController) {
+    if (!self.viewController) {
         // no point continuing without a valid view controller,
         [self completeAuthenticationWithError:[NSError errorWithDomain:EvernoteSDKErrorDomain
                                                                   code:EvernoteSDKErrorCode_NO_VIEWCONTROLLER
