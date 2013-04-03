@@ -109,7 +109,52 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
-		4369155B170B0DBB00893324 /* ENOAuthWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43691558170B0DBB00893324 /* ENOAuthWindowController.h */; };
+		433000C5170C48F100CFB953 /* EDAMNoteStoreClient+Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000C6170C48F100CFB953 /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000C7170C48F100CFB953 /* EvernoteNoteStore+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000C8170C48F100CFB953 /* EvernoteNoteStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000C9170C48F100CFB953 /* EvernoteUserStore+Extras.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CA170C48F100CFB953 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CB170C493700CFB953 /* ENApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89416C3265300D54760 /* ENApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CC170C493700CFB953 /* ENAuthenticationRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89816C3265300D54760 /* ENAuthenticationRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CD170C493700CFB953 /* ENLinkNotebookRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89A16C3265300D54760 /* ENLinkNotebookRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CE170C493700CFB953 /* ENNewNoteRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89C16C3265300D54760 /* ENNewNoteRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000CF170C493700CFB953 /* ENNoteImportRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E89E16C3265300D54760 /* ENNoteImportRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D0170C493700CFB953 /* ENNoteViewRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E8A016C3265300D54760 /* ENNoteViewRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D1170C493700CFB953 /* ENResourceAttachment.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E8A216C3265300D54760 /* ENResourceAttachment.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D2170C493700CFB953 /* ENSearchRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E8A416C3265300D54760 /* ENSearchRequest.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D3170C493700CFB953 /* EvernoteBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E8A616C3265300D54760 /* EvernoteBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D4170C493700CFB953 /* ENAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592215432592007D7D37 /* ENAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D5170C493700CFB953 /* ENCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592415432592007D7D37 /* ENCredentials.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D6170C493700CFB953 /* ENCredentialStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592615432592007D7D37 /* ENCredentialStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D7170C493700CFB953 /* EvernoteSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D2381524EE62001C4534 /* EvernoteSession.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D8170C493700CFB953 /* ENOAuthProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 43741911170AEAFC00D2BE51 /* ENOAuthProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000D9170C495D00CFB953 /* NSDataBase64Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E88916C2F99A00D54760 /* NSDataBase64Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DA170C495D00CFB953 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DB170C495D00CFB953 /* NSData+EvernoteSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DC170C495D00CFB953 /* ENMLUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602C216740D5700F01E63 /* ENMLUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DD170C495D00CFB953 /* EDAM.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D22D1524EE62001C4534 /* EDAM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DE170C495D00CFB953 /* EDAMLimits.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D22E1524EE62001C4534 /* EDAMLimits.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000DF170C495D00CFB953 /* EDAMNoteStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D2301524EE62001C4534 /* EDAMNoteStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E0170C495D00CFB953 /* EDAMTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D2321524EE62001C4534 /* EDAMTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E1170C495D00CFB953 /* EDAMUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D2341524EE62001C4534 /* EDAMUserStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E2170C495D00CFB953 /* EDAMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BB3D2361524EE62001C4534 /* EDAMErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E3170C497C00CFB953 /* TObjective-C.h in Headers */ = {isa = PBXBuildFile; fileRef = A9D166C4169151D600043DA0 /* TObjective-C.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E4170C497C00CFB953 /* TApplicationException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F3B1525015500DB20A3 /* TApplicationException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E5170C497C00CFB953 /* TException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F3D1525015500DB20A3 /* TException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E6170C497C00CFB953 /* Thrift.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F3F1525015500DB20A3 /* Thrift.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E7170C497C00CFB953 /* TProcessor.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F401525015500DB20A3 /* TProcessor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E8170C497C00CFB953 /* TProcessorFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F411525015500DB20A3 /* TProcessorFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000E9170C497C00CFB953 /* TBinaryProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F301525015500DB20A3 /* TBinaryProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000EA170C497C00CFB953 /* TProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F321525015500DB20A3 /* TProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000EB170C497C00CFB953 /* TProtocolException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F331525015500DB20A3 /* TProtocolException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000EC170C497C00CFB953 /* TProtocolFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F351525015500DB20A3 /* TProtocolFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000ED170C497C00CFB953 /* TProtocolUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F361525015500DB20A3 /* TProtocolUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000EE170C497C00CFB953 /* THTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F431525015500DB20A3 /* THTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000EF170C497C00CFB953 /* TMemoryBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F451525015500DB20A3 /* TMemoryBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000F0170C497C00CFB953 /* TTransport.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F4D1525015500DB20A3 /* TTransport.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433000F1170C497C00CFB953 /* TTransportException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F4E1525015500DB20A3 /* TTransportException.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4369155B170B0DBB00893324 /* ENOAuthWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43691558170B0DBB00893324 /* ENOAuthWindowController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4369155C170B0DBB00893324 /* ENOAuthWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43691559170B0DBB00893324 /* ENOAuthWindowController.m */; };
 		4369155D170B0DBB00893324 /* ENOAuthWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */; };
 		4374185D170AD42900D2BE51 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4374185C170AD42900D2BE51 /* Default-568h@2x.png */; };
@@ -675,22 +720,22 @@
 				0BBA34A71537B09300DC7DD5 /* LICENSE */,
 				0B2B9D6615449AEE00E5BD44 /* EvernoteSDK.h */,
 				0B2B9D6715449AEE00E5BD44 /* EvernoteSDK.m */,
-				0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */,
-				0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */,
-				A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */,
-				A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */,
-				0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */,
-				0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */,
-				A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */,
-				A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */,
-				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
-				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
 				A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */,
 				A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */,
-				A9C554F416712E8D006E0020 /* Utilities */,
+				A9FDF716165C5C7100DC7E4B /* ENConstants.h */,
+				A9FDF717165C5C7100DC7E4B /* ENConstants.m */,
+				A9C554FF167149B0006E0020 /* EvernoteNoteStore+Extras.h */,
+				A9C55500167149B0006E0020 /* EvernoteNoteStore+Extras.m */,
+				0B345EBC1544633F00A1FDBF /* EvernoteNoteStore.h */,
+				0B345EBD1544633F00A1FDBF /* EvernoteNoteStore.m */,
+				A9C5550416715399006E0020 /* EvernoteUserStore+Extras.h */,
+				A9C555051671539A006E0020 /* EvernoteUserStore+Extras.m */,
+				0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */,
+				0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */,
 				0B98592115432592007D7D37 /* Internal */,
-				0BB3D22C1524EE62001C4534 /* EDAM */,
+				A9C554F416712E8D006E0020 /* Utilities */,
 				0B943F241525015500DB20A3 /* 3rdParty */,
+				0BB3D22C1524EE62001C4534 /* EDAM */,
 			);
 			path = EvernoteSDK;
 			sourceTree = "<group>";
@@ -1070,7 +1115,52 @@
 			buildActionMask = 2147483647;
 			files = (
 				43741909170ADE8E00D2BE51 /* EvernoteSDK.h in Headers */,
+				433000C5170C48F100CFB953 /* EDAMNoteStoreClient+Utilities.h in Headers */,
+				433000C7170C48F100CFB953 /* EvernoteNoteStore+Extras.h in Headers */,
+				433000C8170C48F100CFB953 /* EvernoteNoteStore.h in Headers */,
+				433000C6170C48F100CFB953 /* ENConstants.h in Headers */,
+				433000CB170C493700CFB953 /* ENApplicationBridge.h in Headers */,
+				433000CC170C493700CFB953 /* ENAuthenticationRequest.h in Headers */,
+				433000CD170C493700CFB953 /* ENLinkNotebookRequest.h in Headers */,
+				433000CE170C493700CFB953 /* ENNewNoteRequest.h in Headers */,
+				433000CF170C493700CFB953 /* ENNoteImportRequest.h in Headers */,
+				433000D0170C493700CFB953 /* ENNoteViewRequest.h in Headers */,
+				433000D1170C493700CFB953 /* ENResourceAttachment.h in Headers */,
+				433000D2170C493700CFB953 /* ENSearchRequest.h in Headers */,
+				433000D3170C493700CFB953 /* EvernoteBridge.h in Headers */,
+				433000D4170C493700CFB953 /* ENAPI.h in Headers */,
+				433000D5170C493700CFB953 /* ENCredentials.h in Headers */,
+				433000D6170C493700CFB953 /* ENCredentialStore.h in Headers */,
+				433000D9170C495D00CFB953 /* NSDataBase64Additions.h in Headers */,
+				433000DA170C495D00CFB953 /* NSDate+EDAMAdditions.h in Headers */,
+				433000DB170C495D00CFB953 /* NSData+EvernoteSDK.h in Headers */,
+				433000DC170C495D00CFB953 /* ENMLUtility.h in Headers */,
+				433000DD170C495D00CFB953 /* EDAM.h in Headers */,
+				433000DE170C495D00CFB953 /* EDAMLimits.h in Headers */,
+				433000DF170C495D00CFB953 /* EDAMNoteStore.h in Headers */,
+				433000E0170C495D00CFB953 /* EDAMTypes.h in Headers */,
+				433000E1170C495D00CFB953 /* EDAMUserStore.h in Headers */,
+				433000E2170C495D00CFB953 /* EDAMErrors.h in Headers */,
+				433000D7170C493700CFB953 /* EvernoteSession.h in Headers */,
+				433000E3170C497C00CFB953 /* TObjective-C.h in Headers */,
+				433000E4170C497C00CFB953 /* TApplicationException.h in Headers */,
+				433000E5170C497C00CFB953 /* TException.h in Headers */,
+				433000E6170C497C00CFB953 /* Thrift.h in Headers */,
+				433000E7170C497C00CFB953 /* TProcessor.h in Headers */,
+				433000E8170C497C00CFB953 /* TProcessorFactory.h in Headers */,
+				433000E9170C497C00CFB953 /* TBinaryProtocol.h in Headers */,
+				433000EA170C497C00CFB953 /* TProtocol.h in Headers */,
+				433000EB170C497C00CFB953 /* TProtocolException.h in Headers */,
+				433000EC170C497C00CFB953 /* TProtocolFactory.h in Headers */,
+				433000ED170C497C00CFB953 /* TProtocolUtil.h in Headers */,
+				433000EE170C497C00CFB953 /* THTTPClient.h in Headers */,
+				433000EF170C497C00CFB953 /* TMemoryBuffer.h in Headers */,
+				433000F0170C497C00CFB953 /* TTransport.h in Headers */,
+				433000F1170C497C00CFB953 /* TTransportException.h in Headers */,
+				433000D8170C493700CFB953 /* ENOAuthProtocol.h in Headers */,
 				4369155B170B0DBB00893324 /* ENOAuthWindowController.h in Headers */,
+				433000C9170C48F100CFB953 /* EvernoteUserStore+Extras.h in Headers */,
+				433000CA170C48F100CFB953 /* EvernoteUserStore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
