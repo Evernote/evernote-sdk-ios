@@ -382,6 +382,7 @@
 		43691558170B0DBB00893324 /* ENOAuthWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ENOAuthWindowController.h; path = EvernoteSDK/internal/ENOAuthWindowController.h; sourceTree = SOURCE_ROOT; };
 		43691559170B0DBB00893324 /* ENOAuthWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ENOAuthWindowController.m; path = EvernoteSDK/internal/ENOAuthWindowController.m; sourceTree = SOURCE_ROOT; };
 		4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ENOAuthWindowController.xib; path = EvernoteSDK/internal/ENOAuthWindowController.xib; sourceTree = SOURCE_ROOT; };
+		43691584170C250600893324 /* SampleApp-Mac.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "SampleApp-Mac.entitlements"; sourceTree = "<group>"; };
 		4374185C170AD42900D2BE51 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4374185E170ADA8100D2BE51 /* EvernoteSDK.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = EvernoteSDK.strings; path = EvernoteSDK/internal/Resources/EvernoteSDK.strings; sourceTree = SOURCE_ROOT; };
 		43741864170ADB2400D2BE51 /* EvernoteSDK-Mac.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "EvernoteSDK-Mac.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -692,6 +693,7 @@
 				0B98592115432592007D7D37 /* Internal */,
 				0BB3D22C1524EE62001C4534 /* EDAM */,
 				43741910170AE3F400D2BE51 /* iOS */,
+				4369157F170C22E400893324 /* Mac */,
 				0B943F241525015500DB20A3 /* 3rdParty */,
 				0BB3D1B31524ED96001C4534 /* Supporting Files */,
 			);
@@ -820,6 +822,17 @@
 			path = SSKeychain;
 			sourceTree = "<group>";
 		};
+		4369157F170C22E400893324 /* Mac */ = {
+			isa = PBXGroup;
+			children = (
+				43691558170B0DBB00893324 /* ENOAuthWindowController.h */,
+				43691559170B0DBB00893324 /* ENOAuthWindowController.m */,
+				4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */,
+			);
+			name = Mac;
+			path = internal;
+			sourceTree = "<group>";
+		};
 		43741867170ADB2400D2BE51 /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -853,6 +866,7 @@
 		437418AE170ADCD600D2BE51 /* SampleApp-Mac */ = {
 			isa = PBXGroup;
 			children = (
+				43691584170C250600893324 /* SampleApp-Mac.entitlements */,
 				437418BA170ADCD700D2BE51 /* AppDelegate.h */,
 				437418BB170ADCD700D2BE51 /* AppDelegate.m */,
 				437418BD170ADCD700D2BE51 /* MainMenu.xib */,
@@ -881,9 +895,6 @@
 				43741911170AEAFC00D2BE51 /* ENOAuthProtocol.h */,
 				0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */,
 				A96E28EC165597C90031EC63 /* ENOAuthViewController.m */,
-				43691558170B0DBB00893324 /* ENOAuthWindowController.h */,
-				43691559170B0DBB00893324 /* ENOAuthWindowController.m */,
-				4369155A170B0DBB00893324 /* ENOAuthWindowController.xib */,
 			);
 			name = iOS;
 			path = internal;
@@ -1195,11 +1206,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				43741863170ADB2400D2BE51 /* EvernoteSDK-Mac */,
 				0BB3D1AC1524ED96001C4534 /* EvernoteSDK */,
+				43741863170ADB2400D2BE51 /* EvernoteSDK-Mac */,
 				0BB3D26D1524EF37001C4534 /* SampleApp */,
-				0BDBBC421550A11A003E6681 /* UnitTests */,
 				437418AB170ADCD600D2BE51 /* SampleApp-Mac */,
+				0BDBBC421550A11A003E6681 /* UnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1761,7 +1772,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EvernoteSDK-Mac/EvernoteSDK-Mac-Prefix.pch";
 				INFOPLIST_FILE = "EvernoteSDK-Mac/EvernoteSDK-Mac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1790,7 +1801,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EvernoteSDK-Mac/EvernoteSDK-Mac-Prefix.pch";
 				INFOPLIST_FILE = "EvernoteSDK-Mac/EvernoteSDK-Mac-Info.plist";
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -1805,6 +1816,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CODE_SIGN_ENTITLEMENTS = "SampleApp-Mac/SampleApp-Mac.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1830,6 +1843,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
+				CODE_SIGN_ENTITLEMENTS = "SampleApp-Mac/SampleApp-Mac.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (

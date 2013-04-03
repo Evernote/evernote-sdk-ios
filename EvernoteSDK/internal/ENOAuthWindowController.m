@@ -50,11 +50,11 @@
     [self.activityIndicator startAnimation:nil];
 
     // show the sheet
-    [[NSApplication sharedApplication] beginSheet:self.window
-                                   modalForWindow:window
-                                    modalDelegate:self
-                                   didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
-                                      contextInfo:nil];
+    [NSApp beginSheet:self.window
+       modalForWindow:window
+        modalDelegate:self
+       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+          contextInfo:nil];
     
     [self updateUIForNewProfile:self.currentProfileName
            withAuthorizationURL:self.authorizationURL];
@@ -79,49 +79,6 @@
 //    self.delegate = nil;
 //    self.webView.delegate = nil;
 //    [self.webView stopLoading];
-//}
-//
-//- (id)initWithAuthorizationURL:(NSURL *)authorizationURL
-//           oauthCallbackPrefix:(NSString *)oauthCallbackPrefix
-//                   profileName:(NSString *)currentProfileName
-//                allowSwitching:(BOOL)isSwitchingAllowed
-//                      delegate:(id<ENOAuthDelegate>)delegate
-//{
-//    self = [super init];
-//    if (self) {
-//        self.authorizationURL = authorizationURL;
-//        self.oauthCallbackPrefix = oauthCallbackPrefix;
-//        self.currentProfileName = currentProfileName;
-//        self.delegate = delegate;
-//        self.isSwitchingAllowed = isSwitchingAllowed;
-//    }
-//    return self;
-//}
-//
-//- (void)viewDidLoad
-//{
-//    [super viewDidLoad];
-//
-//    UIBarButtonItem *cancelItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedStringFromTable(@"Cancel", @"EvernoteSDK", nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancel:)];
-//
-//    self.navigationItem.rightBarButtonItem = cancelItem;
-//
-//    // adding an activity indicator
-//    self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//    [self.activityIndicator setHidesWhenStopped:YES];
-//
-//    self.webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-//    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    self.webView.scalesPageToFit = YES;
-//    self.webView.delegate = self;
-//    [self.view addSubview:self.webView];
-//    self.activityIndicator.frame = CGRectMake((self.navigationController.view.frame.size.width - (self.activityIndicator.frame.size.width/2))/2,
-//                                              (self.navigationController.view.frame.size.height - (self.activityIndicator.frame.size.height/2) - 44)/2,
-//                                              self.activityIndicator.frame.size.width,
-//                                              self.activityIndicator.frame.size.height);
-//    [self.webView addSubview:self.activityIndicator];
-//    [self updateUIForNewProfile:self.currentProfileName
-//           withAuthorizationURL:self.authorizationURL];
 //}
 //
 //- (void)cancel:(id)sender
@@ -155,7 +112,7 @@
 //    [self.activityIndicator startAnimating];
 //    [self.delegate oauthViewControllerDidSwitchProfile:self];
 //}
-//
+
 - (void)updateUIForNewProfile:(NSString*)newProfile withAuthorizationURL:(NSURL*)authURL{
     self.authorizationURL = authURL;
     self.currentProfileName = newProfile;
@@ -171,19 +128,67 @@
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:self.authorizationURL]];
 }
 
-//
-//- (void)loadWebView {
-//    [self.activityIndicator startAnimating];
-//    [self.webView setDelegate:self];
-//    [self.webView loadRequest:[NSURLRequest requestWithURL:self.authorizationURL]];
-//    self.startDate = [NSDate date];
-//}
-//
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-//{
-//    return YES;
-//}
-//
+# pragma mark - WebView Delegate
+
+- (void)webView:(WebView *)webView didFailLoadWithError:(NSError *)error {
+    [self.activityIndicator stopAnimation:nil];
+    if ([error.domain isEqualToString:@"WebKitErrorDomain"] && error.code == 102) {
+        // ignore "Frame load interrupted" errors, which we get as part of the final oauth callback :P
+        return;
+    }
+
+    if (error.code == NSURLErrorCancelled) {
+        // ignore rapid repeated clicking (error code -999)
+        return;
+    }
+
+    [self.webView stopLoading:nil];
+
+    if (self.delegate) {
+        [self.delegate oauthViewController:self didFailWithError:error];
+    }
+}
+ 
+- (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame {
+    [self webView:sender shouldStartLoadWithRequest:frame.dataSource.request];
+}
+
+// handles redirects, which is used by OAuth
+- (void)webView:(WebView *)webView decidePolicyForNavigationAction:(NSDictionary *)actionInformation request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener {
+    if ([[request.URL absoluteString] hasPrefix:self.oauthCallbackPrefix]) {
+        // this is our OAuth callback prefix, so let the delegate handle it
+        if (self.delegate)
+        {
+            [self.delegate oauthViewController:self receivedOAuthCallbackURL:request.URL];
+        }
+        [listener ignore];
+    }
+    else
+    {
+        // perform default action
+        [listener use];
+    }
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
+    [self webViewDidFinishLoad:sender];
+} 
+
+- (BOOL)webView:(WebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request {
+    if ([[request.URL absoluteString] hasPrefix:self.oauthCallbackPrefix]) {
+        // this is our OAuth callback prefix, so let the delegate handle it
+        if (self.delegate) {
+            [self.delegate oauthViewController:self receivedOAuthCallbackURL:request.URL];
+        }
+        return NO;
+    }
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(WebView *)webView {
+    [self.activityIndicator stopAnimation:nil];
+}
+
 //# pragma mark - UIWebViewDelegate
 //
 //- (void)webView:(WebView *)webView didFailLoadWithError:(NSError *)error

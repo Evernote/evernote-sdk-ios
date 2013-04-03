@@ -2,7 +2,7 @@
 //  AppDelegate.m
 //  SampleApp-Mac
 //
-//  Created by Dirk on 02.04.13.
+//  Created by Dirk Holtwick on 02.04.13.
 //  Copyright (c) 2013 n/a. All rights reserved.
 //
 
@@ -37,12 +37,21 @@
 
 - (IBAction)doAuthenticate:(id)sender {
     EvernoteSession *session = [EvernoteSession sharedSession];
-    [session authenticateWithWindow:[NSApp mainWindow] completionHandler:^(NSError *error) {
+    NSLog(@"Session %@", session);
+    [session authenticateWithWindow:self.window completionHandler:^(NSError *error) {
         if (error || !session.isAuthenticated) {
             NSRunCriticalAlertPanel(@"Error", @"Could not authenticate", @"OK", nil, nil);
-        } else {
+        }
+        else {
             NSLog(@"authenticated! noteStoreUrl:%@ webApiUrlPrefix:%@", session.noteStoreUrl, session.webApiUrlPrefix);
-            // [self updateButtonsForAuthentication];
+
+            EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+            [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
+                self.content = notebooks;
+                NSLog(@"notebooks: %@", notebooks);
+            } failure:^(NSError *error2) {
+                NSLog(@"error %@", error2);
+            }];
         }
     }];
 }
