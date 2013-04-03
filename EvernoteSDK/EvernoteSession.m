@@ -921,9 +921,7 @@
 }
 #else
 - (void)oauthViewControllerDidCancel:(id)sender {
-    // [self.viewController dismissViewControllerAnimated:YES completion:^{
     [self completeAuthenticationWithError:nil];
-    // }];
 }
 
 - (void)oauthViewControllerDidSwitchProfile:(id)sender {
@@ -932,9 +930,7 @@
 }
 
 - (void)oauthViewController:(id)sender didFailWithError:(NSError *)error {
-    // [self.viewController dismissViewControllerAnimated:YES completion:^{
     [self completeAuthenticationWithError:error];
-    //}];
 }
 #endif
 
@@ -1011,9 +1007,7 @@
 }
 #else
 - (void)oauthViewController:(id)sender receivedOAuthCallbackURL:(NSURL *)url {
-    //    [self.viewController dismissViewControllerAnimated:YES completion:^{
     [self getOAuthTokenForURL:url];
-    //    }];
 }
 #endif
 

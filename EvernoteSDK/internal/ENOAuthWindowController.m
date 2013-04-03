@@ -61,7 +61,9 @@
 }
 
 - (void)dismissSheet {
-    [[NSApplication sharedApplication] endSheet:self.window];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        [[NSApplication sharedApplication] endSheet:self.window];
+    }];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo {
@@ -116,7 +118,6 @@
 - (void)updateUIForNewProfile:(NSString*)newProfile withAuthorizationURL:(NSURL*)authURL{
     self.authorizationURL = authURL;
     self.currentProfileName = newProfile;
-
     [self loadWebView];
 }
 
@@ -146,9 +147,10 @@
 
     if (self.delegate) {
         [self.delegate oauthViewController:self didFailWithError:error];
+        [self dismissSheet];
     }
 }
- 
+
 - (void)webView:(WebView *)sender didStartProvisionalLoadForFrame:(WebFrame *)frame {
     [self webView:sender shouldStartLoadWithRequest:frame.dataSource.request];
 }
@@ -160,6 +162,7 @@
         if (self.delegate)
         {
             [self.delegate oauthViewController:self receivedOAuthCallbackURL:request.URL];
+            [self dismissSheet];
         }
         [listener ignore];
     }
@@ -179,6 +182,7 @@
         // this is our OAuth callback prefix, so let the delegate handle it
         if (self.delegate) {
             [self.delegate oauthViewController:self receivedOAuthCallbackURL:request.URL];
+            [self dismissSheet];
         }
         return NO;
     }
