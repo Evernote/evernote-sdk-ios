@@ -34,7 +34,7 @@
 {
     self = [super initWithWindowNibName:NSStringFromClass(self.class)];
     if (self) {
-        NSLog(@"URL %@", authorizationURL);
+        // NSLog(@"URL %@", authorizationURL);
         self.authorizationURL = authorizationURL;
         self.oauthCallbackPrefix = oauthCallbackPrefix;
         self.currentProfileName = currentProfileName;
@@ -125,7 +125,7 @@
     [self.activityIndicator startAnimation:nil];
     self.webView.frameLoadDelegate = self;
     self.webView.policyDelegate = self;
-    NSLog(@"Open URL %@", self.authorizationURL);
+    // NSLog(@"Open URL %@", self.authorizationURL);
     [self.webView.mainFrame loadRequest:[NSURLRequest requestWithURL:self.authorizationURL]];
 }
 
