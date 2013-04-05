@@ -417,6 +417,7 @@
 {
     self.viewController = viewController;
     self.completionHandler = completionHandler;
+    [self authenticate];
 }
 #else
 - (void)authenticateWithWindow:(NSWindow *)window

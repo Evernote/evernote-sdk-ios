@@ -310,6 +310,13 @@
 			remoteGlobalIDString = 43741863170ADB2400D2BE51;
 			remoteInfo = "EvernoteSDK-Mac";
 		};
+		4386226C170EF43100362BE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB3D1A41524ED96001C4534 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0BB3D1AC1524ED96001C4534;
+			remoteInfo = EvernoteSDK;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -388,7 +395,7 @@
 		0BB3D2391524EE62001C4534 /* EvernoteSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EvernoteSession.m; path = ../EvernoteSession.m; sourceTree = "<group>"; };
 		0BB3D24D1524EEF3001C4534 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0BB3D2501524EEF3001C4534 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		0BB3D26E1524EF37001C4534 /* SampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BB3D26E1524EF37001C4534 /* SampleApp-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SampleApp-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BB3D2751524EF37001C4534 /* SampleApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SampleApp-Info.plist"; sourceTree = "<group>"; };
 		0BB3D2771524EF37001C4534 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0BB3D2791524EF37001C4534 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -685,7 +692,7 @@
 			isa = PBXGroup;
 			children = (
 				0BB3D1AD1524ED96001C4534 /* libEvernoteSDK.a */,
-				0BB3D26E1524EF37001C4534 /* SampleApp.app */,
+				0BB3D26E1524EF37001C4534 /* SampleApp-iOS.app */,
 				0BDBBC431550A11A003E6681 /* UnitTests.octest */,
 				43741864170ADB2400D2BE51 /* EvernoteSDK-Mac.framework */,
 				437418AC170ADCD600D2BE51 /* SampleApp-Mac.app */,
@@ -783,8 +790,7 @@
 				0BA8C63C15878823004C9D6A /* iPadViewController.m */,
 				0BB3D2741524EF37001C4534 /* Supporting Files */,
 			);
-			name = "SampleApp-iOS";
-			path = SampleApp;
+			path = "SampleApp-iOS";
 			sourceTree = "<group>";
 		};
 		0BB3D2741524EF37001C4534 /* Supporting Files */ = {
@@ -1182,9 +1188,9 @@
 			productReference = 0BB3D1AD1524ED96001C4534 /* libEvernoteSDK.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		0BB3D26D1524EF37001C4534 /* SampleApp */ = {
+		0BB3D26D1524EF37001C4534 /* SampleApp-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0BB3D2851524EF37001C4534 /* Build configuration list for PBXNativeTarget "SampleApp" */;
+			buildConfigurationList = 0BB3D2851524EF37001C4534 /* Build configuration list for PBXNativeTarget "SampleApp-iOS" */;
 			buildPhases = (
 				0BB3D26A1524EF37001C4534 /* Sources */,
 				0BB3D26B1524EF37001C4534 /* Frameworks */,
@@ -1193,10 +1199,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				4386226D170EF43100362BE1 /* PBXTargetDependency */,
 			);
-			name = SampleApp;
+			name = "SampleApp-iOS";
 			productName = SampleApp;
-			productReference = 0BB3D26E1524EF37001C4534 /* SampleApp.app */;
+			productReference = 0BB3D26E1524EF37001C4534 /* SampleApp-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0BDBBC421550A11A003E6681 /* UnitTests */ = {
@@ -1278,7 +1285,7 @@
 			targets = (
 				0BB3D1AC1524ED96001C4534 /* EvernoteSDK */,
 				43741863170ADB2400D2BE51 /* EvernoteSDK-Mac */,
-				0BB3D26D1524EF37001C4534 /* SampleApp */,
+				0BB3D26D1524EF37001C4534 /* SampleApp-iOS */,
 				437418AB170ADCD600D2BE51 /* SampleApp-Mac */,
 				0BDBBC421550A11A003E6681 /* UnitTests */,
 			);
@@ -1557,6 +1564,11 @@
 			target = 43741863170ADB2400D2BE51 /* EvernoteSDK-Mac */;
 			targetProxy = 437418C4170ADCFE00D2BE51 /* PBXContainerItemProxy */;
 		};
+		4386226D170EF43100362BE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0BB3D1AC1524ED96001C4534 /* EvernoteSDK */;
+			targetProxy = 4386226C170EF43100362BE1 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1731,13 +1743,13 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SampleApp/SampleApp-Prefix.pch";
+				GCC_PREFIX_HEADER = "SampleApp-iOS/SampleApp-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"EVERNOTEDEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "SampleApp/SampleApp-Info.plist";
+				INFOPLIST_FILE = "SampleApp-iOS/SampleApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1751,8 +1763,8 @@
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SampleApp/SampleApp-Prefix.pch";
-				INFOPLIST_FILE = "SampleApp/SampleApp-Info.plist";
+				GCC_PREFIX_HEADER = "SampleApp-iOS/SampleApp-Prefix.pch";
+				INFOPLIST_FILE = "SampleApp-iOS/SampleApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1942,7 +1954,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BB3D2851524EF37001C4534 /* Build configuration list for PBXNativeTarget "SampleApp" */ = {
+		0BB3D2851524EF37001C4534 /* Build configuration list for PBXNativeTarget "SampleApp-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0BB3D2861524EF37001C4534 /* Debug */,
