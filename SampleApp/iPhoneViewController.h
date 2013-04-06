@@ -10,10 +10,20 @@
 @interface iPhoneViewController : UIViewController
 - (IBAction)authenticate:(id)sender;
 - (IBAction)listNotes:(id)sender;
+- (IBAction)listBusinessNotebooks:(id)sender;
+- (IBAction)createBusinessNotebook:(id)sender;
+- (IBAction)listSharedNotes:(id)sender;
+- (IBAction)createPhotoNote:(id)sender;
 - (IBAction)logout:(id)sender;
-@property (retain, nonatomic) IBOutlet UILabel *userLabel;
-@property (retain, nonatomic) IBOutlet UIButton *listNotebooksButton;
-@property (retain, nonatomic) IBOutlet UIButton *authenticateButton;
-@property (retain, nonatomic) IBOutlet UIButton *logoutButton;
+@property (strong, nonatomic) IBOutlet UILabel *userLabel;
+@property (strong, nonatomic) IBOutlet UILabel *businessLabel;
+@property (strong, nonatomic) IBOutlet UIButton *listNotebooksButton;
+@property (strong, nonatomic) IBOutlet UIButton *createBusinessNotebookButton;
+@property (strong, nonatomic) IBOutlet UIButton *listBusinessButton;
+@property (strong, nonatomic) IBOutlet UIButton *authenticateButton;
+@property (strong, nonatomic) IBOutlet UIButton *createPhotoButton;
+@property (strong, nonatomic) IBOutlet UIButton *sharedNotesButton;
+@property (strong, nonatomic) IBOutlet UIButton *logoutButton;
+@property (weak, nonatomic) IBOutlet UIButton *moreButton;
 
 @end

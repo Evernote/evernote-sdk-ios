@@ -94,7 +94,7 @@ extern NSString *const kSSKeychainWhereKey;
  See the `NSString` constants declared in SSKeychain.h for a list of keys that can be used when accessing the
  dictionaries returned by this method.
  
- @return An array of dictionarires containing the Keychain's accounts, or `nil` if the Keychain doesn't have any
+ @return An array of dictionaries containing the Keychain's accounts, or `nil` if the Keychain doesn't have any
  accounts. The order of the objects in the array isn't defined.
  
  @see allAccounts:
@@ -110,7 +110,7 @@ extern NSString *const kSSKeychainWhereKey;
  
  @param error If accessing the accounts fails, upon return contains an error that describes the problem.
  
- @return An array of dictionarires containing the Keychain's accounts, or `nil` if the Keychain doesn't have any
+ @return An array of dictionaries containing the Keychain's accounts, or `nil` if the Keychain doesn't have any
  accounts. The order of the objects in the array isn't defined.
   
  @see allAccounts
@@ -126,7 +126,7 @@ extern NSString *const kSSKeychainWhereKey;
  
  @param serviceName The service for which to return the corresponding accounts.
  
- @return An array of dictionarires containing the Keychain's accountsfor a given `serviceName`, or `nil` if the Keychain
+ @return An array of dictionaries containing the Keychain's accountsfor a given `serviceName`, or `nil` if the Keychain
  doesn't have any accounts for the given `serviceName`. The order of the objects in the array isn't defined.
  
  @see accountsForService:error:
@@ -141,7 +141,7 @@ extern NSString *const kSSKeychainWhereKey;
  
  @param error If accessing the accounts fails, upon return contains an error that describes the problem.
  
- @return An array of dictionarires containing the Keychain's accountsfor a given `serviceName`, or `nil` if the Keychain
+ @return An array of dictionaries containing the Keychain's accountsfor a given `serviceName`, or `nil` if the Keychain
  doesn't have any accounts for the given `serviceName`. The order of the objects in the array isn't defined.
  
  @see accountsForService:
@@ -154,14 +154,14 @@ extern NSString *const kSSKeychainWhereKey;
 ///------------------------
 
 /**
- Returns a string containing the password for a given accounts and service, or `nil` if the Keychain doesn't have a
+ Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't have a
  password for the given parameters.
  
  @param serviceName The service for which to return the corresponding password.
  
  @param account The account for which to return the corresponding password.
  
- @return Returns a string containing the password for a given accounts and service, or `nil` if the Keychain doesn't
+ @return Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't
  have a password for the given parameters.
  
  @see passwordForService:account:error:
@@ -169,7 +169,7 @@ extern NSString *const kSSKeychainWhereKey;
 + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account;
 
 /**
- Returns a string containing the password for a given accounts and service, or `nil` if the Keychain doesn't have a
+ Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't have a
  password for the given parameters.
  
  @param serviceName The service for which to return the corresponding password.
@@ -178,12 +178,46 @@ extern NSString *const kSSKeychainWhereKey;
  
  @param error If accessing the password fails, upon return contains an error that describes the problem.
  
- @return Returns a string containing the password for a given accounts and service, or `nil` if the Keychain doesn't
+ @return Returns a string containing the password for a given account and service, or `nil` if the Keychain doesn't
  have a password for the given parameters.
  
  @see passwordForService:account:
  */
 + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
+
+/**
+ Returns the password data for a given account and service, or `nil` if the Keychain doesn't have data 
+ for the given parameters.
+ 
+ @param serviceName The service for which to return the corresponding password.
+ 
+ @param account The account for which to return the corresponding password.
+ 
+ @param error If accessing the password fails, upon return contains an error that describes the problem.
+ 
+ @return Returns a the password data for the given account and service, or `nil` if the Keychain doesn't
+ have data for the given parameters.
+ 
+ @see passwordDataForService:account:error:
+ */
++ (NSData *)passwordDataForService:(NSString *)serviceName account:(NSString *)account;
+
+/**
+ Returns the password data for a given account and service, or `nil` if the Keychain doesn't have data 
+ for the given parameters.
+ 
+ @param serviceName The service for which to return the corresponding password.
+ 
+ @param account The account for which to return the corresponding password.
+ 
+ @param error If accessing the password fails, upon return contains an error that describes the problem.
+ 
+ @return Returns a the password data for the given account and service, or `nil` if the Keychain doesn't
+ have a password for the given parameters.
+ 
+ @see passwordDataForService:account:
+ */
++ (NSData *)passwordDataForService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 
 
 ///-------------------------
@@ -251,9 +285,43 @@ extern NSString *const kSSKeychainWhereKey;
  
  @return Returns `YES` on success, or `NO` on failure.
  
- @see setPassword:forService:account:error:
+ @see setPassword:forService:account:
  */
 + (BOOL)setPassword:(NSString *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
+
+/**
+ Sets arbirary data in the Keychain.
+ 
+ @param password The data to store in the Keychain.
+ 
+ @param serviceName The service for which to set the corresponding password.
+ 
+ @param account The account for which to set the corresponding password.
+ 
+ @param error If setting the password fails, upon return contains an error that describes the problem.
+ 
+ @return Returns `YES` on success, or `NO` on failure.
+ 
+ @see setPasswordData:forService:account:error:
+ */
++ (BOOL)setPasswordData:(NSData *)password forService:(NSString *)serviceName account:(NSString *)account;
+
+/**
+ Sets arbirary data in the Keychain.
+ 
+ @param password The data to store in the Keychain.
+ 
+ @param serviceName The service for which to set the corresponding password.
+ 
+ @param account The account for which to set the corresponding password.
+ 
+ @param error If setting the password fails, upon return contains an error that describes the problem.
+ 
+ @return Returns `YES` on success, or `NO` on failure.
+ 
+ @see setPasswordData:forService:account:
+ */
++ (BOOL)setPasswordData:(NSData *)password forService:(NSString *)serviceName account:(NSString *)account error:(NSError **)error;
 
 
 ///--------------------

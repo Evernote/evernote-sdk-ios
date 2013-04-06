@@ -31,9 +31,9 @@
 
 @implementation EvernoteUserStore
 
-+ (EvernoteUserStore *)userStore
++ (instancetype)userStore
 {
-    EvernoteUserStore *userStore = [[[EvernoteUserStore alloc] initWithSession:[EvernoteSession sharedSession]] autorelease];
+    EvernoteUserStore *userStore = [[EvernoteUserStore alloc] initWithSession:[EvernoteSession sharedSession]];
     return userStore;
 }
 
@@ -54,8 +54,8 @@
                            failure:(void(^)(NSError *error))failure
 
 {
-    [self invokeAsyncBoolBlock:^BOOL() {
-        return [self.userStore checkVersion:clientName:edamVersionMajor:edamVersionMinor];
+    [self invokeAsyncBoolBlock:^BOOL{
+        return [self.userStore checkVersion:clientName edamVersionMajor:edamVersionMajor edamVersionMinor:edamVersionMinor];
     } success:success failure:failure];
 }
 
@@ -63,7 +63,7 @@
                            success:(void(^)(EDAMBootstrapInfo *info))success
                            failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncIdBlock:^id() {
+    [self invokeAsyncIdBlock:^id {
         return [self.userStore getBootstrapInfo:locale];
     } success:success failure:failure];
 }
@@ -71,8 +71,8 @@
 - (void)getUserWithSuccess:(void(^)(EDAMUser *user))success
                    failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncIdBlock:^id() {
-        return [self.userStore getUser:self.session.authenticationToken];
+    [self invokeAsyncIdBlock:^id {
+        return [self.userStore getUser:[[EvernoteSession sharedSession] authenticationToken]];
     } success:success failure:failure];
 }
 
@@ -80,24 +80,32 @@
                               success:(void(^)(EDAMPublicUserInfo *info))success
                               failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncIdBlock:^id() {
-        return [self.userStore getPublicUserInfo:self.session.authenticationToken];
+    [self invokeAsyncIdBlock:^id {
+        return [self.userStore getPublicUserInfo:[[EvernoteSession sharedSession] authenticationToken]];
     } success:success failure:failure];
 }
 
 - (void)getPremiumInfoWithSuccess:(void(^)(EDAMPremiumInfo *info))success
                           failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncIdBlock:^id() {
-        return [self.userStore getPremiumInfo:self.session.authenticationToken];
+    [self invokeAsyncIdBlock:^id {
+        return [self.userStore getPremiumInfo:[[EvernoteSession sharedSession] authenticationToken]];
     } success:success failure:failure];
 }
 
 - (void)getNoteStoreUrlWithSuccess:(void(^)(NSString *noteStoreUrl))success
                            failure:(void(^)(NSError *error))failure
+{ 
+    [self invokeAsyncIdBlock:^id {
+        return [self.userStore getNoteStoreUrl:[[EvernoteSession sharedSession] authenticationToken]];
+    } success:success failure:failure];
+}
+
+- (void)authenticateToBusinessWithSuccess:(void(^)(EDAMAuthenticationResult *authenticationResult))success
+                                  failure:(void(^)(NSError *error))failure
 {
-    [self invokeAsyncIdBlock:^id() {
-        return [self.userStore getNoteStoreUrl:self.session.authenticationToken];
+    [self invokeAsyncIdBlock:^id {
+        return [self.userStore authenticateToBusiness:[[EvernoteSession sharedSession] authenticationToken]];
     } success:success failure:failure];
 }
 

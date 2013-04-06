@@ -60,8 +60,16 @@
 // Also deletes the credentials' auth tokens from the keychain.
 - (void)clearAllCredentials;
 
+// Save the current selected boostrap profile.
 + (void)saveCurrentProfile:(EvernoteService)code;
 
+// Save the expiration date for the business authentication token
++ (void)saveBusinessTokenExpiration:(NSTimeInterval)expirationTimeStamp;
+
+// Look up the currently selected bootstrap profile
 + (NSInteger)getCurrentProfile;
+
+// Look up the currently saved business auth token expiration date
++ (NSTimeInterval)getBusinessTokenExpiration;
 
 @end
