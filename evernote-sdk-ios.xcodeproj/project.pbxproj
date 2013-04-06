@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		1B0ED1661710378000DB2774 /* iOSLightweightFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 1B0ED1671710378000DB2774 /* Build configuration list for PBXAggregateTarget "iOSLightweightFramework" */;
+			buildPhases = (
+				1B0ED16C171037A900DB2774 /* ShellScript */,
+			);
+			dependencies = (
+				1B0ED16B1710379200DB2774 /* PBXTargetDependency */,
+			);
+			name = iOSLightweightFramework;
+			productName = iOSLightweightFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */; };
 		0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; };
@@ -109,6 +124,10 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		1B0ED1491710350B00DB2774 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BB3D1B01524ED96001C4534 /* Foundation.framework */; };
+		1B0ED17C17103E7600DB2774 /* EvernoteLightApplicationBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B0ED17A17103E7600DB2774 /* EvernoteLightApplicationBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1B0ED17D17103E7700DB2774 /* EvernoteLightApplicationBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B0ED17B17103E7600DB2774 /* EvernoteLightApplicationBridge.m */; };
+		1B0ED17E171040F900DB2774 /* ENNewNoteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E89D16C3265300D54760 /* ENNewNoteRequest.m */; };
 		A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */; };
 		A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */; };
 		A92602C01672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */; };
@@ -194,6 +213,28 @@
 		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1B0ED16A1710379200DB2774 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0BB3D1A41524ED96001C4534 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1B0ED1471710350B00DB2774;
+			remoteInfo = "evernote-light-sdk-ios";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1B0ED1461710350B00DB2774 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENOAuthViewController.h; sourceTree = "<group>"; };
@@ -291,6 +332,10 @@
 		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		1B0ED1481710350B00DB2774 /* libevernote-light-sdk-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libevernote-light-sdk-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B0ED14C1710350B00DB2774 /* evernote-light-sdk-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "evernote-light-sdk-ios-Prefix.pch"; sourceTree = "<group>"; };
+		1B0ED17A17103E7600DB2774 /* EvernoteLightApplicationBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EvernoteLightApplicationBridge.h; sourceTree = "<group>"; };
+		1B0ED17B17103E7600DB2774 /* EvernoteLightApplicationBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EvernoteLightApplicationBridge.m; sourceTree = "<group>"; };
 		A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evernote_logo_4c-sm.png"; sourceTree = "<group>"; };
 		A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+EvernoteSDK.h"; sourceTree = "<group>"; };
 		A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+EvernoteSDK.m"; sourceTree = "<group>"; };
@@ -387,6 +432,14 @@
 				0BDBBC461550A11A003E6681 /* UIKit.framework in Frameworks */,
 				0BDBBC471550A11A003E6681 /* Foundation.framework in Frameworks */,
 				0BDBBC671550A3A4003E6681 /* libOCMock.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1B0ED1451710350B00DB2774 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B0ED1491710350B00DB2774 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,6 +551,7 @@
 				0BB3D1B21524ED96001C4534 /* evernote-sdk-ios */,
 				0BB3D2731524EF37001C4534 /* SampleApp */,
 				0BDBBC481550A11A003E6681 /* UnitTests */,
+				1B0ED14A1710350B00DB2774 /* evernote-light-sdk-ios */,
 				0BB3D1AF1524ED96001C4534 /* Frameworks */,
 				0BB3D1AE1524ED96001C4534 /* Products */,
 			);
@@ -512,6 +566,7 @@
 				0BB3D1AD1524ED96001C4534 /* libevernote-sdk-ios.a */,
 				0BB3D26E1524EF37001C4534 /* SampleApp.app */,
 				0BDBBC431550A11A003E6681 /* UnitTests.octest */,
+				1B0ED1481710350B00DB2774 /* libevernote-light-sdk-ios.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -677,6 +732,24 @@
 				0BF0CF80152E25E1003D6115 /* SSKeychain.m */,
 			);
 			path = SSKeychain;
+			sourceTree = "<group>";
+		};
+		1B0ED14A1710350B00DB2774 /* evernote-light-sdk-ios */ = {
+			isa = PBXGroup;
+			children = (
+				1B0ED17A17103E7600DB2774 /* EvernoteLightApplicationBridge.h */,
+				1B0ED17B17103E7600DB2774 /* EvernoteLightApplicationBridge.m */,
+				1B0ED14B1710350B00DB2774 /* Supporting Files */,
+			);
+			path = "evernote-light-sdk-ios";
+			sourceTree = "<group>";
+		};
+		1B0ED14B1710350B00DB2774 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1B0ED14C1710350B00DB2774 /* evernote-light-sdk-ios-Prefix.pch */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		A92602B91672B4FE00F01E63 /* Resources */ = {
@@ -869,6 +942,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B0ED161171036D300DB2774 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B0ED17C17103E7600DB2774 /* EvernoteLightApplicationBridge.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -925,6 +1006,25 @@
 			productReference = 0BDBBC431550A11A003E6681 /* UnitTests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		1B0ED1471710350B00DB2774 /* evernote-light-sdk-ios */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1B0ED1531710350C00DB2774 /* Build configuration list for PBXNativeTarget "evernote-light-sdk-ios" */;
+			buildPhases = (
+				1B0ED1441710350B00DB2774 /* Sources */,
+				1B0ED1451710350B00DB2774 /* Frameworks */,
+				1B0ED161171036D300DB2774 /* Headers */,
+				1B0ED1461710350B00DB2774 /* CopyFiles */,
+				1B0ED16D171037C900DB2774 /* Prepare Framework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "evernote-light-sdk-ios";
+			productName = "evernote-light-sdk-ios";
+			productReference = 1B0ED1481710350B00DB2774 /* libevernote-light-sdk-ios.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -950,6 +1050,8 @@
 				0BB3D1AC1524ED96001C4534 /* evernote-sdk-ios */,
 				0BB3D26D1524EF37001C4534 /* SampleApp */,
 				0BDBBC421550A11A003E6681 /* UnitTests */,
+				1B0ED1471710350B00DB2774 /* evernote-light-sdk-ios */,
+				1B0ED1661710378000DB2774 /* iOSLightweightFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -993,6 +1095,33 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		1B0ED16C171037A900DB2774 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=\"evernote-light-sdk-ios\"\nSF_EXECUTABLE_PATH=\"lib${SF_TARGET_NAME}.a\"\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nelse\nSF_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\n# Build the other platform.\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" OBJROOT=\"${OBJROOT}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\" $ACTION\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nlipo -create \"${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" -output \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n\n# Copy the binary to the other architecture folder to have a complete framework in both.\ncp -a \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"\n";
+		};
+		1B0ED16D171037C900DB2774 /* Prepare Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\n/bin/ln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\n/bin/ln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\n/bin/cp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"";
 		};
 		414BD857983A4B8ABFEAD915 /* Warn for TODO and FIXME comments */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1136,7 +1265,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1B0ED1441710350B00DB2774 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B0ED17D17103E7700DB2774 /* EvernoteLightApplicationBridge.m in Sources */,
+				1B0ED17E171040F900DB2774 /* ENNewNoteRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B0ED16B1710379200DB2774 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1B0ED1471710350B00DB2774 /* evernote-light-sdk-ios */;
+			targetProxy = 1B0ED16A1710379200DB2774 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		0B94997C1585ADCF001A706A /* iPad.storyboard */ = {
@@ -1366,6 +1512,57 @@
 			};
 			name = Release;
 		};
+		1B0ED1511710350C00DB2774 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				DSTROOT = /tmp/evernote_light_sdk_ios.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "evernote-light-sdk-ios/evernote-light-sdk-ios-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Headers;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		1B0ED1521710350C00DB2774 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				DSTROOT = /tmp/evernote_light_sdk_ios.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "evernote-light-sdk-ios/evernote-light-sdk-ios-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Headers;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		1B0ED1681710378000DB2774 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1B0ED1691710378000DB2774 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1401,6 +1598,24 @@
 			buildConfigurations = (
 				0BDBBC521550A11A003E6681 /* Debug */,
 				0BDBBC531550A11A003E6681 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B0ED1531710350C00DB2774 /* Build configuration list for PBXNativeTarget "evernote-light-sdk-ios" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B0ED1511710350C00DB2774 /* Debug */,
+				1B0ED1521710350C00DB2774 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1B0ED1671710378000DB2774 /* Build configuration list for PBXAggregateTarget "iOSLightweightFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1B0ED1681710378000DB2774 /* Debug */,
+				1B0ED1691710378000DB2774 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
