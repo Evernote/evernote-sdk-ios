@@ -10,8 +10,11 @@ Required reading
 Please check out the [Evernote Developers portal page](http://dev.evernote.com/documentation/cloud/).
 Apple style docs are [here](http://dev.evernote.com/documentation/reference/ios/).
 
-Installing 
-----------
+## Installing Mac SDK
+
+Please read: [Install Mac SDK](INSTALL-MAC.md).
+
+## Installing iOS SDK
 
 ### Register for an Evernote API key (and secret)
 
