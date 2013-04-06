@@ -33,21 +33,17 @@
 
 #define DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY @"EvernoteCurrentProfile"
 
+#define DEFAULTS_CREDENTIAL_BUSINESS_TOKEN_EXPIRATION_KEY @"EvernoteBusinessTokenExpiration"
+
 @interface ENCredentialStore() <NSCoding>
 
-@property (nonatomic, retain) NSMutableDictionary *store;
+@property (nonatomic, strong) NSMutableDictionary *store;
 
 @end
 
 @implementation ENCredentialStore
 
 @synthesize store = _store;
-
-- (void)dealloc
-{
-    [_store release];
-    [super dealloc];
-}
 
 - (id)init
 {
@@ -95,6 +91,13 @@
     [defaults synchronize];        
 }
 
++ (void)saveBusinessTokenExpiration:(NSTimeInterval)expirationTimeStamp
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setDouble:expirationTimeStamp forKey:DEFAULTS_CREDENTIAL_BUSINESS_TOKEN_EXPIRATION_KEY];
+    [defaults synchronize];
+}
+
 + (void)saveCurrentProfile:(EvernoteService)code
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -106,6 +109,12 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [[defaults objectForKey:DEFAULTS_CREDENTIAL_CURRENT_PROFILE_KEY] integerValue];
+}
+
++ (NSTimeInterval)getBusinessTokenExpiration
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [[defaults objectForKey:DEFAULTS_CREDENTIAL_BUSINESS_TOKEN_EXPIRATION_KEY] doubleValue];
 }
 
 - (void)addCredentials:(ENCredentials *)credentials

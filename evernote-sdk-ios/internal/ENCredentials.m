@@ -42,16 +42,6 @@
 @synthesize webApiUrlPrefix = _webApiUrlPrefix;
 @synthesize authenticationToken = _authenticationToken;
 
-- (void)dealloc
-{
-    [_host release];
-    [_edamUserId release];
-    [_noteStoreUrl release];
-    [_webApiUrlPrefix release];
-    [_authenticationToken release];
-    [super dealloc];
-}
-
 - (id)initWithHost:(NSString *)host
         edamUserId:(NSString *)edamUserId
       noteStoreUrl:(NSString *)noteStoreUrl

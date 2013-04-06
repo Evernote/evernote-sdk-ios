@@ -19,6 +19,14 @@
 
 #import "THTTPClient.h"
 #import "TTransportException.h"
+#import "TObjective-C.h"
+#import "ENAFURLConnectionOperation.h"
+
+@interface THTTPClient ()
+
+@property (nonatomic,strong) ENAFURLConnectionOperation *httpOperation;
+
+@end
 
 @implementation THTTPClient
 
@@ -26,7 +34,7 @@
 - (void) setupRequest
 {
   if (mRequest != nil) {
-    [mRequest release];
+    [mRequest release_stub];
   }
 
   // set up our request object that we'll use for each request
@@ -37,7 +45,7 @@
 
   NSString * userAgent = mUserAgent;
   if (!userAgent) {
-    userAgent = @"Cocoa/THTTPClient";
+    userAgent = [THTTPClient createClientVersionString];
   }
   [mRequest setValue: userAgent forHTTPHeaderField: @"User-Agent"];
 
@@ -67,9 +75,9 @@
 
   mTimeout = timeout;
   if (userAgent) {
-    mUserAgent = [userAgent retain];
+    mUserAgent = [userAgent retain_stub];
   }
-  mURL = [aURL retain];
+  mURL = [aURL retain_stub];
 
   [self setupRequest];
 
@@ -82,8 +90,8 @@
 
 - (void) setURL: (NSURL *) aURL
 {
-  [aURL retain];
-  [mURL release];
+  [aURL retain_stub];
+  [mURL release_stub];
   mURL = aURL;
 
   [self setupRequest];
@@ -92,12 +100,12 @@
 
 - (void) dealloc
 {
-  [mURL release];
-  [mUserAgent release];
-  [mRequest release];
-  [mRequestData release];
-  [mResponseData release];
-  [super dealloc];
+  [mURL release_stub];
+  [mUserAgent release_stub];
+  [mRequest release_stub];
+  [mRequestData release_stub];
+  [mResponseData release_stub];
+  [super dealloc_stub];
 }
 
 
@@ -127,11 +135,20 @@
   // make the HTTP request
   NSURLResponse * response;
   NSError * error;
-  NSData * responseData =
-    [NSURLConnection sendSynchronousRequest: mRequest returningResponse: &response error: &error];
-
-  [mRequestData setLength: 0];
-
+    NSData *responseData = nil;
+    self.httpOperation = [[ENAFURLConnectionOperation alloc] initWithRequest:mRequest];
+    if(self.uploadBlock) {
+        [self.httpOperation setUploadProgressBlock:self.uploadBlock];
+    }
+    if(self.downloadBlock) {
+        [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
+    }
+    [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
+    responseData = self.httpOperation.responseData;
+    response = self.httpOperation.response;
+    error = self.httpOperation.error;
+    [mRequestData setLength: 0];
+    
   if (responseData == nil) {
     @throw [TTransportException exceptionWithName: @"TTransportException"
                                 reason: @"Could not make HTTP request"
@@ -151,10 +168,48 @@
   }
 
   // phew!
-  [mResponseData release];
-  mResponseData = [responseData retain];
+  [mResponseData release_stub];
+  mResponseData = [responseData retain_stub];
   mResponseDataOffset = 0;
+    self.uploadBlock = nil;
+    self.downloadBlock = nil;
+    self.httpOperation = nil;
 }
 
+-(void) cancel {
+    if(self.httpOperation) {
+        [self.httpOperation cancel];
+        self.uploadBlock = nil;
+        self.downloadBlock = nil;
+        self.httpOperation = nil;
+    }
+}
+
+- (void)setUploadProgressBlock:(void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))block {
+    [self setUploadBlock:block];
+}
+
+- (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block {
+    [self setDownloadProgressBlock:block];
+}
+
++ (NSString *)createClientVersionString
+{
+	NSString * clientName = nil;
+    NSString * locale = [NSString stringWithFormat: @"%@",
+                         [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]];
+    
+    NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+    NSString *appName = [infoDic valueForKey:(id)kCFBundleNameKey];
+    NSString * buildVersion = [infoDic valueForKey: @"SourceVersion"];
+    if (buildVersion == nil) {
+        buildVersion = [infoDic valueForKey:(id)kCFBundleVersionKey];
+    }
+    clientName = [NSString stringWithFormat: @"%@ iPhone/%@ (%@);",
+                  appName,
+                  buildVersion,
+                  locale];
+	return clientName;
+}
 
 @end

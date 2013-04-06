@@ -19,7 +19,7 @@
 
 @interface ENOAuthViewController : UIViewController
 
-@property (nonatomic, assign) id<ENOAuthViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<ENOAuthViewControllerDelegate> delegate;
 
 - (id)initWithAuthorizationURL:(NSURL *)authorizationURL
            oauthCallbackPrefix:(NSString *)oauthCallbackPrefix
