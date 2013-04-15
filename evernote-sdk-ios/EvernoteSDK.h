@@ -35,10 +35,21 @@
 #import "ENConstants.h"
 
 // For other application-level error codes, see EDAMErrorCode in EDAMErrors.h.
-typedef enum {
+/*!
+ @typedef EvernoteSDKErrorCode enum
+ 
+ @abstract Used for application level error codes
+ 
+ @discussion
+ */
+typedef NS_ENUM(NSInteger, EvernoteSDKErrorCode) {
+    /*! There was a error in the Thrift transport layer */
     EvernoteSDKErrorCode_TRANSPORT_ERROR = -3000,
-    EvernoteSDKErrorCode_NO_VIEWCONTROLLER = -3001,
-} EvernoteSDKErrorCode;
+    /*! No view controller was passed */
+    EvernoteSDKErrorCode_NO_VIEWCONTROLLER,
+    /*! Authentication cancelled by the user */
+    EvernoteSDKErrorCode_USER_CANCELLED
+};
 
 // Evernote SDK NSError error domain.
 extern NSString *const EvernoteSDKErrorDomain;
