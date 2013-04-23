@@ -287,6 +287,54 @@
     }
 }
 
+- (void)viewNoteInEvernote:(EDAMNote*)note inLinkedNotebook:(EDAMLinkedNotebook*)linkedNotebook {
+    if([[EvernoteSession sharedSession] isEvernoteInstalled]) {
+        NSMutableDictionary* appBridgeData = [NSMutableDictionary dictionary];
+        ENNoteViewRequest* request = [[ENNoteViewRequest alloc] init];
+        [request setConsumerKey:[[EvernoteSession sharedSession] consumerKey]];
+        [request setNoteID:note.guid];
+        [request setShardID:linkedNotebook.shardId];
+        [request setLinkedNotebookID:linkedNotebook.guid];
+        [[EvernoteUserStore userStore] getUserWithSuccess:^(EDAMUser *user) {
+            [request setUserID:user.id];
+            NSData *requestData = [NSKeyedArchiver archivedDataWithRootObject:request];
+            [appBridgeData setObject:requestData forKey:kEN_ApplicationBridge_RequestDataKey];
+            
+            NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+            if (infoDictionary != nil) {
+                NSString *appIdentifier = [infoDictionary objectForKey:(NSString *)kCFBundleIdentifierKey];
+                if (appIdentifier != nil) {
+                    [appBridgeData setObject:appIdentifier forKey:kEN_ApplicationBridge_CallerAppIdentifierKey];
+                }
+                NSString *appName = [infoDictionary objectForKey:(NSString *)kCFBundleNameKey];
+                if (appName != nil) {
+                    [appBridgeData setObject:appName forKey:kEN_ApplicationBridge_CallerAppNameKey];
+                }
+            }
+            [appBridgeData setObject:[NSNumber numberWithUnsignedInt:kEN_ApplicationBridge_DataVersion] forKey:kEN_ApplicationBridge_DataVersionKey];
+            [appBridgeData setObject:[request requestIdentifier] forKey:kEN_ApplicationBridge_RequestIdentifierKey];
+            [appBridgeData setObject:[[EvernoteSession sharedSession] consumerKey] forKey:kEN_ApplicationBridge_ConsumerKey];
+            NSString* pasteboardName = [NSString stringWithFormat:@"com.evernote.bridge.%@",[[EvernoteSession sharedSession] consumerKey]];
+            UIPasteboard *pasteboard = [UIPasteboard pasteboardWithName:pasteboardName create:YES];
+            [pasteboard setPersistent:YES];
+            [pasteboard setData:[NSKeyedArchiver archivedDataWithRootObject:appBridgeData] forPasteboardType:@"$EvernoteApplicationBridgeData$"];
+            NSString* openURL = [NSString stringWithFormat:@"en://app-bridge/consumerKey/%@/pasteBoardName/%@",[[EvernoteSession sharedSession] consumerKey],pasteboardName];
+            BOOL success = [[UIApplication sharedApplication] openURL:[NSURL URLWithString:openURL]];
+            if(success) {
+                
+            }
+            
+        } failure:^(NSError *error) {
+            ;
+        }];
+    }
+    else {
+        if([[[EvernoteSession sharedSession] delegate] respondsToSelector:@selector(evernoteAppNotInstalled)]) {
+            [[[EvernoteSession sharedSession] delegate] evernoteAppNotInstalled];
+        }
+    }
+}
+
 
 #pragma mark - Custom extra function
 

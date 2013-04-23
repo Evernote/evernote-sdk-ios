@@ -155,6 +155,15 @@ inBusinessNotebook:(EDAMLinkedNotebook*) notebook
  */
 - (void)viewNoteInEvernote:(EDAMNote*)note;
 
+/** View a note in a linked notebook using the Evernote for iOS app
+ 
+ After completetion the ENSessionDelegate will be used to confirm success or failure.
+ 
+ @param note The note that needs to be viewed.
+ @param linkedNotebook The linked notebook of the note.
+ */
+- (void)viewNoteInEvernote:(EDAMNote*)note inLinkedNotebook:(EDAMLinkedNotebook*)linkedNotebook;
+
 /** Cancel the first operation in the queue
  */
 - (void) cancel;
