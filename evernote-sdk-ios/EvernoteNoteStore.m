@@ -746,7 +746,7 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                                          failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] authenticateToSharedNotebook:[self authenticationToken] authenticationToken:shareKey];
+        return [[self currentNoteStore] authenticateToSharedNotebook:shareKey authenticationToken:[self authenticationToken]];
     } success:success failure:failure];
 }
 
