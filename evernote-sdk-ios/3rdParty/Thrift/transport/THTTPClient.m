@@ -25,6 +25,7 @@
 @interface THTTPClient ()
 
 @property (nonatomic,strong) ENAFURLConnectionOperation *httpOperation;
+@property (readwrite, nonatomic) NSOperationQueue *operationQueue;
 
 @end
 
@@ -83,6 +84,9 @@
 
   // create our request data buffer
   mRequestData = [[NSMutableData alloc] initWithCapacity: 1024];
+    
+  self.operationQueue = [[NSOperationQueue alloc] init];
+  [self.operationQueue setMaxConcurrentOperationCount:1];
 
   return self;
 }
@@ -143,7 +147,7 @@
     if(self.downloadBlock) {
         [self.httpOperation setDownloadProgressBlock:self.downloadBlock];
     }
-    [[NSOperationQueue mainQueue] addOperations:@[self.httpOperation] waitUntilFinished:YES];
+    [self.operationQueue addOperations:@[self.httpOperation] waitUntilFinished:YES];
     responseData = self.httpOperation.responseData;
     response = self.httpOperation.response;
     error = self.httpOperation.error;

@@ -64,6 +64,7 @@ Do something like this in your AppDelegate's `application:didFinishLaunchingWith
 		// Initial development is done on the sandbox service
 		// Change this to BootstrapServerBaseURLStringUS to use the production Evernote service
 		// Change this to BootstrapServerBaseURLStringCN to use the Yinxiang Biji production service
+		// Bootstrapping is supported by default with either BootstrapServerBaseURLStringUS or BootstrapServerBaseURLStringCN
 		// BootstrapServerBaseURLStringSandbox does not support the  Yinxiang Biji service
 		NSString *EVERNOTE_HOST = BootstrapServerBaseURLStringSandbox;
     

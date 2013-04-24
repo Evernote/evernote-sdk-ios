@@ -35,6 +35,11 @@ typedef void (^ProgressBlock)(NSUInteger bytesWritten, long long totalBytesWritt
 @property (nonatomic,copy) ProgressBlock uploadBlock;
 @property (nonatomic,copy) ProgressBlock downloadBlock;
 
+/**
+ The operation queue which manages operations enqueued by the HTTP client.
+ */
+@property (nonatomic,readonly) NSOperationQueue* operationQueue;
+
 - (id) initWithURL: (NSURL *) aURL;
 
 - (id) initWithURL: (NSURL *) aURL
