@@ -112,6 +112,7 @@ typedef void (^ENMLHTMLCompletionBlock)(NSString* html, NSError *error);
         for (EDAMResource* resource in self.resources) {
             if([[[resource data] bodyHash] isEqualToData:dataHash]) {
                 foundResource = resource;
+                break;
             }
         }
         NSMutableDictionary *scrubbedAttributes = [NSMutableDictionary dictionaryWithDictionary:attributeDict];
