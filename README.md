@@ -1,9 +1,9 @@
-Evernote SDK for iOS version 1.1.1
+Evernote SDK for iOS version 1.2.0
 =========================================
 
 What this is
 ------------
-A pleasant iOS-wrapper around the Evernote Cloud API (v1.22), using OAuth for authentication. 
+A pleasant iOS-wrapper around the Evernote Cloud API (v1.24), using OAuth for authentication. 
 
 Required reading
 ----------------
@@ -55,7 +55,7 @@ Create an array key called URL types with a single array sub-item called URL Sch
 
 First you set up the shared EvernoteSession, configuring it with your consumer key and secret. 
 
-The SDK now supports the Yinxiang Biji service by default. 
+The SDK now supports the Yinxiang Biji service by default. Please make sure your consumer key has been [activated](http://dev.evernote.com/support/) for the China service.
 
 Do something like this in your AppDelegate's `application:didFinishLaunchingWithOptions:` method.
 

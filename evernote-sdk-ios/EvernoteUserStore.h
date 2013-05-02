@@ -130,4 +130,14 @@
 - (void)authenticateToBusinessWithSuccess:(void(^)(EDAMAuthenticationResult *authenticationResult))success
                            failure:(void(^)(NSError *error))failure;
 
+/** Revoke an existing long lived authentication token. This can be used to revoke OAuth tokens or tokens created by calling authenticateLongSession, and allows a user to effectively log out of Evernote from the perspective of the application that holds the token. The authentication token that is passed is immediately revoked and may not be used to call any authenticated EDAM function.
+ 
+ @param authenticationToken the authentication token to revoke.
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
+- (void)revokeLongSessionWithAuthenticationToken:(NSString*)authenticationToken
+                                         success:(void(^)())success
+                                         failure:(void(^)(NSError *error))failure;
+
 @end

@@ -109,4 +109,12 @@
     } success:success failure:failure];
 }
 
+- (void)revokeLongSessionWithAuthenticationToken:(NSString*)authenticationToken
+                                         success:(void(^)())success
+                             failure:(void(^)(NSError *error))failure {
+    [self invokeAsyncVoidBlock:^void {
+        [self.userStore revokeLongSession:authenticationToken];
+    } success:success failure:failure];
+}
+
 @end

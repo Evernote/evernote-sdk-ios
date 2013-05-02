@@ -1,3 +1,9 @@
+= 1.2.0 / 2013-04-02
+
+* API for Reminders
+* View a note using the Evernote for iOS app
+* Bug fixes
+
 = 1.1.1 / 2013-03-26
 
 * Adding ability to monitor download/upload progress
