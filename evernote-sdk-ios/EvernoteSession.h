@@ -261,4 +261,12 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  */
 - (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
 
+/** Install the Skitch for iOS app.
+ 
+ This can be used to present the user with a dialog to install the Skitch for iOS app
+ 
+ @param viewController The view controller that should be used as a base controller to present this view controller.
+ */
+- (void)installSkitchAppUsingViewController:(UIViewController*)viewController;
+
 @end
