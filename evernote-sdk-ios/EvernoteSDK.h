@@ -31,6 +31,7 @@
 #import "EvernoteSession.h"
 #import "EvernoteUserStore.h"
 #import "EvernoteNoteStore+Extras.h"
+#import "EvernoteNoteStore+Skitch.h"
 #import "EvernoteUserStore+Extras.h"
 #import "ENConstants.h"
 

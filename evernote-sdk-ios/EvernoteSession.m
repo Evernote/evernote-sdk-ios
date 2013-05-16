@@ -36,6 +36,7 @@
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
 #import "NSDate+EDAMAdditions.h"
+#import "SkitchBridge.h"
 
 #define SCHEME @"https"
 
@@ -878,6 +879,16 @@
         }
         canHandle = YES;
     }
+    // Check if skitch
+    else if ([hostName isEqualToString:[url scheme]] == YES
+             && [@"skitch" isEqualToString:[url host]] == YES) {
+        SKBridgeReceipt *receipt = [[SKApplicationBridge sharedSkitchBridge] bridgeReceiptFromURL:url];
+        if([[EvernoteSession sharedSession] skitchDelegate] &&
+           [[[EvernoteSession sharedSession] skitchDelegate] respondsToSelector:@selector(skitchSaved:)]) {
+            [[[EvernoteSession sharedSession] skitchDelegate] skitchSaved:receipt];
+        }
+        canHandle = YES;
+    }
     return  canHandle;
 }
 
@@ -929,13 +940,21 @@
 }
 
 - (void)installEvernoteAppUsingViewController:(UIViewController*)viewController {
+    [self installAppWithId:281796108 withViewController:viewController];
+}
+
+- (void)installSkitchAppUsingViewController:(UIViewController*)viewController {
+    [self installAppWithId:490505997 withViewController:viewController];
+}
+
+- (void)installAppWithId:(NSInteger)appID withViewController:(UIViewController*) viewController {
     if([SKStoreProductViewController class]) {
         SKStoreProductViewController *storeViewController =
         [[SKStoreProductViewController alloc] init];
         [storeViewController setDelegate:self];
         NSDictionary *parameters =
         @{SKStoreProductParameterITunesItemIdentifier:
-              [NSNumber numberWithInteger:281796108]};
+              [NSNumber numberWithInteger:appID]};
         [storeViewController loadProductWithParameters:parameters
                                        completionBlock:^(BOOL result, NSError *error) {
                                            if (result)
@@ -945,7 +964,8 @@
                                        }];
     }
     else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/evernote/id281796108"]];
+        NSString* appURL = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/evernote/id%d",appID];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appURL]];
     }
 }
 

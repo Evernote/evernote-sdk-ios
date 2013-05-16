@@ -31,6 +31,7 @@
 #import <StoreKit/StoreKit.h>
 #import "EDAM.h"
 #import "ENOAuthViewController.h"
+#import "SkitchBridge.h"
 
 #ifndef NS_ENUM
 #define NS_ENUM(_type, _name) enum _name : _type _name; enum _name : _type
@@ -82,6 +83,11 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 - (void)evernoteAppNotInstalled;
 @end
 
+@protocol ENSessionSkitchDelegate <NSObject>
+- (void)errorFromSkitch:(NSError*)error;
+- (void)skitchSaved:(SKBridgeReceipt*)receipt;
+@end
+
 /** The `EvernoteSession` class provides a centralized place for authentication and gives access to the `EvernoteNoteStore` and `EvernoteUserStore` objects. Every application must have exactly one instance of `EvernoteSession`. When an application is ready, the application:didFinishLaunchingWithOptions: function is called, where you should call the class method setSharedSessionHost:consumerKey:consumerSecret:supportedService: Thereafter you can access this object by invoking the sharedSession class method.
  */
 @interface EvernoteSession : NSObject <ENOAuthViewControllerDelegate,SKStoreProductViewControllerDelegate>
@@ -91,6 +97,8 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
 @property (nonatomic, copy) NSString *consumerSecret;
 /*! The delegate of the Evernote session */
 @property (nonatomic, assign) id<ENSessionDelegate> delegate;
+/*! The delegate of the Evernote session */
+@property (nonatomic, assign) id<ENSessionSkitchDelegate> skitchDelegate;
 
 ///---------------------------------------------------------------------------------------
 /// @name Session data
@@ -260,5 +268,13 @@ typedef NS_ENUM(NSInteger, ENSessionState) {
  @param viewController The view controller that should be used as a base controller to present this view controller.
  */
 - (void)installEvernoteAppUsingViewController:(UIViewController*)viewController;
+
+/** Install the Skitch for iOS app.
+ 
+ This can be used to present the user with a dialog to install the Skitch for iOS app
+ 
+ @param viewController The view controller that should be used as a base controller to present this view controller.
+ */
+- (void)installSkitchAppUsingViewController:(UIViewController*)viewController;
 
 @end

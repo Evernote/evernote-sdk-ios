@@ -34,6 +34,7 @@ Add the following frameworks in the "Link Binary With Libraries" phase
 
 - Security.framework
 - StoreKit.framework
+- MobileCoreServices.framework
 
 ### Modify your application's main plist file
 
@@ -207,6 +208,22 @@ Check the Note browser in the sample app for some sample code.
 You should check for expired auth tokens and trigger authentication again if the authentication token is expired or revoked by the user.
 
 You can check for expired using `if(EvernoteSession isTokenExpiredWithError:error])` in the error block. 
+
+### Skitch Local API
+
+You can use the Skitch for iOS app to annotate images and pdfs. The [Skitch for iOS](https://itunes.apple.com/us/app/skitch/id490505997?mt=8) app needs to be installed. To check this you can use this :
+
+    if([[SKApplicationBridge sharedSkitchBridge] isSkitchInstalled] == NO) {
+        [[EvernoteSession sharedSession] installSkitchAppUsingViewController:self];
+    }
+    
+Here is an example of how to use the API :
+
+    NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_dev" ofType:@"png"];
+    [[EvernoteSession sharedSession] setSkitchDelegate:self];        
+    [[EvernoteNoteStore noteStore] skitchWithData:[NSData dataWithContentsOfFile:filePath]               withMimeType:@"image/png"];
+
+Take a look at the sample app for examples.
 
 FAQ
 ---
