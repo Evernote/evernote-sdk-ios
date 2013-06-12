@@ -1,62 +1,50 @@
 //
-//  iPadViewController.m
-//  evernote-sdk-ios
+//  ENRootViewController.m
+//  OAuthTest
 //
-//  Created by Matthew McGlincy on 6/12/12.
-//  Copyright (c) 2012 n/a. All rights reserved.
+//  Created by Mustafa Furniturewala.
 //
 
 #import "EvernoteSDK.h"
-#import "iPadViewController.h"
-#import "ENMLUtility.h"
+#import "ENRootViewController.h"
 #import "NSData+EvernoteSDK.h"
+#import "ENMLUtility.h"
+#import "ENSampleTableViewController.h"
 
-@interface iPadViewController ()
+@interface ENRootViewController ()
 
-@property (nonatomic, strong) NSArray *notebooks;
+@property (nonatomic,assign) BOOL isBusiness;
 
 @end
 
-@implementation iPadViewController
 
-@synthesize authenticateButton = _authenticateButton;
-@synthesize listNotebooksButton = _listNotebooksButton;
-@synthesize tableView = _tableView;
-@synthesize logoutButton = _logoutButton;
-@synthesize notebooks = _notebooks;
+@implementation ENRootViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize userLabel;
+@synthesize authenticateButton;
+@synthesize logoutButton;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+	// Do any additional setup after loading the view, typically from a nib.
     [self updateButtonsForAuthentication];
 }
 
 - (void)viewDidUnload
 {
-    [self setTableView:nil];
+    [self setUserLabel:nil];
     [self setAuthenticateButton:nil];
-    [self setListNotebooksButton:nil];
     [self setLogoutButton:nil];
-    [self setListBusinessButton:nil];
-    [self setPhotoNoteButton:nil];
-    [self setSharedNotesButton:nil];
+    [self setBusinessLabel:nil];
+    [self setBtnEvernoteAPI:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return YES;
+    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }
 
 - (IBAction)authenticate:(id)sender 
@@ -78,15 +66,57 @@
     }];
 }
 
-- (IBAction)listNotebooks:(id)sender {
+- (void)showUserInfo
+{
+    EvernoteUserStore *userStore = [EvernoteUserStore userStore];
+    [userStore getUserWithSuccess:^(EDAMUser *user) {
+        self.userLabel.text = user.username;
+        if(user.accounting.businessIdIsSet) {
+            self.businessLabel.text = user.accounting.businessName;
+            self.isBusiness = YES;
+        }
+        else {
+            self.isBusiness = NO;
+            self.businessLabel.text = @"Not a business user";
+
+        }
+        [self performSegueWithIdentifier:@"ShowEvernoteTable" sender:self];
+    }
+                          failure:^(NSError *error) {
+                              NSLog(@"error %@", error);                                            
+                          }];
+}
+
+- (IBAction)listNotes:(id)sender {
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
-        self.notebooks = notebooks;
-        [self.tableView reloadData];
-    }
-                                failure:^(NSError *error) {
-                                    NSLog(@"error %@", error);                                            
-                                }];
+        NSLog(@"notebooks: %@", notebooks);
+    } failure:^(NSError *error) {
+        NSLog(@"error %@", error);
+    }];
+}
+
+- (IBAction)listBusinessNotebooks:(id)sender {
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    [noteStore listBusinessNotebooksWithSuccess:^(NSArray *linkedNotebooks) {
+        NSLog(@"Notebooks : %@",linkedNotebooks);
+    } failure:^(NSError *error) {
+        NSLog(@"Error : %@",error);
+    }];
+}
+
+- (IBAction)evernoteAPI:(id)sender {
+    [self updateButtonsForAuthentication];
+}
+
+- (IBAction)createBusinessNotebook:(id)sender {
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    EDAMNotebook* notebook = [[EDAMNotebook alloc] initWithGuid:nil name:@"test" updateSequenceNum:0 defaultNotebook:NO serviceCreated:0 serviceUpdated:0 publishing:nil published:NO stack:nil sharedNotebookIds:nil sharedNotebooks:nil businessNotebook:nil contact:nil restrictions:nil];
+    [noteStore createBusinessNotebook:notebook success:^(EDAMLinkedNotebook *businessNotebook) {
+        NSLog(@"Created a business notebook : %@",businessNotebook);
+    } failure:^(NSError *error) {
+        NSLog(@"Error : %@",error);
+    }];
 }
 
 - (IBAction)listSharedNotes:(id)sender {
@@ -95,13 +125,13 @@
     [defaultNoteStore listLinkedNotebooksWithSuccess:^(NSArray *linkedNotebooks) {
         if(linkedNotebooks.count >0) {
             EDAMNoteFilter* noteFilter = [[EDAMNoteFilter alloc] initWithOrder:0
-                                                                      ascending:NO
-                                                                          words:nil
-                                                                   notebookGuid:nil
-                                                                       tagGuids:nil
-                                                                       timeZone:nil
-                                                                       inactive:NO
-                                                                     emphasized:nil];
+                                                                     ascending:NO
+                                                                         words:nil
+                                                                  notebookGuid:nil
+                                                                      tagGuids:nil
+                                                                      timeZone:nil
+                                                                      inactive:NO
+                                                                    emphasized:nil];
             [defaultNoteStore listNotesForLinkedNotebook:linkedNotebooks[0]  withFilter:noteFilter success:^(EDAMNoteList *list) {
                 NSLog(@"Shared notes : %@",list);
             } failure:^(NSError *error) {
@@ -115,17 +145,6 @@
     } failure:^(NSError *error) {
         NSLog(@"Error listing linked notes: %@",error);
     }];
-}
-
-- (IBAction)listBusinessNotebooks:(id)sender {
-    EvernoteNoteStore *noteStore = [EvernoteNoteStore businessNoteStore];
-    [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
-        self.notebooks = notebooks;
-        [self.tableView reloadData];
-    }
-                                failure:^(NSError *error) {
-                                    NSLog(@"error %@", error);
-                                }];
 }
 
 - (IBAction)createPhotoNote:(id)sender {
@@ -155,75 +174,42 @@
     }];
 }
 
-- (IBAction)logout:(id)sender {
-    [[EvernoteSession sharedSession] logout];
-    [self updateButtonsForAuthentication];
-    self.notebooks = nil;
-    [self.tableView reloadData];
-}
-
 - (void)updateButtonsForAuthentication 
 {    
     EvernoteSession *session = [EvernoteSession sharedSession];
-    
+
     if (session.isAuthenticated) {
         self.authenticateButton.enabled = NO;
         self.authenticateButton.alpha = 0.5;
-        self.listNotebooksButton.enabled = YES;
-        self.listNotebooksButton.alpha = 1.0;
-        self.listBusinessButton.enabled = YES;
-        self.listBusinessButton.alpha = 1.0;
-        self.photoNoteButton.enabled = YES;
-        self.photoNoteButton.alpha = 1.0;
-        self.sharedNotesButton.enabled = YES;
-        self.sharedNotesButton.alpha = 1.0;
         self.logoutButton.enabled = YES;
-        self.logoutButton.alpha = 1.0; 
+        self.logoutButton.alpha = 1.0;
+        self.btnEvernoteAPI.enabled = YES;
+        self.btnEvernoteAPI.alpha = 1.0;
+        [self showUserInfo];
     } else {
         self.authenticateButton.enabled = YES;
         self.authenticateButton.alpha = 1.0;
-        self.listNotebooksButton.enabled = NO;
-        self.listNotebooksButton.alpha = 0.5;
-        self.photoNoteButton.enabled = NO;
-        self.photoNoteButton.alpha = 0.5;
-        self.sharedNotesButton.enabled = NO;
-        self.sharedNotesButton.alpha = 0.5;
-        self.listBusinessButton.enabled = NO;
-        self.listBusinessButton.alpha = 0.5;
         self.logoutButton.enabled = NO;
         self.logoutButton.alpha = 0.5;
+        self.btnEvernoteAPI.enabled = NO;
+        self.btnEvernoteAPI.alpha = 0.5;
+        self.userLabel.text = @"(not authenticated)";
+        self.businessLabel.text = @"(not authenticated)";
     }
 }
 
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
+- (IBAction)logout:(id)sender {
+    [[EvernoteSession sharedSession] logout];
+    [self updateButtonsForAuthentication];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.notebooks.count;
-}
+#pragma mark - Segues
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    EDAMNotebook *notebook = [self.notebooks objectAtIndex:indexPath.row];
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NotebookTableCell"];
-    cell.textLabel.text = notebook.name;
-    cell.detailTextLabel.text = @"";
-    
-    return cell;
-}
-
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:@"ShowEvernoteTable"]) {
+        ENSampleTableViewController *sampleVC = segue.destinationViewController;
+        [sampleVC setIsBusiness:self.isBusiness];
+    }
 }
 
 @end

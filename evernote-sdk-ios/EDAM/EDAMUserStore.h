@@ -92,6 +92,8 @@
   EDAMPublicUserInfo * __publicUserInfo;
   NSString * __noteStoreUrl;
   NSString * __webApiUrlPrefix;
+  BOOL __secondFactorRequired;
+  NSString * __secondFactorDeliveryHint;
 
   BOOL __currentTime_isset;
   BOOL __authenticationToken_isset;
@@ -100,6 +102,8 @@
   BOOL __publicUserInfo_isset;
   BOOL __noteStoreUrl_isset;
   BOOL __webApiUrlPrefix_isset;
+  BOOL __secondFactorRequired_isset;
+  BOOL __secondFactorDeliveryHint_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -110,10 +114,12 @@
 @property (nonatomic, retain, getter=publicUserInfo, setter=setPublicUserInfo:) EDAMPublicUserInfo * publicUserInfo;
 @property (nonatomic, retain, getter=noteStoreUrl, setter=setNoteStoreUrl:) NSString * noteStoreUrl;
 @property (nonatomic, retain, getter=webApiUrlPrefix, setter=setWebApiUrlPrefix:) NSString * webApiUrlPrefix;
+@property (nonatomic, getter=secondFactorRequired, setter=setSecondFactorRequired:) BOOL secondFactorRequired;
+@property (nonatomic, retain, getter=secondFactorDeliveryHint, setter=setSecondFactorDeliveryHint:) NSString * secondFactorDeliveryHint;
 #endif
 
 - (id) init;
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime authenticationToken: (NSString *) authenticationToken expiration: (EDAMTimestamp) expiration user: (EDAMUser *) user publicUserInfo: (EDAMPublicUserInfo *) publicUserInfo noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix;
+- (id) initWithCurrentTime: (EDAMTimestamp) currentTime authenticationToken: (NSString *) authenticationToken expiration: (EDAMTimestamp) expiration user: (EDAMUser *) user publicUserInfo: (EDAMPublicUserInfo *) publicUserInfo noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix secondFactorRequired: (BOOL) secondFactorRequired secondFactorDeliveryHint: (NSString *) secondFactorDeliveryHint;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -159,6 +165,18 @@
 - (void) setWebApiUrlPrefix: (NSString *) webApiUrlPrefix;
 #endif
 - (BOOL) webApiUrlPrefixIsSet;
+
+#if !__has_feature(objc_arc)
+- (BOOL) secondFactorRequired;
+- (void) setSecondFactorRequired: (BOOL) secondFactorRequired;
+#endif
+- (BOOL) secondFactorRequiredIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) secondFactorDeliveryHint;
+- (void) setSecondFactorDeliveryHint: (NSString *) secondFactorDeliveryHint;
+#endif
+- (BOOL) secondFactorDeliveryHintIsSet;
 
 @end
 
@@ -354,8 +372,9 @@
 @protocol EDAMUserStore <NSObject>
 - (BOOL) checkVersion: (NSString *) clientName edamVersionMajor: (int16_t) edamVersionMajor edamVersionMinor: (int16_t) edamVersionMinor;  // throws TException
 - (EDAMBootstrapInfo *) getBootstrapInfo: (NSString *) locale;  // throws TException
-- (EDAMAuthenticationResult *) authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret;  // throws EDAMUserException *, EDAMSystemException *, TException
-- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret supportsTwoFactor: (BOOL) supportsTwoFactor;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription supportsTwoFactor: (BOOL) supportsTwoFactor;  // throws EDAMUserException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) completeTwoFactorAuthentication: (NSString *) authenticationToken oneTimeCode: (NSString *) oneTimeCode deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (void) revokeLongSession: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMAuthenticationResult *) authenticateToBusiness: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException
 - (EDAMAuthenticationResult *) refreshAuthentication: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMSystemException *, TException

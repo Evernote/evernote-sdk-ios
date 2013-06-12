@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3012" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="uFx-8P-aNQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="uFx-8P-aNQ">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
-        <!--I Phone View Controller - Evernote SDK-->
+        <!--Root View Controller - User Info-->
         <scene sceneID="5">
             <objects>
-                <viewController id="2" customClass="iPhoneViewController" sceneMemberID="viewController">
+                <viewController id="2" customClass="ENRootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -29,10 +29,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HDa-GJ-M7J">
-                                <rect key="frame" x="15" y="151" width="295" height="37"/>
+                                <rect key="frame" x="10" y="234" width="300" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="List Notebooks">
+                                <state key="normal" title="Evernote API">
                                     <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -40,67 +40,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="listNotes:" destination="2" eventType="touchUpInside" id="t9h-5l-BEa"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="A2r-I6-I6f">
-                                <rect key="frame" x="15" y="195" width="295" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="List Business Notebooks">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="listBusinessNotebooks:" destination="2" eventType="touchUpInside" id="Cji-w9-F9l"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Le7-4S-0Ml">
-                                <rect key="frame" x="15" y="235" width="295" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Create Business notebook">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createBusinessNotebook:" destination="2" eventType="touchUpInside" id="ICx-fk-YH4"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ZrU-t9-1yz">
-                                <rect key="frame" x="20" y="327" width="295" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Create photo note">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createPhotoNote:" destination="2" eventType="touchUpInside" id="owD-bM-kv4"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xzD-QD-hYw">
-                                <rect key="frame" x="15" y="283" width="295" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Shared Notes">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="listSharedNotes:" destination="2" eventType="touchUpInside" id="fDa-a8-XlU"/>
+                                    <action selector="evernoteAPI:" destination="2" eventType="touchUpInside" id="uTo-pi-eaz"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Authenticated user:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="x2e-ZF-bJm">
@@ -125,7 +65,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Wzn-wC-EBe">
-                                <rect key="frame" x="20" y="376" width="133" height="37"/>
+                                <rect key="frame" x="10" y="360" width="300" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" title="Logout">
@@ -139,148 +79,148 @@
                                     <action selector="logout:" destination="2" eventType="touchUpInside" id="xz8-bM-MV6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="S27-K1-HYt">
-                                <rect key="frame" x="206" y="372" width="104" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="More...">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="td1-ZB-CzD" kind="push" id="B31-8b-kJ9"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Evernote SDK" id="xZ0-Se-9Mh"/>
+                    <navigationItem key="navigationItem" title="User Info" id="xZ0-Se-9Mh"/>
                     <connections>
                         <outlet property="authenticateButton" destination="Cep-XJ-Vb1" id="tQN-2I-2Ps"/>
+                        <outlet property="btnEvernoteAPI" destination="HDa-GJ-M7J" id="CtG-Mz-2OM"/>
                         <outlet property="businessLabel" destination="Zhi-Qv-vgx" id="S6a-z0-eCE"/>
-                        <outlet property="createBusinessNotebookButton" destination="Le7-4S-0Ml" id="LQz-VV-EOK"/>
-                        <outlet property="createPhotoButton" destination="ZrU-t9-1yz" id="74a-E2-1OO"/>
-                        <outlet property="listBusinessButton" destination="A2r-I6-I6f" id="92d-Lb-F1L"/>
-                        <outlet property="listNotebooksButton" destination="HDa-GJ-M7J" id="F7K-DM-89p"/>
                         <outlet property="logoutButton" destination="Wzn-wC-EBe" id="VAX-VS-YEf"/>
-                        <outlet property="moreButton" destination="S27-K1-HYt" id="v0r-KE-d5Y"/>
-                        <outlet property="sharedNotesButton" destination="xzD-QD-hYw" id="IgW-JX-4Ca"/>
                         <outlet property="userLabel" destination="lNI-KH-72z" id="xaO-SK-kDt"/>
+                        <segue destination="z3d-8p-XX1" kind="push" identifier="ShowEvernoteTable" id="Wg2-SV-LM1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1552" y="-275"/>
+            <point key="canvasLocation" x="-1684" y="-199"/>
         </scene>
-        <!--More View Controller - Evernote SDK-->
-        <scene sceneID="iRE-la-Jk4">
+        <!--BusinessAPI Table View Controller - Business API-->
+        <scene sceneID="82X-cL-Jfw">
             <objects>
-                <viewController id="td1-ZB-CzD" customClass="MoreViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DWF-tn-rMe">
+                <tableViewController id="DPW-Tu-Vcq" customClass="BusinessAPITableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gGl-TB-Ucg">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SampleBusinessCell" id="eHz-cC-YuF">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DPW-Tu-Vcq" id="WAV-xQ-is3"/>
+                            <outlet property="delegate" destination="DPW-Tu-Vcq" id="MNY-Gz-OMC"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Business API" id="RTU-KJ-z3T"/>
+                    <connections>
+                        <segue destination="AJ2-9Y-RLg" kind="push" identifier="ShowConsole" id="2FU-Zu-vdO"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A0R-Yv-IQU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-772" y="985"/>
+        </scene>
+        <!--Console View Controller - Console-->
+        <scene sceneID="TdI-dL-eb6">
+            <objects>
+                <viewController id="AJ2-9Y-RLg" customClass="ConsoleViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Gry-i1-QHu">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="M0V-gt-wNs">
-                                <rect key="frame" x="20" y="20" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Save new note to Evernote">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="saveNewNote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="Tz5-hm-Ol8"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="m8X-Sa-iwn">
-                                <rect key="frame" x="20" y="71" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Install Evernote for iOS app">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="installEvernote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="Z61-uR-nWu"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="IwD-p2-ZhE">
-                                <rect key="frame" x="20" y="174" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Note browser">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="T0Z-FB-yiV" kind="push" id="gG4-1z-0mO"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="yXg-mU-Q1C">
-                                <rect key="frame" x="20" y="122" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="View note in Evernote">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="viewNote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="Pn6-Oi-Wn8"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Qxu-lz-KUT">
-                                <rect key="frame" x="20" y="225" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Notebook chooser">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="invlokeNotebookChooser:" destination="td1-ZB-CzD" eventType="touchUpInside" id="mnV-Nu-yoC"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="sXy-96-OZs">
-                                <rect key="frame" x="20" y="276" width="280" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Create a business note">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createBusinessNote:" destination="td1-ZB-CzD" eventType="touchUpInside" id="1BU-Be-M50"/>
-                                </connections>
-                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="wS7-JC-tUo">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Evernote SDK" id="xAT-Dq-8Ax"/>
+                    <navigationItem key="navigationItem" title="Console" id="9Eg-5S-FJS"/>
+                    <connections>
+                        <outlet property="textView" destination="wS7-JC-tUo" id="h1i-za-o5K"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="wRb-ar-Pww" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cdg-jt-pJq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1197" y="-275"/>
+            <point key="canvasLocation" x="-254" y="-199"/>
+        </scene>
+        <!--Sample Table View Controller - Evernote SDK-->
+        <scene sceneID="lvt-Kl-Xit">
+            <objects>
+                <tableViewController id="z3d-8p-XX1" customClass="ENSampleTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vvI-P9-HBX">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SampleCell" id="TM0-en-1pY">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="z3d-8p-XX1" id="Nnn-L3-pE9"/>
+                            <outlet property="delegate" destination="z3d-8p-XX1" id="Q2h-kf-Fye"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Evernote SDK" id="QUM-lN-DJD"/>
+                    <connections>
+                        <segue destination="AJ2-9Y-RLg" kind="push" identifier="ShowConsole" id="Seq-VS-YJT"/>
+                        <segue destination="T0Z-FB-yiV" kind="push" identifier="showNoteBrowser" id="Zn1-eS-WOs"/>
+                        <segue destination="Oes-lM-N4a" kind="push" identifier="showSkitch" id="4xG-O1-1DS"/>
+                        <segue destination="DPW-Tu-Vcq" kind="push" identifier="ShowBusinessAPI" id="CQw-R8-rch"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HDS-uX-XN6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1256" y="-199"/>
+        </scene>
+        <!--Skitch View Controller-->
+        <scene sceneID="YSX-gu-2BF">
+            <objects>
+                <viewController id="Oes-lM-N4a" customClass="SkitchViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="b43-vH-1aB">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" id="zco-kA-KY5">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MoE-4u-Wn2">
+                        <barButtonItem key="rightBarButtonItem" title="Skitch" id="5MP-Z7-EXK">
+                            <connections>
+                                <action selector="skitchImage:" destination="Oes-lM-N4a" id="pCB-WS-5Pb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="zco-kA-KY5" id="Rrw-Up-7S3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jIe-ha-fOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-764" y="377"/>
         </scene>
         <!--Note Browser View Controller - Note browser-->
         <scene sceneID="5iY-Yi-a4u">
@@ -322,7 +262,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L94-BL-Woe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-764" y="-273"/>
+            <point key="canvasLocation" x="-764" y="-199"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rvk-Bj-LbK">
@@ -340,19 +280,34 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6gG-eJ-h1r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1910" y="-275"/>
+            <point key="canvasLocation" x="-2114" y="-199"/>
         </scene>
     </scenes>
     <classes>
-        <class className="MoreViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/MoreViewController.h"/>
+        <class className="BusinessAPITableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BusinessAPITableViewController.h"/>
+        </class>
+        <class className="ConsoleViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConsoleViewController.h"/>
             <relationships>
-                <relationship kind="action" name="createBusinessNote:"/>
-                <relationship kind="action" name="installEvernote:"/>
-                <relationship kind="action" name="invlokeNotebookChooser:"/>
-                <relationship kind="action" name="saveNewNote:"/>
-                <relationship kind="action" name="viewNote:"/>
+                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
             </relationships>
+        </class>
+        <class className="ENRootViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ENRootViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="authenticate:"/>
+                <relationship kind="action" name="evernoteAPI:"/>
+                <relationship kind="action" name="logout:"/>
+                <relationship kind="outlet" name="authenticateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="btnEvernoteAPI" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="businessLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="logoutButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="userLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ENSampleTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ENSampleTableViewController.h"/>
         </class>
         <class className="NoteBrowserViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NoteBrowserViewController.h"/>
@@ -363,26 +318,11 @@
                 <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
             </relationships>
         </class>
-        <class className="iPhoneViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/iPhoneViewController.h"/>
+        <class className="SkitchViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SkitchViewController.h"/>
             <relationships>
-                <relationship kind="action" name="authenticate:"/>
-                <relationship kind="action" name="createBusinessNotebook:"/>
-                <relationship kind="action" name="createPhotoNote:"/>
-                <relationship kind="action" name="listBusinessNotebooks:"/>
-                <relationship kind="action" name="listNotes:"/>
-                <relationship kind="action" name="listSharedNotes:"/>
-                <relationship kind="action" name="logout:"/>
-                <relationship kind="outlet" name="authenticateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="businessLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="createBusinessNotebookButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="createPhotoButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="listBusinessButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="listNotebooksButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="logoutButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="moreButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="sharedNotesButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="userLabel" candidateClass="UILabel"/>
+                <relationship kind="action" name="skitchImage:"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
         </class>
     </classes>
@@ -391,4 +331,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="2FU-Zu-vdO"/>
+    </inferredMetricsTieBreakers>
 </document>

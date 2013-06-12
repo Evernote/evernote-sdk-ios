@@ -1,3 +1,13 @@
+= 1.2.1 / 2013-06-12
+
+* Added RelatedQuery.referenceUri
+* New system exceptions thrown by getPublicNotebook and authenticateToSharedNote when the target content has been taken down.
+* Added SharedNotebook.recipientSettings, NoteStore.setSharedNotebookRecipientSettings
+* Added optional authenticationToken parameter to NoteStore.authenticateToSharedNote, only needed for YXBJ
+* Added creatorId and lastEditorId fields to NoteAttributes
+* Added two factor authentication functionality to UserStore.authenticate and authenticateLongSession, added UserStore.completeTwoFactorAuthentication.
+* Modified sample app to use table view
+
 = 1.2.0 / 2013-04-02
 
 * API for Reminders

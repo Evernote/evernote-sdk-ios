@@ -995,11 +995,13 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
  
  @param  guid The GUID identifying this Note on this shard.
  @param  noteKey The 'noteKey' identifier from the Note that was originally created via a call to shareNote() and then given to a recipient to access.
+ @param authenticationToken Optional, only required for Yinxiang
  @param success Success completion block.
  @param failure Failure completion block.
  */
-- (void)authenticateToSharedNoteWithGuid:(NSString *)guid 
+- (void)authenticateToSharedNoteWithGuid:(NSString *)guid
                                  noteKey:(NSString *)noteKey
+                     authenticationToken:(NSString*)authenticationToken
                                  success:(void(^)(EDAMAuthenticationResult *result))success
                                  failure:(void(^)(NSError *error))failure;
 
@@ -1013,4 +1015,15 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
                      success:(void(^)(int32_t usn))success
                      failure:(void(^)(NSError *error))failure;
 
+/** Set shared notebook recipient settings.
+ 
+ @param sharedNotebookId The shared notebooks id
+ @param recipientSettings The settings of the recipient
+ @param success Success completion block.
+ @param failure Failure completion block.
+ */
+- (void) setSharedNotebookRecipientSettingsWithSharedNotebookId: (int64_t) sharedNotebookId
+                                              recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings
+                                                        success:(void(^)(int32_t usn))success
+                                                        failure:(void(^)(NSError *error))failure;
 @end

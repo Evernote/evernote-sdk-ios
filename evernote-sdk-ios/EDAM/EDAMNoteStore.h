@@ -993,20 +993,23 @@
   NSString * __noteGuid;
   NSString * __plainText;
   EDAMNoteFilter * __filter;
+  NSString * __referenceUri;
 
   BOOL __noteGuid_isset;
   BOOL __plainText_isset;
   BOOL __filter_isset;
+  BOOL __referenceUri_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
 @property (nonatomic, retain, getter=noteGuid, setter=setNoteGuid:) NSString * noteGuid;
 @property (nonatomic, retain, getter=plainText, setter=setPlainText:) NSString * plainText;
 @property (nonatomic, retain, getter=filter, setter=setFilter:) EDAMNoteFilter * filter;
+@property (nonatomic, retain, getter=referenceUri, setter=setReferenceUri:) NSString * referenceUri;
 #endif
 
 - (id) init;
-- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText filter: (EDAMNoteFilter *) filter;
+- (id) initWithNoteGuid: (NSString *) noteGuid plainText: (NSString *) plainText filter: (EDAMNoteFilter *) filter referenceUri: (NSString *) referenceUri;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1028,6 +1031,12 @@
 - (void) setFilter: (EDAMNoteFilter *) filter;
 #endif
 - (BOOL) filterIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) referenceUri;
+- (void) setReferenceUri: (NSString *) referenceUri;
+#endif
+- (BOOL) referenceUriIsSet;
 
 @end
 
@@ -1203,6 +1212,7 @@
 - (EDAMNotebook *) getPublicNotebook: (EDAMUserID) userId publicUri: (NSString *) publicUri;  // throws EDAMSystemException *, EDAMNotFoundException *, TException
 - (EDAMSharedNotebook *) createSharedNotebook: (NSString *) authenticationToken sharedNotebook: (EDAMSharedNotebook *) sharedNotebook;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (int32_t) updateSharedNotebook: (NSString *) authenticationToken sharedNotebook: (EDAMSharedNotebook *) sharedNotebook;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
+- (int32_t) setSharedNotebookRecipientSettings: (NSString *) authenticationToken sharedNotebookId: (int64_t) sharedNotebookId recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (int32_t) sendMessageToSharedNotebookMembers: (NSString *) authenticationToken notebookGuid: (EDAMGuid) notebookGuid messageText: (NSString *) messageText recipients: (NSMutableArray *) recipients;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (NSMutableArray *) listSharedNotebooks: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (int32_t) expungeSharedNotebooks: (NSString *) authenticationToken sharedNotebookIds: (NSMutableArray *) sharedNotebookIds;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
@@ -1215,7 +1225,7 @@
 - (void) emailNote: (NSString *) authenticationToken parameters: (EDAMNoteEmailParameters *) parameters;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (NSString *) shareNote: (NSString *) authenticationToken guid: (EDAMGuid) guid;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (void) stopSharingNote: (NSString *) authenticationToken guid: (EDAMGuid) guid;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
-- (EDAMAuthenticationResult *) authenticateToSharedNote: (NSString *) guid noteKey: (NSString *) noteKey;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
+- (EDAMAuthenticationResult *) authenticateToSharedNote: (NSString *) guid noteKey: (NSString *) noteKey authenticationToken: (NSString *) authenticationToken;  // throws EDAMUserException *, EDAMNotFoundException *, EDAMSystemException *, TException
 - (EDAMRelatedResult *) findRelated: (NSString *) authenticationToken query: (EDAMRelatedQuery *) query resultSpec: (EDAMRelatedResultSpec *) resultSpec;  // throws EDAMUserException *, EDAMSystemException *, EDAMNotFoundException *, TException
 @end
 

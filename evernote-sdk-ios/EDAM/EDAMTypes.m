@@ -6242,7 +6242,7 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   return self;
 }
 
-- (id) initWithSubjectDate: (EDAMTimestamp) subjectDate latitude: (double) latitude longitude: (double) longitude altitude: (double) altitude author: (NSString *) author source: (NSString *) source sourceURL: (NSString *) sourceURL sourceApplication: (NSString *) sourceApplication shareDate: (EDAMTimestamp) shareDate reminderOrder: (int64_t) reminderOrder reminderDoneTime: (EDAMTimestamp) reminderDoneTime reminderTime: (EDAMTimestamp) reminderTime placeName: (NSString *) placeName contentClass: (NSString *) contentClass applicationData: (EDAMLazyMap *) applicationData lastEditedBy: (NSString *) lastEditedBy classifications: (NSMutableDictionary *) classifications
+- (id) initWithSubjectDate: (EDAMTimestamp) subjectDate latitude: (double) latitude longitude: (double) longitude altitude: (double) altitude author: (NSString *) author source: (NSString *) source sourceURL: (NSString *) sourceURL sourceApplication: (NSString *) sourceApplication shareDate: (EDAMTimestamp) shareDate reminderOrder: (int64_t) reminderOrder reminderDoneTime: (EDAMTimestamp) reminderDoneTime reminderTime: (EDAMTimestamp) reminderTime placeName: (NSString *) placeName contentClass: (NSString *) contentClass applicationData: (EDAMLazyMap *) applicationData lastEditedBy: (NSString *) lastEditedBy classifications: (NSMutableDictionary *) classifications creatorId: (EDAMUserID) creatorId lastEditorId: (EDAMUserID) lastEditorId
 {
   self = [super init];
   __subjectDate = subjectDate;
@@ -6279,6 +6279,10 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   __lastEditedBy_isset = YES;
   __classifications = [classifications retain_stub];
   __classifications_isset = YES;
+  __creatorId = creatorId;
+  __creatorId_isset = YES;
+  __lastEditorId = lastEditorId;
+  __lastEditorId_isset = YES;
   return self;
 }
 
@@ -6370,6 +6374,16 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
     __classifications = [[decoder decodeObjectForKey: @"classifications"] retain_stub];
     __classifications_isset = YES;
   }
+  if ([decoder containsValueForKey: @"creatorId"])
+  {
+    __creatorId = [decoder decodeInt32ForKey: @"creatorId"];
+    __creatorId_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"lastEditorId"])
+  {
+    __lastEditorId = [decoder decodeInt32ForKey: @"lastEditorId"];
+    __lastEditorId_isset = YES;
+  }
   return self;
 }
 
@@ -6442,6 +6456,14 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   if (__classifications_isset)
   {
     [encoder encodeObject: __classifications forKey: @"classifications"];
+  }
+  if (__creatorId_isset)
+  {
+    [encoder encodeInt32: __creatorId forKey: @"creatorId"];
+  }
+  if (__lastEditorId_isset)
+  {
+    [encoder encodeInt32: __lastEditorId forKey: @"lastEditorId"];
   }
 }
 
@@ -6784,6 +6806,40 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   __classifications_isset = NO;
 }
 
+- (int32_t) creatorId {
+  return __creatorId;
+}
+
+- (void) setCreatorId: (int32_t) creatorId {
+  __creatorId = creatorId;
+  __creatorId_isset = YES;
+}
+
+- (BOOL) creatorIdIsSet {
+  return __creatorId_isset;
+}
+
+- (void) unsetCreatorId {
+  __creatorId_isset = NO;
+}
+
+- (int32_t) lastEditorId {
+  return __lastEditorId;
+}
+
+- (void) setLastEditorId: (int32_t) lastEditorId {
+  __lastEditorId = lastEditorId;
+  __lastEditorId_isset = YES;
+}
+
+- (BOOL) lastEditorIdIsSet {
+  return __lastEditorId_isset;
+}
+
+- (void) unsetLastEditorId {
+  __lastEditorId_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -6948,6 +7004,22 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 27:
+        if (fieldType == TType_I32) {
+          int32_t fieldValue = [inProtocol readI32];
+          [self setCreatorId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 28:
+        if (fieldType == TType_I32) {
+          int32_t fieldValue = [inProtocol readI32];
+          [self setLastEditorId: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -7072,6 +7144,16 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
       [outProtocol writeFieldEnd];
     }
   }
+  if (__creatorId_isset) {
+    [outProtocol writeFieldBeginWithName: @"creatorId" type: TType_I32 fieldID: 27];
+    [outProtocol writeI32: __creatorId];
+    [outProtocol writeFieldEnd];
+  }
+  if (__lastEditorId_isset) {
+    [outProtocol writeFieldBeginWithName: @"lastEditorId" type: TType_I32 fieldID: 28];
+    [outProtocol writeI32: __lastEditorId];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -7112,6 +7194,10 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   [ms appendFormat: @"\"%@\"", __lastEditedBy];
   [ms appendString: @",classifications:"];
   [ms appendFormat: @"%@", __classifications];
+  [ms appendString: @",creatorId:"];
+  [ms appendFormat: @"%i", __creatorId];
+  [ms appendString: @",lastEditorId:"];
+  [ms appendFormat: @"%i", __lastEditorId];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -8968,6 +9054,161 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
 
 @end
 
+@implementation EDAMSharedNotebookRecipientSettings
+
+- (id) init
+{
+  self = [super init];
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+#endif
+  return self;
+}
+
+- (id) initWithReminderNotifyEmail: (BOOL) reminderNotifyEmail reminderNotifyInApp: (BOOL) reminderNotifyInApp
+{
+  self = [super init];
+  __reminderNotifyEmail = reminderNotifyEmail;
+  __reminderNotifyEmail_isset = YES;
+  __reminderNotifyInApp = reminderNotifyInApp;
+  __reminderNotifyInApp_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"reminderNotifyEmail"])
+  {
+    __reminderNotifyEmail = [decoder decodeBoolForKey: @"reminderNotifyEmail"];
+    __reminderNotifyEmail_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"reminderNotifyInApp"])
+  {
+    __reminderNotifyInApp = [decoder decodeBoolForKey: @"reminderNotifyInApp"];
+    __reminderNotifyInApp_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__reminderNotifyEmail_isset)
+  {
+    [encoder encodeBool: __reminderNotifyEmail forKey: @"reminderNotifyEmail"];
+  }
+  if (__reminderNotifyInApp_isset)
+  {
+    [encoder encodeBool: __reminderNotifyInApp forKey: @"reminderNotifyInApp"];
+  }
+}
+
+- (void) dealloc
+{
+  [super dealloc_stub];
+}
+
+- (BOOL) reminderNotifyEmail {
+  return __reminderNotifyEmail;
+}
+
+- (void) setReminderNotifyEmail: (BOOL) reminderNotifyEmail {
+  __reminderNotifyEmail = reminderNotifyEmail;
+  __reminderNotifyEmail_isset = YES;
+}
+
+- (BOOL) reminderNotifyEmailIsSet {
+  return __reminderNotifyEmail_isset;
+}
+
+- (void) unsetReminderNotifyEmail {
+  __reminderNotifyEmail_isset = NO;
+}
+
+- (BOOL) reminderNotifyInApp {
+  return __reminderNotifyInApp;
+}
+
+- (void) setReminderNotifyInApp: (BOOL) reminderNotifyInApp {
+  __reminderNotifyInApp = reminderNotifyInApp;
+  __reminderNotifyInApp_isset = YES;
+}
+
+- (BOOL) reminderNotifyInAppIsSet {
+  return __reminderNotifyInApp_isset;
+}
+
+- (void) unsetReminderNotifyInApp {
+  __reminderNotifyInApp_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setReminderNotifyEmail: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setReminderNotifyInApp: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"SharedNotebookRecipientSettings"];
+  if (__reminderNotifyEmail_isset) {
+    [outProtocol writeFieldBeginWithName: @"reminderNotifyEmail" type: TType_BOOL fieldID: 1];
+    [outProtocol writeBool: __reminderNotifyEmail];
+    [outProtocol writeFieldEnd];
+  }
+  if (__reminderNotifyInApp_isset) {
+    [outProtocol writeFieldBeginWithName: @"reminderNotifyInApp" type: TType_BOOL fieldID: 2];
+    [outProtocol writeBool: __reminderNotifyInApp];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"SharedNotebookRecipientSettings("];
+  [ms appendString: @"reminderNotifyEmail:"];
+  [ms appendFormat: @"%i", __reminderNotifyEmail];
+  [ms appendString: @",reminderNotifyInApp:"];
+  [ms appendFormat: @"%i", __reminderNotifyInApp];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
 @implementation EDAMSharedNotebook
 
 - (id) init
@@ -8978,7 +9219,7 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   return self;
 }
 
-- (id) initWithId: (int64_t) id userId: (int32_t) userId notebookGuid: (NSString *) notebookGuid email: (NSString *) email notebookModifiable: (BOOL) notebookModifiable requireLogin: (BOOL) requireLogin serviceCreated: (EDAMTimestamp) serviceCreated serviceUpdated: (EDAMTimestamp) serviceUpdated shareKey: (NSString *) shareKey username: (NSString *) username privilege: (int) privilege allowPreview: (BOOL) allowPreview
+- (id) initWithId: (int64_t) id userId: (int32_t) userId notebookGuid: (NSString *) notebookGuid email: (NSString *) email notebookModifiable: (BOOL) notebookModifiable requireLogin: (BOOL) requireLogin serviceCreated: (EDAMTimestamp) serviceCreated serviceUpdated: (EDAMTimestamp) serviceUpdated shareKey: (NSString *) shareKey username: (NSString *) username privilege: (int) privilege allowPreview: (BOOL) allowPreview recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings
 {
   self = [super init];
   __id = id;
@@ -9005,6 +9246,8 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   __privilege_isset = YES;
   __allowPreview = allowPreview;
   __allowPreview_isset = YES;
+  __recipientSettings = [recipientSettings retain_stub];
+  __recipientSettings_isset = YES;
   return self;
 }
 
@@ -9071,6 +9314,11 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
     __allowPreview = [decoder decodeBoolForKey: @"allowPreview"];
     __allowPreview_isset = YES;
   }
+  if ([decoder containsValueForKey: @"recipientSettings"])
+  {
+    __recipientSettings = [[decoder decodeObjectForKey: @"recipientSettings"] retain_stub];
+    __recipientSettings_isset = YES;
+  }
   return self;
 }
 
@@ -9124,6 +9372,10 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   {
     [encoder encodeBool: __allowPreview forKey: @"allowPreview"];
   }
+  if (__recipientSettings_isset)
+  {
+    [encoder encodeObject: __recipientSettings forKey: @"recipientSettings"];
+  }
 }
 
 - (void) dealloc
@@ -9132,6 +9384,7 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   [__email release_stub];
   [__shareKey release_stub];
   [__username release_stub];
+  [__recipientSettings release_stub];
   [super dealloc_stub];
 }
 
@@ -9355,6 +9608,27 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   __allowPreview_isset = NO;
 }
 
+- (EDAMSharedNotebookRecipientSettings *) recipientSettings {
+  return [[__recipientSettings retain_stub] autorelease_stub];
+}
+
+- (void) setRecipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings {
+  [recipientSettings retain_stub];
+  [__recipientSettings release_stub];
+  __recipientSettings = recipientSettings;
+  __recipientSettings_isset = YES;
+}
+
+- (BOOL) recipientSettingsIsSet {
+  return __recipientSettings_isset;
+}
+
+- (void) unsetRecipientSettings {
+  [__recipientSettings release_stub];
+  __recipientSettings = nil;
+  __recipientSettings_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -9466,6 +9740,16 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 13:
+        if (fieldType == TType_STRUCT) {
+          EDAMSharedNotebookRecipientSettings *fieldValue = [[EDAMSharedNotebookRecipientSettings alloc] init];
+          [fieldValue read: inProtocol];
+          [self setRecipientSettings: fieldValue];
+          [fieldValue release_stub];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -9545,6 +9829,13 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
     [outProtocol writeBool: __allowPreview];
     [outProtocol writeFieldEnd];
   }
+  if (__recipientSettings_isset) {
+    if (__recipientSettings != nil) {
+      [outProtocol writeFieldBeginWithName: @"recipientSettings" type: TType_STRUCT fieldID: 13];
+      [__recipientSettings write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -9575,6 +9866,8 @@ static NSString * EDAMEDAM_NOTE_SOURCE_MAIL_SMTP_GATEWAY = @"mail.smtp";
   [ms appendFormat: @"%i", __privilege];
   [ms appendString: @",allowPreview:"];
   [ms appendFormat: @"%i", __allowPreview];
+  [ms appendString: @",recipientSettings:"];
+  [ms appendFormat: @"%@", __recipientSettings];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
