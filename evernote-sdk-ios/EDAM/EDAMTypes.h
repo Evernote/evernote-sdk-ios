@@ -1302,6 +1302,8 @@ typedef int64_t EDAMTimestamp;
   EDAMLazyMap * __applicationData;
   NSString * __lastEditedBy;
   NSMutableDictionary * __classifications;
+  EDAMUserID __creatorId;
+  EDAMUserID __lastEditorId;
 
   BOOL __subjectDate_isset;
   BOOL __latitude_isset;
@@ -1320,6 +1322,8 @@ typedef int64_t EDAMTimestamp;
   BOOL __applicationData_isset;
   BOOL __lastEditedBy_isset;
   BOOL __classifications_isset;
+  BOOL __creatorId_isset;
+  BOOL __lastEditorId_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -1340,10 +1344,12 @@ typedef int64_t EDAMTimestamp;
 @property (nonatomic, retain, getter=applicationData, setter=setApplicationData:) EDAMLazyMap * applicationData;
 @property (nonatomic, retain, getter=lastEditedBy, setter=setLastEditedBy:) NSString * lastEditedBy;
 @property (nonatomic, retain, getter=classifications, setter=setClassifications:) NSMutableDictionary * classifications;
+@property (nonatomic, getter=creatorId, setter=setCreatorId:) EDAMUserID creatorId;
+@property (nonatomic, getter=lastEditorId, setter=setLastEditorId:) EDAMUserID lastEditorId;
 #endif
 
 - (id) init;
-- (id) initWithSubjectDate: (EDAMTimestamp) subjectDate latitude: (double) latitude longitude: (double) longitude altitude: (double) altitude author: (NSString *) author source: (NSString *) source sourceURL: (NSString *) sourceURL sourceApplication: (NSString *) sourceApplication shareDate: (EDAMTimestamp) shareDate reminderOrder: (int64_t) reminderOrder reminderDoneTime: (EDAMTimestamp) reminderDoneTime reminderTime: (EDAMTimestamp) reminderTime placeName: (NSString *) placeName contentClass: (NSString *) contentClass applicationData: (EDAMLazyMap *) applicationData lastEditedBy: (NSString *) lastEditedBy classifications: (NSMutableDictionary *) classifications;
+- (id) initWithSubjectDate: (EDAMTimestamp) subjectDate latitude: (double) latitude longitude: (double) longitude altitude: (double) altitude author: (NSString *) author source: (NSString *) source sourceURL: (NSString *) sourceURL sourceApplication: (NSString *) sourceApplication shareDate: (EDAMTimestamp) shareDate reminderOrder: (int64_t) reminderOrder reminderDoneTime: (EDAMTimestamp) reminderDoneTime reminderTime: (EDAMTimestamp) reminderTime placeName: (NSString *) placeName contentClass: (NSString *) contentClass applicationData: (EDAMLazyMap *) applicationData lastEditedBy: (NSString *) lastEditedBy classifications: (NSMutableDictionary *) classifications creatorId: (EDAMUserID) creatorId lastEditorId: (EDAMUserID) lastEditorId;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1449,6 +1455,18 @@ typedef int64_t EDAMTimestamp;
 - (void) setClassifications: (NSMutableDictionary *) classifications;
 #endif
 - (BOOL) classificationsIsSet;
+
+#if !__has_feature(objc_arc)
+- (EDAMUserID) creatorId;
+- (void) setCreatorId: (EDAMUserID) creatorId;
+#endif
+- (BOOL) creatorIdIsSet;
+
+#if !__has_feature(objc_arc)
+- (EDAMUserID) lastEditorId;
+- (void) setLastEditorId: (EDAMUserID) lastEditorId;
+#endif
+- (BOOL) lastEditorIdIsSet;
 
 @end
 
@@ -1806,6 +1824,39 @@ typedef int64_t EDAMTimestamp;
 
 @end
 
+@interface EDAMSharedNotebookRecipientSettings : NSObject <NSCoding> {
+  BOOL __reminderNotifyEmail;
+  BOOL __reminderNotifyInApp;
+
+  BOOL __reminderNotifyEmail_isset;
+  BOOL __reminderNotifyInApp_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, getter=reminderNotifyEmail, setter=setReminderNotifyEmail:) BOOL reminderNotifyEmail;
+@property (nonatomic, getter=reminderNotifyInApp, setter=setReminderNotifyInApp:) BOOL reminderNotifyInApp;
+#endif
+
+- (id) init;
+- (id) initWithReminderNotifyEmail: (BOOL) reminderNotifyEmail reminderNotifyInApp: (BOOL) reminderNotifyInApp;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if !__has_feature(objc_arc)
+- (BOOL) reminderNotifyEmail;
+- (void) setReminderNotifyEmail: (BOOL) reminderNotifyEmail;
+#endif
+- (BOOL) reminderNotifyEmailIsSet;
+
+#if !__has_feature(objc_arc)
+- (BOOL) reminderNotifyInApp;
+- (void) setReminderNotifyInApp: (BOOL) reminderNotifyInApp;
+#endif
+- (BOOL) reminderNotifyInAppIsSet;
+
+@end
+
 @interface EDAMSharedNotebook : NSObject <NSCoding> {
   int64_t __id;
   int32_t __userId;
@@ -1819,6 +1870,7 @@ typedef int64_t EDAMTimestamp;
   NSString * __username;
   int __privilege;
   BOOL __allowPreview;
+  EDAMSharedNotebookRecipientSettings * __recipientSettings;
 
   BOOL __id_isset;
   BOOL __userId_isset;
@@ -1832,6 +1884,7 @@ typedef int64_t EDAMTimestamp;
   BOOL __username_isset;
   BOOL __privilege_isset;
   BOOL __allowPreview_isset;
+  BOOL __recipientSettings_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -1847,10 +1900,11 @@ typedef int64_t EDAMTimestamp;
 @property (nonatomic, retain, getter=username, setter=setUsername:) NSString * username;
 @property (nonatomic, getter=privilege, setter=setPrivilege:) int privilege;
 @property (nonatomic, getter=allowPreview, setter=setAllowPreview:) BOOL allowPreview;
+@property (nonatomic, retain, getter=recipientSettings, setter=setRecipientSettings:) EDAMSharedNotebookRecipientSettings * recipientSettings;
 #endif
 
 - (id) init;
-- (id) initWithId: (int64_t) id userId: (int32_t) userId notebookGuid: (NSString *) notebookGuid email: (NSString *) email notebookModifiable: (BOOL) notebookModifiable requireLogin: (BOOL) requireLogin serviceCreated: (EDAMTimestamp) serviceCreated serviceUpdated: (EDAMTimestamp) serviceUpdated shareKey: (NSString *) shareKey username: (NSString *) username privilege: (int) privilege allowPreview: (BOOL) allowPreview;
+- (id) initWithId: (int64_t) id userId: (int32_t) userId notebookGuid: (NSString *) notebookGuid email: (NSString *) email notebookModifiable: (BOOL) notebookModifiable requireLogin: (BOOL) requireLogin serviceCreated: (EDAMTimestamp) serviceCreated serviceUpdated: (EDAMTimestamp) serviceUpdated shareKey: (NSString *) shareKey username: (NSString *) username privilege: (int) privilege allowPreview: (BOOL) allowPreview recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -1926,6 +1980,12 @@ typedef int64_t EDAMTimestamp;
 - (void) setAllowPreview: (BOOL) allowPreview;
 #endif
 - (BOOL) allowPreviewIsSet;
+
+#if !__has_feature(objc_arc)
+- (EDAMSharedNotebookRecipientSettings *) recipientSettings;
+- (void) setRecipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings;
+#endif
+- (BOOL) recipientSettingsIsSet;
 
 @end
 

@@ -194,7 +194,7 @@
 }
 
 - (void)setDownloadProgressBlock:(void (^)(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead))block {
-    [self setDownloadProgressBlock:block];
+    [self setDownloadBlock:block];
 }
 
 + (NSString *)createClientVersionString

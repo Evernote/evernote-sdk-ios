@@ -788,11 +788,12 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 
 - (void)authenticateToSharedNoteWithGuid:(NSString *)guid 
                                  noteKey:(NSString *)noteKey
+                     authenticationToken:(NSString*)authenticationToken
                                  success:(void(^)(EDAMAuthenticationResult *result))success
                                  failure:(void(^)(NSError *error))failure
 {
      [self invokeAsyncIdBlock:^id {
-        return [[self currentNoteStore] authenticateToSharedNote:[self authenticationToken] noteKey:noteKey];
+        return [[self currentNoteStore] authenticateToSharedNote:guid noteKey:noteKey authenticationToken:authenticationToken];
     } success:success failure:failure];
 }
 
@@ -802,6 +803,15 @@ withResourcesAlternateData:(BOOL)withResourcesAlternateData
 {
     [self invokeAsyncInt32Block:^int32_t {
         return [[self currentNoteStore] updateSharedNotebook:[self authenticationToken] sharedNotebook:sharedNotebook];
+    } success:success failure:failure];
+}
+
+- (void) setSharedNotebookRecipientSettingsWithSharedNotebookId: (int64_t) sharedNotebookId
+                                              recipientSettings: (EDAMSharedNotebookRecipientSettings *) recipientSettings
+                                                        success:(void(^)(int32_t usn))success
+                                                        failure:(void(^)(NSError *error))failure {
+    [self invokeAsyncInt32Block:^int32_t{
+        return [[self currentNoteStore] setSharedNotebookRecipientSettings:[self authenticationToken] sharedNotebookId:sharedNotebookId recipientSettings:recipientSettings];
     } success:success failure:failure];
 }
 

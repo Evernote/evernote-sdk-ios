@@ -18,7 +18,7 @@
 #import "EDAMUserStore.h"
 
 static int16_t EDAMEDAM_VERSION_MAJOR = 1;
-static int16_t EDAMEDAM_VERSION_MINOR = 24;
+static int16_t EDAMEDAM_VERSION_MINOR = 25;
 
 @implementation EDAMUserStoreConstants
 + (void) initialize {
@@ -396,7 +396,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   return self;
 }
 
-- (id) initWithCurrentTime: (EDAMTimestamp) currentTime authenticationToken: (NSString *) authenticationToken expiration: (EDAMTimestamp) expiration user: (EDAMUser *) user publicUserInfo: (EDAMPublicUserInfo *) publicUserInfo noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix
+- (id) initWithCurrentTime: (EDAMTimestamp) currentTime authenticationToken: (NSString *) authenticationToken expiration: (EDAMTimestamp) expiration user: (EDAMUser *) user publicUserInfo: (EDAMPublicUserInfo *) publicUserInfo noteStoreUrl: (NSString *) noteStoreUrl webApiUrlPrefix: (NSString *) webApiUrlPrefix secondFactorRequired: (BOOL) secondFactorRequired secondFactorDeliveryHint: (NSString *) secondFactorDeliveryHint
 {
   self = [super init];
   __currentTime = currentTime;
@@ -413,6 +413,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __noteStoreUrl_isset = YES;
   __webApiUrlPrefix = [webApiUrlPrefix retain_stub];
   __webApiUrlPrefix_isset = YES;
+  __secondFactorRequired = secondFactorRequired;
+  __secondFactorRequired_isset = YES;
+  __secondFactorDeliveryHint = [secondFactorDeliveryHint retain_stub];
+  __secondFactorDeliveryHint_isset = YES;
   return self;
 }
 
@@ -454,6 +458,16 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     __webApiUrlPrefix = [[decoder decodeObjectForKey: @"webApiUrlPrefix"] retain_stub];
     __webApiUrlPrefix_isset = YES;
   }
+  if ([decoder containsValueForKey: @"secondFactorRequired"])
+  {
+    __secondFactorRequired = [decoder decodeBoolForKey: @"secondFactorRequired"];
+    __secondFactorRequired_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"secondFactorDeliveryHint"])
+  {
+    __secondFactorDeliveryHint = [[decoder decodeObjectForKey: @"secondFactorDeliveryHint"] retain_stub];
+    __secondFactorDeliveryHint_isset = YES;
+  }
   return self;
 }
 
@@ -487,6 +501,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   {
     [encoder encodeObject: __webApiUrlPrefix forKey: @"webApiUrlPrefix"];
   }
+  if (__secondFactorRequired_isset)
+  {
+    [encoder encodeBool: __secondFactorRequired forKey: @"secondFactorRequired"];
+  }
+  if (__secondFactorDeliveryHint_isset)
+  {
+    [encoder encodeObject: __secondFactorDeliveryHint forKey: @"secondFactorDeliveryHint"];
+  }
 }
 
 - (void) dealloc
@@ -496,6 +518,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [__publicUserInfo release_stub];
   [__noteStoreUrl release_stub];
   [__webApiUrlPrefix release_stub];
+  [__secondFactorDeliveryHint release_stub];
   [super dealloc_stub];
 }
 
@@ -638,6 +661,44 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __webApiUrlPrefix_isset = NO;
 }
 
+- (BOOL) secondFactorRequired {
+  return __secondFactorRequired;
+}
+
+- (void) setSecondFactorRequired: (BOOL) secondFactorRequired {
+  __secondFactorRequired = secondFactorRequired;
+  __secondFactorRequired_isset = YES;
+}
+
+- (BOOL) secondFactorRequiredIsSet {
+  return __secondFactorRequired_isset;
+}
+
+- (void) unsetSecondFactorRequired {
+  __secondFactorRequired_isset = NO;
+}
+
+- (NSString *) secondFactorDeliveryHint {
+  return [[__secondFactorDeliveryHint retain_stub] autorelease_stub];
+}
+
+- (void) setSecondFactorDeliveryHint: (NSString *) secondFactorDeliveryHint {
+  [secondFactorDeliveryHint retain_stub];
+  [__secondFactorDeliveryHint release_stub];
+  __secondFactorDeliveryHint = secondFactorDeliveryHint;
+  __secondFactorDeliveryHint_isset = YES;
+}
+
+- (BOOL) secondFactorDeliveryHintIsSet {
+  return __secondFactorDeliveryHint_isset;
+}
+
+- (void) unsetSecondFactorDeliveryHint {
+  [__secondFactorDeliveryHint release_stub];
+  __secondFactorDeliveryHint = nil;
+  __secondFactorDeliveryHint_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -713,6 +774,22 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 8:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setSecondFactorRequired: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 9:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setSecondFactorDeliveryHint: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -769,6 +846,18 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
       [outProtocol writeFieldEnd];
     }
   }
+  if (__secondFactorRequired_isset) {
+    [outProtocol writeFieldBeginWithName: @"secondFactorRequired" type: TType_BOOL fieldID: 8];
+    [outProtocol writeBool: __secondFactorRequired];
+    [outProtocol writeFieldEnd];
+  }
+  if (__secondFactorDeliveryHint_isset) {
+    if (__secondFactorDeliveryHint != nil) {
+      [outProtocol writeFieldBeginWithName: @"secondFactorDeliveryHint" type: TType_STRING fieldID: 9];
+      [outProtocol writeString: __secondFactorDeliveryHint];
+      [outProtocol writeFieldEnd];
+    }
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -789,6 +878,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [ms appendFormat: @"\"%@\"", __noteStoreUrl];
   [ms appendString: @",webApiUrlPrefix:"];
   [ms appendFormat: @"\"%@\"", __webApiUrlPrefix];
+  [ms appendString: @",secondFactorRequired:"];
+  [ms appendFormat: @"%i", __secondFactorRequired];
+  [ms appendString: @",secondFactorDeliveryHint:"];
+  [ms appendFormat: @"\"%@\"", __secondFactorDeliveryHint];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -1811,7 +1904,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
   self.edamVersionMajor = 1;
 
-  self.edamVersionMinor = 24;
+  self.edamVersionMinor = 25;
 
 #endif
   return self;
@@ -2443,11 +2536,13 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   NSString * __password;
   NSString * __consumerKey;
   NSString * __consumerSecret;
+  BOOL __supportsTwoFactor;
 
   BOOL __username_isset;
   BOOL __password_isset;
   BOOL __consumerKey_isset;
   BOOL __consumerSecret_isset;
+  BOOL __supportsTwoFactor_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -2455,10 +2550,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 @property (nonatomic, retain, getter=password, setter=setPassword:) NSString * password;
 @property (nonatomic, retain, getter=consumerKey, setter=setConsumerKey:) NSString * consumerKey;
 @property (nonatomic, retain, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
+@property (nonatomic, getter=supportsTwoFactor, setter=setSupportsTwoFactor:) BOOL supportsTwoFactor;
 #endif
 
 - (id) init;
-- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret;
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret supportsTwoFactor: (BOOL) supportsTwoFactor;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -2487,6 +2583,12 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 #endif
 - (BOOL) consumerSecretIsSet;
 
+#if !__has_feature(objc_arc)
+- (BOOL) supportsTwoFactor;
+- (void) setSupportsTwoFactor: (BOOL) supportsTwoFactor;
+#endif
+- (BOOL) supportsTwoFactorIsSet;
+
 @end
 
 @implementation EDAMauthenticate_args
@@ -2499,7 +2601,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   return self;
 }
 
-- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret supportsTwoFactor: (BOOL) supportsTwoFactor
 {
   self = [super init];
   __username = [username retain_stub];
@@ -2510,6 +2612,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __consumerKey_isset = YES;
   __consumerSecret = [consumerSecret retain_stub];
   __consumerSecret_isset = YES;
+  __supportsTwoFactor = supportsTwoFactor;
+  __supportsTwoFactor_isset = YES;
   return self;
 }
 
@@ -2536,6 +2640,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     __consumerSecret = [[decoder decodeObjectForKey: @"consumerSecret"] retain_stub];
     __consumerSecret_isset = YES;
   }
+  if ([decoder containsValueForKey: @"supportsTwoFactor"])
+  {
+    __supportsTwoFactor = [decoder decodeBoolForKey: @"supportsTwoFactor"];
+    __supportsTwoFactor_isset = YES;
+  }
   return self;
 }
 
@@ -2556,6 +2665,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   if (__consumerSecret_isset)
   {
     [encoder encodeObject: __consumerSecret forKey: @"consumerSecret"];
+  }
+  if (__supportsTwoFactor_isset)
+  {
+    [encoder encodeBool: __supportsTwoFactor forKey: @"supportsTwoFactor"];
   }
 }
 
@@ -2652,6 +2765,23 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __consumerSecret_isset = NO;
 }
 
+- (BOOL) supportsTwoFactor {
+  return __supportsTwoFactor;
+}
+
+- (void) setSupportsTwoFactor: (BOOL) supportsTwoFactor {
+  __supportsTwoFactor = supportsTwoFactor;
+  __supportsTwoFactor_isset = YES;
+}
+
+- (BOOL) supportsTwoFactorIsSet {
+  return __supportsTwoFactor_isset;
+}
+
+- (void) unsetSupportsTwoFactor {
+  __supportsTwoFactor_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -2699,6 +2829,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 5:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setSupportsTwoFactor: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -2738,6 +2876,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
       [outProtocol writeFieldEnd];
     }
   }
+  if (__supportsTwoFactor_isset) {
+    [outProtocol writeFieldBeginWithName: @"supportsTwoFactor" type: TType_BOOL fieldID: 5];
+    [outProtocol writeBool: __supportsTwoFactor];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -2752,6 +2895,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [ms appendFormat: @"\"%@\"", __consumerKey];
   [ms appendString: @",consumerSecret:"];
   [ms appendFormat: @"\"%@\"", __consumerSecret];
+  [ms appendString: @",supportsTwoFactor:"];
+  [ms appendFormat: @"%i", __supportsTwoFactor];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -3031,6 +3176,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   NSString * __consumerSecret;
   NSString * __deviceIdentifier;
   NSString * __deviceDescription;
+  BOOL __supportsTwoFactor;
 
   BOOL __username_isset;
   BOOL __password_isset;
@@ -3038,6 +3184,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   BOOL __consumerSecret_isset;
   BOOL __deviceIdentifier_isset;
   BOOL __deviceDescription_isset;
+  BOOL __supportsTwoFactor_isset;
 }
 
 #if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
@@ -3047,10 +3194,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 @property (nonatomic, retain, getter=consumerSecret, setter=setConsumerSecret:) NSString * consumerSecret;
 @property (nonatomic, retain, getter=deviceIdentifier, setter=setDeviceIdentifier:) NSString * deviceIdentifier;
 @property (nonatomic, retain, getter=deviceDescription, setter=setDeviceDescription:) NSString * deviceDescription;
+@property (nonatomic, getter=supportsTwoFactor, setter=setSupportsTwoFactor:) BOOL supportsTwoFactor;
 #endif
 
 - (id) init;
-- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription;
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription supportsTwoFactor: (BOOL) supportsTwoFactor;
 
 - (void) read: (id <TProtocol>) inProtocol;
 - (void) write: (id <TProtocol>) outProtocol;
@@ -3091,6 +3239,12 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 #endif
 - (BOOL) deviceDescriptionIsSet;
 
+#if !__has_feature(objc_arc)
+- (BOOL) supportsTwoFactor;
+- (void) setSupportsTwoFactor: (BOOL) supportsTwoFactor;
+#endif
+- (BOOL) supportsTwoFactorIsSet;
+
 @end
 
 @implementation EDAMauthenticateLongSession_args
@@ -3103,7 +3257,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   return self;
 }
 
-- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+- (id) initWithUsername: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription supportsTwoFactor: (BOOL) supportsTwoFactor
 {
   self = [super init];
   __username = [username retain_stub];
@@ -3118,6 +3272,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __deviceIdentifier_isset = YES;
   __deviceDescription = [deviceDescription retain_stub];
   __deviceDescription_isset = YES;
+  __supportsTwoFactor = supportsTwoFactor;
+  __supportsTwoFactor_isset = YES;
   return self;
 }
 
@@ -3154,6 +3310,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     __deviceDescription = [[decoder decodeObjectForKey: @"deviceDescription"] retain_stub];
     __deviceDescription_isset = YES;
   }
+  if ([decoder containsValueForKey: @"supportsTwoFactor"])
+  {
+    __supportsTwoFactor = [decoder decodeBoolForKey: @"supportsTwoFactor"];
+    __supportsTwoFactor_isset = YES;
+  }
   return self;
 }
 
@@ -3182,6 +3343,10 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   if (__deviceDescription_isset)
   {
     [encoder encodeObject: __deviceDescription forKey: @"deviceDescription"];
+  }
+  if (__supportsTwoFactor_isset)
+  {
+    [encoder encodeBool: __supportsTwoFactor forKey: @"supportsTwoFactor"];
   }
 }
 
@@ -3322,6 +3487,23 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   __deviceDescription_isset = NO;
 }
 
+- (BOOL) supportsTwoFactor {
+  return __supportsTwoFactor;
+}
+
+- (void) setSupportsTwoFactor: (BOOL) supportsTwoFactor {
+  __supportsTwoFactor = supportsTwoFactor;
+  __supportsTwoFactor_isset = YES;
+}
+
+- (BOOL) supportsTwoFactorIsSet {
+  return __supportsTwoFactor_isset;
+}
+
+- (void) unsetSupportsTwoFactor {
+  __supportsTwoFactor_isset = NO;
+}
+
 - (void) read: (id <TProtocol>) inProtocol
 {
   NSString * fieldName;
@@ -3385,6 +3567,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
           [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         }
         break;
+      case 7:
+        if (fieldType == TType_BOOL) {
+          BOOL fieldValue = [inProtocol readBool];
+          [self setSupportsTwoFactor: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
       default:
         [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
         break;
@@ -3438,6 +3628,11 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
       [outProtocol writeFieldEnd];
     }
   }
+  if (__supportsTwoFactor_isset) {
+    [outProtocol writeFieldBeginWithName: @"supportsTwoFactor" type: TType_BOOL fieldID: 7];
+    [outProtocol writeBool: __supportsTwoFactor];
+    [outProtocol writeFieldEnd];
+  }
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
 }
@@ -3456,6 +3651,8 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [ms appendFormat: @"\"%@\"", __deviceIdentifier];
   [ms appendString: @",deviceDescription:"];
   [ms appendFormat: @"\"%@\"", __deviceDescription];
+  [ms appendString: @",supportsTwoFactor:"];
+  [ms appendFormat: @"%i", __supportsTwoFactor];
   [ms appendString: @")"];
   return [NSString stringWithString: ms];
 }
@@ -3716,6 +3913,592 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
 
 - (NSString *) description {
   NSMutableString * ms = [NSMutableString stringWithString: @"AuthenticateLongSession_result("];
+  [ms appendString: @"success:"];
+  [ms appendFormat: @"%@", __success];
+  [ms appendString: @",userException:"];
+  [ms appendFormat: @"%@", __userException];
+  [ms appendString: @",systemException:"];
+  [ms appendFormat: @"%@", __systemException];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMcompleteTwoFactorAuthentication_args : NSObject <NSCoding> {
+  NSString * __authenticationToken;
+  NSString * __oneTimeCode;
+  NSString * __deviceIdentifier;
+  NSString * __deviceDescription;
+
+  BOOL __authenticationToken_isset;
+  BOOL __oneTimeCode_isset;
+  BOOL __deviceIdentifier_isset;
+  BOOL __deviceDescription_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=authenticationToken, setter=setAuthenticationToken:) NSString * authenticationToken;
+@property (nonatomic, retain, getter=oneTimeCode, setter=setOneTimeCode:) NSString * oneTimeCode;
+@property (nonatomic, retain, getter=deviceIdentifier, setter=setDeviceIdentifier:) NSString * deviceIdentifier;
+@property (nonatomic, retain, getter=deviceDescription, setter=setDeviceDescription:) NSString * deviceDescription;
+#endif
+
+- (id) init;
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken oneTimeCode: (NSString *) oneTimeCode deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if !__has_feature(objc_arc)
+- (NSString *) authenticationToken;
+- (void) setAuthenticationToken: (NSString *) authenticationToken;
+#endif
+- (BOOL) authenticationTokenIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) oneTimeCode;
+- (void) setOneTimeCode: (NSString *) oneTimeCode;
+#endif
+- (BOOL) oneTimeCodeIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) deviceIdentifier;
+- (void) setDeviceIdentifier: (NSString *) deviceIdentifier;
+#endif
+- (BOOL) deviceIdentifierIsSet;
+
+#if !__has_feature(objc_arc)
+- (NSString *) deviceDescription;
+- (void) setDeviceDescription: (NSString *) deviceDescription;
+#endif
+- (BOOL) deviceDescriptionIsSet;
+
+@end
+
+@implementation EDAMcompleteTwoFactorAuthentication_args
+
+- (id) init
+{
+  self = [super init];
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+#endif
+  return self;
+}
+
+- (id) initWithAuthenticationToken: (NSString *) authenticationToken oneTimeCode: (NSString *) oneTimeCode deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+{
+  self = [super init];
+  __authenticationToken = [authenticationToken retain_stub];
+  __authenticationToken_isset = YES;
+  __oneTimeCode = [oneTimeCode retain_stub];
+  __oneTimeCode_isset = YES;
+  __deviceIdentifier = [deviceIdentifier retain_stub];
+  __deviceIdentifier_isset = YES;
+  __deviceDescription = [deviceDescription retain_stub];
+  __deviceDescription_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"authenticationToken"])
+  {
+    __authenticationToken = [[decoder decodeObjectForKey: @"authenticationToken"] retain_stub];
+    __authenticationToken_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"oneTimeCode"])
+  {
+    __oneTimeCode = [[decoder decodeObjectForKey: @"oneTimeCode"] retain_stub];
+    __oneTimeCode_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"deviceIdentifier"])
+  {
+    __deviceIdentifier = [[decoder decodeObjectForKey: @"deviceIdentifier"] retain_stub];
+    __deviceIdentifier_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"deviceDescription"])
+  {
+    __deviceDescription = [[decoder decodeObjectForKey: @"deviceDescription"] retain_stub];
+    __deviceDescription_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__authenticationToken_isset)
+  {
+    [encoder encodeObject: __authenticationToken forKey: @"authenticationToken"];
+  }
+  if (__oneTimeCode_isset)
+  {
+    [encoder encodeObject: __oneTimeCode forKey: @"oneTimeCode"];
+  }
+  if (__deviceIdentifier_isset)
+  {
+    [encoder encodeObject: __deviceIdentifier forKey: @"deviceIdentifier"];
+  }
+  if (__deviceDescription_isset)
+  {
+    [encoder encodeObject: __deviceDescription forKey: @"deviceDescription"];
+  }
+}
+
+- (void) dealloc
+{
+  [__authenticationToken release_stub];
+  [__oneTimeCode release_stub];
+  [__deviceIdentifier release_stub];
+  [__deviceDescription release_stub];
+  [super dealloc_stub];
+}
+
+- (NSString *) authenticationToken {
+  return [[__authenticationToken retain_stub] autorelease_stub];
+}
+
+- (void) setAuthenticationToken: (NSString *) authenticationToken {
+  [authenticationToken retain_stub];
+  [__authenticationToken release_stub];
+  __authenticationToken = authenticationToken;
+  __authenticationToken_isset = YES;
+}
+
+- (BOOL) authenticationTokenIsSet {
+  return __authenticationToken_isset;
+}
+
+- (void) unsetAuthenticationToken {
+  [__authenticationToken release_stub];
+  __authenticationToken = nil;
+  __authenticationToken_isset = NO;
+}
+
+- (NSString *) oneTimeCode {
+  return [[__oneTimeCode retain_stub] autorelease_stub];
+}
+
+- (void) setOneTimeCode: (NSString *) oneTimeCode {
+  [oneTimeCode retain_stub];
+  [__oneTimeCode release_stub];
+  __oneTimeCode = oneTimeCode;
+  __oneTimeCode_isset = YES;
+}
+
+- (BOOL) oneTimeCodeIsSet {
+  return __oneTimeCode_isset;
+}
+
+- (void) unsetOneTimeCode {
+  [__oneTimeCode release_stub];
+  __oneTimeCode = nil;
+  __oneTimeCode_isset = NO;
+}
+
+- (NSString *) deviceIdentifier {
+  return [[__deviceIdentifier retain_stub] autorelease_stub];
+}
+
+- (void) setDeviceIdentifier: (NSString *) deviceIdentifier {
+  [deviceIdentifier retain_stub];
+  [__deviceIdentifier release_stub];
+  __deviceIdentifier = deviceIdentifier;
+  __deviceIdentifier_isset = YES;
+}
+
+- (BOOL) deviceIdentifierIsSet {
+  return __deviceIdentifier_isset;
+}
+
+- (void) unsetDeviceIdentifier {
+  [__deviceIdentifier release_stub];
+  __deviceIdentifier = nil;
+  __deviceIdentifier_isset = NO;
+}
+
+- (NSString *) deviceDescription {
+  return [[__deviceDescription retain_stub] autorelease_stub];
+}
+
+- (void) setDeviceDescription: (NSString *) deviceDescription {
+  [deviceDescription retain_stub];
+  [__deviceDescription release_stub];
+  __deviceDescription = deviceDescription;
+  __deviceDescription_isset = YES;
+}
+
+- (BOOL) deviceDescriptionIsSet {
+  return __deviceDescription_isset;
+}
+
+- (void) unsetDeviceDescription {
+  [__deviceDescription release_stub];
+  __deviceDescription = nil;
+  __deviceDescription_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 1:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setAuthenticationToken: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setOneTimeCode: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 3:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setDeviceIdentifier: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 4:
+        if (fieldType == TType_STRING) {
+          NSString * fieldValue = [inProtocol readString];
+          [self setDeviceDescription: fieldValue];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"completeTwoFactorAuthentication_args"];
+  if (__authenticationToken_isset) {
+    if (__authenticationToken != nil) {
+      [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+      [outProtocol writeString: __authenticationToken];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__oneTimeCode_isset) {
+    if (__oneTimeCode != nil) {
+      [outProtocol writeFieldBeginWithName: @"oneTimeCode" type: TType_STRING fieldID: 2];
+      [outProtocol writeString: __oneTimeCode];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__deviceIdentifier_isset) {
+    if (__deviceIdentifier != nil) {
+      [outProtocol writeFieldBeginWithName: @"deviceIdentifier" type: TType_STRING fieldID: 3];
+      [outProtocol writeString: __deviceIdentifier];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  if (__deviceDescription_isset) {
+    if (__deviceDescription != nil) {
+      [outProtocol writeFieldBeginWithName: @"deviceDescription" type: TType_STRING fieldID: 4];
+      [outProtocol writeString: __deviceDescription];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"completeTwoFactorAuthentication_args("];
+  [ms appendString: @"authenticationToken:"];
+  [ms appendFormat: @"\"%@\"", __authenticationToken];
+  [ms appendString: @",oneTimeCode:"];
+  [ms appendFormat: @"\"%@\"", __oneTimeCode];
+  [ms appendString: @",deviceIdentifier:"];
+  [ms appendFormat: @"\"%@\"", __deviceIdentifier];
+  [ms appendString: @",deviceDescription:"];
+  [ms appendFormat: @"\"%@\"", __deviceDescription];
+  [ms appendString: @")"];
+  return [NSString stringWithString: ms];
+}
+
+@end
+
+@interface EDAMCompleteTwoFactorAuthentication_result : NSObject <NSCoding> {
+  EDAMAuthenticationResult * __success;
+  EDAMUserException * __userException;
+  EDAMSystemException * __systemException;
+
+  BOOL __success_isset;
+  BOOL __userException_isset;
+  BOOL __systemException_isset;
+}
+
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+@property (nonatomic, retain, getter=success, setter=setSuccess:) EDAMAuthenticationResult * success;
+@property (nonatomic, retain, getter=userException, setter=setUserException:) EDAMUserException * userException;
+@property (nonatomic, retain, getter=systemException, setter=setSystemException:) EDAMSystemException * systemException;
+#endif
+
+- (id) init;
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException;
+
+- (void) read: (id <TProtocol>) inProtocol;
+- (void) write: (id <TProtocol>) outProtocol;
+
+#if !__has_feature(objc_arc)
+- (EDAMAuthenticationResult *) success;
+- (void) setSuccess: (EDAMAuthenticationResult *) success;
+#endif
+- (BOOL) successIsSet;
+
+#if !__has_feature(objc_arc)
+- (EDAMUserException *) userException;
+- (void) setUserException: (EDAMUserException *) userException;
+#endif
+- (BOOL) userExceptionIsSet;
+
+#if !__has_feature(objc_arc)
+- (EDAMSystemException *) systemException;
+- (void) setSystemException: (EDAMSystemException *) systemException;
+#endif
+- (BOOL) systemExceptionIsSet;
+
+@end
+
+@implementation EDAMCompleteTwoFactorAuthentication_result
+
+- (id) init
+{
+  self = [super init];
+#if TARGET_OS_IPHONE || (MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5)
+#endif
+  return self;
+}
+
+- (id) initWithSuccess: (EDAMAuthenticationResult *) success userException: (EDAMUserException *) userException systemException: (EDAMSystemException *) systemException
+{
+  self = [super init];
+  __success = [success retain_stub];
+  __success_isset = YES;
+  __userException = [userException retain_stub];
+  __userException_isset = YES;
+  __systemException = [systemException retain_stub];
+  __systemException_isset = YES;
+  return self;
+}
+
+- (id) initWithCoder: (NSCoder *) decoder
+{
+  self = [super init];
+  if ([decoder containsValueForKey: @"success"])
+  {
+    __success = [[decoder decodeObjectForKey: @"success"] retain_stub];
+    __success_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"userException"])
+  {
+    __userException = [[decoder decodeObjectForKey: @"userException"] retain_stub];
+    __userException_isset = YES;
+  }
+  if ([decoder containsValueForKey: @"systemException"])
+  {
+    __systemException = [[decoder decodeObjectForKey: @"systemException"] retain_stub];
+    __systemException_isset = YES;
+  }
+  return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *) encoder
+{
+  if (__success_isset)
+  {
+    [encoder encodeObject: __success forKey: @"success"];
+  }
+  if (__userException_isset)
+  {
+    [encoder encodeObject: __userException forKey: @"userException"];
+  }
+  if (__systemException_isset)
+  {
+    [encoder encodeObject: __systemException forKey: @"systemException"];
+  }
+}
+
+- (void) dealloc
+{
+  [__success release_stub];
+  [__userException release_stub];
+  [__systemException release_stub];
+  [super dealloc_stub];
+}
+
+- (EDAMAuthenticationResult *) success {
+  return [[__success retain_stub] autorelease_stub];
+}
+
+- (void) setSuccess: (EDAMAuthenticationResult *) success {
+  [success retain_stub];
+  [__success release_stub];
+  __success = success;
+  __success_isset = YES;
+}
+
+- (BOOL) successIsSet {
+  return __success_isset;
+}
+
+- (void) unsetSuccess {
+  [__success release_stub];
+  __success = nil;
+  __success_isset = NO;
+}
+
+- (EDAMUserException *) userException {
+  return [[__userException retain_stub] autorelease_stub];
+}
+
+- (void) setUserException: (EDAMUserException *) userException {
+  [userException retain_stub];
+  [__userException release_stub];
+  __userException = userException;
+  __userException_isset = YES;
+}
+
+- (BOOL) userExceptionIsSet {
+  return __userException_isset;
+}
+
+- (void) unsetUserException {
+  [__userException release_stub];
+  __userException = nil;
+  __userException_isset = NO;
+}
+
+- (EDAMSystemException *) systemException {
+  return [[__systemException retain_stub] autorelease_stub];
+}
+
+- (void) setSystemException: (EDAMSystemException *) systemException {
+  [systemException retain_stub];
+  [__systemException release_stub];
+  __systemException = systemException;
+  __systemException_isset = YES;
+}
+
+- (BOOL) systemExceptionIsSet {
+  return __systemException_isset;
+}
+
+- (void) unsetSystemException {
+  [__systemException release_stub];
+  __systemException = nil;
+  __systemException_isset = NO;
+}
+
+- (void) read: (id <TProtocol>) inProtocol
+{
+  NSString * fieldName;
+  int fieldType;
+  int fieldID;
+
+  [inProtocol readStructBeginReturningName: NULL];
+  while (true)
+  {
+    [inProtocol readFieldBeginReturningName: &fieldName type: &fieldType fieldID: &fieldID];
+    if (fieldType == TType_STOP) { 
+      break;
+    }
+    switch (fieldID)
+    {
+      case 0:
+        if (fieldType == TType_STRUCT) {
+          EDAMAuthenticationResult *fieldValue = [[EDAMAuthenticationResult alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSuccess: fieldValue];
+          [fieldValue release_stub];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 1:
+        if (fieldType == TType_STRUCT) {
+          EDAMUserException *fieldValue = [[EDAMUserException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setUserException: fieldValue];
+          [fieldValue release_stub];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      case 2:
+        if (fieldType == TType_STRUCT) {
+          EDAMSystemException *fieldValue = [[EDAMSystemException alloc] init];
+          [fieldValue read: inProtocol];
+          [self setSystemException: fieldValue];
+          [fieldValue release_stub];
+        } else { 
+          [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        }
+        break;
+      default:
+        [TProtocolUtil skipType: fieldType onProtocol: inProtocol];
+        break;
+    }
+    [inProtocol readFieldEnd];
+  }
+  [inProtocol readStructEnd];
+}
+
+- (void) write: (id <TProtocol>) outProtocol {
+  [outProtocol writeStructBeginWithName: @"CompleteTwoFactorAuthentication_result"];
+
+  if (__success_isset) {
+    if (__success != nil) {
+      [outProtocol writeFieldBeginWithName: @"success" type: TType_STRUCT fieldID: 0];
+      [__success write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__userException_isset) {
+    if (__userException != nil) {
+      [outProtocol writeFieldBeginWithName: @"userException" type: TType_STRUCT fieldID: 1];
+      [__userException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  } else if (__systemException_isset) {
+    if (__systemException != nil) {
+      [outProtocol writeFieldBeginWithName: @"systemException" type: TType_STRUCT fieldID: 2];
+      [__systemException write: outProtocol];
+      [outProtocol writeFieldEnd];
+    }
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+}
+
+- (NSString *) description {
+  NSMutableString * ms = [NSMutableString stringWithString: @"CompleteTwoFactorAuthentication_result("];
   [ms appendString: @"success:"];
   [ms appendFormat: @"%@", __success];
   [ms appendString: @",userException:"];
@@ -6696,7 +7479,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   return [self recv_getBootstrapInfo];
 }
 
-- (void) send_authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret
+- (void) send_authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret supportsTwoFactor: (BOOL) supportsTwoFactor
 {
   [outProtocol writeMessageBeginWithName: @"authenticate" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"authenticate_args"];
@@ -6720,6 +7503,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     [outProtocol writeString: consumerSecret];
     [outProtocol writeFieldEnd];
   }
+  [outProtocol writeFieldBeginWithName: @"supportsTwoFactor" type: TType_BOOL fieldID: 5];
+  [outProtocol writeBool: supportsTwoFactor];
+  [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
   [outProtocol writeMessageEnd];
@@ -6751,13 +7537,13 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
                                            reason: @"authenticate failed: unknown result"];
 }
 
-- (EDAMAuthenticationResult *) authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret
+- (EDAMAuthenticationResult *) authenticate: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret supportsTwoFactor: (BOOL) supportsTwoFactor
 {
-  [self send_authenticate : username password: password consumerKey: consumerKey consumerSecret: consumerSecret];
+  [self send_authenticate : username password: password consumerKey: consumerKey consumerSecret: consumerSecret supportsTwoFactor: supportsTwoFactor];
   return [self recv_authenticate];
 }
 
-- (void) send_authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+- (void) send_authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription supportsTwoFactor: (BOOL) supportsTwoFactor
 {
   [outProtocol writeMessageBeginWithName: @"authenticateLongSession" type: TMessageType_CALL sequenceID: 0];
   [outProtocol writeStructBeginWithName: @"authenticateLongSession_args"];
@@ -6791,6 +7577,9 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     [outProtocol writeString: deviceDescription];
     [outProtocol writeFieldEnd];
   }
+  [outProtocol writeFieldBeginWithName: @"supportsTwoFactor" type: TType_BOOL fieldID: 7];
+  [outProtocol writeBool: supportsTwoFactor];
+  [outProtocol writeFieldEnd];
   [outProtocol writeFieldStop];
   [outProtocol writeStructEnd];
   [outProtocol writeMessageEnd];
@@ -6822,10 +7611,71 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
                                            reason: @"authenticateLongSession failed: unknown result"];
 }
 
-- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+- (EDAMAuthenticationResult *) authenticateLongSession: (NSString *) username password: (NSString *) password consumerKey: (NSString *) consumerKey consumerSecret: (NSString *) consumerSecret deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription supportsTwoFactor: (BOOL) supportsTwoFactor
 {
-  [self send_authenticateLongSession : username password: password consumerKey: consumerKey consumerSecret: consumerSecret deviceIdentifier: deviceIdentifier deviceDescription: deviceDescription];
+  [self send_authenticateLongSession : username password: password consumerKey: consumerKey consumerSecret: consumerSecret deviceIdentifier: deviceIdentifier deviceDescription: deviceDescription supportsTwoFactor: supportsTwoFactor];
   return [self recv_authenticateLongSession];
+}
+
+- (void) send_completeTwoFactorAuthentication: (NSString *) authenticationToken oneTimeCode: (NSString *) oneTimeCode deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+{
+  [outProtocol writeMessageBeginWithName: @"completeTwoFactorAuthentication" type: TMessageType_CALL sequenceID: 0];
+  [outProtocol writeStructBeginWithName: @"completeTwoFactorAuthentication_args"];
+  if (authenticationToken != nil)  {
+    [outProtocol writeFieldBeginWithName: @"authenticationToken" type: TType_STRING fieldID: 1];
+    [outProtocol writeString: authenticationToken];
+    [outProtocol writeFieldEnd];
+  }
+  if (oneTimeCode != nil)  {
+    [outProtocol writeFieldBeginWithName: @"oneTimeCode" type: TType_STRING fieldID: 2];
+    [outProtocol writeString: oneTimeCode];
+    [outProtocol writeFieldEnd];
+  }
+  if (deviceIdentifier != nil)  {
+    [outProtocol writeFieldBeginWithName: @"deviceIdentifier" type: TType_STRING fieldID: 3];
+    [outProtocol writeString: deviceIdentifier];
+    [outProtocol writeFieldEnd];
+  }
+  if (deviceDescription != nil)  {
+    [outProtocol writeFieldBeginWithName: @"deviceDescription" type: TType_STRING fieldID: 4];
+    [outProtocol writeString: deviceDescription];
+    [outProtocol writeFieldEnd];
+  }
+  [outProtocol writeFieldStop];
+  [outProtocol writeStructEnd];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+}
+
+- (EDAMAuthenticationResult *) recv_completeTwoFactorAuthentication
+{
+  int msgType = 0;
+  [inProtocol readMessageBeginReturningName: nil type: &msgType sequenceID: NULL];
+  if (msgType == TMessageType_EXCEPTION) {
+    TApplicationException * x = [TApplicationException read: inProtocol];
+    [inProtocol readMessageEnd];
+    @throw x;
+  }
+  EDAMCompleteTwoFactorAuthentication_result * result = [[[EDAMCompleteTwoFactorAuthentication_result alloc] init] autorelease_stub];
+  [result read: inProtocol];
+  [inProtocol readMessageEnd];
+  if ([result successIsSet]) {
+    return [result success];
+  }
+  if ([result userExceptionIsSet]) {
+    @throw [result userException];
+  }
+  if ([result systemExceptionIsSet]) {
+    @throw [result systemException];
+  }
+  @throw [TApplicationException exceptionWithType: TApplicationException_MISSING_RESULT
+                                           reason: @"completeTwoFactorAuthentication failed: unknown result"];
+}
+
+- (EDAMAuthenticationResult *) completeTwoFactorAuthentication: (NSString *) authenticationToken oneTimeCode: (NSString *) oneTimeCode deviceIdentifier: (NSString *) deviceIdentifier deviceDescription: (NSString *) deviceDescription
+{
+  [self send_completeTwoFactorAuthentication : authenticationToken oneTimeCode: oneTimeCode deviceIdentifier: deviceIdentifier deviceDescription: deviceDescription];
+  return [self recv_completeTwoFactorAuthentication];
 }
 
 - (void) send_revokeLongSession: (NSString *) authenticationToken
@@ -6856,7 +7706,6 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [result read: inProtocol];
   [inProtocol readMessageEnd];
   if ([result userExceptionIsSet]) {
-      NSLog(@"uer exception : %@",[result userException]);
     @throw [result userException];
   }
   if ([result systemExceptionIsSet]) {
@@ -7195,6 +8044,14 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
     [mMethodMap setValue: invocation forKey: @"authenticateLongSession"];
   }
   {
+    SEL s = @selector(process_completeTwoFactorAuthentication_withSequenceID:inProtocol:outProtocol:);
+    NSMethodSignature * sig = [self methodSignatureForSelector: s];
+    NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
+    [invocation setSelector: s];
+    [invocation retainArguments];
+    [mMethodMap setValue: invocation forKey: @"completeTwoFactorAuthentication"];
+  }
+  {
     SEL s = @selector(process_revokeLongSession_withSequenceID:inProtocol:outProtocol:);
     NSMethodSignature * sig = [self methodSignatureForSelector: s];
     NSInvocation * invocation = [NSInvocation invocationWithMethodSignature: sig];
@@ -7331,7 +8188,7 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   EDAMAuthenticate_result * result = [[EDAMAuthenticate_result alloc] init];
-  [result setSuccess: [mService authenticate: [args username] password: [args password] consumerKey: [args consumerKey] consumerSecret: [args consumerSecret]]];
+  [result setSuccess: [mService authenticate: [args username] password: [args password] consumerKey: [args consumerKey] consumerSecret: [args consumerSecret] supportsTwoFactor: [args supportsTwoFactor]]];
   [outProtocol writeMessageBeginWithName: @"authenticate"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
@@ -7348,8 +8205,25 @@ static int16_t EDAMEDAM_VERSION_MINOR = 24;
   [args read: inProtocol];
   [inProtocol readMessageEnd];
   EDAMAuthenticateLongSession_result * result = [[EDAMAuthenticateLongSession_result alloc] init];
-  [result setSuccess: [mService authenticateLongSession: [args username] password: [args password] consumerKey: [args consumerKey] consumerSecret: [args consumerSecret] deviceIdentifier: [args deviceIdentifier] deviceDescription: [args deviceDescription]]];
+  [result setSuccess: [mService authenticateLongSession: [args username] password: [args password] consumerKey: [args consumerKey] consumerSecret: [args consumerSecret] deviceIdentifier: [args deviceIdentifier] deviceDescription: [args deviceDescription] supportsTwoFactor: [args supportsTwoFactor]]];
   [outProtocol writeMessageBeginWithName: @"authenticateLongSession"
+                                    type: TMessageType_REPLY
+                              sequenceID: seqID];
+  [result write: outProtocol];
+  [outProtocol writeMessageEnd];
+  [[outProtocol transport] flush];
+  [result release_stub];
+  [args release_stub];
+}
+
+- (void) process_completeTwoFactorAuthentication_withSequenceID: (int32_t) seqID inProtocol: (id<TProtocol>) inProtocol outProtocol: (id<TProtocol>) outProtocol
+{
+  EDAMcompleteTwoFactorAuthentication_args * args = [[EDAMcompleteTwoFactorAuthentication_args alloc] init];
+  [args read: inProtocol];
+  [inProtocol readMessageEnd];
+  EDAMCompleteTwoFactorAuthentication_result * result = [[EDAMCompleteTwoFactorAuthentication_result alloc] init];
+  [result setSuccess: [mService completeTwoFactorAuthentication: [args authenticationToken] oneTimeCode: [args oneTimeCode] deviceIdentifier: [args deviceIdentifier] deviceDescription: [args deviceDescription]]];
+  [outProtocol writeMessageBeginWithName: @"completeTwoFactorAuthentication"
                                     type: TMessageType_REPLY
                               sequenceID: seqID];
   [result write: outProtocol];

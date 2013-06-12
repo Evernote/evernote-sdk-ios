@@ -1,9 +1,9 @@
-Evernote SDK for iOS version 1.2.0
+Evernote SDK for iOS version 1.2.1
 =========================================
 
 What this is
 ------------
-A pleasant iOS-wrapper around the Evernote Cloud API (v1.24), using OAuth for authentication. 
+A pleasant iOS-wrapper around the Evernote Cloud API (v1.25), using OAuth for authentication. 
 
 Required reading
 ----------------
