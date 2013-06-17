@@ -14,6 +14,7 @@ typedef NS_ENUM(NSInteger, ENSDKSampleType) {
     ENSDKListNotebooks,
     ENListSharedNotes,
     ENCreatePhotoNote,
+    ENCreateReminderNote,
     ENShowBusinessAPI,
     ENSaveNewNoteToEvernote,
     ENInstallEvernoteForiOS,

@@ -36,6 +36,7 @@
 #import "NSString+URLEncoding.h"
 #import "Thrift.h"
 #import "NSDate+EDAMAdditions.h"
+#import "NSRegularExpression+ENAGRegex.h"
 
 #define SCHEME @"https"
 
@@ -450,7 +451,7 @@
 {
     NSString* deviceID = nil;
     if([[UIDevice currentDevice] respondsToSelector:@selector(identifierForVendor)]) {
-        deviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        deviceID = [EvernoteSession deviceIdentifier];
     }
     if(deviceID == nil) {
         deviceID = [NSString string];
@@ -461,6 +462,68 @@
                                       @"deviceIdentifier":deviceID};
     NSString *queryString = [EvernoteSession queryStringFromParameters:authParameters];
     return [NSString stringWithFormat:@"%@://%@/OAuth.action?%@", SCHEME, self.host, queryString];    
+}
+
++ (NSString *)deviceIdentifier {
+    NSString *deviceIdentifier = nil;
+#if TARGET_OS_IPHONE
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    if ([currentDevice respondsToSelector:@selector(identifierForVendor)]) {
+        deviceIdentifier = [[currentDevice identifierForVendor] UUIDString];
+    }
+#else
+    io_registry_entry_t ioRegistryRoot = IORegistryEntryFromPath(kIOMasterPortDefault, "IOService:/");
+    CFStringRef uuid = (CFStringRef) IORegistryEntryCreateCFProperty(ioRegistryRoot, CFSTR(kIOPlatformUUIDKey), kCFAllocatorDefault, 0);
+    IOObjectRelease(ioRegistryRoot);
+    deviceIdentifier = (__bridge_transfer NSString *)uuid;
+#endif
+    
+    if (deviceIdentifier == nil) {
+        // Alternatively we could try ethernet mac address...
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *uuid = [userDefaults objectForKey:@"EDAMHTTPClientUUID"];
+        if (uuid == nil) {
+            CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+            CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
+            CFRelease(uuidRef);
+            uuid = (__bridge_transfer NSString *)uuidStringRef;
+            
+            [userDefaults setObject:uuid forKey:@"EDAMHTTPClientUUID"];
+        }
+        deviceIdentifier = uuid;
+    }
+    
+    deviceIdentifier = [self scrubString:deviceIdentifier
+                              usingRegex:[EDAMLimitsConstants EDAM_DEVICE_ID_REGEX]
+                           withMaxLength:[EDAMLimitsConstants EDAM_DEVICE_ID_LEN_MAX]];
+    
+    return deviceIdentifier;
+}
+
+
+#pragma mark -
+#pragma mark Device id/name
++ (NSString *) scrubString:(NSString *)string
+                usingRegex:(NSString *)regexPattern
+             withMaxLength:(uint16_t)maxLength
+{
+    if ([string length] > maxLength) {
+        string = [string substringToIndex:maxLength];
+    }
+    
+    NSRegularExpression * regex = [NSRegularExpression regexWithPattern: regexPattern];
+    if ([regex findInString: string] == NO) {
+        NSMutableString * newString = [NSMutableString stringWithCapacity: [string length]];
+        for (NSUInteger i = 0; i < [string length]; i++) {
+            NSString * oneCharSubString = [string substringWithRange: NSMakeRange(i, 1)];
+            if ([regex findInString: string]) {
+                [newString appendString: oneCharSubString];
+            }
+        }
+        string = newString;
+    }
+    
+    return string;
 }
 
 - (BOOL)handleOpenURL:(NSURL *)url

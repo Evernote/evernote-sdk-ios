@@ -116,6 +116,8 @@
 		A92602C616740D5700F01E63 /* ENMLUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602C316740D5700F01E63 /* ENMLUtility.m */; };
 		A92FB1B916C998160014D9CA /* NotebookChooserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A92FB1B816C998160014D9CA /* NotebookChooserViewController.m */; };
 		A93FAFBE16E8E18600B6594D /* EvernoteSDK.strings in Resources */ = {isa = PBXBuildFile; fileRef = A93FAFBD16E8E18600B6594D /* EvernoteSDK.strings */; };
+		A969A119176B82CA005ECC31 /* NotebookTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A969A118176B82CA005ECC31 /* NotebookTableViewController.m */; };
+		A969A11D176FB512005ECC31 /* NSRegularExpression+ENAGRegex.m in Sources */ = {isa = PBXBuildFile; fileRef = A969A11C176FB511005ECC31 /* NSRegularExpression+ENAGRegex.m */; };
 		A96E28ED165597CA0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96E28EE165597EC0031EC63 /* ENOAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96E28EC165597C90031EC63 /* ENOAuthViewController.m */; };
 		A96FE4D816A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h in Headers */ = {isa = PBXBuildFile; fileRef = A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */; };
@@ -299,6 +301,10 @@
 		A92FB1B716C998160014D9CA /* NotebookChooserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookChooserViewController.h; sourceTree = "<group>"; };
 		A92FB1B816C998160014D9CA /* NotebookChooserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookChooserViewController.m; sourceTree = "<group>"; };
 		A93FAFBD16E8E18600B6594D /* EvernoteSDK.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = EvernoteSDK.strings; path = "evernote-sdk-ios/internal/Resources/EvernoteSDK.strings"; sourceTree = SOURCE_ROOT; };
+		A969A117176B82CA005ECC31 /* NotebookTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotebookTableViewController.h; sourceTree = "<group>"; };
+		A969A118176B82CA005ECC31 /* NotebookTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotebookTableViewController.m; sourceTree = "<group>"; };
+		A969A11B176FB511005ECC31 /* NSRegularExpression+ENAGRegex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSRegularExpression+ENAGRegex.h"; sourceTree = "<group>"; };
+		A969A11C176FB511005ECC31 /* NSRegularExpression+ENAGRegex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSRegularExpression+ENAGRegex.m"; sourceTree = "<group>"; };
 		A96E28EC165597C90031EC63 /* ENOAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENOAuthViewController.m; sourceTree = "<group>"; };
 		A96FE4D616A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EDAMNoteStoreClient+Utilities.h"; sourceTree = "<group>"; };
 		A96FE4D716A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EDAMNoteStoreClient+Utilities.m"; sourceTree = "<group>"; };
@@ -602,6 +608,8 @@
 				0BB3D27C1524EF37001C4534 /* AppDelegate.h */,
 				0BB3D27D1524EF37001C4534 /* AppDelegate.m */,
 				0BB3D27F1524EF37001C4534 /* iPhone.storyboard */,
+				A969A117176B82CA005ECC31 /* NotebookTableViewController.h */,
+				A969A118176B82CA005ECC31 /* NotebookTableViewController.m */,
 				A98EB3B7174548E1005A2D12 /* BusinessAPITableViewController.h */,
 				A98EB3B8174548E2005A2D12 /* BusinessAPITableViewController.m */,
 				A98EB3B417444011005A2D12 /* ConsoleViewController.h */,
@@ -801,6 +809,8 @@
 		A9C554F416712E8D006E0020 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				A969A11C176FB511005ECC31 /* NSRegularExpression+ENAGRegex.m */,
+				A969A11B176FB511005ECC31 /* NSRegularExpression+ENAGRegex.h */,
 				A9B1E88916C2F99A00D54760 /* NSDataBase64Additions.h */,
 				A9B1E88A16C2F99A00D54760 /* NSDataBase64Additions.m */,
 				A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */,
@@ -1141,6 +1151,8 @@
 				A98EB3B317443442005A2D12 /* ENSampleTableViewController.m in Sources */,
 				A98EB3B617444014005A2D12 /* ConsoleViewController.m in Sources */,
 				A98EB3B9174548E4005A2D12 /* BusinessAPITableViewController.m in Sources */,
+				A969A119176B82CA005ECC31 /* NotebookTableViewController.m in Sources */,
+				A969A11D176FB512005ECC31 /* NSRegularExpression+ENAGRegex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

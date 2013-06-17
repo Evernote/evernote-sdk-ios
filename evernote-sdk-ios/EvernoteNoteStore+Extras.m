@@ -69,6 +69,18 @@
 
 }
 
+- (void)getCorrespondingNotebookForSharedNotebook:(EDAMSharedNotebook *)notebook
+                                            success:(void(^)(EDAMNotebook *notebook))success
+                                            failure:(void(^)(NSError *error))failure {
+    EvernoteNoteStore* noteStore = [EvernoteNoteStore noteStore];
+    [noteStore authenticateToSharedNotebookWithShareKey:notebook.shareKey success:^(EDAMAuthenticationResult *result) {
+        NSLog(@"Auth result : %@",result);
+        
+    } failure:^(NSError *error) {
+        NSLog(@"Error : %@",error);
+    }];
+}
+
 #pragma mark - Evernote Business Notebooks
 
 - (void)listBusinessNotebooksWithSuccess:(void(^)(NSArray *linkedNotebooks))success
