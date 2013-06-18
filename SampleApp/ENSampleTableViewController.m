@@ -95,7 +95,7 @@
             }
             break;
         case ENSaveNewNoteToEvernote:
-            [[cell textLabel] setText:@"New note using Evernote"];
+            [[cell textLabel] setText:@"Reminder note using Evernote"];
             break;
         case ENInstallEvernoteForiOS:
             [[cell textLabel] setText:@"Install Evernote for iOS"];
@@ -314,7 +314,14 @@
         EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
         NSMutableArray *resources = [NSMutableArray arrayWithObjects:resource,resource, nil];
         NSMutableArray *tagNames = [NSMutableArray arrayWithObjects:@"evernote",@"sdk", nil];
-        EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test Note - Evernote SDK" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:tagNames];
+        // Include NSDate+EDAMAdditions.h
+        NSDate* now = [NSDate date];
+        // After 60 minutes
+        NSDate* then = [now dateByAddingTimeInterval:3600];
+        
+        // Set the reminder
+        EDAMNoteAttributes* noteAttributes = [[EDAMNoteAttributes alloc] initWithSubjectDate:0 latitude:0 longitude:0 altitude:0 author:nil source:nil sourceURL:nil sourceApplication:nil shareDate:0 reminderOrder:[now enedamTimestamp] reminderDoneTime:0 reminderTime:[then enedamTimestamp] placeName:nil contentClass:nil applicationData:nil lastEditedBy:nil classifications:nil creatorId:0 lastEditorId:0];
+        EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test TODO note" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:noteAttributes tagNames:tagNames];
         [[EvernoteSession sharedSession] setDelegate:self];
         [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
     }

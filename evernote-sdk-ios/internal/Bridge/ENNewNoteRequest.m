@@ -24,6 +24,9 @@ static NSString *kEN_NewNoteRequest_Latitude = @"mLatitude";
 static NSString *kEN_NewNoteRequest_Longitude = @"mLongitude";
 static NSString *kEN_NewNoteRequest_Altitude = @"mAltitude";
 
+static NSString *kEN_NewNoteRequest_ReminderOrder = @"mReminderOrder";
+static NSString *kEN_NewNoteRequest_ReminderDoneTime = @"mReminderDoneTime";
+static NSString *kEN_NewNoteRequest_ReminderTime = @"mReminderTime";
 
 @implementation ENNewNoteRequest
 
@@ -68,6 +71,10 @@ static NSString *kEN_NewNoteRequest_Altitude = @"mAltitude";
 		self.latitude = [coder decodeDoubleForKey:kEN_NewNoteRequest_Latitude];
 		self.longitude = [coder decodeDoubleForKey:kEN_NewNoteRequest_Longitude];
 		self.altitude = [coder decodeDoubleForKey:kEN_NewNoteRequest_Altitude];
+      
+        self.reminderDoneTime = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderDoneTime];
+        self.reminderOrder = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderOrder];
+        self.reminderTime = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderTime];
 	}
 	return self;
 }
@@ -81,6 +88,9 @@ static NSString *kEN_NewNoteRequest_Altitude = @"mAltitude";
 	[coder encodeObject:self.sourceApplication forKey:kEN_NewNoteRequest_SourceApplication];
 	[coder encodeObject:self.tagNames forKey:kEN_NewNoteRequest_TagNames];
 	[coder encodeObject:self.resourceAttachments forKey:kEN_NewNoteRequest_ResourceAttachments];
+    [coder encodeObject:self.reminderDoneTime forKey:kEN_NewNoteRequest_ReminderDoneTime];
+    [coder encodeObject:self.reminderOrder forKey:kEN_NewNoteRequest_ReminderOrder];
+    [coder encodeObject:self.reminderTime forKey:kEN_NewNoteRequest_ReminderTime];
 	
 	[coder encodeDouble:self.latitude forKey:kEN_NewNoteRequest_Latitude];
 	[coder encodeDouble:self.longitude forKey:kEN_NewNoteRequest_Longitude];

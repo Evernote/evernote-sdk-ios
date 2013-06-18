@@ -41,6 +41,9 @@
 @property (nonatomic) double longitude;
 @property (nonatomic) double altitude;
 
+@property (nonatomic) NSDate* reminderOrder;
+@property (nonatomic) NSDate* reminderDoneTime;
+@property (nonatomic) NSDate* reminderTime;
 
 - (void) addResourceAttachment:(ENResourceAttachment *)resourceAttachment;
 - (void) removeResourceAttachment:(ENResourceAttachment *)resourceAttachment;
