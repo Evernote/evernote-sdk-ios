@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B0DE6A41571978C00D7347A /* ENOAuthViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; };
+		0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D601544944800E5BD44 /* EvernoteUserStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B2B9D631544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
 		0B2B9D641544944800E5BD44 /* EvernoteUserStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B9D611544944800E5BD44 /* EvernoteUserStore.m */; };
 		0B2B9D6815449AEE00E5BD44 /* EvernoteSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2B9D6615449AEE00E5BD44 /* EvernoteSDK.h */; };
@@ -56,7 +56,7 @@
 		0B943F831525015500DB20A3 /* TTransportException.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B943F4E1525015500DB20A3 /* TTransportException.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B943F841525015500DB20A3 /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F4F1525015500DB20A3 /* TTransportException.m */; settings = {COMPILER_FLAGS = "-w"; }; };
 		0B943F851525015500DB20A3 /* TTransportException.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B943F4F1525015500DB20A3 /* TTransportException.m */; settings = {COMPILER_FLAGS = "-w"; }; };
-		0B98592815432592007D7D37 /* ENAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592215432592007D7D37 /* ENAPI.h */; };
+		0B98592815432592007D7D37 /* ENAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592215432592007D7D37 /* ENAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B98592915432592007D7D37 /* ENAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592315432592007D7D37 /* ENAPI.m */; };
 		0B98592A15432592007D7D37 /* ENAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B98592315432592007D7D37 /* ENAPI.m */; };
 		0B98592B15432592007D7D37 /* ENCredentials.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B98592415432592007D7D37 /* ENCredentials.h */; };
@@ -844,15 +844,15 @@
 				0B943F831525015500DB20A3 /* TTransportException.h in Headers */,
 				A9D166C5169151D600043DA0 /* TObjective-C.h in Headers */,
 				0B0DE6A61571978C00D7347A /* ENOAuthViewController.h in Headers */,
+				0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */,
+				0B98592815432592007D7D37 /* ENAPI.h in Headers */,
 				0B943F521525015500DB20A3 /* ENGCOAuth.h in Headers */,
 				0B943F551525015500DB20A3 /* NSData+ENBase64.h in Headers */,
 				0B943F591525015500DB20A3 /* NSString+URLEncoding.h in Headers */,
 				0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */,
-				0B98592815432592007D7D37 /* ENAPI.h in Headers */,
 				0B98592B15432592007D7D37 /* ENCredentials.h in Headers */,
 				0B98592E15432592007D7D37 /* ENCredentialStore.h in Headers */,
 				0B345EBE1544633F00A1FDBF /* EvernoteNoteStore.h in Headers */,
-				0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */,
 				0B2B9D6815449AEE00E5BD44 /* EvernoteSDK.h in Headers */,
 				A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */,
 				A9C55501167149B1006E0020 /* EvernoteNoteStore+Extras.h in Headers */,
