@@ -30,7 +30,7 @@
 #import "NSRegularExpression+ENAGRegex.h"
 
 @implementation NSRegularExpression (ENAGRegex)
-+ (NSRegularExpression *) regexWithPattern:(NSString *)pattern {
++ (NSRegularExpression *) enRegexWithPattern:(NSString *)pattern {
     NSError *regexError = nil;
     NSRegularExpression *result = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                             options:0
@@ -41,14 +41,14 @@
     return result;
 }
 
-- (BOOL) findInString:(NSString *)string {
+- (BOOL) enFindInString:(NSString *)string {
     NSTextCheckingResult *result = [self firstMatchInString:string
                                                     options:0
                                                       range:NSMakeRange(0, [string length])];
     return (result != nil);
 }
 
-- (BOOL) matchesString:(NSString *)string {
+- (BOOL) enMatchesString:(NSString *)string {
     NSRange stringRange = NSMakeRange(0, [string length]);
     NSTextCheckingResult *result = [self firstMatchInString:string
                                                     options:0
@@ -60,7 +60,7 @@
     return NSEqualRanges([result range], stringRange);
 }
 
-- (NSArray *) capturedSubstringsOfString:(NSString *)string {
+- (NSArray *) enCapturedSubstringsOfString:(NSString *)string {
     __block NSMutableArray *retVal = [NSMutableArray array];
     [self enumerateMatchesInString:string
                            options:0
@@ -81,7 +81,7 @@
     
 }
 
-- (NSString *)replaceWithString:(NSString *)rep inString:(NSString *)str {
+- (NSString *)enReplaceWithString:(NSString *)rep inString:(NSString *)str {
     return [self stringByReplacingMatchesInString:str
                                           options:0
                                             range:NSMakeRange(0, [str length])

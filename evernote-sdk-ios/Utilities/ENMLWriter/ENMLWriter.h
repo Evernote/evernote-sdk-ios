@@ -1,5 +1,5 @@
 /*
- * NSRegularExpression+ENAGRegex.h
+ * ENMLWriter.h
  * evernote-sdk-ios
  *
  * Copyright 2012 Evernote Corporation
@@ -27,14 +27,24 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
 
-@interface NSRegularExpression (ENAGRegex)
+#import "ENXMLWriter.h"
+#import "ENEncryptedContentInfo.h"
 
-+ (NSRegularExpression *) regexWithPattern:(NSString *)pattern;
-- (BOOL) findInString:(NSString *)string;
-- (BOOL) matchesString:(NSString *)string;
-- (NSArray *) capturedSubstringsOfString:(NSString *)string;
-- (NSString *)replaceWithString:(NSString *)rep inString:(NSString *)str;
+@class EDAMResource;
+
+@interface ENMLWriter : ENXMLWriter
+
++ (NSString *) emptyNote;
++ (BOOL) validateURLComponents: (NSURL *) url;
+
+- (void) startDocumentWithAttributes:(NSDictionary *)attributes;
+
+- (void) writeResourceWithDataHash:(NSData *)dataHash
+                              mime:(NSString *)mime
+                        attributes:(NSDictionary *)attributes;
+- (void) writeResource:(EDAMResource *)resource;
+- (void) writeEncryptedInfo:(ENEncryptedContentInfo *)encryptedInfo;
+- (void) writeTodoWithCheckedState:(BOOL)checkedState;
 
 @end

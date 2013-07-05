@@ -33,6 +33,7 @@
 #import "EvernoteNoteStore+Extras.h"
 #import "EvernoteUserStore+Extras.h"
 #import "ENConstants.h"
+#import "ENMLWriter.h"
 
 // For other application-level error codes, see EDAMErrorCode in EDAMErrors.h.
 /*!

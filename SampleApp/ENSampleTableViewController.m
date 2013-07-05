@@ -252,20 +252,25 @@
     NSData *dataHash = [myFileData enmd5];
     EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
     EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
-    NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                             "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-                             "<en-note>"
-                             "<span style=\"font-weight:bold;\">Hello photo note.</span>"
-                             "<br />"
-                             "<span>Evernote logo :</span>"
-                             "<br />"
-                             "%@"
-                             "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
+    ENMLWriter* myWriter = [[ENMLWriter alloc] init];
+    [myWriter startDocument];
+    [myWriter startElement:@"span"];
+    [myWriter startElement:@"br"];
+    [myWriter endElement];
+    [myWriter writeResource:resource];
+    [myWriter endElement];
+    [myWriter endDocument];
+    NSString *noteContent = myWriter.contents;
     NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
-    EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test Evernote SDK" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
+    EDAMNote *newNote = [[EDAMNote alloc] init];
+    [newNote setTitle:@"Test Evernote SDK"];
+    [newNote setContent:noteContent];
+    [newNote setContentLength:noteContent.length];
+    [newNote setResources:resources];
     [[EvernoteNoteStore noteStore] setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"Total bytes written : %lld , Total bytes expected to be written : %lld",totalBytesWritten,totalBytesExpectedToWrite);
     }];
+    NSLog(@"Contents : %@",myWriter.contents);
     [self.activityIndicatorView startAnimating];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         [self.activityIndicatorView stopAnimating];
@@ -277,11 +282,11 @@
 }
 
 - (IBAction)createReminderNote {
-    NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                             "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-                             "<en-note>"
-                             "<span>Evernote Remind me in a minute</span>"
-                             "</en-note>"];
+    ENMLWriter* myWriter = [[ENMLWriter alloc] init];
+    [myWriter startDocument];
+    [myWriter writeRawString:@"Evernote remind me in a minute"];
+    [myWriter endDocument];
+    NSString *noteContent = myWriter.contents;
     // Include NSDate+EDAMAdditions.h
     NSDate* now = [NSDate date];
     // After a minute

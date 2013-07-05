@@ -511,12 +511,12 @@
         string = [string substringToIndex:maxLength];
     }
     
-    NSRegularExpression * regex = [NSRegularExpression regexWithPattern: regexPattern];
-    if ([regex findInString: string] == NO) {
+    NSRegularExpression * regex = [NSRegularExpression enRegexWithPattern: regexPattern];
+    if ([regex enFindInString: string] == NO) {
         NSMutableString * newString = [NSMutableString stringWithCapacity: [string length]];
         for (NSUInteger i = 0; i < [string length]; i++) {
             NSString * oneCharSubString = [string substringWithRange: NSMakeRange(i, 1)];
-            if ([regex findInString: string]) {
+            if ([regex enFindInString: string]) {
                 [newString appendString: oneCharSubString];
             }
         }
