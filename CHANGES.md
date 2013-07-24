@@ -1,3 +1,9 @@
+= 1.3.0 
+
+* ENML writer
+* Support for creating Reminders using Evernote app
+* Bug fixes/ XCode 5 compatibilty
+
 = 1.2.1 / 2013-06-12
 
 * Added RelatedQuery.referenceUri

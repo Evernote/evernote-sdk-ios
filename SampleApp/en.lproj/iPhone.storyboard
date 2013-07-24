@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="uFx-8P-aNQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12E55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="uFx-8P-aNQ">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
@@ -186,6 +186,7 @@
                         <segue destination="T0Z-FB-yiV" kind="push" identifier="showNoteBrowser" id="Zn1-eS-WOs"/>
                         <segue destination="Oes-lM-N4a" kind="push" identifier="showSkitch" id="4xG-O1-1DS"/>
                         <segue destination="DPW-Tu-Vcq" kind="push" identifier="ShowBusinessAPI" id="CQw-R8-rch"/>
+                        <segue destination="tNM-mR-Bn0" kind="push" identifier="ShowNotebookTableView" id="7g7-NQ-Zvy"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HDS-uX-XN6" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -221,6 +222,36 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jIe-ha-fOp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-764" y="377"/>
+        </scene>
+        <!--Notebook Table View Controller - Notebooks-->
+        <scene sceneID="nqi-tX-Qq1">
+            <objects>
+                <tableViewController id="tNM-mR-Bn0" customClass="NotebookTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6qp-Z6-guj">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NotebookCell" id="kL9-Yf-gJl">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="tNM-mR-Bn0" id="ibg-mp-yuz"/>
+                            <outlet property="delegate" destination="tNM-mR-Bn0" id="uFt-Fz-JdL"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Notebooks" id="L2J-na-HpH"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ehn-sm-4ns" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1256" y="395"/>
         </scene>
         <!--Note Browser View Controller - Note browser-->
         <scene sceneID="5iY-Yi-a4u">
@@ -283,55 +314,12 @@
             <point key="canvasLocation" x="-2114" y="-199"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="BusinessAPITableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/BusinessAPITableViewController.h"/>
-        </class>
-        <class className="ConsoleViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ConsoleViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-            </relationships>
-        </class>
-        <class className="ENRootViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ENRootViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="authenticate:"/>
-                <relationship kind="action" name="evernoteAPI:"/>
-                <relationship kind="action" name="logout:"/>
-                <relationship kind="outlet" name="authenticateButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="btnEvernoteAPI" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="businessLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="logoutButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="userLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ENSampleTableViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ENSampleTableViewController.h"/>
-        </class>
-        <class className="NoteBrowserViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NoteBrowserViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="nextNote:"/>
-                <relationship kind="action" name="previousNote:"/>
-                <relationship kind="outlet" name="btnPrev" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-        <class className="SkitchViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SkitchViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="skitchImage:"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="2FU-Zu-vdO"/>
+        <segue reference="Seq-VS-YJT"/>
     </inferredMetricsTieBreakers>
 </document>

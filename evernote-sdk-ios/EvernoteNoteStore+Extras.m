@@ -33,6 +33,7 @@
 #import "ENApplicationBridge.h"
 #import "ENApplicationBridge_Private.h"
 #import "EvernoteUserStore.h"
+#import "NSDate+EDAMAdditions.h"
 
 @implementation EvernoteNoteStore (Extras)
 
@@ -67,6 +68,18 @@
         failure(error);
     }];
 
+}
+
+- (void)getCorrespondingNotebookForSharedNotebook:(EDAMSharedNotebook *)notebook
+                                            success:(void(^)(EDAMNotebook *notebook))success
+                                            failure:(void(^)(NSError *error))failure {
+    EvernoteNoteStore* noteStore = [EvernoteNoteStore noteStore];
+    [noteStore authenticateToSharedNotebookWithShareKey:notebook.shareKey success:^(EDAMAuthenticationResult *result) {
+        NSLog(@"Auth result : %@",result);
+        
+    } failure:^(NSError *error) {
+        NSLog(@"Error : %@",error);
+    }];
 }
 
 #pragma mark - Evernote Business Notebooks
@@ -204,6 +217,12 @@
         [request setSourceApplication:[note.attributes sourceApplication]];
         [request setSourceURL:[NSURL URLWithString:[note.attributes sourceURL]]];
         [request setConsumerKey:[[EvernoteSession sharedSession] consumerKey]];
+        if(note.attributes) {
+            EDAMNoteAttributes* attributes = note.attributes;
+            request.reminderTime = [NSDate endateFromEDAMTimestamp:attributes.reminderTime];
+            request.reminderDoneTime = [NSDate endateFromEDAMTimestamp:attributes.reminderDoneTime];
+            request.reminderOrder = [NSDate endateFromEDAMTimestamp:attributes.reminderOrder];
+        }
         [appBridgeData setObject:[NSNumber numberWithUnsignedInt:kEN_ApplicationBridge_DataVersion] forKey:kEN_ApplicationBridge_DataVersionKey];
         [appBridgeData setObject:[request requestIdentifier] forKey:kEN_ApplicationBridge_RequestIdentifierKey];
         [appBridgeData setObject:[[EvernoteSession sharedSession] consumerKey] forKey:kEN_ApplicationBridge_ConsumerKey];

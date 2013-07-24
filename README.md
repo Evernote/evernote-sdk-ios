@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.2.1
+Evernote SDK for iOS version 1.3.0
 =========================================
 
 What this is
@@ -21,7 +21,7 @@ You can do this on the [Evernote Developers portal page](http://dev.evernote.com
 
 You have a few options:
 
-- Copy the evernote-sdk-ios source code into your Xcode project.
+- Copy the evernote-sdk-ios folder into your Xcode project.
 - Add the evernote-sdk-ios xcodeproj to your project/workspace.
 - Build the evernote-sdk-ios as a static library and include the .h's and .a. (Make sure to add the `-ObjC` flag to your "Other Linker flags" if you choose this option). 
 More info [here](http://developer.apple.com/library/ios/#technotes/iOSStaticLibraries/Articles/configuration.html#/apple_ref/doc/uid/TP40012554-CH3-SW2). 
@@ -34,6 +34,17 @@ Add the following frameworks in the "Link Binary With Libraries" phase
 
 - Security.framework
 - StoreKit.framework
+- MobileCoreServices.framework
+- libxml2.dylib
+
+![Add '${SDKROOT}/usr/include/libxml2'](LinkLibraries.png)
+
+### Add header search path
+
+Add `${SDKROOT}/usr/include/libxml2` to your header search path.
+
+![Add '${SDKROOT}/usr/include/libxml2'](AddHeaderSearchPath.png)
+
 
 ### Modify your application's main plist file
 
@@ -144,6 +155,26 @@ E.g.,
                                 }];
                                 
 Full information on the Evernote NoteStore and UserStore API is available on the [Evernote Developers portal page](http://dev.evernote.com/documentation/cloud/).
+
+### Creating note content
+
+The SDK includes an ENML writer that helps you write notes. This is useful to write styled notes,supports adding resources like images to the note and also supports writing encrypted fields to Evernote.
+E.g.,
+
+    ENMLWriter* myWriter = [[ENMLWriter alloc] init];
+    [myWriter startDocument];
+    [myWriter startElement:@"span"];
+    [myWriter startElement:@"br"];
+    [myWriter endElement];
+    [myWriter writeResource:resource];
+    [myWriter endElement];
+    [myWriter endDocument];
+    EDAMNote *newNote = [[EDAMNote alloc] init];
+    newNote.content = myWriter.contents;
+    newNote.title = "Test note";
+    newNote.contentLength = myWriter.contents.length;
+
+`resource` is of type EDAMResource. For more examples, please see the sample app code.
 
 ### Prompting the user to install the Evernote for iOS app
 

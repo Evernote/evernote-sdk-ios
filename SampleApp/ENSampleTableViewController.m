@@ -11,12 +11,15 @@
 #import "NSData+EvernoteSDK.h"
 #import "ConsoleViewController.h"
 #import "NoteBrowserViewController.h"
+#import "NotebookTableViewController.h"
+#import "NSDate+EDAMAdditions.h"
 
 @interface ENSampleTableViewController ()
 
 @property(nonatomic,copy) NSString* consoleText;
 @property(nonatomic,copy) NSString* selectedNotebookGUID;
 @property(nonatomic,strong) UIActivityIndicatorView* activityIndicatorView;
+@property(nonatomic,strong) NSArray* notebooks;
 
 @end
 
@@ -80,6 +83,9 @@
         case ENCreatePhotoNote:
             [[cell textLabel] setText:@"Create photo note"];
             break;
+        case ENCreateReminderNote:
+            [[cell textLabel] setText:@"Create a note with a reminder"];
+            break;
         case ENShowBusinessAPI:
             [[cell textLabel] setText:@"Business API's"];
             if(self.isBusiness == NO) {
@@ -89,7 +95,7 @@
             }
             break;
         case ENSaveNewNoteToEvernote:
-            [[cell textLabel] setText:@"New note using Evernote"];
+            [[cell textLabel] setText:@"Reminder note using Evernote"];
             break;
         case ENInstallEvernoteForiOS:
             [[cell textLabel] setText:@"Install Evernote for iOS"];
@@ -164,6 +170,9 @@
         case ENCreatePhotoNote:
             [self createPhotoNote];
             break;
+        case ENCreateReminderNote:
+            [self createReminderNote];
+            break;
         case ENShowBusinessAPI:
             [self performSegueWithIdentifier:@"ShowBusinessAPI" sender:self];
             break;
@@ -196,7 +205,8 @@
     [noteStore listNotebooksWithSuccess:^(NSArray *notebooks) {
         self.consoleText = [NSString stringWithFormat:@"notebooks: %@", notebooks];
         [self.activityIndicatorView stopAnimating];
-        [self logToConsole];
+        self.notebooks = notebooks;
+        [self performSegueWithIdentifier:@"ShowNotebookTableView" sender:nil];
     } failure:^(NSError *error) {
         NSLog(@"error %@", error);
     }];
@@ -242,20 +252,25 @@
     NSData *dataHash = [myFileData enmd5];
     EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
     EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
-    NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-                             "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
-                             "<en-note>"
-                             "<span style=\"font-weight:bold;\">Hello photo note.</span>"
-                             "<br />"
-                             "<span>Evernote logo :</span>"
-                             "<br />"
-                             "%@"
-                             "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
+    ENMLWriter* myWriter = [[ENMLWriter alloc] init];
+    [myWriter startDocument];
+    [myWriter startElement:@"span"];
+    [myWriter startElement:@"br"];
+    [myWriter endElement];
+    [myWriter writeResource:resource];
+    [myWriter endElement];
+    [myWriter endDocument];
+    NSString *noteContent = myWriter.contents;
     NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
-    EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"(☺) ♣" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
+    EDAMNote *newNote = [[EDAMNote alloc] init];
+    [newNote setTitle:@"Test Evernote SDK"];
+    [newNote setContent:noteContent];
+    [newNote setContentLength:noteContent.length];
+    [newNote setResources:resources];
     [[EvernoteNoteStore noteStore] setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"Total bytes written : %lld , Total bytes expected to be written : %lld",totalBytesWritten,totalBytesExpectedToWrite);
     }];
+    NSLog(@"Contents : %@",myWriter.contents);
     [self.activityIndicatorView startAnimating];
     [[EvernoteNoteStore noteStore] createNote:newNote success:^(EDAMNote *note) {
         [self.activityIndicatorView stopAnimating];
@@ -263,6 +278,35 @@
     } failure:^(NSError *error) {
         NSLog(@"Error creating note : %@",error);
         [self.activityIndicatorView stopAnimating];
+    }];
+}
+
+- (IBAction)createReminderNote {
+    ENMLWriter* myWriter = [[ENMLWriter alloc] init];
+    [myWriter startDocument];
+    [myWriter writeRawString:@"Evernote remind me in a minute"];
+    [myWriter endDocument];
+    NSString *noteContent = myWriter.contents;
+    // Include NSDate+EDAMAdditions.h
+    NSDate* now = [NSDate date];
+    // After a minute
+    NSDate* then = [now dateByAddingTimeInterval:3600];
+    
+    // Set the reminder
+    EDAMNoteAttributes* noteAttributes = [[EDAMNoteAttributes alloc] initWithSubjectDate:0 latitude:0 longitude:0 altitude:0 author:nil source:nil sourceURL:nil sourceApplication:nil shareDate:0 reminderOrder:[now enedamTimestamp] reminderDoneTime:0 reminderTime:[then enedamTimestamp] placeName:nil contentClass:nil applicationData:nil lastEditedBy:nil classifications:nil creatorId:0 lastEditorId:0];
+    
+    // Create note object
+    EDAMNote *ourNote = [[EDAMNote alloc] initWithGuid:nil title:@"Testing Reminders" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:nil attributes:noteAttributes tagNames:nil];
+    
+    // Attempt to create note in Evernote account with Reminder
+    [[EvernoteNoteStore noteStore] createNote:ourNote success:^(EDAMNote *note) {
+        // Log the created note object
+        NSLog(@"Note created : %@",note);
+    } failure:^(NSError *error) {
+        // Something was wrong with the note data
+        // See EDAMErrorCode enumeration for error code explanation
+        // http://dev.evernote.com/documentation/reference/Errors.html#Enum_EDAMErrorCode
+        NSLog(@"Error : %@",error);
     }];
 }
 
@@ -275,7 +319,14 @@
         EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
         NSMutableArray *resources = [NSMutableArray arrayWithObjects:resource,resource, nil];
         NSMutableArray *tagNames = [NSMutableArray arrayWithObjects:@"evernote",@"sdk", nil];
-        EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test Note - Evernote SDK" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:tagNames];
+        // Include NSDate+EDAMAdditions.h
+        NSDate* now = [NSDate date];
+        // After 60 minutes
+        NSDate* then = [now dateByAddingTimeInterval:3600];
+        
+        // Set the reminder
+        EDAMNoteAttributes* noteAttributes = [[EDAMNoteAttributes alloc] initWithSubjectDate:0 latitude:0 longitude:0 altitude:0 author:nil source:nil sourceURL:nil sourceApplication:nil shareDate:0 reminderOrder:[now enedamTimestamp] reminderDoneTime:0 reminderTime:[then enedamTimestamp] placeName:nil contentClass:nil applicationData:nil lastEditedBy:nil classifications:nil creatorId:0 lastEditorId:0];
+        EDAMNote* note = [[EDAMNote alloc] initWithGuid:nil title:@"Test TODO note" content:@"<strong>Here is my new HTML note</strong>" contentHash:nil contentLength:0 created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:noteAttributes tagNames:tagNames];
         [[EvernoteSession sharedSession] setDelegate:self];
         [[EvernoteNoteStore noteStore] saveNewNoteToEvernoteApp:note withType:@"text/html"];
     }
@@ -358,6 +409,11 @@
     if([segue.identifier isEqualToString:@"ShowConsole"]) {
         ConsoleViewController *consoleVC = segue.destinationViewController;
         consoleVC.consoleText = self.consoleText;
+    }
+    else if([segue.identifier isEqualToString:@"ShowNotebookTableView"]) {
+        NotebookTableViewController* notebookTableView = segue.destinationViewController;
+        [notebookTableView setNotebooks:self.notebooks];
+        self.notebooks = nil;
     }
 }
 
