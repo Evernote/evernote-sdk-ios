@@ -28,23 +28,12 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <libxml/xmlwriter.h>
 
 #import "ENXMLDTD.h"
 
 @protocol ENXMLWriterDelegate;
 
-@interface ENXMLWriter : NSObject {
-  id<ENXMLWriterDelegate> __weak _delegate;
-  NSMutableString *_contents;
-  
-  xmlTextWriterPtr _xmlWriter;
-  xmlOutputBufferPtr _xmlOutputBuffer;
-
-  ENXMLDTD * _dtd;
-  NSString * _currentElementName;
-  NSUInteger _openElementCount;
-}
+@interface ENXMLWriter : NSObject
 
 @property (weak, nonatomic) id<ENXMLWriterDelegate> delegate;
 

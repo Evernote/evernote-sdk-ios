@@ -29,6 +29,7 @@
 
 #import "ENXMLWriter.h"
 #import "ENXMLUtils.h"
+#import <libxml/xmlwriter.h>
 
 static void CheckXMLResult(int result, NSString *blah) {
   if (result < 0) {
@@ -49,7 +50,17 @@ static void CheckXMLResult(int result, NSString *blah) {
 @property ( strong, nonatomic) NSString *currentElementName;
 @end
 
-@implementation ENXMLWriter
+@implementation ENXMLWriter {
+  id<ENXMLWriterDelegate> __weak _delegate;
+  NSMutableString *_contents;
+  
+  xmlTextWriterPtr _xmlWriter;
+  xmlOutputBufferPtr _xmlOutputBuffer;
+  
+  ENXMLDTD * _dtd;
+  NSString * _currentElementName;
+  NSUInteger _openElementCount;
+}
 
 @synthesize currentElementName = _currentElementName;
 

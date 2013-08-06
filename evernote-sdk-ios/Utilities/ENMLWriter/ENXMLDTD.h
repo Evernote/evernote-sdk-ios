@@ -28,12 +28,8 @@
  */
 
 #import <Foundation/Foundation.h>
-#import <libxml/tree.h>
 
-@interface ENXMLDTD : NSObject {
-  xmlDtdPtr _dtd;
-  NSString * _docTypeDeclaration;
-}
+@interface ENXMLDTD : NSObject
 
 @property ( strong, nonatomic) NSString *docTypeDeclaration;
 
@@ -45,9 +41,6 @@
 
 
 - (id) initWithContentsOfFile:(NSString *)file;
-
-- (xmlEntityPtr) xmlEntityNamed:(NSString *)name;
-- (xmlElementPtr) xmlElementNamed:(NSString *)name;
 
 - (BOOL) isElementLegal:(NSString *)name;
 - (NSDictionary*) sanitizedAttributes:(NSDictionary*)attribDict
