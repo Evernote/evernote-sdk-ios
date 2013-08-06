@@ -29,7 +29,8 @@
 
 #import "ENXMLDTD.h"
 #import "ENXMLUtils.h"
-#include <libxml/parserInternals.h>
+#import <libxml/parserInternals.h>
+#import <libxml/tree.h>
 
 xmlExternalEntityLoader defaultExternalEntityLoader = NULL;
 static xmlParserInputPtr	enxmlExternalEntityLoader	(const char * URL, 
@@ -63,7 +64,10 @@ static xmlParserInputPtr	enxmlExternalEntityLoader	(const char * URL,
   return ret;
 }
 
-@implementation ENXMLDTD
+@implementation ENXMLDTD {
+  xmlDtdPtr _dtd;
+  NSString * _docTypeDeclaration;
+}
 
 @synthesize docTypeDeclaration = _docTypeDeclaration;
 
