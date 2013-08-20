@@ -456,9 +456,10 @@
     if(deviceID == nil) {
         deviceID = [NSString string];
     }
+    NSString* deviceDescription = [EvernoteSession deviceDescription];
     NSDictionary *authParameters = @{ @"oauth_token":[tokenParameters objectForKey:@"oauth_token"],
                                       @"inapp":@"ios",
-                                      @"deviceDescription":[[UIDevice currentDevice] name],
+                                      @"deviceDescription":deviceDescription,
                                       @"deviceIdentifier":deviceID};
     NSString *queryString = [EvernoteSession queryStringFromParameters:authParameters];
     return [NSString stringWithFormat:@"%@://%@/OAuth.action?%@", SCHEME, self.host, queryString];    
@@ -500,6 +501,29 @@
     return deviceIdentifier;
 }
 
++ (NSString *)deviceDescription {
+    NSString *deviceDescription = nil;
+#if TARGET_OS_IPHONE
+    UIDevice *currentDevice = [UIDevice currentDevice];
+    deviceDescription = [[currentDevice name] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if ([deviceDescription length] == 0) {
+        deviceDescription = [currentDevice model];
+    }
+    
+#if TARGET_IPHONE_SIMULATOR
+    deviceDescription = [deviceDescription stringByAppendingFormat:@" %@ (%@)", [currentDevice systemVersion], [NSString string]];
+#endif
+#endif
+    if ([deviceDescription length] == 0) {
+        deviceDescription = [NSString string];
+    }
+    
+    deviceDescription = [self scrubString:deviceDescription
+                               usingRegex:[EDAMLimitsConstants EDAM_DEVICE_DESCRIPTION_REGEX]
+                            withMaxLength:[EDAMLimitsConstants EDAM_DEVICE_DESCRIPTION_LEN_MAX]];
+    return deviceDescription;
+}
 
 #pragma mark -
 #pragma mark Device id/name
