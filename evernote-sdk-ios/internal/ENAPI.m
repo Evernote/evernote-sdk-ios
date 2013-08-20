@@ -90,6 +90,7 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
 {
     if (exception) {
         int errorCode = EDAMErrorCode_UNKNOWN;
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:exception.userInfo];
         if ([exception respondsToSelector:@selector(errorCode)]) {
             // Evernote Thrift exception classes have an errorCode property
             errorCode = [(id)exception errorCode];
@@ -97,8 +98,10 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
             // treat any Thrift errors as a transport error
             // we could create separate error codes for the various TException subclasses
             errorCode = EvernoteSDKErrorCode_TRANSPORT_ERROR;
+            if([exception.description length] >0) {
+                userInfo[NSLocalizedDescriptionKey] = exception.description;
+            }
         }
-        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:exception.userInfo];
         if(errorCode>=EDAMErrorCode_UNKNOWN && errorCode<=EDAMErrorCode_UNSUPPORTED_OPERATION) {
             // being defensive here
             if(self.errorDescriptions && self.errorDescriptions.count>=EDAMErrorCode_UNSUPPORTED_OPERATION) {

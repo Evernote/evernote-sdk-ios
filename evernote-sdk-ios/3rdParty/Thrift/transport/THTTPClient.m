@@ -170,7 +170,13 @@
                                            reason: [NSString stringWithFormat: @"Bad response from HTTP server: %d",
                                                     [httpResponse statusCode]]];
   }
-
+  if([[httpResponse allHeaderFields] objectForKey:@"Content-Type"]) {
+      if([[[httpResponse allHeaderFields] objectForKey:@"Content-Type"] isEqualToString:@"application/x-thrift"] == NO) {
+          @throw [TTransportException exceptionWithName: @"TTransportException"
+                                                 reason: [NSString stringWithFormat: @"Bad response content type from HTTP server: %@",
+                                                          [[httpResponse allHeaderFields] objectForKey:@"Content-Type"]]];
+      }
+  }
   // phew!
   [mResponseData release_stub];
   mResponseData = [responseData retain_stub];
