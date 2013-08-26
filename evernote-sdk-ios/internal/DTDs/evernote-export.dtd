@@ -1,0 +1,262 @@
+<!--
+
+  Evernote Note Export Format, 1.0 DTD
+
+  Copyright (c) 2008 Evernote Corporation.  All rights reserved.
+
+  This DTD defines the legal structure of Evernote export format.  This
+  defines the permitted placement of each data element, but it does not
+  directly enforce validation of the content of each field.
+  
+  The semantics of each element in the export format is defined in the
+  "Types.thrift" interface specification document for the EDAM API.
+  The permitted value for each field is also defined in the "Limits.thrift"
+  interface specification, which includes permitted lengths and expressions.
+  
+  All date/time values must be encoded using a specific fixed-length profile
+  of ISO 8601, with times translated to UTC/Zulu:
+    yyyymmddThhmmssZ
+  For example, 5:42:09 PM GMT on January 20th, 2007 would be encoded as:
+    20070120T174209Z
+  
+  Please see the comments in this DTD file to indicate the expected format
+  of each data element.
+  
+  This DTD module is identified by the PUBLIC and SYSTEM identifiers:
+  
+  PUBLIC "en-export"
+  SYSTEM "http://xml.evernote.com/pub/evernote-export.dtd"
+  
+  $Revision$
+  $Date$
+  
+-->
+
+<!-- one or more digits separated by periods-->
+<!ENTITY % Version "CDATA">
+
+<!-- date and time information. ISO 8601 date format -->
+<!ENTITY % Datetime "CDATA">
+
+
+<!-- Top-level element, contains a list of one or more notes -->
+<!ELEMENT en-export (note)+>
+<!ATTLIST en-export 
+  export-date  %Datetime;  #IMPLIED
+  application  CDATA       #IMPLIED
+  version      %Version;   #IMPLIED
+>
+
+
+<!-- Corresponds to EDAM Note type -->
+<!ELEMENT note
+  (title, content, created?, updated?, tag*,
+   note-attributes?, resource*)
+>
+
+<!-- 
+  Corresponds to Note.title field.
+  May not begin or end with whitespace, may not contain line endings or
+  Unicode control characters.  Must be between 1 and 255 characters.
+-->
+<!ELEMENT title (#PCDATA)>
+
+<!--
+  Corresponds to Note.content field.
+  May not be longer than 5242880 Unicode characters.
+  The contents of this character block must be a valid ENML document, which
+  must be validated against the ENML DTD upon import:
+    http://xml.evernote.com/pub/enml.dtd
+-->
+<!ELEMENT content (#PCDATA)>
+
+<!--
+  Corresponds to the Note.created field.
+  Must contain a valid date and time, if present.
+-->
+<!ELEMENT created (#PCDATA)>
+
+<!--
+  Corresponds to the Note.updated field.
+  Must contain a valid date and time, if present.
+-->
+<!ELEMENT updated (#PCDATA)>
+
+<!--
+  Corresponds to the Tag.name field for one of the tags on the note.
+  May not begin or end with whitespace, may not contain line endings, commas
+  or Unicode control characters.  Must be between 1 and 100 characters.
+-->
+<!ELEMENT tag (#PCDATA)>
+
+<!--
+  Corresponds to the Note.attributes field, and NoteAttributes type.
+-->
+<!ELEMENT note-attributes
+  (subject-date?, latitude?, longitude?, altitude?, author?, source?,
+   source-url?, source-application?)
+>
+
+<!--
+  Corresponds to the EDAM Resource type.
+-->
+<!ELEMENT resource
+  (data, mime, width?, height?, duration?, recognition?, resource-attributes?,
+  alternate-data?)
+>
+
+<!--
+  Corresponds to the Resource.data field.
+  The binary body of the resource must be encoded into Base-64 format.  The
+  encoding may contain whitespace (e.g. to break into lines), or may be
+  continuous without break.  Total length of the original binary body may not
+  exceed 25MB.
+-->
+<!ELEMENT data (#PCDATA)>
+<!ATTLIST data encoding NMTOKEN "base64">
+
+<!--
+  Corresponds to the Resource.mime field.
+  Must contain one of the permitted MIME types:
+    image/gif
+    image/jpeg
+    image/png
+    audio/wav
+    audio/mpeg
+    application/pdf
+    application/vnd.evernote.ink
+-->
+<!ELEMENT mime (#PCDATA)>
+
+<!--
+  Corresponds to the Resource.width field.
+  If present, it must contain a positive integer.
+-->
+<!ELEMENT width (#PCDATA)>
+
+<!--
+  Corresponds to the Resource.height field.
+  If present, it must contain a positive integer.
+-->
+<!ELEMENT height (#PCDATA)>
+
+<!--
+  Corresponds to the Resource.duration field.
+  If present, it must contain a positive integer.
+-->
+<!ELEMENT duration (#PCDATA)>
+
+<!--
+  Corresponds to the Resource.recognition field.
+  If present, it must contain a valid recoIndex document, and it may be
+  validated against the recoIndex DTD:
+    http://xml.evernote.com/pub/recoIndex.dtd
+-->
+<!ELEMENT recognition (#PCDATA)>
+
+<!--
+  Corresponds to the Resource.alternateData field.
+  The binary body of the resource's alternate representation must be encoded
+  into Base-64 format.  The encoding may contain whitespace (e.g. to break into
+  lines), or may be continuous without break.
+-->
+<!ELEMENT alternate-data (#PCDATA)>
+<!ATTLIST alternate-data encoding NMTOKEN "base64">
+
+<!--
+  Corresponds to the Resource.attributes field, and ResourceAttributes type.
+-->
+<!ELEMENT resource-attributes
+  (source-url?, timestamp?, latitude?, longitude?, altitude?, camera-make?,
+   camera-model?, reco-type?, file-name?, attachment?)
+>
+
+<!--
+  Corresponds to the NoteAttributes.subjectDate field.
+  Must contain a valid date and time, if present.
+-->
+<!ELEMENT subject-date (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.latitude or
+  ResourceAttributes.latitude field.
+  Must be encoded as a single decimal number.
+-->
+<!ELEMENT latitude (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.longitude or
+  ResourceAttributes.longitude field.
+  Must be encoded as a single decimal number.
+-->
+<!ELEMENT longitude (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.altitude or
+  ResourceAttributes.altitude field.
+  Must be encoded as a single decimal number.
+-->
+<!ELEMENT altitude (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.author field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT author (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.source field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT source (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.sourceURL or
+  ResourceAttributes.sourceURL field.
+  Must be between 1 and 4096 characters, and must contain a valid Internet
+  URL (e.g. starting with "http" or "https".)
+-->
+<!ELEMENT source-url (#PCDATA)>
+
+<!--
+  Corresponds to the NoteAttributes.sourceApplication field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT source-application (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.timestamp field.
+  Must contain a valid date and time, if present.
+-->
+<!ELEMENT timestamp (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.cameraMake field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT camera-make (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.cameraModel field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT camera-model (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.recoType field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT reco-type (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.fileName field.
+  Must be between 1 and 4096 characters.
+-->
+<!ELEMENT file-name (#PCDATA)>
+
+<!--
+  Corresponds to the ResourceAttributes.attachment field.
+  Should be 'true' or 'false'.
+-->
+<!ELEMENT attachment (#PCDATA)>
+

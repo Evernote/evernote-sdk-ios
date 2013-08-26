@@ -1,0 +1,60 @@
+<!--
+   Evernote Promotions Definition (promotions) 1.0 DTD
+   
+   This document represents the structure for targeting promotional information
+   to Evernote users.
+   
+   Copyright (c) 2007 Evernote Corp.
+
+   This DTD module is identified by the PUBLIC and SYSTEM identifiers:
+
+   PUBLIC "recoIndex"
+   SYSTEM "http://xml.evernote.com/pub/promotions.dtd"
+
+   $Revision: 0.1 $
+   $Date: 2007/10/15 18:00:00 $
+
+-->
+
+
+<!-- A number positive or negative.-->
+<!ENTITY % Number "CDATA">
+
+<!-- a Uniform Resource Identifier, see [RFC2396] -->
+<!ENTITY % URI "CDATA">
+
+<!ENTITY % Criteria "(PREMIUM|PREEXISTING)">
+
+
+
+<!ATTLIST promotions
+   view-probability
+                 %Number;                         #REQUIRED
+>
+
+<!-- Root node containing all the promotions information -->
+<!ELEMENT promotions (promotion)* >
+
+<!ATTLIST promotion
+   id             %URI;                           #REQUIRED
+   url            %URI;                           #REQUIRED
+   type           (REQUIRED|ONCE|REPEATED)        #REQUIRED
+   priority       %Number;                        #REQUIRED
+   height         %Number;                        "300"
+>
+
+<!ELEMENT promotion (exclude|include)* >
+
+<!ELEMENT exclude EMPTY >
+<!ELEMENT include EMPTY >
+
+<!ATTLIST exclude 
+    criteria      %Criteria;                        #REQUIRED
+>
+
+<!ATTLIST include 
+    criteria      %Criteria;                        #REQUIRED
+>
+
+
+

@@ -107,6 +107,18 @@
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		A90C479917CBC2A6007DDD61 /* index.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E7F17CBC20D00A51A1B /* index.php */; };
+		A90C479A17CBC2A6007DDD61 /* evernote-export.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8017CBC20D00A51A1B /* evernote-export.dtd */; };
+		A90C479B17CBC2A6007DDD61 /* promotions.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8117CBC20D00A51A1B /* promotions.dtd */; };
+		A90C479C17CBC2A6007DDD61 /* recoIndex.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8217CBC20D00A51A1B /* recoIndex.dtd */; };
+		A90C479D17CBC2A6007DDD61 /* xhtml-lat1.ent in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8317CBC20D00A51A1B /* xhtml-lat1.ent */; };
+		A90C479E17CBC2A6007DDD61 /* xhtml-special.ent in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8417CBC20D00A51A1B /* xhtml-special.ent */; };
+		A90C479F17CBC2A6007DDD61 /* xhtml-symbol.ent in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8517CBC20D00A51A1B /* xhtml-symbol.ent */; };
+		A90C47A017CBC2A6007DDD61 /* xhtml1-strict.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8617CBC20D00A51A1B /* xhtml1-strict.dtd */; };
+		A90C47A117CBC2A6007DDD61 /* xhtml1-transitional.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8717CBC20D00A51A1B /* xhtml1-transitional.dtd */; };
+		A90C47A217CBC2A6007DDD61 /* .htaccess in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371C1787406000680B34 /* .htaccess */; };
+		A90C47A317CBC2A6007DDD61 /* enml.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371D1787406000680B34 /* enml.dtd */; };
+		A90C47A417CBC2A6007DDD61 /* enml2.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371E1787406000680B34 /* enml2.dtd */; };
 		A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */ = {isa = PBXBuildFile; fileRef = A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */; };
 		A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A92602C01672B6DD00F01E63 /* NSData+EvernoteSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */; };
@@ -130,6 +142,15 @@
 		A98EB3B617444014005A2D12 /* ConsoleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98EB3B517444012005A2D12 /* ConsoleViewController.m */; };
 		A98EB3B9174548E4005A2D12 /* BusinessAPITableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A98EB3B8174548E2005A2D12 /* BusinessAPITableViewController.m */; };
 		A98EB3BB17455592005A2D12 /* iPhone5_logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A98EB3BA17455592005A2D12 /* iPhone5_logo.jpg */; };
+		A99B6E8817CBC20D00A51A1B /* index.php in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E7F17CBC20D00A51A1B /* index.php */; };
+		A99B6E8917CBC20D00A51A1B /* evernote-export.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8017CBC20D00A51A1B /* evernote-export.dtd */; };
+		A99B6E8A17CBC20D00A51A1B /* promotions.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8117CBC20D00A51A1B /* promotions.dtd */; };
+		A99B6E8B17CBC20D00A51A1B /* recoIndex.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8217CBC20D00A51A1B /* recoIndex.dtd */; };
+		A99B6E8C17CBC20D00A51A1B /* xhtml-lat1.ent in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8317CBC20D00A51A1B /* xhtml-lat1.ent */; };
+		A99B6E8D17CBC20D00A51A1B /* xhtml-special.ent in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8417CBC20D00A51A1B /* xhtml-special.ent */; };
+		A99B6E8E17CBC20D00A51A1B /* xhtml-symbol.ent in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8517CBC20D00A51A1B /* xhtml-symbol.ent */; };
+		A99B6E8F17CBC20D00A51A1B /* xhtml1-strict.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8617CBC20D00A51A1B /* xhtml1-strict.dtd */; };
+		A99B6E9017CBC20D00A51A1B /* xhtml1-transitional.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A99B6E8717CBC20D00A51A1B /* xhtml1-transitional.dtd */; };
 		A9B1E82016C056B700D54760 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9B1E81F16C056B700D54760 /* MoreViewController.m */; };
 		A9B1E82716C1E73900D54760 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9B1E82616C1E73900D54760 /* StoreKit.framework */; };
 		A9B1E86616C2242200D54760 /* KSForwardingWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = A9B1E85B16C2242200D54760 /* KSForwardingWriter.h */; };
@@ -209,9 +230,6 @@
 		A9BF37281787406000680B34 /* .htaccess in Resources */ = {isa = PBXBuildFile; fileRef = A9BF371C1787406000680B34 /* .htaccess */; };
 		A9BF37291787406000680B34 /* enml.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A9BF371D1787406000680B34 /* enml.dtd */; };
 		A9BF372A1787406000680B34 /* enml2.dtd in Resources */ = {isa = PBXBuildFile; fileRef = A9BF371E1787406000680B34 /* enml2.dtd */; };
-		A9BF37351787499800680B34 /* .htaccess in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371C1787406000680B34 /* .htaccess */; };
-		A9BF37361787499800680B34 /* enml.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371D1787406000680B34 /* enml.dtd */; };
-		A9BF37371787499800680B34 /* enml2.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A9BF371E1787406000680B34 /* enml2.dtd */; };
 		A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C552F716B5915200A97E48 /* Default-568h@2x.png */; };
 		A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = A9C554FA16712F17006E0020 /* NSDate+EDAMAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A9C554FD16712F17006E0020 /* NSDate+EDAMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C554FB16712F17006E0020 /* NSDate+EDAMAdditions.m */; };
@@ -235,9 +253,18 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
-				A9BF37351787499800680B34 /* .htaccess in CopyFiles */,
-				A9BF37361787499800680B34 /* enml.dtd in CopyFiles */,
-				A9BF37371787499800680B34 /* enml2.dtd in CopyFiles */,
+				A90C479917CBC2A6007DDD61 /* index.php in CopyFiles */,
+				A90C479A17CBC2A6007DDD61 /* evernote-export.dtd in CopyFiles */,
+				A90C479B17CBC2A6007DDD61 /* promotions.dtd in CopyFiles */,
+				A90C479C17CBC2A6007DDD61 /* recoIndex.dtd in CopyFiles */,
+				A90C479D17CBC2A6007DDD61 /* xhtml-lat1.ent in CopyFiles */,
+				A90C479E17CBC2A6007DDD61 /* xhtml-special.ent in CopyFiles */,
+				A90C479F17CBC2A6007DDD61 /* xhtml-symbol.ent in CopyFiles */,
+				A90C47A017CBC2A6007DDD61 /* xhtml1-strict.dtd in CopyFiles */,
+				A90C47A117CBC2A6007DDD61 /* xhtml1-transitional.dtd in CopyFiles */,
+				A90C47A217CBC2A6007DDD61 /* .htaccess in CopyFiles */,
+				A90C47A317CBC2A6007DDD61 /* enml.dtd in CopyFiles */,
+				A90C47A417CBC2A6007DDD61 /* enml2.dtd in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +386,15 @@
 		A98EB3B7174548E1005A2D12 /* BusinessAPITableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BusinessAPITableViewController.h; sourceTree = "<group>"; };
 		A98EB3B8174548E2005A2D12 /* BusinessAPITableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BusinessAPITableViewController.m; sourceTree = "<group>"; };
 		A98EB3BA17455592005A2D12 /* iPhone5_logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = iPhone5_logo.jpg; sourceTree = "<group>"; };
+		A99B6E7F17CBC20D00A51A1B /* index.php */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.php; path = index.php; sourceTree = "<group>"; };
+		A99B6E8017CBC20D00A51A1B /* evernote-export.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "evernote-export.dtd"; sourceTree = "<group>"; };
+		A99B6E8117CBC20D00A51A1B /* promotions.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = promotions.dtd; sourceTree = "<group>"; };
+		A99B6E8217CBC20D00A51A1B /* recoIndex.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = recoIndex.dtd; sourceTree = "<group>"; };
+		A99B6E8317CBC20D00A51A1B /* xhtml-lat1.ent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xhtml-lat1.ent"; sourceTree = "<group>"; };
+		A99B6E8417CBC20D00A51A1B /* xhtml-special.ent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xhtml-special.ent"; sourceTree = "<group>"; };
+		A99B6E8517CBC20D00A51A1B /* xhtml-symbol.ent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "xhtml-symbol.ent"; sourceTree = "<group>"; };
+		A99B6E8617CBC20D00A51A1B /* xhtml1-strict.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xhtml1-strict.dtd"; sourceTree = "<group>"; };
+		A99B6E8717CBC20D00A51A1B /* xhtml1-transitional.dtd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "xhtml1-transitional.dtd"; sourceTree = "<group>"; };
 		A9B1E81E16C056B700D54760 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
 		A9B1E81F16C056B700D54760 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		A9B1E82616C1E73900D54760 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -894,6 +930,15 @@
 		A9BF371B1787406000680B34 /* DTDs */ = {
 			isa = PBXGroup;
 			children = (
+				A99B6E7F17CBC20D00A51A1B /* index.php */,
+				A99B6E8017CBC20D00A51A1B /* evernote-export.dtd */,
+				A99B6E8117CBC20D00A51A1B /* promotions.dtd */,
+				A99B6E8217CBC20D00A51A1B /* recoIndex.dtd */,
+				A99B6E8317CBC20D00A51A1B /* xhtml-lat1.ent */,
+				A99B6E8417CBC20D00A51A1B /* xhtml-special.ent */,
+				A99B6E8517CBC20D00A51A1B /* xhtml-symbol.ent */,
+				A99B6E8617CBC20D00A51A1B /* xhtml1-strict.dtd */,
+				A99B6E8717CBC20D00A51A1B /* xhtml1-transitional.dtd */,
 				A9BF371C1787406000680B34 /* .htaccess */,
 				A9BF371D1787406000680B34 /* enml.dtd */,
 				A9BF371E1787406000680B34 /* enml2.dtd */,
@@ -1086,14 +1131,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A99B6E8917CBC20D00A51A1B /* evernote-export.dtd in Resources */,
+				A99B6E8D17CBC20D00A51A1B /* xhtml-special.ent in Resources */,
+				A99B6E8E17CBC20D00A51A1B /* xhtml-symbol.ent in Resources */,
 				0BB3D2781524EF37001C4534 /* InfoPlist.strings in Resources */,
 				0BB3D2811524EF37001C4534 /* iPhone.storyboard in Resources */,
+				A99B6E8C17CBC20D00A51A1B /* xhtml-lat1.ent in Resources */,
 				A92602BC1672B4FE00F01E63 /* evernote_logo_4c-sm.png in Resources */,
+				A99B6E8B17CBC20D00A51A1B /* recoIndex.dtd in Resources */,
 				A9C552F816B5915200A97E48 /* Default-568h@2x.png in Resources */,
 				A9B1E87516C2242200D54760 /* LICENSE.txt in Resources */,
 				A93FAFBE16E8E18600B6594D /* EvernoteSDK.strings in Resources */,
 				A98EB3BB17455592005A2D12 /* iPhone5_logo.jpg in Resources */,
+				A99B6E8817CBC20D00A51A1B /* index.php in Resources */,
+				A99B6E8A17CBC20D00A51A1B /* promotions.dtd in Resources */,
+				A99B6E9017CBC20D00A51A1B /* xhtml1-transitional.dtd in Resources */,
 				A9BF37281787406000680B34 /* .htaccess in Resources */,
+				A99B6E8F17CBC20D00A51A1B /* xhtml1-strict.dtd in Resources */,
 				A9BF37291787406000680B34 /* enml.dtd in Resources */,
 				A9BF372A1787406000680B34 /* enml2.dtd in Resources */,
 			);

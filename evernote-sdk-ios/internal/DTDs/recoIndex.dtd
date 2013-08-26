@@ -1,0 +1,130 @@
+<!--
+   EverNote Recognition Index (recoIndex) 1.0 DTD
+   
+   This document represents the recognition information extracted from images, 
+   audio, video and ink.
+   
+   Copyright (c) 2007 EverNote Corp.
+
+   This DTD module is identified by the PUBLIC and SYSTEM identifiers:
+
+   PUBLIC "recoIndex"
+   SYSTEM "http://xml.evernote.com/pub/recoIndex.dtd"
+
+   $Revision: 0.1 $
+   $Date: 2007/10/15 18:00:00 $
+
+-->
+
+
+<!--=============== recoIndex ========================
+  recoIndex represents the recognition data found within audio, video, ink, or 
+  image formats. The document specifies items of data represented spatially or
+  temporally. Within a item there are recognitions including: text, shapes, 
+  forms and barcodes.
+-->
+
+<!-- A number positive or negative.-->
+<!ENTITY % Number "CDATA">
+
+<!-- A number positive or negative.-->
+<!ENTITY % DoubleNumber "CDATA">
+
+<!-- one or more digits separated by commas -->
+<!ENTITY % NumberList "CDATA">
+
+<!-- one or more digits separated by periods-->
+<!ENTITY % Version "CDATA">
+
+<!-- a language code, as per [RFC3066] -->
+<!ENTITY % LanguageCode "NMTOKEN">
+
+<!-- a Uniform Resource Identifier, see [RFC2396] -->
+<!ENTITY % URI "CDATA">
+
+<!-- a score between 0 and 100 ranking the relative confidence of the item's 
+     recognition -->
+<!ENTITY % Weight
+    "w       %Number;         #REQUIRED" >
+
+<!--A list of the types of object that can be recognized -->
+<!ENTITY % ObjectType "(face|sky|ground|water|lake|sea|snow|mountains|verdure|grass|trees|building|road|car)" >
+
+<!--A list of the types of shapes that can be recognized -->
+<!ENTITY % ShapeType "(circle|oval|rectangle|triangle|line|arrow|polyline)" >
+
+
+<!-- Root node containing all the recognition information -->
+<!ELEMENT recoIndex (item)* >
+
+<!-- 
+engineVersion should always be specified so, they sort appropriately alphabetically -->
+<!ATTLIST recoIndex
+   objID          %URI;                           #REQUIRED
+   objType        (image|ink|audio|video|document)    
+                                                  #REQUIRED
+   recoType       (service|client)                #REQUIRED
+   engineVersion  %Version;                       #REQUIRED
+   docType        (printed|speech|handwritten|picture|unknown)  
+                                                  #REQUIRED
+   lang           %LanguageCode;                  #REQUIRED
+   objWidth       %Number;                        #IMPLIED
+   objHeight      %Number;                        #IMPLIED
+>
+
+
+<!-- A recognized item of spatial and temporal information information; only 
+    one type of child per item. The item must contain at least one of the item 
+    types-->
+<!ELEMENT item (t|object|shape|barcode)+
+>
+<!-- 
+  x:        x position determined from the top left of the item identified
+  y:        y position determined from the top left of the item identified
+  h:        height of the item identified; must be positive
+  w:        width of the item identified; must be positive
+  offset:   a single integer indicating the millisecond offset into the audio or 
+            video stream
+  duration: a single integer indicating the millisecond duration into the audio 
+            or video stream; must be positive
+  strokeList: 
+            Stroke list is an enumeration of 'strokes' that contain the actual 
+            ink points 
+-->
+ 
+<!ATTLIST item
+   x              %Number;        #IMPLIED
+   y              %Number;        #IMPLIED
+   h              %Number;        #IMPLIED
+   w              %Number;        #IMPLIED
+   offset         %Number;        #IMPLIED
+   duration       %Number;        #IMPLIED
+   strokeList     %NumberList;    #IMPLIED
+>
+
+<!-- Textual recognition body contains the actual text -->
+<!ELEMENT t (#PCDATA)>
+<!ATTLIST t 
+    %Weight;>
+
+<!-- Recognition of a object -->
+<!ELEMENT object EMPTY>
+<!ATTLIST object 
+    %Weight; 
+    type          %ObjectType;      #REQUIRED
+>
+
+<!-- Recognition of a shape-->
+<!ELEMENT shape EMPTY>
+<!ATTLIST shape 
+    %Weight; 
+    type    %ShapeType;          #REQUIRED>
+
+<!-- Recognition of a barcode containing number-->
+<!ELEMENT barcode (#PCDATA)>
+<!ATTLIST barcode 
+    %Weight;
+>
+
+
+
