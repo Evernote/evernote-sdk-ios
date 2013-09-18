@@ -81,7 +81,7 @@
                               failure:(void(^)(NSError *error))failure
 {
     [self invokeAsyncIdBlock:^id {
-        return [self.userStore getPublicUserInfo:[[EvernoteSession sharedSession] authenticationToken]];
+        return [self.userStore getPublicUserInfo:username];
     } success:success failure:failure];
 }
 
