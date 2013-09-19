@@ -217,10 +217,14 @@
         [request setSourceApplication:[note.attributes sourceApplication]];
         [request setSourceURL:[NSURL URLWithString:[note.attributes sourceURL]]];
         [request setConsumerKey:[[EvernoteSession sharedSession] consumerKey]];
-        if(note.attributes) {
-            EDAMNoteAttributes* attributes = note.attributes;
+        EDAMNoteAttributes* attributes = note.attributes;
+        if(attributes.reminderTimeIsSet) {
             request.reminderTime = [NSDate endateFromEDAMTimestamp:attributes.reminderTime];
+        }
+        if(attributes.reminderDoneTimeIsSet) {
             request.reminderDoneTime = [NSDate endateFromEDAMTimestamp:attributes.reminderDoneTime];
+        }
+        if(attributes.reminderOrderIsSet) {
             request.reminderOrder = [NSDate endateFromEDAMTimestamp:attributes.reminderOrder];
         }
         [appBridgeData setObject:[NSNumber numberWithUnsignedInt:kEN_ApplicationBridge_DataVersion] forKey:kEN_ApplicationBridge_DataVersionKey];
