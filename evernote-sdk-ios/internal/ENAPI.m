@@ -66,7 +66,8 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
                                    @"Operation denied due to data model limit, where there were too few of something.",
                                    @"Operation denied due to data model limit, where there were too many of something.",
                                    @"Operation denied because it is currently unsupported.",
-                                   @"Operation denied because access to the corresponding object is prohibited in response to a take-down notice."];
+                                   @"Operation denied because access to the corresponding object is prohibited in response to a take-down notice.",
+                                   @"Operation denied because the calling application has reached its hourly API call limit for this user."];
     }
     return self;
 }
@@ -102,11 +103,20 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
                 userInfo[NSLocalizedDescriptionKey] = exception.description;
             }
         }
-        if(errorCode>=EDAMErrorCode_UNKNOWN && errorCode<=EDAMErrorCode_UNSUPPORTED_OPERATION) {
+        if(errorCode>=EDAMErrorCode_UNKNOWN && errorCode<=EDAMErrorCode_RATE_LIMIT_REACHED) {
             // being defensive here
-            if(self.errorDescriptions && self.errorDescriptions.count>=EDAMErrorCode_UNSUPPORTED_OPERATION) {
+            if(self.errorDescriptions && self.errorDescriptions.count>=EDAMErrorCode_RATE_LIMIT_REACHED) {
                 if(userInfo[NSLocalizedDescriptionKey] == nil) {
                     userInfo[NSLocalizedDescriptionKey] = self.errorDescriptions[errorCode-1];
+                }
+                if([exception isKindOfClass:[EDAMSystemException class]] == YES) {
+                    EDAMSystemException* systemException = (EDAMSystemException*)exception;
+                    if ([systemException rateLimitDurationIsSet]) {
+                        userInfo[@"rateLimitDuration"] = @([systemException rateLimitDuration]);
+                    }
+                    if ([systemException messageIsSet]) {
+                        userInfo[@"message"] = [systemException message];
+                    }
                 }
             }
         }
