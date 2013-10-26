@@ -228,31 +228,14 @@ typedef void (^EvernoteErrorBlock) (NSError *error);
 }
 
 - (void)processError:(EvernoteErrorBlock)errorBlock withError:(NSError*)error {
-    // See if we can trigger OAuth automatically
-    BOOL didTriggerAuth = NO;
     if([EvernoteSession isTokenExpiredWithError:error]) {
         [self.session logout];
-        UIViewController* topVC = [UIApplication sharedApplication].keyWindow.rootViewController;
-        if(!topVC.presentedViewController && topVC.isViewLoaded) {
-            didTriggerAuth = YES;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.session authenticateWithViewController:topVC completionHandler:^(NSError *authError) {
-                    if(errorBlock) {
-                        errorBlock(authError);
-                    }
-                }];
-            });
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(errorBlock) {
+            errorBlock(error);
         }
-        
-    }
-    // If we were not able to trigger auth, send the error over to the client
-    if(didTriggerAuth==NO) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(errorBlock) {
-                errorBlock(error);
-            }
-        });
-    }
+    });
 }
 
 @end
