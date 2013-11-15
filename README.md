@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.3.0
+Evernote SDK for iOS version 1.3.1
 =========================================
 
 What this is
@@ -22,7 +22,6 @@ You can do this on the [Evernote Developers portal page](http://dev.evernote.com
 You have a few options:
 
 - Copy the evernote-sdk-ios folder into your Xcode project.
-- Add the evernote-sdk-ios xcodeproj to your project/workspace.
 - Build the evernote-sdk-ios as a static library and include the .h's and .a. (Make sure to add the `-ObjC` flag to your "Other Linker flags" if you choose this option). 
 More info [here](http://developer.apple.com/library/ios/#technotes/iOSStaticLibraries/Articles/configuration.html#/apple_ref/doc/uid/TP40012554-CH3-SW2). 
 - Use [cocoapods](http://cocoapods.org), a nice Objective-C dependency manager. Our pod name is "Evernote-SDK-iOS".
@@ -61,6 +60,10 @@ Create an array key called URL types with a single array sub-item called URL Sch
 			</array>
 		</dict>
 	</array>
+	
+### Add the header file to any file that uses the Evernote SDK
+
+    #import "EvernoteSDK.h"
 
 ### Modify your AppDelegate
 
