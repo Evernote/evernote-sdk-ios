@@ -52,8 +52,8 @@ NSString * const ENAFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
 NSString * const ENAFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
 NSString * const ENAFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
 
-NSString * const ENAFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
-NSString * const ENAFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";
+NSString * const ENAFNetworkingOperationDidStartNotification = @"com.evernote.sdk.networking.operation.start";
+NSString * const ENAFNetworkingOperationDidFinishNotification = @"com.evernote.sdk.networking.operation.finish";
 
 typedef void (^AFURLConnectionOperationProgressBlock)(NSUInteger bytes, long long totalBytes, long long totalBytesExpected);
 typedef BOOL (^AFURLConnectionOperationAuthenticationAgainstProtectionSpaceBlock)(NSURLConnection *connection, NSURLProtectionSpace *protectionSpace);
