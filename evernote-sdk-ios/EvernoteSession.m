@@ -630,9 +630,9 @@
     // Usually this shows up as a 401 response with an error page, so
     // log it and callback an error.
     if ([self.response respondsToSelector:@selector(statusCode)]) {
-        int statusCode = [(id)self.response statusCode];
+        NSInteger statusCode = [(id)self.response statusCode];
         if (statusCode != 200) {
-            NSLog(@"Received error HTTP response code: %d", statusCode);
+            NSLog(@"Received error HTTP response code: %ld", (long)statusCode);
             NSLog(@"%@", string);
             NSDictionary* userInfo = nil;
             if(statusCode) {
@@ -972,7 +972,7 @@
     NSString *requestURL = [url path];
     NSArray *components = [requestURL componentsSeparatedByString:@"/"];
     if ([components count] < 2) {
-        NSLog(@"URL:%@ has invalid component count: %i", url, [components count]);
+        NSLog(@"URL:%@ has invalid component count: %lu", url, (unsigned long)[components count]);
         return NO;
     }
     [[EvernoteSession sharedSession] updateCurrentBootstrapProfileWithName:components[1]];
@@ -1023,7 +1023,7 @@
     [self installAppWithId:490505997 withViewController:viewController];
 }
 
-- (void)installAppWithId:(NSInteger)appID withViewController:(UIViewController*) viewController {
+- (void)installAppWithId:(long)appID withViewController:(UIViewController*) viewController {
     if([SKStoreProductViewController class]) {
         SKStoreProductViewController *storeViewController =
         [[SKStoreProductViewController alloc] init];
@@ -1040,7 +1040,7 @@
                                        }];
     }
     else {
-        NSString* appURL = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/evernote/id%d",appID];
+        NSString* appURL = [NSString stringWithFormat:@"https://itunes.apple.com/us/app/evernote/id%ld",(long)appID];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appURL]];
     }
 }

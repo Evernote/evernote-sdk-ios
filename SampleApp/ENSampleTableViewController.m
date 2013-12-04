@@ -250,7 +250,7 @@
     NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
     NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
     NSData *dataHash = [myFileData enmd5];
-    EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+    EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:(int)myFileData.length body:myFileData];
     EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
     ENMLWriter* myWriter = [[ENMLWriter alloc] init];
     [myWriter startDocument];
@@ -265,7 +265,7 @@
     EDAMNote *newNote = [[EDAMNote alloc] init];
     [newNote setTitle:@"Test Evernote SDK"];
     [newNote setContent:noteContent];
-    [newNote setContentLength:noteContent.length];
+    [newNote setContentLength:(int)noteContent.length];
     [newNote setResources:resources];
     [[EvernoteNoteStore noteStore] setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
         NSLog(@"Total bytes written : %lld , Total bytes expected to be written : %lld",totalBytesWritten,totalBytesExpectedToWrite);
@@ -296,7 +296,7 @@
     EDAMNoteAttributes* noteAttributes = [[EDAMNoteAttributes alloc] initWithSubjectDate:0 latitude:0 longitude:0 altitude:0 author:nil source:nil sourceURL:nil sourceApplication:nil shareDate:0 reminderOrder:[now enedamTimestamp] reminderDoneTime:0 reminderTime:[then enedamTimestamp] placeName:nil contentClass:nil applicationData:nil lastEditedBy:nil classifications:nil creatorId:0 lastEditorId:0];
     
     // Create note object
-    EDAMNote *ourNote = [[EDAMNote alloc] initWithGuid:nil title:@"Testing Reminders" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:nil attributes:noteAttributes tagNames:nil];
+    EDAMNote *ourNote = [[EDAMNote alloc] initWithGuid:nil title:@"Testing Reminders" content:noteContent contentHash:nil contentLength:(int)noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:nil attributes:noteAttributes tagNames:nil];
     
     // Attempt to create note in Evernote account with Reminder
     [[EvernoteNoteStore noteStore] createNote:ourNote success:^(EDAMNote *note) {
@@ -315,7 +315,7 @@
         NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
         NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
         NSData *dataHash = [myFileData enmd5];
-        EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+        EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:(int)myFileData.length body:myFileData];
         EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
         NSMutableArray *resources = [NSMutableArray arrayWithObjects:resource,resource, nil];
         NSMutableArray *tagNames = [NSMutableArray arrayWithObjects:@"evernote",@"sdk", nil];
@@ -341,7 +341,7 @@
         NSLog(@"Viewing note..");
         EDAMNoteFilter* filter = [[EDAMNoteFilter alloc] initWithOrder:0 ascending:NO words:nil notebookGuid:nil tagGuids:nil timeZone:nil inactive:NO emphasized:nil];
         [[EvernoteNoteStore noteStore] findNotesWithFilter:filter offset:0 maxNotes:100 success:^(EDAMNoteList *list) {
-            NSLog(@"Notes : %d",list.notes.count);
+            NSLog(@"Notes : %lu",(unsigned long)list.notes.count);
             [[EvernoteNoteStore noteStore] viewNoteInEvernote:list.notes[0]];
         } failure:^(NSError *error) {
             NSLog(@"Error : %@",error);

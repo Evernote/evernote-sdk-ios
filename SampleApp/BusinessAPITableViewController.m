@@ -176,7 +176,7 @@
             NSString* filePath = [[NSBundle mainBundle] pathForResource:@"evernote_logo_4c-sm" ofType:@"png"];
             NSData *myFileData = [NSData dataWithContentsOfFile:filePath];
             NSData *dataHash = [myFileData enmd5];
-            EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:myFileData.length body:myFileData];
+            EDAMData *edamData = [[EDAMData alloc] initWithBodyHash:dataHash size:(int)myFileData.length body:myFileData];
             EDAMResource* resource = [[EDAMResource alloc] initWithGuid:nil noteGuid:nil data:edamData mime:@"image/png" width:0 height:0 duration:0 active:0 recognition:0 attributes:nil updateSequenceNum:0 alternateData:nil];
             NSString *noteContent = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
                                      "<!DOCTYPE en-note SYSTEM \"http://xml.evernote.com/pub/enml2.dtd\">"
@@ -188,7 +188,7 @@
                                      "%@"
                                      "</en-note>",[ENMLUtility mediaTagWithDataHash:dataHash mime:@"image/png"]];
             NSMutableArray* resources = [NSMutableArray arrayWithArray:@[resource]];
-            EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
+            EDAMNote *newNote = [[EDAMNote alloc] initWithGuid:nil title:@"Test photo note" content:noteContent contentHash:nil contentLength:(int)noteContent.length created:0 updated:0 deleted:0 active:YES updateSequenceNum:0 notebookGuid:nil tagGuids:nil resources:resources attributes:nil tagNames:nil];
             [noteStore createNote:newNote inBusinessNotebook:businessNotebook success:^(EDAMNote *createdNote) {
                 NSLog(@"Created note : %@",createdNote.title);
             } failure:^(NSError *error) {

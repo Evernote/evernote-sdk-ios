@@ -28,6 +28,8 @@ static NSString *kEN_NewNoteRequest_ReminderOrder = @"mReminderOrder";
 static NSString *kEN_NewNoteRequest_ReminderDoneTime = @"mReminderDoneTime";
 static NSString *kEN_NewNoteRequest_ReminderTime = @"mReminderTime";
 
+static NSString *kEN_NewNoteRequest_NotebookGUID = @"mNotebookGUID";
+
 @implementation ENNewNoteRequest
 
 @synthesize title = mTitle;
@@ -75,6 +77,8 @@ static NSString *kEN_NewNoteRequest_ReminderTime = @"mReminderTime";
         self.reminderDoneTime = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderDoneTime];
         self.reminderOrder = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderOrder];
         self.reminderTime = [coder decodeObjectForKey:kEN_NewNoteRequest_ReminderTime];
+      
+        self.notebookGUID = [coder decodeObjectForKey:kEN_NewNoteRequest_NotebookGUID];
 	}
 	return self;
 }
@@ -95,6 +99,8 @@ static NSString *kEN_NewNoteRequest_ReminderTime = @"mReminderTime";
 	[coder encodeDouble:self.latitude forKey:kEN_NewNoteRequest_Latitude];
 	[coder encodeDouble:self.longitude forKey:kEN_NewNoteRequest_Longitude];
 	[coder encodeDouble:self.altitude forKey:kEN_NewNoteRequest_Altitude];
+    
+    [coder encodeObject:self.notebookGUID forKey:kEN_NewNoteRequest_NotebookGUID];
 }
 
 - (NSString *) requestIdentifier {
@@ -116,7 +122,7 @@ static NSString *kEN_NewNoteRequest_ReminderTime = @"mReminderTime";
 }
 
 - (uint32_t) totalRequestSize {
-  uint32_t result = [[self content] length];
+  uint32_t result = (int)[[self content] length];
   NSArray *attachments = self.resourceAttachments;
   for (ENResourceAttachment *anAttachment in attachments) {
     NSData *resourceData = [anAttachment resourceData];

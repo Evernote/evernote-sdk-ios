@@ -238,7 +238,7 @@
   NSMutableDictionary *cryptAttributes = [NSMutableDictionary dictionary];
   [cryptAttributes setObject:encryptedInfo.cipher forKey:@"cipher"];
   
-  NSString *keyLength = [[NSNumber numberWithInt:encryptedInfo.keyLength] stringValue];
+  NSString *keyLength = [[NSNumber numberWithInteger:encryptedInfo.keyLength] stringValue];
   [cryptAttributes setObject:keyLength forKey:@"length"];
 
   NSString *hint = encryptedInfo.hint;

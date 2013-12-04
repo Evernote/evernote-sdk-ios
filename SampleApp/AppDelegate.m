@@ -81,7 +81,7 @@
     NSString *requestURL = [url path];
     NSArray *components = [requestURL componentsSeparatedByString:@"/"];
     if ([components count] < 2) {
-        NSLog(@"URL:%@ has invalid component count: %i", url, [components count]);
+        NSLog(@"URL:%@ has invalid component count: %lu", url, (unsigned long)[components count]);
         return NO;
     }
     [[EvernoteSession sharedSession] updateCurrentBootstrapProfileWithName:components[1]];

@@ -204,6 +204,7 @@
         [request setLatitude:[note.attributes latitude]];
         [request setLongitude:[note.attributes longitude]];
         [request setAltitude:[note.attributes altitude]];
+        [request setNotebookGUID:note.notebookGuid];
         if(note.resources.count > 0) {
             for (EDAMResource *edamResource in note.resources) {
                 ENResourceAttachment *enRes = [[ENResourceAttachment alloc] init];
