@@ -901,7 +901,7 @@
 
 - (void)oauthViewControllerDidCancel:(ENOAuthViewController *)sender
 {
-    [self.viewController dismissViewControllerAnimated:YES completion:^{
+    [sender dismissViewControllerAnimated:YES completion:^{
         NSError* error = [NSError errorWithDomain:EvernoteSDKErrorDomain code:EvernoteSDKErrorCode_USER_CANCELLED userInfo:nil];
         [self completeAuthenticationWithError:error];
     }];
@@ -914,7 +914,7 @@
 
 - (void)oauthViewController:(ENOAuthViewController *)sender didFailWithError:(NSError *)error
 {
-    [self.viewController dismissViewControllerAnimated:YES completion:^{
+    [sender dismissViewControllerAnimated:YES completion:^{
         [self completeAuthenticationWithError:error];
     }];
    
