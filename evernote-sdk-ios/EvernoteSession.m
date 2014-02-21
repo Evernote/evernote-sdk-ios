@@ -986,7 +986,7 @@
 
 - (void)oauthViewController:(ENOAuthViewController *)sender receivedOAuthCallbackURL:(NSURL *)url
 {
-    [self.viewController dismissViewControllerAnimated:YES completion:^{
+    [sender dismissViewControllerAnimated:YES completion:^{
         [self getOAuthTokenForURL:url];
     }];
 }
