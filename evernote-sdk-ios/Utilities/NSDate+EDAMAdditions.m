@@ -38,7 +38,7 @@
 
 - (int64_t) enedamTimestamp
 {
-    return trunc([self timeIntervalSince1970]) * 1000;
+    return trunc([self timeIntervalSince1970] * 1000);
 }
 
 @end
