@@ -326,6 +326,9 @@
     // Clear all clients
     [self clearAllClients];
     
+    if (!authToken || authToken.length == 0) {
+        return;
+    }
     // Revoke the token, this is not necessary, but it's good practice
     [[EvernoteUserStore userStore] revokeLongSessionWithAuthenticationToken:authToken success:nil failure:nil];
 }
