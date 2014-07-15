@@ -1,4 +1,4 @@
-Evernote SDK for iOS version 1.3.1 (deprecated)
+[Deprecated] Evernote SDK for iOS version 1.3.1 
 ================================================
 
 Read Me First!
