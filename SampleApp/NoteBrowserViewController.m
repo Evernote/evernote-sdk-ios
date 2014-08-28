@@ -97,8 +97,9 @@
 
 - (void) loadCurrentNote {
     [[self activityIndicator] startAnimating];
-    if([self.noteList count] > self.currentNote%10) {
-        EDAMNoteMetadata* foundNote = self.noteList[self.currentNote%10];
+    NSInteger notesCount = [self.noteList count];
+    if(notesCount > self.currentNote) {
+        EDAMNoteMetadata* foundNote = self.noteList[self.currentNote];
         [[EvernoteNoteStore noteStore] getNoteWithGuid:foundNote.guid withContent:YES withResourcesData:YES withResourcesRecognition:NO withResourcesAlternateData:NO success:^(EDAMNote *note) {
             ENMLUtility *utltility = [[ENMLUtility alloc] init];
             [utltility convertENMLToHTML:note.content withResources:note.resources completionBlock:^(NSString *html, NSError *error) {
