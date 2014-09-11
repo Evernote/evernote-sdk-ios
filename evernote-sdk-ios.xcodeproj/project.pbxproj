@@ -244,6 +244,8 @@
 		A9FDF718165C5C7200DC7E4B /* ENConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = A9FDF716165C5C7100DC7E4B /* ENConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A9FDF719165C5C7200DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
 		A9FDF71B165C5D0300DC7E4B /* ENConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = A9FDF717165C5C7100DC7E4B /* ENConstants.m */; };
+		E55E707119079EAC008B1648 /* SSKeychainQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = E55E706F19079EAC008B1648 /* SSKeychainQuery.h */; };
+		E55E707219079EAC008B1648 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E55E707019079EAC008B1648 /* SSKeychainQuery.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -463,6 +465,8 @@
 		A9D166C4169151D600043DA0 /* TObjective-C.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TObjective-C.h"; sourceTree = "<group>"; };
 		A9FDF716165C5C7100DC7E4B /* ENConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ENConstants.h; sourceTree = "<group>"; };
 		A9FDF717165C5C7100DC7E4B /* ENConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ENConstants.m; sourceTree = "<group>"; };
+		E55E706F19079EAC008B1648 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		E55E707019079EAC008B1648 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -795,6 +799,8 @@
 				0BF0CF7E152E25E1003D6115 /* LICENSE */,
 				0BF0CF7F152E25E1003D6115 /* SSKeychain.h */,
 				0BF0CF80152E25E1003D6115 /* SSKeychain.m */,
+				E55E706F19079EAC008B1648 /* SSKeychainQuery.h */,
+				E55E707019079EAC008B1648 /* SSKeychainQuery.m */,
 			);
 			path = SSKeychain;
 			sourceTree = "<group>";
@@ -988,6 +994,7 @@
 				0B943F721525015500DB20A3 /* TProcessorFactory.h in Headers */,
 				0B943F731525015500DB20A3 /* THTTPClient.h in Headers */,
 				A9BE47D7178200B400471BF7 /* ENEncryptedContentInfo.h in Headers */,
+				E55E707119079EAC008B1648 /* SSKeychainQuery.h in Headers */,
 				A9BE47DA178200B400471BF7 /* ENMIMEUtils.h in Headers */,
 				A9BE47DD178200B400471BF7 /* ENMLWriter.h in Headers */,
 				A9BE47E0178200B400471BF7 /* ENXMLDTD.h in Headers */,
@@ -1251,6 +1258,7 @@
 				A9BE47DB178200B400471BF7 /* ENMIMEUtils.m in Sources */,
 				A9BE47DE178200B400471BF7 /* ENMLWriter.m in Sources */,
 				A9BE47E1178200B400471BF7 /* ENXMLDTD.m in Sources */,
+				E55E707219079EAC008B1648 /* SSKeychainQuery.m in Sources */,
 				A9BE47E5178200B400471BF7 /* ENXMLWriter.m in Sources */,
 				A9BE47EE178200B400471BF7 /* NSRegularExpression+ENAGRegex.m in Sources */,
 				A9BE47F1178200B400471BF7 /* NSString+EDAMAdditions.m in Sources */,
