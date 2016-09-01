@@ -28,7 +28,7 @@
  */
 
 #import "ENCredentials.h"
-#import "SSKeychain.h"
+#import "SAMKeychain.h"
 
 @interface ENCredentials()
 
@@ -63,7 +63,7 @@ authenticationToken:(NSString *)authenticationToken
 {
     // auth token gets saved to the keychain
     NSError *error;
-    BOOL success = [SSKeychain setPassword:_authenticationToken 
+    BOOL success = [SAMKeychain setPassword:_authenticationToken
                                 forService:self.host
                                    account:self.edamUserId 
                                      error:&error];
@@ -76,13 +76,13 @@ authenticationToken:(NSString *)authenticationToken
 
 - (void)deleteFromKeychain
 {
-    [SSKeychain deletePasswordForService:self.host account:self.edamUserId];
+    [SAMKeychain deletePasswordForService:self.host account:self.edamUserId];
 }
 
 - (NSString *)authenticationToken
 {
     NSError *error;
-    NSString *token = [SSKeychain passwordForService:self.host account:self.edamUserId error:&error];
+    NSString *token = [SAMKeychain passwordForService:self.host account:self.edamUserId error:&error];
     if (!token) {
         NSLog(@"Error getting password from keychain: %@", error);
     }

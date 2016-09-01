@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.libraries = 'xml2'
   s.xcconfig     = { 'HEADER_SEARCH_PATHS' => '"$(SDKROOT)/usr/include/libxml2"' }
 
-  s.dependency 'SSKeychain', '0.2.1'
+  s.dependency 'SAMKeychain', '~>1.5.0'
 end

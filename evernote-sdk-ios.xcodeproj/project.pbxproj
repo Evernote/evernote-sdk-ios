@@ -102,11 +102,14 @@
 		0BDBBC5A1550A1E7003E6681 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
 		0BDBBC671550A3A4003E6681 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BDBBC5E1550A3A4003E6681 /* libOCMock.a */; };
 		0BDBBC681550A3A4003E6681 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0BDBBC5F1550A3A4003E6681 /* LICENSE */; };
-		0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF0CF7F152E25E1003D6115 /* SSKeychain.h */; };
-		0BF0CF82152E25E1003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF85152E2601003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
-		0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF0CF80152E25E1003D6115 /* SSKeychain.m */; };
 		0BF0CF8C152E31CC003D6115 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF0CF84152E2601003D6115 /* Security.framework */; };
+		6FF9DA481D787BD100F4BC7F /* SAMKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FF9DA441D787BD100F4BC7F /* SAMKeychain.h */; };
+		6FF9DA491D787BD100F4BC7F /* SAMKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9DA451D787BD100F4BC7F /* SAMKeychain.m */; };
+		6FF9DA4A1D787BD100F4BC7F /* SAMKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9DA451D787BD100F4BC7F /* SAMKeychain.m */; };
+		6FF9DA4B1D787BD100F4BC7F /* SAMKeychainQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FF9DA461D787BD100F4BC7F /* SAMKeychainQuery.h */; };
+		6FF9DA4C1D787BD100F4BC7F /* SAMKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9DA471D787BD100F4BC7F /* SAMKeychainQuery.m */; };
+		6FF9DA4D1D787BD100F4BC7F /* SAMKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FF9DA471D787BD100F4BC7F /* SAMKeychainQuery.m */; };
 		A90C479917CBC2A6007DDD61 /* index.php in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E7F17CBC20D00A51A1B /* index.php */; };
 		A90C479A17CBC2A6007DDD61 /* evernote-export.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8017CBC20D00A51A1B /* evernote-export.dtd */; };
 		A90C479B17CBC2A6007DDD61 /* promotions.dtd in CopyFiles */ = {isa = PBXBuildFile; fileRef = A99B6E8117CBC20D00A51A1B /* promotions.dtd */; };
@@ -358,11 +361,13 @@
 		0BDBBC641550A3A4003E6681 /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
 		0BDBBC651550A3A4003E6681 /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		0BDBBC661550A3A4003E6681 /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
-		0BF0CF7E152E25E1003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		0BF0CF7F152E25E1003D6115 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
-		0BF0CF80152E25E1003D6115 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		0BF0CF84152E2601003D6115 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		0BF0CF93152E53E0003D6115 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		6FF9DA431D787BC400F4BC7F /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; name = LICENSE; path = "evernote-sdk-ios/3rdParty/SAMKeychain/LICENSE"; sourceTree = SOURCE_ROOT; };
+		6FF9DA441D787BD100F4BC7F /* SAMKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SAMKeychain.h; path = "evernote-sdk-ios/3rdParty/SAMKeychain/SAMKeychain.h"; sourceTree = SOURCE_ROOT; };
+		6FF9DA451D787BD100F4BC7F /* SAMKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SAMKeychain.m; path = "evernote-sdk-ios/3rdParty/SAMKeychain/SAMKeychain.m"; sourceTree = SOURCE_ROOT; };
+		6FF9DA461D787BD100F4BC7F /* SAMKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SAMKeychainQuery.h; path = "evernote-sdk-ios/3rdParty/SAMKeychain/SAMKeychainQuery.h"; sourceTree = SOURCE_ROOT; };
+		6FF9DA471D787BD100F4BC7F /* SAMKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SAMKeychainQuery.m; path = "evernote-sdk-ios/3rdParty/SAMKeychain/SAMKeychainQuery.m"; sourceTree = SOURCE_ROOT; };
 		A92602BB1672B4FE00F01E63 /* evernote_logo_4c-sm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "evernote_logo_4c-sm.png"; sourceTree = "<group>"; };
 		A92602BD1672B6DD00F01E63 /* NSData+EvernoteSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+EvernoteSDK.h"; sourceTree = "<group>"; };
 		A92602BE1672B6DD00F01E63 /* NSData+EvernoteSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+EvernoteSDK.m"; sourceTree = "<group>"; };
@@ -512,7 +517,7 @@
 				A96FE4EB16A0A3DB00F1AD8C /* AFNetworking */,
 				0B943F251525015500DB20A3 /* cocoa-oauth */,
 				0B943F2B1525015500DB20A3 /* NSString+URLEncoding */,
-				0BF0CF7D152E25E1003D6115 /* SSKeychain */,
+				0BF0CF7D152E25E1003D6115 /* SAMKeychain */,
 				0B943F2E1525015500DB20A3 /* Thrift */,
 			);
 			path = 3rdParty;
@@ -789,13 +794,16 @@
 			path = OCMock;
 			sourceTree = "<group>";
 		};
-		0BF0CF7D152E25E1003D6115 /* SSKeychain */ = {
+		0BF0CF7D152E25E1003D6115 /* SAMKeychain */ = {
 			isa = PBXGroup;
 			children = (
-				0BF0CF7E152E25E1003D6115 /* LICENSE */,
-				0BF0CF7F152E25E1003D6115 /* SSKeychain.h */,
-				0BF0CF80152E25E1003D6115 /* SSKeychain.m */,
+				6FF9DA431D787BC400F4BC7F /* LICENSE */,
+				6FF9DA441D787BD100F4BC7F /* SAMKeychain.h */,
+				6FF9DA451D787BD100F4BC7F /* SAMKeychain.m */,
+				6FF9DA461D787BD100F4BC7F /* SAMKeychainQuery.h */,
+				6FF9DA471D787BD100F4BC7F /* SAMKeychainQuery.m */,
 			);
+			name = SAMKeychain;
 			path = SSKeychain;
 			sourceTree = "<group>";
 		};
@@ -982,6 +990,7 @@
 				0B943F601525015500DB20A3 /* TProtocolException.h in Headers */,
 				0B943F631525015500DB20A3 /* TProtocolFactory.h in Headers */,
 				0B943F641525015500DB20A3 /* TProtocolUtil.h in Headers */,
+				6FF9DA481D787BD100F4BC7F /* SAMKeychain.h in Headers */,
 				0B943F6A1525015500DB20A3 /* TApplicationException.h in Headers */,
 				0B943F6D1525015500DB20A3 /* TException.h in Headers */,
 				0B943F711525015500DB20A3 /* TProcessor.h in Headers */,
@@ -1005,6 +1014,7 @@
 				A9C554FC16712F17006E0020 /* NSDate+EDAMAdditions.h in Headers */,
 				A96FE4D816A0958600F1AD8C /* EDAMNoteStoreClient+Utilities.h in Headers */,
 				0B943F591525015500DB20A3 /* NSString+URLEncoding.h in Headers */,
+				6FF9DA4B1D787BD100F4BC7F /* SAMKeychainQuery.h in Headers */,
 				A92602C416740D5700F01E63 /* ENMLUtility.h in Headers */,
 				A92602BF1672B6DD00F01E63 /* NSData+EvernoteSDK.h in Headers */,
 				0B2B9D621544944800E5BD44 /* EvernoteUserStore.h in Headers */,
@@ -1012,7 +1022,6 @@
 				0B943F831525015500DB20A3 /* TTransportException.h in Headers */,
 				0B943F521525015500DB20A3 /* ENGCOAuth.h in Headers */,
 				0B943F551525015500DB20A3 /* NSData+ENBase64.h in Headers */,
-				0BF0CF81152E25E1003D6115 /* SSKeychain.h in Headers */,
 				0B98592815432592007D7D37 /* ENAPI.h in Headers */,
 				0B98592B15432592007D7D37 /* ENCredentials.h in Headers */,
 				0B98592E15432592007D7D37 /* ENCredentialStore.h in Headers */,
@@ -1204,8 +1213,10 @@
 				0BB3D2401524EE62001C4534 /* EDAMTypes.m in Sources */,
 				0BB3D2421524EE62001C4534 /* EDAMUserStore.m in Sources */,
 				0BB3D2441524EE62001C4534 /* EDAMErrors.m in Sources */,
+				6FF9DA491D787BD100F4BC7F /* SAMKeychain.m in Sources */,
 				0BB3D2461524EE62001C4534 /* EvernoteSession.m in Sources */,
 				0B943F531525015500DB20A3 /* ENGCOAuth.m in Sources */,
+				6FF9DA4C1D787BD100F4BC7F /* SAMKeychainQuery.m in Sources */,
 				0B943F561525015500DB20A3 /* NSData+ENBase64.m in Sources */,
 				0B943F5A1525015500DB20A3 /* NSString+URLEncoding.m in Sources */,
 				0B943F5D1525015500DB20A3 /* TBinaryProtocol.m in Sources */,
@@ -1216,7 +1227,6 @@
 				0B943F741525015500DB20A3 /* THTTPClient.m in Sources */,
 				0B943F771525015500DB20A3 /* TMemoryBuffer.m in Sources */,
 				0B943F841525015500DB20A3 /* TTransportException.m in Sources */,
-				0BF0CF82152E25E1003D6115 /* SSKeychain.m in Sources */,
 				0B98592915432592007D7D37 /* ENAPI.m in Sources */,
 				0B98592C15432592007D7D37 /* ENCredentials.m in Sources */,
 				0B98592F15432592007D7D37 /* ENCredentialStore.m in Sources */,
@@ -1268,8 +1278,10 @@
 				0BB3D2921524F01E001C4534 /* EDAMUserStore.m in Sources */,
 				0BB3D2931524F01E001C4534 /* EDAMErrors.m in Sources */,
 				0BB3D27A1524EF37001C4534 /* main.m in Sources */,
+				6FF9DA4A1D787BD100F4BC7F /* SAMKeychain.m in Sources */,
 				0BB3D27E1524EF37001C4534 /* AppDelegate.m in Sources */,
 				0BB3D2841524EF37001C4534 /* ENRootViewController.m in Sources */,
+				6FF9DA4D1D787BD100F4BC7F /* SAMKeychainQuery.m in Sources */,
 				0B943F541525015500DB20A3 /* ENGCOAuth.m in Sources */,
 				0B943F571525015500DB20A3 /* NSData+ENBase64.m in Sources */,
 				0B943F5B1525015500DB20A3 /* NSString+URLEncoding.m in Sources */,
@@ -1281,7 +1293,6 @@
 				0B943F751525015500DB20A3 /* THTTPClient.m in Sources */,
 				0B943F781525015500DB20A3 /* TMemoryBuffer.m in Sources */,
 				0B943F851525015500DB20A3 /* TTransportException.m in Sources */,
-				0BF0CF8A152E31BA003D6115 /* SSKeychain.m in Sources */,
 				0B98592A15432592007D7D37 /* ENAPI.m in Sources */,
 				0B98592D15432592007D7D37 /* ENCredentials.m in Sources */,
 				0B98593015432592007D7D37 /* ENCredentialStore.m in Sources */,
