@@ -169,6 +169,22 @@
             [self.delegate oauthViewController:self receivedOAuthCallbackURL:request.URL];
         }
         return NO;
+    }else if([[request.HTTPMethod lowercaseString] isEqualToString:@"post"]){
+        
+        NSString *postBody = [NSString stringWithUTF8String:(const char *)[[request HTTPBody] bytes]];
+        NSRange range = [postBody rangeOfString:@"Decline"];
+        
+        //Decline Button
+        if(range.location != NSNotFound){
+            
+            // remove all cookies from the Evernote service
+            NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+            for (NSHTTPCookie *cookie in [cookieJar cookies]) {
+                if ([[cookie domain] hasSuffix: request.URL.host]) {
+                    [cookieJar deleteCookie: cookie];
+                }
+            }
+        }
     }
     return YES;
 }
